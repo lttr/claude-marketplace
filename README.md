@@ -21,7 +21,7 @@ This plugin includes a comprehensive **Nuxt skill** that automatically activates
 ### From GitHub (after publishing)
 
 ```bash
-/plugin install nuxt@yourusername/nuxt-claude-plugin
+/plugin install nuxt@lttr/nuxt-claude-plugin
 ```
 
 ### Local Testing
@@ -33,6 +33,7 @@ This plugin includes a comprehensive **Nuxt skill** that automatically activates
 ## Usage
 
 Once installed, the Nuxt skill automatically triggers when:
+
 - Working in a project with `nuxt` in package.json
 - Editing `.vue` files
 - Working with Nuxt-specific files (`nuxt.config.ts`, files in `pages/`, `server/`, etc.)
@@ -84,6 +85,7 @@ const data = await useFetch('/api/users')
 ## Contributing
 
 Contributions are welcome! Feel free to:
+
 - Add new reference documentation
 - Improve existing patterns
 - Update for new Nuxt features
