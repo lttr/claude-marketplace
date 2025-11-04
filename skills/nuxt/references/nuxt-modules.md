@@ -6,54 +6,13 @@ Check package.json for installed modules before suggesting module-specific featu
 
 **Check:** `@nuxt/image` in package.json
 
-### NuxtImg Component
-
-```vue
-<NuxtImg
-  src="/images/hero.jpg"
-  width="800"
-  height="600"
-  alt="Hero image"
-  loading="lazy"
-  fit="cover"
-/>
-```
-
-### NuxtPicture for Responsive Images
-
-```vue
-<NuxtPicture
-  src="/images/hero.jpg"
-  :img-attrs="{ alt: 'Hero image' }"
-  sizes="sm:100vw md:50vw lg:400px"
-/>
-```
+Provides optimized image components with automatic format conversion and responsive images. For comprehensive guidance, see `references/nuxt-image.md`.
 
 ## Content Management (@nuxt/content)
 
 **Check:** `@nuxt/content` in package.json
 
-### Query Content
-
-```typescript
-// List all articles
-const { data: articles } = await useAsyncData('articles', () =>
-  queryContent('/articles').find()
-)
-
-// Get single article
-const { data: article } = await useAsyncData('article', () =>
-  queryContent('/articles').where({ slug: route.params.slug }).findOne()
-)
-```
-
-### ContentDoc Component
-
-```vue
-<template>
-  <ContentDoc />
-</template>
-```
+File-based CMS for Nuxt with markdown, YAML, and JSON support. For comprehensive guidance including queries, components, and content navigation, see `references/nuxt-content.md`.
 
 ## Icon Management (@nuxt/icon)
 
@@ -70,18 +29,7 @@ const { data: article } = await useAsyncData('article', () =>
 
 **Check:** `@nuxt/ui` in package.json
 
-Provides pre-built components with Tailwind CSS:
-
-```vue
-<UButton label="Click me" color="primary" />
-<UInput v-model="name" placeholder="Enter name" />
-<UModal v-model="isOpen">
-  <UCard>
-    <template #header>Modal Title</template>
-    <p>Modal content</p>
-  </UCard>
-</UModal>
-```
+Provides pre-built components with Tailwind CSS. For comprehensive Nuxt UI guidance including setup, v3/v4 differences, and migration, see `references/nuxt-ui.md`.
 
 ## SEO (@nuxtjs/seo)
 
@@ -104,43 +52,13 @@ export default defineNuxtConfig({
 
 **Check:** `@nuxtjs/i18n` in package.json
 
-### Basic Usage
-
-```vue
-<template>
-  <div>
-    <h1>{{ $t('welcome') }}</h1>
-    <NuxtLink :to="switchLocalePath('fr')">Français</NuxtLink>
-  </div>
-</template>
-
-<script setup lang="ts">
-const { t, locale } = useI18n()
-const localePath = useLocalePath()
-
-// Translation
-const greeting = t('welcome')
-
-// Navigate with locale
-navigateTo(localePath('/about'))
-</script>
-```
+Provides internationalization with auto-imports, locale routing, and SEO support. For comprehensive guidance including setup, translations, and routing, see `references/nuxt-i18n.md`.
 
 ## Tailwind CSS (@nuxtjs/tailwindcss)
 
 **Check:** `@nuxtjs/tailwindcss` in package.json
 
-Auto-configured Tailwind CSS integration. Use classes directly:
-
-```vue
-<template>
-  <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-      Hello World
-    </h1>
-  </div>
-</template>
-```
+Auto-configured Tailwind CSS integration. For comprehensive guidance including setup, configuration, dark mode, and best practices, see `references/tailwind.md`.
 
 ## Color Mode (@nuxtjs/color-mode)
 

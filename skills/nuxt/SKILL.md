@@ -101,9 +101,15 @@ Check `package.json` for these before suggesting their features:
 - `@vueuse/core` or `@vueuse/nuxt` - Composition utilities → See `references/vueuse.md`
 - `drizzle-orm` - Database ORM → See `references/drizzle-db0.md`
 
-**Nuxt Modules:**
-- `@nuxt/image`, `@nuxt/content`, `@nuxt/icon`, `@nuxt/ui` → See `references/nuxt-modules.md`
-- `@nuxtjs/seo`, `@nuxtjs/i18n`, `@nuxtjs/tailwindcss`, `@nuxtjs/color-mode` → See `references/nuxt-modules.md`
+**Core Nuxt Modules (Dedicated References):**
+- `@nuxt/ui` - UI component library → See `references/nuxt-ui.md`
+- `@nuxt/image` - Image optimization → See `references/nuxt-image.md`
+- `@nuxt/content` - File-based CMS → See `references/nuxt-content.md`
+- `@nuxtjs/i18n` - Internationalization → See `references/nuxt-i18n.md`
+- `@nuxtjs/tailwindcss` - Tailwind CSS → See `references/tailwind.md`
+
+**Other Nuxt Modules:**
+- `@nuxt/icon`, `@nuxtjs/seo`, `@nuxtjs/color-mode` → See `references/nuxt-modules.md`
 - `@nuxt/eslint`, `@nuxt/fonts`, `@nuxt/scripts`, `nuxt-security` → See `references/nuxt-modules.md`
 
 ## References
@@ -120,7 +126,30 @@ This skill includes detailed reference documentation for specific topics. Load t
 - Use when implementing features or solving common tasks
 - Covers: Data fetching, SEO/meta tags, error handling, environment config, server API routes, middleware, state management, composables, layouts, plugins
 
-### Library-Specific Documentation
+### Core Nuxt Modules (Comprehensive Documentation)
+
+**`references/nuxt-ui.md`** - Nuxt UI component library (Last updated: 2025-01)
+- Only use if `@nuxt/ui` is installed
+- Covers: v3/v4 setup and migration, components (forms, buttons, modals, tables), Tailwind v4 integration, theming, validation, troubleshooting
+- **Important:** Includes version-specific breaking changes and setup requirements
+
+**`references/tailwind.md`** - Tailwind CSS in Nuxt (Last updated: 2025-01)
+- Only use if `@nuxtjs/tailwindcss` is installed
+- Covers: v3/v4 setup, configuration, responsive design, dark mode, custom utilities, plugins, JIT mode, performance optimization
+
+**`references/nuxt-image.md`** - Image optimization (Last updated: 2025-01)
+- Only use if `@nuxt/image` is installed
+- Covers: NuxtImg/NuxtPicture components, image providers, lazy loading, responsive images, performance optimization
+
+**`references/nuxt-content.md`** - File-based CMS (Last updated: 2025-01)
+- Only use if `@nuxt/content` is installed
+- Covers: Markdown/YAML content, queryContent API, components (ContentDoc, ContentList), navigation, search, pagination, syntax highlighting
+
+**`references/nuxt-i18n.md`** - Internationalization (Last updated: 2025-01)
+- Only use if `@nuxtjs/i18n` is installed
+- Covers: Multi-language routing, translations, locale switching, SEO, number/date formatting, pluralization, composables
+
+### State Management & Utilities
 
 **`references/pinia.md`** - Pinia state management
 - Only use if `pinia` or `@pinia/nuxt` is installed
@@ -130,13 +159,15 @@ This skill includes detailed reference documentation for specific topics. Load t
 - Only use if `@vueuse/core` or `@vueuse/nuxt` is installed
 - Covers: State management composables, browser APIs, element interaction, utilities, common patterns
 
-**`references/nuxt-modules.md`** - Official Nuxt modules
-- Only use for modules installed in package.json
-- Covers: @nuxt/image, @nuxt/content, @nuxt/icon, @nuxt/ui, @nuxtjs/seo, @nuxtjs/i18n, @nuxtjs/tailwindcss, @nuxtjs/color-mode, and more
-
 **`references/drizzle-db0.md`** - Database with Drizzle ORM
 - Only use if `drizzle-orm` is installed
 - Covers: Setup, schema definition, CRUD operations, queries, joins, filtering, transactions, migrations, type safety
+
+### Other Modules
+
+**`references/nuxt-modules.md`** - Other official Nuxt modules
+- Brief overview of: @nuxt/icon, @nuxtjs/seo, @nuxtjs/color-mode, @nuxt/eslint, @nuxt/fonts, @nuxt/scripts, nuxt-security
+- For detailed guidance on @nuxt/ui, @nuxt/image, @nuxt/content, @nuxtjs/i18n, or @nuxtjs/tailwindcss, use their dedicated reference files instead
 
 ## How to Use This Skill
 
@@ -145,7 +176,18 @@ This skill includes detailed reference documentation for specific topics. Load t
 3. **Leverage auto-imports** - Never manually import Nuxt/Vue composables that are auto-imported
 4. **Use file-based conventions** - Follow Nuxt's directory structure for routing, APIs, and middleware
 5. **Reference library docs** - When a library is installed, consult its reference file for specific patterns
-6. **Fetch official docs** - For recent features or uncertainty, fetch from https://nuxt.com/llms.txt
+6. **Verify version-specific features** - Reference files include "Last updated" dates; always verify with official docs for version-specific details
+7. **Fetch official docs** - For recent features or uncertainty, fetch from https://nuxt.com/llms.txt or module-specific documentation URLs
+
+### Version-Specific Information
+
+- **Reference files with dates** (marked "Last updated: YYYY-MM") contain version-specific info
+- **Always verify with official docs** when:
+  - Working with modules not documented in references
+  - Module version differs significantly from documentation date
+  - Encountering breaking changes or migration scenarios
+  - Uncertain about syntax or API for current version
+- **Fallback principle:** If reference documentation doesn't match project needs, fetch official docs rather than guessing
 
 ## Important Conventions
 
