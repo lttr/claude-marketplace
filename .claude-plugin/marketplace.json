@@ -1,0 +1,13 @@
+{
+  "name": "nuxt-claude-plugin",
+  "owner": {
+    "name": "Lukas",
+    "email": "lukas@example.com"
+  },
+  "plugins": [
+    {
+      "name": "nuxt",
+      "source": "./"
+    }
+  ]
+}
