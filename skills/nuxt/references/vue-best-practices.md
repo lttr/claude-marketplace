@@ -54,6 +54,24 @@ const emit = defineEmits<{
 const emit = defineEmits(['update', 'close'])
 ```
 
+### Event Handler Typing
+
+When emitting events with event objects, use appropriate event types:
+
+```typescript
+// ✅ Correct: Typed event handlers
+const emit = defineEmits<{
+  click: [event: MouseEvent]
+  keypress: [event: KeyboardEvent]
+  input: [event: InputEvent]
+  submit: [event: SubmitEvent]
+}>()
+
+// Usage in template
+<button @click="emit('click', $event)">Click me</button>
+<input @keypress="emit('keypress', $event)" />
+```
+
 ### v-model
 
 USE `defineModel()` for v-model implementations instead of manually defining props and emits.

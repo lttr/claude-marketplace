@@ -199,6 +199,48 @@ This skill includes detailed reference documentation for specific topics. Load t
 - Use `v-for="item of items"` with `:key`
 - Prefer `ref()` over `reactive()`
 
+### TypeScript Organization:
+- Place all types/interfaces in `/types` directory (or `/app/types` in Nuxt 4)
+- Organize by domain: `types/user.ts`, `types/post.ts`, `types/auth.ts`
+- **NO barrel exports** - import directly from specific files: `import type { User } from '~/types/user'`
+- Use PascalCase naming conventions:
+  - Props interfaces: `ButtonProps`, `CardProps`
+  - State interfaces: `AuthState`, `UserState`
+  - API types: `CreateUserRequest`, `CreateUserResponse`
+- **Never use `as any`** - prefer type guards, type narrowing, or `as unknown as Type` when absolutely necessary
+
+### File Structure (Nuxt 4):
+- Nuxt 4 supports optional `/app` directory for app-specific code
+- Components can live in `/components` or `/app/components`
+- Composables can live in `/composables` or `/app/composables`
+- Types can live in `/types` or `/app/types`
+- Both root-level and `/app` directory structures are supported
+
+### Data Fetching State Handling:
+- Always use `status` property (not deprecated `pending`)
+- Status values: `'idle' | 'pending' | 'success' | 'error'`
+- Always destructure: `const { data, status, error } = await useFetch(...)`
+- Handle all states in templates:
+  ```vue
+  <div v-if="status === 'pending'">Loading...</div>
+  <div v-else-if="status === 'error'">Error: {{ error }}</div>
+  <div v-else>{{ data }}</div>
+  ```
+
+### Styling Strategy:
+- Check `package.json` for `@nuxtjs/tailwindcss` dependency
+- **If Tailwind is installed:** Prefer Tailwind utility classes in templates
+  - Use arbitrary variants for scrollbars: `[&::-webkit-scrollbar]:w-1.5`
+  - Use `@theme` directive for custom animations and CSS variables
+  - Use arbitrary variants for pseudo-elements: `before:content-['★']`
+- **If Tailwind is NOT installed:** Use `<style scoped>` for component styles
+- **Use `<style>` only for:** Very complex keyframes, cross-browser scrollbars, or unreadable utility expressions
+
+### Accessibility:
+- Add appropriate ARIA attributes to interactive elements
+- Ensure keyboard navigation support (tab order, enter/space handlers)
+- Use semantic HTML elements (`<button>`, `<nav>`, `<main>`, etc.)
+
 ### Nuxt Projects Should:
 - Never manually import auto-imported composables
 - Use `useFetch` for API calls instead of manual fetch

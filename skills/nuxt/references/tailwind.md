@@ -6,6 +6,31 @@
 
 Tailwind CSS is automatically integrated into Nuxt through the `@nuxtjs/tailwindcss` module, providing utility-first CSS framework support.
 
+## When to Use Tailwind
+
+**Detection:** Always check `package.json` for `@nuxtjs/tailwindcss` dependency before suggesting Tailwind patterns.
+
+**If Tailwind is installed:**
+- Prefer Tailwind utility classes in component templates
+- Use utilities for layout, spacing, colors, typography, responsive design
+- Combine utilities for common patterns (flex, grid, etc.)
+
+**If Tailwind is NOT installed:**
+- Use `<style scoped>` for component-specific styles
+- Write traditional CSS/SCSS for styling
+
+**Tailwind v4 Capabilities (No `<style>` needed):**
+- Custom animations via `@theme` directive with `@keyframes`
+- CSS variables for theming via `@theme` with `--color-*`, `--font-*`, etc.
+- Scrollbar styling via arbitrary variants: `[&::-webkit-scrollbar]:w-1.5`
+- Pseudo-elements via arbitrary variants: `before:content-['★']`
+
+**When to Still Use `<style>` (even with Tailwind v4):**
+- Very complex multi-step keyframes that are verbose in `@theme`
+- Cross-browser scrollbar styling (Firefox requires different syntax than WebKit)
+- Complex pseudo-element content with difficult escaping
+- Styles that become unreadable as utility classes (use your judgment)
+
 ## Installation & Setup
 
 ### Tailwind v4 Setup (Current)

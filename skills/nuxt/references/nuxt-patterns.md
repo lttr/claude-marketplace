@@ -7,10 +7,10 @@
 Use `useFetch` for API endpoints. It runs on both server and client, with automatic hydration.
 
 ```typescript
-const { data, pending, error, refresh } = await useFetch('/api/users')
+const { data, status, error, refresh } = await useFetch('/api/users')
 
 // With query parameters
-const { data } = await useFetch('/api/users', {
+const { data, status } = await useFetch('/api/users', {
   query: { limit: 10, page: 1 }
 })
 
@@ -19,7 +19,24 @@ interface User {
   id: number
   name: string
 }
-const { data } = await useFetch<User[]>('/api/users')
+const { data, status, error } = await useFetch<User[]>('/api/users')
+```
+
+**Always handle all states in templates:**
+
+```vue
+<template>
+  <div v-if="status === 'pending'">Loading...</div>
+  <div v-else-if="status === 'error'">
+    <p>Error: {{ error?.message }}</p>
+  </div>
+  <div v-else-if="data">
+    <!-- Success state -->
+    <ul>
+      <li v-for="user of data" :key="user.id">{{ user.name }}</li>
+    </ul>
+  </div>
+</template>
 ```
 
 ### useAsyncData for Complex Data
@@ -27,14 +44,14 @@ const { data } = await useFetch<User[]>('/api/users')
 Use `useAsyncData` when you need more control or complex transformations.
 
 ```typescript
-const { data } = await useAsyncData('users', async () => {
+const { data, status, error } = await useAsyncData('users', async () => {
   const users = await $fetch('/api/users')
   const stats = await $fetch('/api/stats')
   return { users, stats }
 })
 
 // With caching key
-const { data } = await useAsyncData(`user-${id}`, () =>
+const { data, status, error } = await useAsyncData(`user-${id}`, () =>
   $fetch(`/api/users/${id}`)
 )
 ```
@@ -45,10 +62,10 @@ Use lazy variants when you don't want to block navigation:
 
 ```typescript
 // Non-blocking
-const { pending, data } = await useLazyFetch('/api/users')
+const { status, data } = await useLazyFetch('/api/users')
 
 // Show loading state
-<div v-if="pending">Loading...</div>
+<div v-if="status === 'pending'">Loading...</div>
 <div v-else>{{ data }}</div>
 ```
 
@@ -63,7 +80,7 @@ const { data } = await useFetch('/api/users', {
 ### Refresh and Refetch
 
 ```typescript
-const { data, refresh } = await useFetch('/api/users')
+const { data, status, refresh } = await useFetch('/api/users')
 
 // Manually refetch
 await refresh()
@@ -139,7 +156,7 @@ clearError({ redirect: '/' })
 ### Handle Errors in Data Fetching
 
 ```typescript
-const { data, error } = await useFetch('/api/users')
+const { data, status, error } = await useFetch('/api/users')
 
 if (error.value) {
   showError({
