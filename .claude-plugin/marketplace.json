@@ -7,7 +7,14 @@
   "plugins": [
     {
       "name": "nuxt",
-      "source": "./"
+      "source": "./plugins/nuxt",
+      "description": "Nuxt development guidance with Vue best practices, auto-imports awareness, and library-specific patterns for Pinia, VueUse, and more",
+      "version": "1.0.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": ["nuxt", "vue", "pinia", "vueuse", "drizzle", "nuxt-ui"],
+      "category": "framework"
     }
   ]
 }

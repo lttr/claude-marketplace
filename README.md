@@ -1,95 +1,62 @@
-# Nuxt Claude Code Plugin
+# Claude Code Plugin Marketplace
 
-A Claude Code plugin that provides specialized guidance for Nuxt development, including Vue best practices, auto-import awareness, and library-specific patterns.
+A curated collection of Claude Code plugins for modern web development.
 
-## What This Plugin Provides
+## Available Plugins
 
-This plugin includes a comprehensive **Nuxt skill** that automatically activates when working on Nuxt projects. The skill provides:
+### Nuxt Plugin
 
-- **Vue Component Best Practices** - Modern patterns for `<script setup>`, props, emits, and reactivity
-- **Nuxt Auto-Imports Awareness** - Never manually import `ref`, `useState`, `useFetch`, etc.
-- **File-Based Conventions** - Guidance for pages/, components/, server/api/, layouts/, and middleware/
-- **Library-Specific Patterns** - On-demand documentation for:
-  - Pinia (state management)
-  - VueUse (composition utilities)
-  - Nuxt Modules (@nuxt/image, @nuxt/content, @nuxt/ui, etc.)
-  - Drizzle ORM (database operations)
-- **Official Documentation Access** - Fetches latest docs from nuxt.com/llms.txt when needed
+Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
+
+**Features:**
+- Vue 3 composition API best practices
+- Nuxt 3 auto-imports awareness (no manual imports needed)
+- Pinia state management patterns
+- VueUse composables integration
+- Drizzle ORM with db0 support
+- Nuxt UI, Nuxt Content, Nuxt Image, and Nuxt i18n guidance
+- Tailwind CSS conventions
+
+**Installation:**
+```shell
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install nuxt@claude-marketplace
+```
+
+See [plugins/nuxt/README.md](./plugins/nuxt/README.md) for detailed documentation.
 
 ## Installation
 
-### From GitHub (after publishing)
+### Add this marketplace
 
-```bash
-/plugin install nuxt@lttr/nuxt-claude-plugin
+```shell
+/plugin marketplace add lukastrumm/claude-marketplace
 ```
 
-### Local Testing
+Or for local development:
 
-```bash
-/plugin install nuxt@file:///home/lukas/code/nuxt-claude-plugin
+```shell
+/plugin marketplace add /path/to/claude-marketplace
 ```
 
-## Usage
+### Browse and install plugins
 
-Once installed, the Nuxt skill automatically triggers when:
-
-- Working in a project with `nuxt` in package.json
-- Editing `.vue` files
-- Working with Nuxt-specific files (`nuxt.config.ts`, files in `pages/`, `server/`, etc.)
-
-The skill intelligently loads reference documentation based on what libraries are installed in your project's package.json.
-
-## What's Included
-
-### Skill Structure
-
-```
-skills/nuxt/
-├── SKILL.md                      # Core skill with quick reference
-└── references/                   # Loaded on-demand
-    ├── vue-best-practices.md     # Vue component patterns
-    ├── nuxt-patterns.md          # Common Nuxt recipes
-    ├── pinia.md                  # State management
-    ├── vueuse.md                 # VueUse composables
-    ├── nuxt-modules.md           # Official Nuxt modules
-    └── drizzle-db0.md            # Database with Drizzle ORM
+```shell
+/plugin
 ```
 
-### Key Features
+Select "Browse Plugins" to see available options.
 
-- **Dependency Detection** - Only shows library-specific guidance for installed packages
-- **Progressive Disclosure** - Loads detailed docs only when needed (efficient context usage)
-- **Version Agnostic** - Supports Nuxt 3+ and future versions
-- **Official Docs Integration** - Can fetch latest documentation when uncertain
+## For Plugin Developers
 
-## Examples
+To add your plugin to this marketplace:
 
-The skill enforces patterns like:
+1. Create your plugin in `plugins/your-plugin-name/`
+2. Include `.claude-plugin/plugin.json` with plugin metadata
+3. Add your plugin entry to `.claude-plugin/marketplace.json`
+4. Submit a pull request
 
-```typescript
-// ✅ Correct: Type-based props with destructuring
-const { title, count = 0 } = defineProps<{
-  title: string
-  count?: number
-}>()
-
-// ✅ Correct: v-for with 'of' and key
-<li v-for="user of users" :key="user.id">{{ user.name }}</li>
-
-// ✅ Correct: Leveraging auto-imports (no manual imports needed)
-const route = useRoute()
-const data = await useFetch('/api/users')
-```
-
-## Contributing
-
-Contributions are welcome! Feel free to:
-
-- Add new reference documentation
-- Improve existing patterns
-- Update for new Nuxt features
-- Fix errors or outdated information
+See [Claude Code Plugin Documentation](https://docs.claude.com/en/docs/claude-code/plugins) for plugin development guidance.
 
 ## License
 

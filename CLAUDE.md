@@ -4,69 +4,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Claude Code plugin** that provides specialized guidance for Nuxt.js development. The plugin includes a comprehensive Nuxt skill with Vue best practices, auto-import awareness, and library-specific patterns.
+This is a **Claude Code plugin marketplace** that hosts multiple plugins for distribution. Currently contains the Nuxt plugin with comprehensive Nuxt.js development guidance.
 
-## Project Structure
+## Repository Structure
 
 ```
-.claude-plugin/
-└── plugin.json          # Plugin metadata (name, version, description)
-
-skills/nuxt/
-├── SKILL.md            # Main skill file with quick reference and guidance
-└── references/         # Detailed reference docs loaded on-demand
-    ├── vue-best-practices.md
-    ├── nuxt-patterns.md
-    ├── pinia.md
-    ├── vueuse.md
-    ├── nuxt-modules.md
-    └── drizzle-db0.md
+claude-marketplace/
+├── .claude-plugin/
+│   └── marketplace.json     # Marketplace catalog listing all plugins
+├── plugins/
+│   └── nuxt/                # Individual plugin directories
+│       ├── .claude-plugin/
+│       │   └── plugin.json  # Plugin metadata
+│       ├── skills/          # Plugin Skills
+│       └── README.md        # Plugin documentation
+└── README.md                # Marketplace-level README
 ```
 
-## How This Plugin Works
+## Marketplace vs Plugin Files
 
-1. **Plugin Definition**: `.claude-plugin/plugin.json` defines the plugin metadata
-2. **Skill System**: The `skills/nuxt/` directory contains the skill that activates when users work on Nuxt projects
-3. **Progressive Disclosure**: The main `SKILL.md` provides quick reference, while `references/` contain detailed docs loaded only when needed (efficient context usage)
-4. **Dependency Detection**: The skill checks `package.json` to only show guidance for installed libraries
+- **Marketplace manifest**: `.claude-plugin/marketplace.json` - Lists all available plugins with sources
+- **Plugin manifest**: `plugins/*/​.claude-plugin/plugin.json` - Individual plugin metadata
+- **Plugin components**: Each plugin has its own directory with skills/, commands/, agents/, etc.
+
+## Working with Plugins
+
+### Adding a New Plugin
+
+1. Create plugin directory: `plugins/your-plugin-name/`
+2. Add plugin structure:
+   ```
+   plugins/your-plugin-name/
+   ├── .claude-plugin/
+   │   └── plugin.json       # Required: plugin metadata
+   ├── skills/               # Optional: Agent Skills
+   ├── commands/             # Optional: Slash commands
+   ├── agents/               # Optional: Custom agents
+   └── README.md             # Optional: Plugin docs
+   ```
+3. Update `.claude-plugin/marketplace.json` to include the new plugin entry
+4. Ensure `source` field points to correct path: `"./plugins/your-plugin-name"`
+
+### Editing Existing Plugins
+
+#### Nuxt Plugin Structure
+
+- **Main skill**: `plugins/nuxt/skills/nuxt/SKILL.md` - Quick reference with auto-import lists
+- **Reference docs**: `plugins/nuxt/skills/nuxt/references/*.md` - Detailed library-specific patterns
+- **Progressive disclosure**: References loaded on-demand to keep context efficient
+
+#### Nuxt Plugin Design Principles
+
+1. **Dependency-Aware**: Check `package.json` before suggesting library features
+2. **Auto-Import Focused**: Never suggest manual imports for Nuxt/Vue auto-imported APIs
+3. **File-Based Conventions**: Leverage Nuxt directory structure (pages/, server/api/, etc.)
+4. **Official Docs Integration**: Fetch from https://nuxt.com/llms.txt when uncertain
+5. **Version Agnostic**: Support Nuxt 3+ without version-specific assumptions
+
+## Git Workflow
+
+Use conventional commits for all commit messages:
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `refactor:` - Code refactoring
+- `chore:` - Maintenance tasks
+- Use `!` for breaking changes (e.g., `feat!:`, `fix!:`)
 
 ## Installation & Testing
 
 ### Local Testing
+
 ```bash
-/plugin install nuxt@file:///home/lukas/code/nuxt-claude-plugin
+/plugin marketplace add /path/to/claude-marketplace
+/plugin install nuxt@claude-marketplace
 ```
 
 ### After Publishing to GitHub
+
 ```bash
-/plugin install nuxt@yourusername/nuxt-claude-plugin
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install nuxt@claude-marketplace
 ```
 
-## Editing Skills
+### Testing Plugin Changes
 
-### Main Skill File
-- **Path**: `skills/nuxt/SKILL.md`
-- **Purpose**: Quick reference, auto-import lists, file conventions, and pointers to reference docs
-- **Format**: YAML frontmatter with name/description, followed by markdown
+After modifying a plugin:
 
-### Reference Documentation
-- **Path**: `skills/nuxt/references/*.md`
-- **Purpose**: Detailed patterns for specific libraries or topics
-- **Loading**: Only loaded when Claude needs them (keeps context efficient)
-- **Dependencies**: Should check if library is installed before loading
+1. Uninstall: `/plugin uninstall plugin-name@marketplace-name`
+2. Reinstall: `/plugin install plugin-name@marketplace-name`
+3. Restart Claude Code to load changes
 
-## Key Design Principles
+## Marketplace Schema
 
-1. **Dependency-Aware**: Always check `package.json` before suggesting library-specific features
-2. **Auto-Import Focused**: Never suggest manual imports for Nuxt/Vue auto-imported APIs
-3. **File-Based Conventions**: Leverage Nuxt's directory structure (pages/, server/api/, etc.)
-4. **Official Docs Integration**: Fetch from https://nuxt.com/llms.txt when uncertain
-5. **Version Agnostic**: Support Nuxt 3+ without version-specific assumptions
+### Required Fields
 
-## Skill Trigger Conditions
+- `name`: Marketplace identifier (kebab-case)
+- `owner`: Maintainer information (name, email)
+- `plugins`: Array of plugin entries
 
-The Nuxt skill automatically activates when:
-- Project has `nuxt` dependency in package.json
-- Working with `.vue` files
-- Working with `nuxt.config.ts`
-- Files in Nuxt directories: `pages/`, `components/`, `server/`, `layouts/`, `middleware/`, `composables/`
+### Plugin Entry Fields
+
+- `name`: Plugin identifier (must match plugin.json)
+- `source`: Relative path from marketplace root (e.g., "./plugins/nuxt")
+- `description`: Brief plugin description
+- `version`: Plugin version
+- `keywords`: Array of tags for discovery
+- `category`: Plugin category (e.g., "framework", "productivity")
+
