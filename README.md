@@ -1,6 +1,6 @@
 # Claude Code Plugin Marketplace
 
-A curated collection of Claude Code plugins for modern web development.
+I have extracted a couple of extensions for my Claude Code experience.
 
 ## Available Plugins
 
@@ -9,6 +9,7 @@ A curated collection of Claude Code plugins for modern web development.
 Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
 
 **Features:**
+
 - Vue 3 composition API best practices
 - Nuxt 3 auto-imports awareness (no manual imports needed)
 - Pinia state management patterns
@@ -18,6 +19,7 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 - Tailwind CSS conventions
 
 **Installation:**
+
 ```shell
 /plugin marketplace add lukastrumm/claude-marketplace
 /plugin install nuxt@claude-marketplace

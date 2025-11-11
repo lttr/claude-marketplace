@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-claude-plugin",
+  "name": "lttr-claude-marketplace",
   "owner": {
-    "name": "Lukas",
-    "email": "lukas@example.com"
+    "name": "Lukas Trumm",
+    "email": "lukas.trumm@gmail.com"
   },
   "plugins": [
     {
