@@ -1,6 +1,6 @@
 ---
 name: nuxt
-description: This skill should be used when working on Nuxt projects (v3+). Use it for building Vue applications with Nuxt's file-based routing, server-side rendering, and auto-import features. Trigger when working with .vue files, nuxt.config.ts, or when the project contains a nuxt dependency in package.json.
+description: This skill should be used when working on Nuxt projects (v3+). Use it for building Vue applications with Nuxt's file-based routing, server-side rendering, and auto-import features. Trigger when working with .vue or .ts files in Nuxt directories (pages/, server/, composables/, middleware/), nuxt.config.ts, or when the project contains a nuxt dependency in package.json. Also trigger for questions about Nuxt concepts like composables, auto-imports, server routes, SSR/SSG patterns, or file-based routing.
 ---
 
 # Nuxt Development
@@ -14,8 +14,11 @@ This skill provides specialized guidance for developing Nuxt applications (v3+),
 Trigger this skill when:
 - Working in a project with `nuxt` as a dependency in package.json
 - Creating or editing `.vue` single-file components
-- Working with Nuxt-specific files: `nuxt.config.ts`, `app.vue`, or files in `pages/`, `components/`, `composables/`, `server/`, `layouts/`, or `middleware/` directories
+- Working with `.ts` or `.tsx` files in Nuxt directories: `pages/`, `server/`, `composables/`, `middleware/`, `layouts/`, or `utils/`
+- Working with Nuxt-specific files: `nuxt.config.ts`, `app.vue`, or any file in Nuxt convention directories
 - Questions about Nuxt architecture, routing, or SSR/SSG patterns
+- User mentions Nuxt-specific concepts: composables, auto-imports, server routes, server API, middleware, file-based routing
+- Debugging Nuxt-specific issues or errors
 
 ## Documentation Access
 
@@ -250,5 +253,25 @@ This skill includes detailed reference documentation for specific topics. Load t
 
 ### When Libraries Are Installed:
 - **Pinia** - Use for complex state management across many components
-- **VueUse** - Prefer VueUse composables over custom implementations
+- **VueUse** - Prefer VueUse composables over custom implementations for common patterns
 - **Drizzle** - Use for type-safe database operations with full TypeScript inference
+
+### VueUse Integration Guidelines:
+When encountering custom utility implementations for common patterns, check if VueUse provides an equivalent solution:
+- **State patterns:** `useAsyncData`, `useToggle`, `useCounter`, `useLocalStorage`, `useSessionStorage`
+- **DOM interactions:** `useMouse`, `useScroll`, `useElementVisibility`, `useIntersectionObserver`, `useResizeObserver`
+- **Browser APIs:** `useClipboard`, `useMediaQuery`, `useDark`, `usePreferredDark`, `useGeolocation`
+- **Utilities:** `useDebounce`, `useThrottle`, `useTimestamp`, `useInterval`, `useTimeout`
+
+**When to suggest VueUse:**
+- Detecting bespoke implementations of the above patterns
+- User asks about utilities for common tasks (debouncing, throttling, etc.)
+- Building features that require browser API abstractions
+
+**Only suggest if:**
+- `@vueuse/core` or `@vueuse/nuxt` is in package.json, OR
+- User explicitly asks about VueUse or requests suggestions for utility libraries
+
+**Never:**
+- Force VueUse if not installed
+- Suggest VueUse for simple one-off logic that doesn't need a composable
