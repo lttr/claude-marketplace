@@ -273,7 +273,7 @@ watch(token, (val) => localStorage.setItem('auth-token', val))
 - `useClipboard`, `useMediaQuery`, `useDark`, `usePreferredDark`, `useGeolocation`
 
 **Utilities:**
-- `useDebounce`, `useThrottle`, `useInterval`, `useTimeout`, `useTimestamp`
+- `refDebounced`, `useDebounceFn`, `refThrottled`, `useThrottleFn`, `useInterval`, `useTimeout`
 
 The `nuxt:nuxt` skill provides detailed VueUse reference when installed.
 

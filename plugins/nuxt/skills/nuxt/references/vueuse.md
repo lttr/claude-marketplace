@@ -116,21 +116,28 @@ Note: In Nuxt, prefer Nuxt's built-in `useFetch` for API calls. Use VueUse's `us
 
 ### Utilities
 
-**useDebounce / useDebounceFn**
+**refDebounced / useDebounceFn**
 ```typescript
+// Debounce a ref value
 const input = ref('')
-const debounced = useDebounce(input, 500)
+const debounced = refDebounced(input, 500)
 
-// Or debounce a function
+// Debounce a function
 const debouncedFn = useDebounceFn(() => {
   console.log('Debounced!')
 }, 500)
 ```
 
-**useThrottle / useThrottleFn**
+**refThrottled / useThrottleFn**
 ```typescript
+// Throttle a ref value
 const scrollY = ref(0)
-const throttled = useThrottle(scrollY, 200)
+const throttled = refThrottled(scrollY, 200)
+
+// Throttle a function
+const throttledFn = useThrottleFn(() => {
+  console.log('Throttled!')
+}, 200)
 ```
 
 **useInterval / useTimeout**
@@ -193,7 +200,7 @@ watch(() => arrivedState.bottom, async (isBottom) => {
 
 ```typescript
 const searchQuery = ref('')
-const debouncedQuery = useDebounce(searchQuery, 300)
+const debouncedQuery = refDebounced(searchQuery, 300)
 
 watch(debouncedQuery, async (query) => {
   // API call with debounced value

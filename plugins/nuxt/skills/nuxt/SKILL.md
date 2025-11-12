@@ -261,7 +261,7 @@ When encountering custom utility implementations for common patterns, check if V
 - **State patterns:** `useAsyncData`, `useToggle`, `useCounter`, `useLocalStorage`, `useSessionStorage`
 - **DOM interactions:** `useMouse`, `useScroll`, `useElementVisibility`, `useIntersectionObserver`, `useResizeObserver`
 - **Browser APIs:** `useClipboard`, `useMediaQuery`, `useDark`, `usePreferredDark`, `useGeolocation`
-- **Utilities:** `useDebounce`, `useThrottle`, `useTimestamp`, `useInterval`, `useTimeout`
+- **Utilities:** `refDebounced`, `useDebounceFn`, `refThrottled`, `useThrottleFn`, `useInterval`, `useTimeout`
 
 **When to suggest VueUse:**
 - Detecting bespoke implementations of the above patterns
