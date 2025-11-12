@@ -71,6 +71,15 @@ Use conventional commits for all commit messages:
 - `chore:` - Maintenance tasks
 - Use `!` for breaking changes (e.g., `feat!:`, `fix!:`)
 
+**Version bumping**: When making changes to a plugin, always update version in both:
+1. `plugins/<plugin-name>/.claude-plugin/plugin.json`
+2. `.claude-plugin/marketplace.json` (matching entry)
+
+Use semantic versioning:
+- Major (x.0.0): Breaking changes
+- Minor (0.x.0): New features, command additions, refactoring
+- Patch (0.0.x): Bug fixes, documentation only
+
 ## Claude Code Documentation References
 
 ### Plugin Development
