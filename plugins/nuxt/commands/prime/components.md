@@ -177,6 +177,9 @@ Never manually import these in Nuxt projects - they're auto-imported:
 - `defineEmits` - Define emits (type-based)
 - `defineModel` - Define v-model (type-based)
 
+**Utilities:**
+- `useId` - Generate unique IDs for accessibility/form elements (SSR-safe)
+
 ## Component Organization
 
 ### Logical Grouping
