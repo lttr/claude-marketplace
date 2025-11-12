@@ -1,5 +1,5 @@
 ---
-name: prime-nuxt
+name: nuxt
 description: Load Nuxt framework patterns and core module knowledge
 ---
 
