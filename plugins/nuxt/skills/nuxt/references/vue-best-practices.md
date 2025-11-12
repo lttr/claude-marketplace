@@ -208,3 +208,29 @@ async function login() { /* ... */ }
 function handleSearch() { /* ... */ }
 </script>
 ```
+
+## Styling
+
+ALWAYS use `<style scoped>` for component-specific styles. PREFER short, simple class names - scoped styles eliminate need for BEM or complex naming:
+
+```vue
+<!-- ✅ Preferred -->
+<template>
+  <div class="card">
+    <div class="header">Title</div>
+    <div class="content">Body</div>
+  </div>
+</template>
+
+<style scoped>
+.card { padding: 1rem; }
+.header { font-weight: bold; }
+.content { flex: 1; }
+</style>
+
+<!-- ❌ Avoid: BEM with scoped styles -->
+<div class="user-card">
+  <div class="user-card__header">Title</div>
+  <div class="user-card__content">Body</div>
+</div>
+```

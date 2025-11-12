@@ -234,15 +234,27 @@ function handleSearch() { /* ... */ }
 
 ### If NO Tailwind
 
+ALWAYS use `<style scoped>`. PREFER short, simple class names - scoped styles eliminate need for BEM:
+
 ```vue
+<!-- ✅ Preferred -->
+<template>
+  <div class="card">
+    <div class="header">Title</div>
+    <div class="content">Body</div>
+  </div>
+</template>
+
 <style scoped>
-.container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-}
+.card { padding: 1rem; }
+.header { font-weight: bold; }
+.content { flex: 1; }
 </style>
+
+<!-- ❌ Avoid: BEM with scoped styles -->
+<div class="user-card">
+  <div class="user-card__header">Title</div>
+</div>
 ```
 
 ## VueUse Composables (If Installed)
