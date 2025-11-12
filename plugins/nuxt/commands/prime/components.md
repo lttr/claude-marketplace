@@ -1,5 +1,4 @@
 ---
-name: vue
 description: Load Vue component patterns and best practices
 ---
 
