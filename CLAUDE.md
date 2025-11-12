@@ -71,6 +71,21 @@ Use conventional commits for all commit messages:
 - `chore:` - Maintenance tasks
 - Use `!` for breaking changes (e.g., `feat!:`, `fix!:`)
 
+## Claude Code Documentation References
+
+### Plugin Development
+- **[Plugins Guide](https://code.claude.com/docs/en/plugins.md)** - Plugin structure, development, testing
+- **[Plugin Reference](https://code.claude.com/docs/en/plugins-reference.md)** - Manifest schema, directory structure
+- **[Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces.md)** - Creating and distributing marketplaces
+- **[Skills](https://code.claude.com/docs/en/skills.md)** - Building Agent Skills for plugins
+- **[Slash Commands](https://code.claude.com/docs/en/slash-commands.md#plugin-commands)** - Command structure and naming
+
+### Command Naming Convention
+Commands use subdirectory-based namespacing:
+- File: `commands/namespace/command.md` → Invoked as `/namespace:command`
+- The `:` in invocation represents directory separator `/`
+- Example: `commands/prime/vue.md` becomes `/prime:vue`
+
 ## Installation & Testing
 
 ### Local Testing
