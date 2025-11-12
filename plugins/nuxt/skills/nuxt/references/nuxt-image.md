@@ -13,22 +13,23 @@ pnpm add @nuxt/image
 ```
 
 **nuxt.config.ts:**
+
 ```typescript
 export default defineNuxtConfig({
-  modules: ['@nuxt/image'],
+  modules: ["@nuxt/image"],
 
   image: {
     // Optional configuration
     quality: 80,
-    formats: ['webp', 'avif'],
+    formats: ["webp", "avif"],
 
     // Image providers
     providers: {
       cloudinary: {
-        baseURL: 'https://res.cloudinary.com/{your-cloud-name}/image/upload/'
-      }
-    }
-  }
+        baseURL: "https://res.cloudinary.com/{your-cloud-name}/image/upload/",
+      },
+    },
+  },
 })
 ```
 
@@ -40,16 +41,12 @@ Basic optimized image component:
 
 ```vue
 <template>
-  <NuxtImg
-    src="/images/hero.jpg"
-    alt="Hero image"
-    width="800"
-    height="600"
-  />
+  <NuxtImg src="/images/hero.jpg" alt="Hero image" width="800" height="600" />
 </template>
 ```
 
 **Common Props:**
+
 - `src` - Image source (path or URL)
 - `alt` - Alt text for accessibility
 - `width` / `height` - Dimensions
@@ -74,6 +71,7 @@ Responsive image with multiple formats:
 ```
 
 **Benefits:**
+
 - Automatically generates multiple formats (WebP, AVIF)
 - Creates responsive srcset for different screen sizes
 - Better browser compatibility with fallbacks
@@ -105,7 +103,10 @@ Responsive image with multiple formats:
       placeholder
       @load="imageLoaded = true"
     />
-    <div v-if="!imageLoaded" class="absolute inset-0 bg-gray-200 animate-pulse" />
+    <div
+      v-if="!imageLoaded"
+      class="absolute inset-0 bg-gray-200 animate-pulse"
+    />
   </div>
 </template>
 
@@ -121,7 +122,7 @@ const imageLoaded = ref(false)
   <div
     :style="{
       backgroundImage: `url(${$img('/images/hero.jpg', { width: 1920, height: 1080 })})`,
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
     }"
     class="h-96"
   >
@@ -193,10 +194,7 @@ For images in `public/` directory:
 
 ```vue
 <template>
-  <NuxtImg
-    src="https://example.com/image.jpg"
-    provider="cloudinary"
-  />
+  <NuxtImg src="https://example.com/image.jpg" provider="cloudinary" />
 </template>
 ```
 
@@ -207,20 +205,15 @@ For images in `public/` directory:
 export default defineNuxtConfig({
   image: {
     cloudinary: {
-      baseURL: 'https://res.cloudinary.com/{your-cloud-name}/image/upload/'
-    }
-  }
+      baseURL: "https://res.cloudinary.com/{your-cloud-name}/image/upload/",
+    },
+  },
 })
 ```
 
 ```vue
 <template>
-  <NuxtImg
-    provider="cloudinary"
-    src="sample.jpg"
-    width="600"
-    height="400"
-  />
+  <NuxtImg provider="cloudinary" src="sample.jpg" width="600" height="400" />
 </template>
 ```
 
@@ -232,8 +225,8 @@ Automatically detected and configured when deployed:
 // nuxt.config.ts
 export default defineNuxtConfig({
   image: {
-    provider: 'vercel' // or 'netlify'
-  }
+    provider: "vercel", // or 'netlify'
+  },
 })
 ```
 
@@ -245,27 +238,27 @@ export default defineNuxtConfig({
   image: {
     providers: {
       custom: {
-        provider: '~/providers/custom-provider.ts',
+        provider: "~/providers/custom-provider.ts",
         options: {
-          baseURL: 'https://cdn.example.com'
-        }
-      }
-    }
-  }
+          baseURL: "https://cdn.example.com",
+        },
+      },
+    },
+  },
 })
 ```
 
 ```typescript
 // providers/custom-provider.ts
-import { joinURL } from 'ufo'
-import type { ProviderGetImage } from '@nuxt/image'
+import { joinURL } from "ufo"
+import type { ProviderGetImage } from "@nuxt/image"
 
 export const getImage: ProviderGetImage = (src, { modifiers, baseURL }) => {
   const { width, height, format, quality } = modifiers
   const url = joinURL(baseURL, src)
 
   return {
-    url: `${url}?w=${width}&h=${height}&fm=${format}&q=${quality}`
+    url: `${url}?w=${width}&h=${height}&fm=${format}&q=${quality}`,
   }
 }
 ```
@@ -281,23 +274,21 @@ Generate image URLs programmatically:
 const { $img } = useNuxtApp()
 
 // Generate optimized URL
-const imageUrl = $img('/images/photo.jpg', {
+const imageUrl = $img("/images/photo.jpg", {
   width: 800,
   height: 600,
-  format: 'webp',
-  quality: 80
+  format: "webp",
+  quality: 80,
 })
 
 // Use in v-bind or computed
 const backgroundImage = computed(() =>
-  $img('/images/hero.jpg', { width: 1920 })
+  $img("/images/hero.jpg", { width: 1920 }),
 )
 </script>
 
 <template>
-  <div :style="{ backgroundImage: `url(${backgroundImage})` }">
-    Content
-  </div>
+  <div :style="{ backgroundImage: `url(${backgroundImage})` }">Content</div>
 </template>
 ```
 
@@ -324,12 +315,12 @@ Images are lazy-loaded by default:
 useHead({
   link: [
     {
-      rel: 'preload',
-      as: 'image',
-      href: '/images/hero.jpg',
-      type: 'image/jpeg'
-    }
-  ]
+      rel: "preload",
+      as: "image",
+      href: "/images/hero.jpg",
+      type: "image/jpeg",
+    },
+  ],
 })
 </script>
 
@@ -375,18 +366,14 @@ Pass multiple modifiers:
 const imageModifiers = {
   width: 800,
   height: 600,
-  fit: 'cover',
-  format: 'webp',
-  quality: 85
+  fit: "cover",
+  format: "webp",
+  quality: 85,
 }
 </script>
 
 <template>
-  <NuxtImg
-    src="/images/photo.jpg"
-    :modifiers="imageModifiers"
-    alt="Photo"
-  />
+  <NuxtImg src="/images/photo.jpg" :modifiers="imageModifiers" alt="Photo" />
 </template>
 ```
 
@@ -395,9 +382,9 @@ const imageModifiers = {
 ```vue
 <script setup lang="ts">
 const images = ref([
-  { id: 1, src: '/images/photo1.jpg', alt: 'Photo 1' },
-  { id: 2, src: '/images/photo2.jpg', alt: 'Photo 2' },
-  { id: 3, src: '/images/photo3.jpg', alt: 'Photo 3' }
+  { id: 1, src: "/images/photo1.jpg", alt: "Photo 1" },
+  { id: 2, src: "/images/photo2.jpg", alt: "Photo 2" },
+  { id: 3, src: "/images/photo3.jpg", alt: "Photo 3" },
 ])
 </script>
 
@@ -425,7 +412,10 @@ const images = ref([
       v-for="(image, index) of gallery"
       :key="index"
       :src="image.src"
-      :img-attrs="{ alt: image.alt, class: 'w-full h-64 object-cover rounded-lg cursor-pointer' }"
+      :img-attrs="{
+        alt: image.alt,
+        class: 'w-full h-64 object-cover rounded-lg cursor-pointer',
+      }"
       sizes="sm:50vw md:33vw lg:25vw"
       @click="openLightbox(image)"
     />
@@ -434,9 +424,9 @@ const images = ref([
 
 <script setup lang="ts">
 const gallery = ref([
-  { src: '/images/gallery1.jpg', alt: 'Gallery 1' },
-  { src: '/images/gallery2.jpg', alt: 'Gallery 2' },
-  { src: '/images/gallery3.jpg', alt: 'Gallery 3' }
+  { src: "/images/gallery1.jpg", alt: "Gallery 1" },
+  { src: "/images/gallery2.jpg", alt: "Gallery 2" },
+  { src: "/images/gallery3.jpg", alt: "Gallery 3" },
 ])
 
 function openLightbox(image: any) {
@@ -460,11 +450,7 @@ Different images for different screen sizes:
       media="(min-width: 768px)"
       :srcset="$img('/images/hero-tablet.jpg', { width: 1024 })"
     />
-    <NuxtImg
-      src="/images/hero-mobile.jpg"
-      alt="Hero"
-      width="768"
-    />
+    <NuxtImg src="/images/hero-mobile.jpg" alt="Hero" width="768" />
   </picture>
 </template>
 ```
@@ -481,7 +467,7 @@ export default defineNuxtConfig({
     quality: 80,
 
     // Default formats
-    formats: ['webp', 'avif', 'jpg'],
+    formats: ["webp", "avif", "jpg"],
 
     // Image sizes for responsive images
     screens: {
@@ -491,42 +477,42 @@ export default defineNuxtConfig({
       lg: 1024,
       xl: 1280,
       xxl: 1536,
-      '2xl': 1536
+      "2xl": 1536,
     },
 
     // Provider configuration
-    provider: 'cloudinary',
+    provider: "cloudinary",
     providers: {
       cloudinary: {
-        baseURL: 'https://res.cloudinary.com/{cloud-name}/image/upload/'
-      }
+        baseURL: "https://res.cloudinary.com/{cloud-name}/image/upload/",
+      },
     },
 
     // IPX options (local provider)
     ipx: {
-      maxAge: 60 * 60 * 24 * 365 // 1 year cache
+      maxAge: 60 * 60 * 24 * 365, // 1 year cache
     },
 
     // Presets
     presets: {
       avatar: {
         modifiers: {
-          format: 'webp',
+          format: "webp",
           width: 100,
           height: 100,
-          fit: 'cover'
-        }
+          fit: "cover",
+        },
       },
       thumbnail: {
         modifiers: {
-          format: 'webp',
+          format: "webp",
           width: 300,
           height: 200,
-          fit: 'cover'
-        }
-      }
-    }
-  }
+          fit: "cover",
+        },
+      },
+    },
+  },
 })
 ```
 
@@ -534,11 +520,7 @@ export default defineNuxtConfig({
 
 ```vue
 <template>
-  <NuxtImg
-    src="/images/user.jpg"
-    preset="avatar"
-    alt="User avatar"
-  />
+  <NuxtImg src="/images/user.jpg" preset="avatar" alt="User avatar" />
 
   <NuxtImg
     src="/images/product.jpg"
@@ -566,6 +548,7 @@ export default defineNuxtConfig({
 ### Images Not Optimizing
 
 Check:
+
 1. `@nuxt/image` is in `nuxt.config.ts` modules
 2. Images are in `public/` directory for local provider
 3. Provider is correctly configured
@@ -589,6 +572,7 @@ Check:
 ### Layout Shift
 
 Always specify width and height:
+
 ```vue
 <template>
   <!-- Bad: No dimensions -->

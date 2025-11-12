@@ -42,9 +42,9 @@ Provides SEO utilities including sitemap, robots.txt, and OG images.
 // Configure in nuxt.config.ts
 export default defineNuxtConfig({
   site: {
-    url: 'https://example.com',
-    name: 'My Site'
-  }
+    url: "https://example.com",
+    name: "My Site",
+  },
 })
 ```
 
@@ -71,13 +71,13 @@ Auto-configured Tailwind CSS integration. For comprehensive guidance including s
 const colorMode = useColorMode()
 
 function toggleDark() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
 }
 </script>
 
 <template>
   <button @click="toggleDark">
-    {{ colorMode.value === 'dark' ? '🌞' : '🌙' }}
+    {{ colorMode.value === "dark" ? "🌞" : "🌙" }}
   </button>
 </template>
 ```
@@ -89,12 +89,12 @@ function toggleDark() {
 Provides auto-configured ESLint with Nuxt-specific rules. Configuration in `eslint.config.mjs`:
 
 ```javascript
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat"
 
 export default createConfigForNuxt({
   features: {
     stylistic: true,
-  }
+  },
 })
 ```
 
@@ -111,14 +111,14 @@ export default defineNuxtConfig({
   security: {
     headers: {
       contentSecurityPolicy: {
-        'img-src': ["'self'", 'https:', 'data:'],
+        "img-src": ["'self'", "https:", "data:"],
       },
     },
     rateLimiter: {
       tokensPerInterval: 150,
-      interval: 'hour',
-    }
-  }
+      interval: "hour",
+    },
+  },
 })
 ```
 
@@ -132,17 +132,15 @@ Automatically optimizes and loads fonts:
 // nuxt.config.ts
 export default defineNuxtConfig({
   fonts: {
-    families: [
-      { name: 'Inter', provider: 'google' }
-    ]
-  }
+    families: [{ name: "Inter", provider: "google" }],
+  },
 })
 ```
 
 ```vue
 <style>
 .text {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 </style>
 ```
@@ -156,8 +154,8 @@ Load third-party scripts efficiently:
 ```vue
 <script setup lang="ts">
 useScript({
-  src: 'https://www.googletagmanager.com/gtag/js',
-  async: true
+  src: "https://www.googletagmanager.com/gtag/js",
+  async: true,
 })
 </script>
 ```

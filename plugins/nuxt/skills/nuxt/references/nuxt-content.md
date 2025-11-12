@@ -13,17 +13,18 @@ pnpm add @nuxt/content
 ```
 
 **nuxt.config.ts:**
+
 ```typescript
 export default defineNuxtConfig({
-  modules: ['@nuxt/content'],
+  modules: ["@nuxt/content"],
 
   content: {
     // Optional configuration
     highlight: {
-      theme: 'github-dark',
-      preload: ['typescript', 'vue', 'bash']
-    }
-  }
+      theme: "github-dark",
+      preload: ["typescript", "vue", "bash"],
+    },
+  },
 })
 ```
 
@@ -34,13 +35,13 @@ export default defineNuxtConfig({
 Create `content.config.ts` in your project root:
 
 ```typescript
-import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { defineCollection, defineContentConfig, z } from "@nuxt/content"
 
 export default defineContentConfig({
   collections: {
     blog: defineCollection({
-      type: 'page',
-      source: 'blog/**/*.md',
+      type: "page",
+      source: "blog/**/*.md",
       schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -48,20 +49,20 @@ export default defineContentConfig({
         tags: z.array(z.string()).optional(),
         author: z.string().optional(),
         image: z.string().optional(),
-        draft: z.boolean().default(false)
-      })
+        draft: z.boolean().default(false),
+      }),
     }),
 
     docs: defineCollection({
-      type: 'page',
-      source: 'docs/**/*.md',
+      type: "page",
+      source: "docs/**/*.md",
       schema: z.object({
         title: z.string(),
         description: z.string(),
-        category: z.string().optional()
-      })
-    })
-  }
+        category: z.string().optional(),
+      }),
+    }),
+  },
 })
 ```
 
@@ -108,14 +109,14 @@ The main API for querying content in v3:
 ```vue
 <script setup lang="ts">
 // Get all articles from 'blog' collection
-const { data: articles } = await useAsyncData('articles', () =>
-  queryCollection('blog').all()
+const { data: articles } = await useAsyncData("articles", () =>
+  queryCollection("blog").all(),
 )
 
 // Get single article by path
 const route = useRoute()
-const { data: article } = await useAsyncData('article', () =>
-  queryCollection('blog').path(route.path).first()
+const { data: article } = await useAsyncData("article", () =>
+  queryCollection("blog").path(route.path).first(),
 )
 </script>
 
@@ -130,108 +131,116 @@ const { data: article } = await useAsyncData('article', () =>
 ### Query Methods
 
 #### all()
+
 Get all matching documents:
+
 ```typescript
-const posts = await queryCollection('blog').all()
+const posts = await queryCollection("blog").all()
 ```
 
 #### first()
+
 Get first matching document:
+
 ```typescript
-const post = await queryCollection('blog').path('/blog/my-post').first()
+const post = await queryCollection("blog").path("/blog/my-post").first()
 ```
 
 #### where()
+
 Filter by field with SQL operators:
+
 ```typescript
 // Single condition
-const published = await queryCollection('blog')
-  .where('draft', '=', false)
-  .all()
+const published = await queryCollection("blog").where("draft", "=", false).all()
 
 // Multiple conditions (AND)
-const filtered = await queryCollection('blog')
-  .where('draft', '=', false)
-  .where('category', '=', 'tech')
+const filtered = await queryCollection("blog")
+  .where("draft", "=", false)
+  .where("category", "=", "tech")
   .all()
 ```
 
 #### andWhere()
+
 Complex AND conditions:
+
 ```typescript
-const posts = await queryCollection('blog')
-  .where('published', '=', true)
-  .andWhere(query =>
-    query
-      .where('date', '>', '2024-01-01')
-      .where('category', '=', 'news')
+const posts = await queryCollection("blog")
+  .where("published", "=", true)
+  .andWhere((query) =>
+    query.where("date", ">", "2024-01-01").where("category", "=", "news"),
   )
   .all()
 ```
 
 #### orWhere()
+
 OR conditions:
+
 ```typescript
-const posts = await queryCollection('blog')
-  .where('published', '=', true)
-  .orWhere(query =>
-    query
-      .where('featured', '=', true)
-      .where('priority', '>', 5)
+const posts = await queryCollection("blog")
+  .where("published", "=", true)
+  .orWhere((query) =>
+    query.where("featured", "=", true).where("priority", ">", 5),
   )
   .all()
 ```
 
 #### order()
+
 Sort results:
+
 ```typescript
 // Descending
-const posts = await queryCollection('blog')
-  .order('date', 'DESC')
-  .all()
+const posts = await queryCollection("blog").order("date", "DESC").all()
 
 // Ascending
-const posts = await queryCollection('blog')
-  .order('title', 'ASC')
-  .all()
+const posts = await queryCollection("blog").order("title", "ASC").all()
 ```
 
 #### limit()
+
 Limit results:
+
 ```typescript
-const latest = await queryCollection('blog')
-  .order('date', 'DESC')
+const latest = await queryCollection("blog")
+  .order("date", "DESC")
   .limit(5)
   .all()
 ```
 
 #### skip()
+
 Skip results (for pagination):
+
 ```typescript
 const page = 2
 const perPage = 10
 
-const posts = await queryCollection('blog')
-  .order('date', 'DESC')
+const posts = await queryCollection("blog")
+  .order("date", "DESC")
   .skip((page - 1) * perPage)
   .limit(perPage)
   .all()
 ```
 
 #### select()
+
 Select specific fields:
+
 ```typescript
-const posts = await queryCollection('blog')
-  .select(['title', 'description', 'date', 'path'])
+const posts = await queryCollection("blog")
+  .select(["title", "description", "date", "path"])
   .all()
 ```
 
 #### path()
+
 Filter by path:
+
 ```typescript
-const post = await queryCollection('blog')
-  .path('/blog/my-post')
-  .first()
+const post = await queryCollection("blog").path("/blog/my-post").first()
 ```
 
 ## ContentRenderer Component
@@ -241,8 +250,8 @@ Renders parsed markdown content (the main component for v3):
 ```vue
 <script setup lang="ts">
 const route = useRoute()
-const { data: post } = await useAsyncData('post', () =>
-  queryCollection('blog').path(route.path).first()
+const { data: post } = await useAsyncData("post", () =>
+  queryCollection("blog").path(route.path).first(),
 )
 </script>
 
@@ -255,17 +264,18 @@ const { data: post } = await useAsyncData('post', () =>
 ```
 
 With error handling:
+
 ```vue
 <script setup lang="ts">
 const route = useRoute()
-const { data: post, error } = await useAsyncData('post', () =>
-  queryCollection('blog').path(route.path).first()
+const { data: post, error } = await useAsyncData("post", () =>
+  queryCollection("blog").path(route.path).first(),
 )
 
 if (error.value || !post.value) {
   throw createError({
     statusCode: 404,
-    message: 'Post not found'
+    message: "Post not found",
   })
 }
 </script>
@@ -281,11 +291,11 @@ if (error.value || !post.value) {
 
 ```vue
 <script setup lang="ts">
-const { data: articles } = await useAsyncData('articles', () =>
-  queryCollection('blog')
-    .where('draft', '=', false)
-    .order('date', 'DESC')
-    .all()
+const { data: articles } = await useAsyncData("articles", () =>
+  queryCollection("blog")
+    .where("draft", "=", false)
+    .order("date", "DESC")
+    .all(),
 )
 </script>
 
@@ -327,30 +337,29 @@ const { data: articles } = await useAsyncData('articles', () =>
 <script setup lang="ts">
 const route = useRoute()
 
-const { data: article } = await useAsyncData('article', () =>
-  queryCollection('blog').path(route.path).first()
+const { data: article } = await useAsyncData("article", () =>
+  queryCollection("blog").path(route.path).first(),
 )
 
 if (!article.value) {
   throw createError({
     statusCode: 404,
-    message: 'Article not found'
+    message: "Article not found",
   })
 }
 
 // Get related articles by tags
-const { data: related } = await useAsyncData('related', async () => {
+const { data: related } = await useAsyncData("related", async () => {
   if (!article.value?.tags?.length) return []
 
-  const all = await queryCollection('blog')
-    .where('draft', '=', false)
-    .all()
+  const all = await queryCollection("blog").where("draft", "=", false).all()
 
   // Filter by matching tags
   return all
-    .filter(post =>
-      post.path !== route.path &&
-      post.tags?.some(tag => article.value.tags.includes(tag))
+    .filter(
+      (post) =>
+        post.path !== route.path &&
+        post.tags?.some((tag) => article.value.tags.includes(tag)),
     )
     .slice(0, 3)
 })
@@ -358,7 +367,7 @@ const { data: related } = await useAsyncData('related', async () => {
 useSeoMeta({
   title: article.value.title,
   description: article.value.description,
-  ogImage: article.value.image
+  ogImage: article.value.image,
 })
 </script>
 
@@ -395,26 +404,24 @@ useSeoMeta({
 <!-- pages/docs/[...slug].vue -->
 <script setup lang="ts">
 const route = useRoute()
-const slug = (route.params.slug as string[])?.join('/') || 'index'
+const slug = (route.params.slug as string[])?.join("/") || "index"
 
 const { data: doc } = await useAsyncData(`doc-${slug}`, () =>
-  queryCollection('docs')
-    .path(`/docs/${slug}`)
-    .first()
+  queryCollection("docs").path(`/docs/${slug}`).first(),
 )
 
 if (!doc.value) {
-  throw createError({ statusCode: 404, message: 'Documentation not found' })
+  throw createError({ statusCode: 404, message: "Documentation not found" })
 }
 
 // Get navigation
-const { data: navigation } = await useAsyncData('docs-nav', () =>
-  queryCollectionNavigation('docs')
+const { data: navigation } = await useAsyncData("docs-nav", () =>
+  queryCollectionNavigation("docs"),
 )
 
 useSeoMeta({
   title: doc.value.title,
-  description: doc.value.description
+  description: doc.value.description,
 })
 </script>
 
@@ -446,19 +453,24 @@ useSeoMeta({
 
 ```vue
 <script setup lang="ts">
-const searchQuery = ref('')
-const { data: allPosts } = await useAsyncData('all-posts', () =>
-  queryCollection('blog').all()
+const searchQuery = ref("")
+const { data: allPosts } = await useAsyncData("all-posts", () =>
+  queryCollection("blog").all(),
 )
 
 const results = computed(() => {
   if (!searchQuery.value) return []
 
   const query = searchQuery.value.toLowerCase()
-  return allPosts.value?.filter(post =>
-    post.title?.toLowerCase().includes(query) ||
-    post.description?.toLowerCase().includes(query)
-  ).slice(0, 10) || []
+  return (
+    allPosts.value
+      ?.filter(
+        (post) =>
+          post.title?.toLowerCase().includes(query) ||
+          post.description?.toLowerCase().includes(query),
+      )
+      .slice(0, 10) || []
+  )
 })
 </script>
 
@@ -493,24 +505,25 @@ const perPage = 10
 
 const { data: posts } = await useAsyncData(
   `posts-page-${page.value}`,
-  () => queryCollection('blog')
-    .where('draft', '=', false)
-    .order('date', 'DESC')
-    .skip((page.value - 1) * perPage)
-    .limit(perPage)
-    .all(),
+  () =>
+    queryCollection("blog")
+      .where("draft", "=", false)
+      .order("date", "DESC")
+      .skip((page.value - 1) * perPage)
+      .limit(perPage)
+      .all(),
   {
-    watch: [page]
-  }
+    watch: [page],
+  },
 )
 
 // Get total count for pagination
-const { data: allPosts } = await useAsyncData('all-posts', () =>
-  queryCollection('blog').where('draft', '=', false).all()
+const { data: allPosts } = await useAsyncData("all-posts", () =>
+  queryCollection("blog").where("draft", "=", false).all(),
 )
 
 const totalPages = computed(() =>
-  Math.ceil((allPosts.value?.length || 0) / perPage)
+  Math.ceil((allPosts.value?.length || 0) / perPage),
 )
 </script>
 
@@ -523,11 +536,7 @@ const totalPages = computed(() =>
     </div>
 
     <div class="flex justify-center gap-2 mt-8">
-      <NuxtLink
-        v-if="page > 1"
-        :to="{ query: { page: page - 1 } }"
-        class="btn"
-      >
+      <NuxtLink v-if="page > 1" :to="{ query: { page: page - 1 } }" class="btn">
         Previous
       </NuxtLink>
 
@@ -552,13 +561,13 @@ const totalPages = computed(() =>
 const selectedTag = ref<string | null>(null)
 
 // Get all posts to extract unique tags
-const { data: allPosts } = await useAsyncData('all-posts', () =>
-  queryCollection('blog').where('draft', '=', false).all()
+const { data: allPosts } = await useAsyncData("all-posts", () =>
+  queryCollection("blog").where("draft", "=", false).all(),
 )
 
 const tags = computed(() => {
   const tagSet = new Set<string>()
-  allPosts.value?.forEach(post => {
+  allPosts.value?.forEach((post) => {
     post.tags?.forEach((tag: string) => tagSet.add(tag))
   })
   return Array.from(tagSet).sort()
@@ -568,8 +577,8 @@ const tags = computed(() => {
 const filteredPosts = computed(() => {
   if (!selectedTag.value) return allPosts.value
 
-  return allPosts.value?.filter(post =>
-    post.tags?.includes(selectedTag.value!)
+  return allPosts.value?.filter((post) =>
+    post.tags?.includes(selectedTag.value!),
   )
 })
 </script>
@@ -577,10 +586,7 @@ const filteredPosts = computed(() => {
 <template>
   <div>
     <div class="flex gap-2 mb-6">
-      <button
-        :class="{ active: !selectedTag }"
-        @click="selectedTag = null"
-      >
+      <button :class="{ active: !selectedTag }" @click="selectedTag = null">
         All
       </button>
       <button
@@ -611,9 +617,9 @@ Use `queryCollection` in API routes with event parameter:
 ```typescript
 // server/api/posts.get.ts
 export default defineEventHandler(async (event) => {
-  const posts = await queryCollection(event, 'blog')
-    .where('draft', '=', false)
-    .order('date', 'DESC')
+  const posts = await queryCollection(event, "blog")
+    .where("draft", "=", false)
+    .order("date", "DESC")
     .limit(10)
     .all()
 
@@ -622,19 +628,20 @@ export default defineEventHandler(async (event) => {
 ```
 
 With query parameters:
+
 ```typescript
 // server/api/posts/[slug].get.ts
 export default defineEventHandler(async (event) => {
-  const slug = getRouterParam(event, 'slug')
+  const slug = getRouterParam(event, "slug")
 
-  const post = await queryCollection(event, 'blog')
+  const post = await queryCollection(event, "blog")
     .path(`/blog/${slug}`)
     .first()
 
   if (!post) {
     throw createError({
       statusCode: 404,
-      message: 'Post not found'
+      message: "Post not found",
     })
   }
 
@@ -648,8 +655,8 @@ Use `queryCollectionNavigation` for generating navigation:
 
 ```vue
 <script setup lang="ts">
-const { data: navigation } = await useAsyncData('navigation', () =>
-  queryCollectionNavigation('docs')
+const { data: navigation } = await useAsyncData("navigation", () =>
+  queryCollectionNavigation("docs"),
 )
 </script>
 
@@ -674,21 +681,23 @@ const { data: navigation } = await useAsyncData('navigation', () =>
 ### Syntax Highlighting
 
 Configure in `nuxt.config.ts`:
+
 ```typescript
 export default defineNuxtConfig({
   content: {
     highlight: {
       theme: {
-        default: 'github-light',
-        dark: 'github-dark'
+        default: "github-light",
+        dark: "github-dark",
       },
-      preload: ['typescript', 'vue', 'bash', 'json']
-    }
-  }
+      preload: ["typescript", "vue", "bash", "json"],
+    },
+  },
 })
 ```
 
 Use in markdown:
+
 ````markdown
 ```typescript
 interface User {
@@ -715,11 +724,12 @@ Learn more about Nuxt Content
 ```
 
 Register components in `components/content/` directory:
+
 ```vue
 <!-- components/content/Alert.vue -->
 <script setup lang="ts">
 defineProps<{
-  type?: 'info' | 'warning' | 'error'
+  type?: "info" | "warning" | "error"
 }>()
 </script>
 
@@ -750,12 +760,13 @@ export interface BlogPost {
 ```
 
 Use in components:
+
 ```vue
 <script setup lang="ts">
-import type { BlogPost } from '~/types/content'
+import type { BlogPost } from "~/types/content"
 
-const { data: posts } = await useAsyncData('posts', () =>
-  queryCollection<BlogPost>('blog').all()
+const { data: posts } = await useAsyncData("posts", () =>
+  queryCollection<BlogPost>("blog").all(),
 )
 </script>
 ```
@@ -765,12 +776,13 @@ const { data: posts } = await useAsyncData('posts', () =>
 ### Key Changes
 
 1. **`queryContent()` → `queryCollection(name)`**
+
    ```typescript
    // v2
-   queryContent('/blog').find()
+   queryContent("/blog").find()
 
    // v3
-   queryCollection('blog').all()
+   queryCollection("blog").all()
    ```
 
 2. **Collections must be defined in `content.config.ts`**

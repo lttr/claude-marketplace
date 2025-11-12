@@ -11,21 +11,25 @@ Tailwind CSS is automatically integrated into Nuxt through the `@nuxtjs/tailwind
 **Detection:** Always check `package.json` for `@nuxtjs/tailwindcss` dependency before suggesting Tailwind patterns.
 
 **If Tailwind is installed:**
+
 - Prefer Tailwind utility classes in component templates
 - Use utilities for layout, spacing, colors, typography, responsive design
 - Combine utilities for common patterns (flex, grid, etc.)
 
 **If Tailwind is NOT installed:**
+
 - Use `<style scoped>` for component-specific styles
 - Write traditional CSS/SCSS for styling
 
 **Tailwind v4 Capabilities (No `<style>` needed):**
+
 - Custom animations via `@theme` directive with `@keyframes`
 - CSS variables for theming via `@theme` with `--color-*`, `--font-*`, etc.
 - Scrollbar styling via arbitrary variants: `[&::-webkit-scrollbar]:w-1.5`
 - Pseudo-elements via arbitrary variants: `before:content-['★']`
 
 **When to Still Use `<style>` (even with Tailwind v4):**
+
 - Very complex multi-step keyframes that are verbose in `@theme`
 - Cross-browser scrollbar styling (Firefox requires different syntax than WebKit)
 - Complex pseudo-element content with difficult escaping
@@ -40,24 +44,27 @@ pnpm add -D tailwindcss @nuxtjs/tailwindcss
 ```
 
 **nuxt.config.ts:**
+
 ```typescript
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ["@nuxtjs/tailwindcss"],
 
   tailwindcss: {
     // Optional configuration
     exposeConfig: true,
-    viewer: true // Enable /_tailwind in dev mode
-  }
+    viewer: true, // Enable /_tailwind in dev mode
+  },
 })
 ```
 
 **assets/css/main.css:**
+
 ```css
 @import "tailwindcss";
 ```
 
 **Alternative (explicit layers):**
+
 ```css
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -71,6 +78,7 @@ pnpm add -D tailwindcss @nuxtjs/tailwindcss
 ```
 
 **assets/css/main.css:**
+
 ```css
 @tailwind base;
 @tailwind components;
@@ -84,44 +92,44 @@ pnpm add -D tailwindcss @nuxtjs/tailwindcss
 Tailwind v4 uses CSS-based configuration by default, but you can still use TypeScript config:
 
 ```typescript
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 
 export default {
   content: [
-    './components/**/*.{vue,js,ts}',
-    './layouts/**/*.vue',
-    './pages/**/*.vue',
-    './composables/**/*.{js,ts}',
-    './plugins/**/*.{js,ts}',
-    './app.vue'
+    "./components/**/*.{vue,js,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./composables/**/*.{js,ts}",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
   ],
   theme: {
     extend: {
       colors: {
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          950: '#082f49'
-        }
+          50: "#f0f9ff",
+          100: "#e0f2fe",
+          200: "#bae6fd",
+          300: "#7dd3fc",
+          400: "#38bdf8",
+          500: "#0ea5e9",
+          600: "#0284c7",
+          700: "#0369a1",
+          800: "#075985",
+          900: "#0c4a6e",
+          950: "#082f49",
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif']
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       spacing: {
-        '128': '32rem',
-        '144': '36rem'
-      }
-    }
+        "128": "32rem",
+        "144": "36rem",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 } satisfies Config
 ```
 
@@ -154,14 +162,10 @@ Tailwind v4 supports CSS variables for theming:
     </h1>
 
     <!-- Hide on mobile, show on desktop -->
-    <div class="hidden lg:block">
-      Desktop only content
-    </div>
+    <div class="hidden lg:block">Desktop only content</div>
 
     <!-- Show on mobile, hide on desktop -->
-    <div class="block lg:hidden">
-      Mobile only content
-    </div>
+    <div class="block lg:hidden">Mobile only content</div>
   </div>
 </template>
 ```
@@ -173,9 +177,7 @@ Nuxt integrates with `@nuxtjs/color-mode` for automatic dark mode support:
 ```vue
 <template>
   <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-    <h1 class="text-gray-900 dark:text-gray-100">
-      Auto Dark Mode
-    </h1>
+    <h1 class="text-gray-900 dark:text-gray-100">Auto Dark Mode</h1>
 
     <button
       class="bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
@@ -190,7 +192,7 @@ Nuxt integrates with `@nuxtjs/color-mode` for automatic dark mode support:
 const colorMode = useColorMode()
 
 function toggleDarkMode() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
 }
 </script>
 ```
@@ -199,9 +201,7 @@ function toggleDarkMode() {
 
 ```vue
 <template>
-  <button class="btn-primary">
-    Primary Button
-  </button>
+  <button class="btn-primary">Primary Button</button>
 </template>
 
 <style>
@@ -229,9 +229,7 @@ function toggleDarkMode() {
   </div>
 
   <!-- Container -->
-  <div class="container mx-auto max-w-7xl px-4">
-    Content with max width
-  </div>
+  <div class="container mx-auto max-w-7xl px-4">Content with max width</div>
 </template>
 ```
 
@@ -239,15 +237,11 @@ function toggleDarkMode() {
 
 ```vue
 <template>
-  <div
-    class="transition-all duration-300 hover:scale-105 hover:shadow-lg"
-  >
+  <div class="transition-all duration-300 hover:scale-105 hover:shadow-lg">
     Hover to animate
   </div>
 
-  <button
-    class="animate-pulse bg-blue-500 text-white px-4 py-2 rounded"
-  >
+  <button class="animate-pulse bg-blue-500 text-white px-4 py-2 rounded">
     Pulsing Button
   </button>
 </template>
@@ -278,15 +272,12 @@ function toggleDarkMode() {
 ```
 
 Usage:
+
 ```vue
 <template>
-  <h1 class="text-gradient text-4xl font-bold">
-    Gradient Text
-  </h1>
+  <h1 class="text-gradient text-4xl font-bold">Gradient Text</h1>
 
-  <div class="scrollbar-hide overflow-auto">
-    Scrollable without scrollbar
-  </div>
+  <div class="scrollbar-hide overflow-auto">Scrollable without scrollbar</div>
 </template>
 ```
 
@@ -312,6 +303,7 @@ Usage:
 ```
 
 Usage:
+
 ```vue
 <template>
   <div class="card">
@@ -331,14 +323,14 @@ pnpm add -D @tailwindcss/forms @tailwindcss/typography @tailwindcss/container-qu
 
 ```typescript
 // tailwind.config.ts
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 
 export default {
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries')
-  ]
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/container-queries"),
+  ],
 } satisfies Config
 ```
 
@@ -350,7 +342,10 @@ For rich text content:
 <template>
   <article class="prose dark:prose-invert lg:prose-xl mx-auto">
     <h1>Article Title</h1>
-    <p>Automatically styled rich text content with proper spacing, typography, and dark mode support.</p>
+    <p>
+      Automatically styled rich text content with proper spacing, typography,
+      and dark mode support.
+    </p>
     <ul>
       <li>List item 1</li>
       <li>List item 2</li>
@@ -393,8 +388,8 @@ Enable Tailwind config viewer in development:
 // nuxt.config.ts
 export default defineNuxtConfig({
   tailwindcss: {
-    viewer: true
-  }
+    viewer: true,
+  },
 })
 ```
 
@@ -421,9 +416,7 @@ For VSCode autocomplete, create `.vscode/settings.json`:
 
 ```vue
 <template>
-  <div class="custom-component">
-    Content
-  </div>
+  <div class="custom-component">Content</div>
 </template>
 
 <style scoped>
@@ -450,9 +443,7 @@ Just-In-Time compilation is default in Tailwind v3+. Benefits:
 <template>
   <div>
     <!-- Arbitrary values -->
-    <div class="w-[137px] h-[91px] bg-[#1da1f2]">
-      Custom size and color
-    </div>
+    <div class="w-[137px] h-[91px] bg-[#1da1f2]">Custom size and color</div>
 
     <!-- Arbitrary variants -->
     <ul class="[&>li]:text-blue-500 [&>li]:font-bold">
@@ -461,9 +452,7 @@ Just-In-Time compilation is default in Tailwind v3+. Benefits:
     </ul>
 
     <!-- Dynamic spacing -->
-    <div class="m-[calc(100%-3rem)]">
-      Calculated margin
-    </div>
+    <div class="m-[calc(100%-3rem)]">Calculated margin</div>
   </div>
 </template>
 ```
@@ -478,12 +467,12 @@ Automatically handled by Tailwind. Ensure `content` paths in config are correct:
 // tailwind.config.ts
 export default {
   content: [
-    './components/**/*.{vue,js,ts}',
-    './layouts/**/*.vue',
-    './pages/**/*.vue',
-    './plugins/**/*.{js,ts}',
-    './app.vue'
-  ]
+    "./components/**/*.{vue,js,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
+  ],
 } satisfies Config
 ```
 
@@ -495,13 +484,13 @@ For dynamically generated classes:
 // tailwind.config.ts
 export default {
   safelist: [
-    'bg-red-500',
-    'bg-blue-500',
-    'bg-green-500',
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
     {
-      pattern: /bg-(red|blue|green)-(400|500|600)/
-    }
-  ]
+      pattern: /bg-(red|blue|green)-(400|500|600)/,
+    },
+  ],
 } satisfies Config
 ```
 
@@ -510,14 +499,14 @@ Or use string interpolation with full class names:
 ```vue
 <script setup lang="ts">
 // Bad: Classes may be purged
-const color = ref('blue')
+const color = ref("blue")
 const bgClass = computed(() => `bg-${color.value}-500`)
 
 // Good: Full class names are detected
 const bgClass = computed(() => {
-  if (color.value === 'blue') return 'bg-blue-500'
-  if (color.value === 'red') return 'bg-red-500'
-  return 'bg-green-500'
+  if (color.value === "blue") return "bg-blue-500"
+  if (color.value === "red") return "bg-red-500"
+  return "bg-green-500"
 })
 </script>
 ```
@@ -525,6 +514,7 @@ const bgClass = computed(() => {
 ## Common Utilities Reference
 
 ### Spacing
+
 - `p-{size}` - padding
 - `m-{size}` - margin
 - `space-x-{size}` - horizontal gap between children
@@ -532,12 +522,14 @@ const bgClass = computed(() => {
 - `gap-{size}` - gap in flex/grid
 
 ### Sizing
+
 - `w-{size}` - width
 - `h-{size}` - height
 - `max-w-{size}` - max width
 - `min-h-{size}` - min height
 
 ### Typography
+
 - `text-{size}` - font size
 - `font-{weight}` - font weight
 - `leading-{size}` - line height
@@ -545,22 +537,26 @@ const bgClass = computed(() => {
 - `text-{align}` - text alignment
 
 ### Colors
+
 - `text-{color}-{shade}` - text color
 - `bg-{color}-{shade}` - background color
 - `border-{color}-{shade}` - border color
 
 ### Layout
+
 - `flex`, `inline-flex` - flexbox
 - `grid`, `inline-grid` - grid
 - `block`, `inline-block`, `hidden` - display
 - `relative`, `absolute`, `fixed`, `sticky` - positioning
 
 ### Borders
+
 - `border`, `border-{width}` - border width
 - `rounded-{size}` - border radius
 - `border-{side}` - specific side border
 
 ### Effects
+
 - `shadow-{size}` - box shadow
 - `opacity-{amount}` - opacity
 - `blur-{amount}` - blur effect
@@ -583,6 +579,7 @@ const bgClass = computed(() => {
 ### Styles Not Applied
 
 Check:
+
 1. `@import "tailwindcss"` in `main.css` (v4) or `@tailwind` directives (v3)
 2. `main.css` imported in `nuxt.config.ts` or `app.vue`
 3. `content` paths in `tailwind.config.ts` include all component files
@@ -591,6 +588,7 @@ Check:
 ### Dark Mode Not Working
 
 Ensure `@nuxtjs/color-mode` is installed:
+
 ```bash
 pnpm add @nuxtjs/color-mode
 ```
@@ -598,7 +596,7 @@ pnpm add @nuxtjs/color-mode
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode']
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
 })
 ```
 
@@ -620,6 +618,7 @@ export default defineNuxtConfig({
 Key changes when upgrading to Tailwind v4:
 
 1. **Import syntax:**
+
    ```css
    /* v3 */
    @tailwind base;

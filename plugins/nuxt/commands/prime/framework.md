@@ -1,5 +1,5 @@
 ---
-description: Nuxt framework patterns and conventions
+description: Load Nuxt framework patterns and conventions
 ---
 
 # Nuxt Framework Priming
@@ -13,11 +13,11 @@ description: Nuxt framework patterns and conventions
 Use `useFetch` for API endpoints. It runs on both server and client, with automatic hydration.
 
 ```typescript
-const { data, status, error, refresh } = await useFetch('/api/users')
+const { data, status, error, refresh } = await useFetch("/api/users")
 
 // With query parameters
-const { data, status } = await useFetch('/api/users', {
-  query: { limit: 10, page: 1 }
+const { data, status } = await useFetch("/api/users", {
+  query: { limit: 10, page: 1 },
 })
 
 // With type safety
@@ -25,7 +25,7 @@ interface User {
   id: number
   name: string
 }
-const { data, status, error } = await useFetch<User[]>('/api/users')
+const { data, status, error } = await useFetch<User[]>("/api/users")
 ```
 
 **Always handle all states in templates:**
@@ -50,15 +50,15 @@ const { data, status, error } = await useFetch<User[]>('/api/users')
 Use `useAsyncData` when you need more control or complex transformations.
 
 ```typescript
-const { data, status, error } = await useAsyncData('users', async () => {
-  const users = await $fetch('/api/users')
-  const stats = await $fetch('/api/stats')
+const { data, status, error } = await useAsyncData("users", async () => {
+  const users = await $fetch("/api/users")
+  const stats = await $fetch("/api/stats")
   return { users, stats }
 })
 
 // With caching key
 const { data, status, error } = await useAsyncData(`user-${id}`, () =>
-  $fetch(`/api/users/${id}`)
+  $fetch(`/api/users/${id}`),
 )
 ```
 
@@ -78,15 +78,15 @@ const { status, data } = await useLazyFetch('/api/users')
 ### Client-Only Fetching
 
 ```typescript
-const { data } = await useFetch('/api/users', {
-  server: false // Only fetch on client
+const { data } = await useFetch("/api/users", {
+  server: false, // Only fetch on client
 })
 ```
 
 ### Refresh and Refetch
 
 ```typescript
-const { data, status, refresh } = await useFetch('/api/users')
+const { data, status, refresh } = await useFetch("/api/users")
 
 // Manually refetch
 await refresh()
@@ -101,14 +101,12 @@ watch(searchQuery, () => refresh())
 
 ```typescript
 useHead({
-  title: 'My Page',
+  title: "My Page",
   meta: [
-    { name: 'description', content: 'Page description' },
-    { property: 'og:title', content: 'My Page' }
+    { name: "description", content: "Page description" },
+    { property: "og:title", content: "My Page" },
   ],
-  link: [
-    { rel: 'canonical', href: 'https://example.com/page' }
-  ]
+  link: [{ rel: "canonical", href: "https://example.com/page" }],
 })
 ```
 
@@ -116,12 +114,12 @@ useHead({
 
 ```typescript
 useSeoMeta({
-  title: 'My Page',
-  description: 'Page description',
-  ogTitle: 'My Page',
-  ogDescription: 'Page description',
-  ogImage: 'https://example.com/image.jpg',
-  twitterCard: 'summary_large_image'
+  title: "My Page",
+  description: "Page description",
+  ogTitle: "My Page",
+  ogDescription: "Page description",
+  ogImage: "https://example.com/image.jpg",
+  twitterCard: "summary_large_image",
 })
 ```
 
@@ -129,9 +127,9 @@ useSeoMeta({
 
 ```typescript
 definePageMeta({
-  title: 'User Profile',
-  description: 'View user profile',
-  middleware: ['auth']
+  title: "User Profile",
+  description: "View user profile",
+  middleware: ["auth"],
 })
 ```
 
@@ -142,32 +140,32 @@ definePageMeta({
 ```typescript
 showError({
   statusCode: 404,
-  message: 'Page not found'
+  message: "Page not found",
 })
 
 // With custom error
 showError({
   statusCode: 403,
-  message: 'Access denied',
-  fatal: true
+  message: "Access denied",
+  fatal: true,
 })
 ```
 
 ### Clear Error
 
 ```typescript
-clearError({ redirect: '/' })
+clearError({ redirect: "/" })
 ```
 
 ### Handle Errors in Data Fetching
 
 ```typescript
-const { data, status, error } = await useFetch('/api/users')
+const { data, status, error } = await useFetch("/api/users")
 
 if (error.value) {
   showError({
     statusCode: error.value.statusCode,
-    message: error.value.message
+    message: error.value.message,
   })
 }
 ```
@@ -190,7 +188,7 @@ const { error } = defineProps<{
 }>()
 
 function handleError() {
-  clearError({ redirect: '/' })
+  clearError({ redirect: "/" })
 }
 </script>
 ```
@@ -209,10 +207,10 @@ export default defineNuxtConfig({
 
     // Public (exposed to client)
     public: {
-      apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
-      environment: process.env.NODE_ENV
-    }
-  }
+      apiBase: process.env.API_BASE_URL || "http://localhost:3000",
+      environment: process.env.NODE_ENV,
+    },
+  },
 })
 
 // Usage
@@ -229,8 +227,8 @@ For non-sensitive configuration that can be updated at runtime:
 // app.config.ts
 export default defineAppConfig({
   theme: {
-    primaryColor: '#3b82f6'
-  }
+    primaryColor: "#3b82f6",
+  },
 })
 
 // Usage
@@ -249,9 +247,9 @@ export default defineEventHandler(async (event) => {
 
   return {
     users: [
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' }
-    ]
+      { id: 1, name: "Alice" },
+      { id: 2, name: "Bob" },
+    ],
   }
 })
 ```
@@ -273,10 +271,10 @@ export default defineEventHandler(async (event) => {
 ```typescript
 // server/api/users/[id].get.ts
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id')
+  const id = getRouterParam(event, "id")
 
   // Fetch user by id
-  return { id, name: 'User' }
+  return { id, name: "User" }
 })
 ```
 
@@ -290,7 +288,7 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     throw createError({
       statusCode: 500,
-      message: 'Internal server error'
+      message: "Internal server error",
     })
   }
 })
@@ -306,7 +304,7 @@ export default defineEventHandler(async (event) => {
   if (!session.user.isAdmin) {
     throw createError({
       statusCode: 403,
-      message: 'Forbidden'
+      message: "Forbidden",
     })
   }
 
@@ -321,16 +319,16 @@ export default defineEventHandler(async (event) => {
 ```typescript
 // middleware/auth.ts
 export default defineNuxtRouteMiddleware((to, from) => {
-  const user = useState('user')
+  const user = useState("user")
 
   if (!user.value) {
-    return navigateTo('/login')
+    return navigateTo("/login")
   }
 })
 
 // Usage in page
 definePageMeta({
-  middleware: 'auth'
+  middleware: "auth",
 })
 ```
 
@@ -340,7 +338,7 @@ definePageMeta({
 // middleware/analytics.global.ts
 export default defineNuxtRouteMiddleware((to, from) => {
   // Track page view
-  console.log('Navigating to:', to.path)
+  console.log("Navigating to:", to.path)
 })
 ```
 
@@ -353,13 +351,13 @@ For shared state across components:
 ```typescript
 // composables/useAuth.ts
 export const useAuth = () => {
-  const user = useState<User | null>('user', () => null)
+  const user = useState<User | null>("user", () => null)
   const isAuthenticated = computed(() => !!user.value)
 
   async function login(credentials: LoginCredentials) {
-    const response = await $fetch('/api/auth/login', {
-      method: 'POST',
-      body: credentials
+    const response = await $fetch("/api/auth/login", {
+      method: "POST",
+      body: credentials,
     })
     user.value = response.user
   }
@@ -372,7 +370,7 @@ export const useAuth = () => {
     user,
     isAuthenticated,
     login,
-    logout
+    logout,
   }
 }
 
@@ -400,7 +398,7 @@ export const useCounter = () => {
   return {
     count,
     increment,
-    decrement
+    decrement,
   }
 }
 
@@ -443,7 +441,7 @@ const { count, increment } = useCounter()
 <!-- Usage in page -->
 <script setup lang="ts">
 definePageMeta({
-  layout: 'admin'
+  layout: "admin",
 })
 </script>
 ```
@@ -451,7 +449,7 @@ definePageMeta({
 ### Dynamic Layout
 
 ```typescript
-setPageLayout('admin')
+setPageLayout("admin")
 ```
 
 ## Plugins
@@ -462,7 +460,7 @@ setPageLayout('admin')
 // plugins/analytics.client.ts
 export default defineNuxtPlugin(() => {
   // Only runs on client
-  console.log('Client-side analytics initialized')
+  console.log("Client-side analytics initialized")
 })
 ```
 
@@ -474,8 +472,8 @@ export default defineNuxtPlugin(() => {
   // Only runs on server
   return {
     provide: {
-      db: createDatabaseConnection()
-    }
+      db: createDatabaseConnection(),
+    },
   }
 })
 ```
@@ -486,24 +484,24 @@ export default defineNuxtPlugin(() => {
 // plugins/api.ts
 export default defineNuxtPlugin(() => {
   const api = $fetch.create({
-    baseURL: '/api',
+    baseURL: "/api",
     onResponseError({ response }) {
       if (response.status === 401) {
-        navigateTo('/login')
+        navigateTo("/login")
       }
-    }
+    },
   })
 
   return {
     provide: {
-      api
-    }
+      api,
+    },
   }
 })
 
 // Usage
 const { $api } = useNuxtApp()
-const data = await $api('/users')
+const data = await $api("/users")
 ```
 
 ## Auto-Imported APIs
@@ -517,16 +515,19 @@ Never manually import these - Nuxt auto-imports them:
 ## File-Based Conventions
 
 **Routing:**
+
 - `pages/index.vue` → `/`
 - `pages/about.vue` → `/about`
 - `pages/users/[id].vue` → `/users/:id`
 
 **Server API:**
+
 - `server/api/users.get.ts` → `/api/users` (GET)
 - `server/api/users.post.ts` → `/api/users` (POST)
 - `server/routes/healthz.ts` → `/healthz`
 
 **Layouts & Middleware:**
+
 - `layouts/default.vue` - Default layout
 - `middleware/auth.ts` - Named middleware
 - `middleware/analytics.global.ts` - Global middleware
@@ -534,15 +535,18 @@ Never manually import these - Nuxt auto-imports them:
 ## Nuxt CLI Commands
 
 **Development:**
+
 - `nuxt dev` - Start dev server
 - `nuxt dev --host` - Expose to network
 
 **Building:**
+
 - `nuxt build` - Production build
 - `nuxt generate` - Static site generation
 - `nuxt preview` - Preview production build
 
 **Analysis:**
+
 - `nuxt analyze` - Bundle size analysis
 - `nuxt typecheck` - Type checking
 - `nuxt info` - Environment info

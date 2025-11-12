@@ -13,25 +13,26 @@ pnpm add @nuxtjs/i18n
 ```
 
 **nuxt.config.ts:**
+
 ```typescript
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/i18n'],
+  modules: ["@nuxtjs/i18n"],
 
   i18n: {
     locales: [
-      { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
-      { code: 'fr', iso: 'fr-FR', name: 'Français', file: 'fr.json' },
-      { code: 'es', iso: 'es-ES', name: 'Español', file: 'es.json' }
+      { code: "en", iso: "en-US", name: "English", file: "en.json" },
+      { code: "fr", iso: "fr-FR", name: "Français", file: "fr.json" },
+      { code: "es", iso: "es-ES", name: "Español", file: "es.json" },
     ],
-    defaultLocale: 'en',
-    langDir: 'locales/',
-    strategy: 'prefix_except_default', // or 'prefix', 'no_prefix'
+    defaultLocale: "en",
+    langDir: "locales/",
+    strategy: "prefix_except_default", // or 'prefix', 'no_prefix'
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root'
-    }
-  }
+      cookieKey: "i18n_redirected",
+      redirectOn: "root",
+    },
+  },
 })
 ```
 
@@ -45,6 +46,7 @@ locales/
 ```
 
 **Example locale file (en.json):**
+
 ```json
 {
   "welcome": "Welcome",
@@ -69,25 +71,25 @@ locales/
 <template>
   <div>
     <!-- Simple translation -->
-    <h1>{{ $t('welcome') }}</h1>
+    <h1>{{ $t("welcome") }}</h1>
 
     <!-- With parameters -->
-    <p>{{ $t('hello', { name: 'John' }) }}</p>
+    <p>{{ $t("hello", { name: "John" }) }}</p>
 
     <!-- Nested keys -->
     <nav>
-      <NuxtLink to="/">{{ $t('nav.home') }}</NuxtLink>
-      <NuxtLink to="/about">{{ $t('nav.about') }}</NuxtLink>
+      <NuxtLink to="/">{{ $t("nav.home") }}</NuxtLink>
+      <NuxtLink to="/about">{{ $t("nav.about") }}</NuxtLink>
     </nav>
 
     <!-- Pluralization -->
-    <p>{{ $t('items', { count: 5 }) }}</p>
+    <p>{{ $t("items", { count: 5 }) }}</p>
 
     <!-- Number formatting -->
-    <p>{{ $n(1000, 'currency') }}</p>
+    <p>{{ $n(1000, "currency") }}</p>
 
     <!-- Date formatting -->
-    <p>{{ $d(new Date(), 'long') }}</p>
+    <p>{{ $d(new Date(), "long") }}</p>
   </div>
 </template>
 ```
@@ -99,10 +101,10 @@ locales/
 const { t, locale, locales, setLocale } = useI18n()
 
 // Get translation
-const welcomeMessage = t('welcome')
+const welcomeMessage = t("welcome")
 
 // With parameters
-const greeting = t('hello', { name: 'John' })
+const greeting = t("hello", { name: "John" })
 
 // Current locale
 console.log(locale.value) // 'en'
@@ -122,13 +124,16 @@ async function switchLanguage(code: string) {
 ### Route Strategies
 
 **prefix_except_default** (recommended):
+
 - Default locale: `/about`
 - Other locales: `/fr/about`, `/es/about`
 
 **prefix**:
+
 - All locales: `/en/about`, `/fr/about`, `/es/about`
 
 **no_prefix**:
+
 - All locales use same path: `/about`
 - Locale detected from cookie/browser
 
@@ -144,21 +149,17 @@ const switchLocalePath = useSwitchLocalePath()
   <div>
     <!-- Link with current locale -->
     <NuxtLink :to="localePath('/')">
-      {{ $t('nav.home') }}
+      {{ $t("nav.home") }}
     </NuxtLink>
 
     <NuxtLink :to="localePath('/about')">
-      {{ $t('nav.about') }}
+      {{ $t("nav.about") }}
     </NuxtLink>
 
     <!-- Switch locale links -->
-    <NuxtLink :to="switchLocalePath('fr')">
-      Français
-    </NuxtLink>
+    <NuxtLink :to="switchLocalePath('fr')"> Français </NuxtLink>
 
-    <NuxtLink :to="switchLocalePath('es')">
-      Español
-    </NuxtLink>
+    <NuxtLink :to="switchLocalePath('es')"> Español </NuxtLink>
 
     <!-- With named routes -->
     <NuxtLink :to="localePath({ name: 'products-id', params: { id: '123' } })">
@@ -176,11 +177,11 @@ const localePath = useLocalePath()
 const router = useRouter()
 
 async function goToAbout() {
-  await router.push(localePath('/about'))
+  await router.push(localePath("/about"))
 }
 
 async function goToProduct(id: string) {
-  await navigateTo(localePath({ name: 'products-id', params: { id } }))
+  await navigateTo(localePath({ name: "products-id", params: { id } }))
 }
 </script>
 ```
@@ -194,24 +195,24 @@ Main composable for translations:
 ```vue
 <script setup lang="ts">
 const {
-  t,              // Translation function
-  locale,         // Current locale ref
-  locales,        // Available locales
-  setLocale,      // Change locale function
-  n,              // Number formatting
-  d,              // Date formatting
-  tm,             // Translation messages
-  te,             // Translation exists check
-  getLocaleCookie // Get locale cookie
+  t, // Translation function
+  locale, // Current locale ref
+  locales, // Available locales
+  setLocale, // Change locale function
+  n, // Number formatting
+  d, // Date formatting
+  tm, // Translation messages
+  te, // Translation exists check
+  getLocaleCookie, // Get locale cookie
 } = useI18n()
 
 // Check if translation exists
-if (te('optional.message')) {
-  console.log(t('optional.message'))
+if (te("optional.message")) {
+  console.log(t("optional.message"))
 }
 
 // Get all translations for a key
-const navTranslations = tm('nav')
+const navTranslations = tm("nav")
 console.log(navTranslations) // { home: 'Home', about: 'About', ... }
 </script>
 ```
@@ -225,17 +226,17 @@ Generate localized paths:
 const localePath = useLocalePath()
 
 // Simple path
-const homePath = localePath('/')
+const homePath = localePath("/")
 
 // With route object
 const productPath = localePath({
-  name: 'products-id',
-  params: { id: '123' },
-  query: { tab: 'reviews' }
+  name: "products-id",
+  params: { id: "123" },
+  query: { tab: "reviews" },
 })
 
 // With specific locale
-const frenchPath = localePath('/about', 'fr')
+const frenchPath = localePath("/about", "fr")
 </script>
 ```
 
@@ -249,10 +250,10 @@ const switchLocalePath = useSwitchLocalePath()
 const route = useRoute()
 
 // Get path for switching to French on current page
-const frenchPath = switchLocalePath('fr')
+const frenchPath = switchLocalePath("fr")
 
 // Custom route
-const customPath = switchLocalePath('es', '/about')
+const customPath = switchLocalePath("es", "/about")
 </script>
 ```
 
@@ -290,7 +291,7 @@ console.log(browserLocale) // 'en-US'
 const { locale, locales, setLocale } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 const availableLocales = computed(() =>
-  locales.value.filter(l => l.code !== locale.value)
+  locales.value.filter((l) => l.code !== locale.value),
 )
 </script>
 
@@ -316,7 +317,7 @@ const { locale, locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 
 const currentLocale = computed(() =>
-  locales.value.find(l => l.code === locale.value)
+  locales.value.find((l) => l.code === locale.value),
 )
 </script>
 
@@ -351,25 +352,25 @@ const route = useRoute()
 const switchLocalePath = useSwitchLocalePath()
 
 useSeoMeta({
-  title: t('seo.title'),
-  description: t('seo.description'),
+  title: t("seo.title"),
+  description: t("seo.description"),
   ogLocale: locale.value,
-  ogTitle: t('seo.ogTitle'),
-  ogDescription: t('seo.ogDescription')
+  ogTitle: t("seo.ogTitle"),
+  ogDescription: t("seo.ogDescription"),
 })
 
 useHead({
   htmlAttrs: {
-    lang: locale.value
+    lang: locale.value,
   },
   link: [
     // Alternate language links for SEO
-    ...locales.value.map(loc => ({
-      rel: 'alternate',
+    ...locales.value.map((loc) => ({
+      rel: "alternate",
       hreflang: loc.iso,
-      href: `https://example.com${switchLocalePath(loc.code)}`
-    }))
-  ]
+      href: `https://example.com${switchLocalePath(loc.code)}`,
+    })),
+  ],
 })
 </script>
 ```
@@ -379,14 +380,14 @@ useHead({
 ```vue
 <script setup lang="ts">
 const { t } = useI18n({
-  useScope: 'local'
+  useScope: "local",
 })
 </script>
 
 <template>
   <div>
-    <h1>{{ t('title') }}</h1>
-    <p>{{ t('description') }}</p>
+    <h1>{{ t("title") }}</h1>
+    <p>{{ t("description") }}</p>
   </div>
 </template>
 
@@ -408,16 +409,17 @@ const { t } = useI18n({
 
 ```vue
 <script setup lang="ts">
-const { data: products } = await useFetch('/api/products')
+const { data: products } = await useFetch("/api/products")
 const { locale } = useI18n()
 
 // Assuming API returns translations
 const localizedProducts = computed(() =>
-  products.value?.map(product => ({
+  products.value?.map((product) => ({
     ...product,
     name: product.translations[locale.value]?.name || product.name,
-    description: product.translations[locale.value]?.description || product.description
-  }))
+    description:
+      product.translations[locale.value]?.description || product.description,
+  })),
 )
 </script>
 
@@ -438,13 +440,13 @@ For large translation files:
 export default defineNuxtConfig({
   i18n: {
     lazy: true,
-    langDir: 'locales/',
+    langDir: "locales/",
     locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'fr', file: 'fr.json' },
-      { code: 'es', file: 'es.json' }
-    ]
-  }
+      { code: "en", file: "en.json" },
+      { code: "fr", file: "fr.json" },
+      { code: "es", file: "es.json" },
+    ],
+  },
 })
 ```
 
@@ -453,6 +455,7 @@ export default defineNuxtConfig({
 ### Number Formatting
 
 Define formats in config:
+
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
@@ -460,40 +463,41 @@ export default defineNuxtConfig({
     numberFormats: {
       en: {
         currency: {
-          style: 'currency',
-          currency: 'USD'
+          style: "currency",
+          currency: "USD",
         },
         decimal: {
-          style: 'decimal',
-          minimumFractionDigits: 2
-        }
+          style: "decimal",
+          minimumFractionDigits: 2,
+        },
       },
       fr: {
         currency: {
-          style: 'currency',
-          currency: 'EUR'
+          style: "currency",
+          currency: "EUR",
         },
         decimal: {
-          style: 'decimal',
-          minimumFractionDigits: 2
-        }
-      }
-    }
-  }
+          style: "decimal",
+          minimumFractionDigits: 2,
+        },
+      },
+    },
+  },
 })
 ```
 
 Usage:
+
 ```vue
 <template>
   <div>
     <!-- Currency -->
-    <p>{{ $n(1234.56, 'currency') }}</p>
+    <p>{{ $n(1234.56, "currency") }}</p>
     <!-- en: $1,234.56 -->
     <!-- fr: 1 234,56 € -->
 
     <!-- Decimal -->
-    <p>{{ $n(123456.789, 'decimal') }}</p>
+    <p>{{ $n(123456.789, "decimal") }}</p>
     <!-- en: 123,456.79 -->
     <!-- fr: 123 456,79 -->
   </div>
@@ -503,6 +507,7 @@ Usage:
 ### Date Formatting
 
 Define formats in config:
+
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
@@ -510,50 +515,51 @@ export default defineNuxtConfig({
     datetimeFormats: {
       en: {
         short: {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
+          year: "numeric",
+          month: "short",
+          day: "numeric",
         },
         long: {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long'
-        }
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+        },
       },
       fr: {
         short: {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
+          year: "numeric",
+          month: "short",
+          day: "numeric",
         },
         long: {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long'
-        }
-      }
-    }
-  }
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+        },
+      },
+    },
+  },
 })
 ```
 
 Usage:
+
 ```vue
 <script setup lang="ts">
-const date = new Date('2025-01-04')
+const date = new Date("2025-01-04")
 </script>
 
 <template>
   <div>
     <!-- Short format -->
-    <p>{{ $d(date, 'short') }}</p>
+    <p>{{ $d(date, "short") }}</p>
     <!-- en: Jan 4, 2025 -->
     <!-- fr: 4 janv. 2025 -->
 
     <!-- Long format -->
-    <p>{{ $d(date, 'long') }}</p>
+    <p>{{ $d(date, "long") }}</p>
     <!-- en: Saturday, January 4, 2025 -->
     <!-- fr: samedi 4 janvier 2025 -->
   </div>
@@ -563,6 +569,7 @@ const date = new Date('2025-01-04')
 ## Pluralization
 
 **Translation file:**
+
 ```json
 {
   "items": "no items | one item | {count} items",
@@ -571,15 +578,21 @@ const date = new Date('2025-01-04')
 ```
 
 **Usage:**
+
 ```vue
 <template>
   <div>
-    <p>{{ $t('items', 0) }}</p>  <!-- "no items" -->
-    <p>{{ $t('items', 1) }}</p>  <!-- "one item" -->
-    <p>{{ $t('items', 5) }}</p>  <!-- "5 items" -->
+    <p>{{ $t("items", 0) }}</p>
+    <!-- "no items" -->
+    <p>{{ $t("items", 1) }}</p>
+    <!-- "one item" -->
+    <p>{{ $t("items", 5) }}</p>
+    <!-- "5 items" -->
 
-    <p>{{ $t('cart', { n: 1 }) }}</p>  <!-- "You have 1 item in your cart" -->
-    <p>{{ $t('cart', { n: 3 }) }}</p>  <!-- "You have 3 items in your cart" -->
+    <p>{{ $t("cart", { n: 1 }) }}</p>
+    <!-- "You have 1 item in your cart" -->
+    <p>{{ $t("cart", { n: 3 }) }}</p>
+    <!-- "You have 3 items in your cart" -->
   </div>
 </template>
 ```
@@ -602,16 +615,17 @@ export interface LocaleMessages {
 ```
 
 Usage:
+
 ```vue
 <script setup lang="ts">
-import type { LocaleMessages } from '~/types/i18n'
+import type { LocaleMessages } from "~/types/i18n"
 
 const { t } = useI18n<LocaleMessages>()
 
 // TypeScript will check keys and parameters
-const welcome = t('welcome')
-const hello = t('hello', { name: 'John' })
-const navHome = t('nav.home')
+const welcome = t("welcome")
+const hello = t("hello", { name: "John" })
+const navHome = t("nav.home")
 </script>
 ```
 
@@ -620,20 +634,20 @@ const navHome = t('nav.home')
 ```typescript
 // server/api/products.get.ts
 export default defineEventHandler(async (event) => {
-  const locale = getCookie(event, 'i18n_redirected') || 'en'
+  const locale = getCookie(event, "i18n_redirected") || "en"
 
   const products = await db.products.findMany({
     include: {
       translations: {
-        where: { locale }
-      }
-    }
+        where: { locale },
+      },
+    },
   })
 
-  return products.map(product => ({
+  return products.map((product) => ({
     ...product,
     name: product.translations[0]?.name || product.name,
-    description: product.translations[0]?.description || product.description
+    description: product.translations[0]?.description || product.description,
   }))
 })
 ```
@@ -656,6 +670,7 @@ export default defineEventHandler(async (event) => {
 ### Translations Not Loading
 
 Check:
+
 1. `@nuxtjs/i18n` in `modules` array
 2. Locale files in correct `langDir` path
 3. File names match `file` property in config
@@ -675,27 +690,28 @@ export default defineNuxtConfig({
   i18n: {
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root',
+      cookieKey: "i18n_redirected",
+      redirectOn: "root",
       alwaysRedirect: true,
-      fallbackLocale: 'en'
-    }
-  }
+      fallbackLocale: "en",
+    },
+  },
 })
 ```
 
 ### Missing Translations
 
 Enable warnings in development:
+
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
   i18n: {
     compilation: {
-      strictMessage: false
+      strictMessage: false,
     },
-    vueI18n: './i18n.config.ts'
-  }
+    vueI18n: "./i18n.config.ts",
+  },
 })
 ```
 
@@ -703,9 +719,9 @@ export default defineNuxtConfig({
 // i18n.config.ts
 export default {
   legacy: false,
-  locale: 'en',
+  locale: "en",
   missingWarn: true,
-  fallbackWarn: true
+  fallbackWarn: true,
 }
 ```
 

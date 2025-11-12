@@ -51,7 +51,7 @@ const emit = defineEmits<{
 }>()
 
 // ❌ Wrong: Runtime array syntax
-const emit = defineEmits(['update', 'close'])
+const emit = defineEmits(["update", "close"])
 ```
 
 ### Event Handler Typing
@@ -82,7 +82,7 @@ const modelValue = defineModel<string>()
 
 // ❌ Wrong: Manual prop + emit
 const props = defineProps<{ modelValue: string }>()
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+const emit = defineEmits<{ "update:modelValue": [value: string] }>()
 ```
 
 ## Component Structure
@@ -102,7 +102,9 @@ const { title } = defineProps<{ title: string }>()
 </script>
 
 <style scoped>
-div { color: blue; }
+div {
+  color: blue;
+}
 </style>
 ```
 
@@ -151,7 +153,7 @@ PREFER `ref()` for reactive state instead of `reactive()`.
 ```typescript
 // ✅ Preferred: Using ref
 const count = ref(0)
-const user = ref({ name: 'Alice', age: 30 })
+const user = ref({ name: "Alice", age: 30 })
 
 // ❌ Less preferred: Using reactive
 const state = reactive({ count: 0 })
@@ -165,12 +167,12 @@ Check if `@vueuse/core` or `@vueuse/nuxt` is installed before suggesting VueUse 
 
 ```typescript
 // ✅ Preferred: Using VueUse (if installed)
-import { useLocalStorage, useMouse, useWindowSize } from '@vueuse/core'
-const token = useLocalStorage('auth-token', '')
+import { useLocalStorage, useMouse, useWindowSize } from "@vueuse/core"
+const token = useLocalStorage("auth-token", "")
 
 // ❌ Avoid: Custom implementation when VueUse exists
-const token = ref(localStorage.getItem('auth-token') || '')
-watch(token, (val) => localStorage.setItem('auth-token', val))
+const token = ref(localStorage.getItem("auth-token") || "")
+watch(token, (val) => localStorage.setItem("auth-token", val))
 ```
 
 ## Component Organization

@@ -12,7 +12,7 @@ Use the Composition API style with the setup function pattern.
 
 ```typescript
 // stores/user.ts
-export const useUserStore = defineStore('user', () => {
+export const useUserStore = defineStore("user", () => {
   // State
   const user = ref<User | null>(null)
   const token = ref<string | null>(null)
@@ -20,15 +20,15 @@ export const useUserStore = defineStore('user', () => {
   // Getters (computed)
   const isAuthenticated = computed(() => !!user.value)
   const fullName = computed(() => {
-    if (!user.value) return ''
+    if (!user.value) return ""
     return `${user.value.firstName} ${user.value.lastName}`
   })
 
   // Actions (functions)
   async function login(credentials: LoginCredentials) {
-    const response = await $fetch('/api/auth/login', {
-      method: 'POST',
-      body: credentials
+    const response = await $fetch("/api/auth/login", {
+      method: "POST",
+      body: credentials,
     })
     user.value = response.user
     token.value = response.token
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', () => {
     fullName,
     // Actions
     login,
-    logout
+    logout,
   }
 })
 ```
@@ -121,14 +121,18 @@ For client-side persistence, use `@pinia-plugin-persistedstate/nuxt`:
 
 ```typescript
 // stores/preferences.ts
-export const usePreferencesStore = defineStore('preferences', () => {
-  const theme = ref<'light' | 'dark'>('light')
-  const language = ref('en')
+export const usePreferencesStore = defineStore(
+  "preferences",
+  () => {
+    const theme = ref<"light" | "dark">("light")
+    const language = ref("en")
 
-  return { theme, language }
-}, {
-  persist: true // Persists to localStorage
-})
+    return { theme, language }
+  },
+  {
+    persist: true, // Persists to localStorage
+  },
+)
 ```
 
 ## Multiple Stores Pattern
@@ -146,17 +150,17 @@ stores/
 ## Testing Stores
 
 ```typescript
-import { setActivePinia, createPinia } from 'pinia'
-import { useUserStore } from '~/stores/user'
+import { setActivePinia, createPinia } from "pinia"
+import { useUserStore } from "~/stores/user"
 
-describe('User Store', () => {
+describe("User Store", () => {
   beforeEach(() => {
     setActivePinia(createPinia())
   })
 
-  it('should authenticate user', async () => {
+  it("should authenticate user", async () => {
     const store = useUserStore()
-    await store.login({ email: 'test@example.com', password: 'password' })
+    await store.login({ email: "test@example.com", password: "password" })
     expect(store.isAuthenticated).toBe(true)
   })
 })

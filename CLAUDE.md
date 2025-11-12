@@ -64,6 +64,7 @@ claude-marketplace/
 ## Git Workflow
 
 Use conventional commits for all commit messages:
+
 - `feat:` - New features
 - `fix:` - Bug fixes
 - `docs:` - Documentation changes
@@ -72,10 +73,12 @@ Use conventional commits for all commit messages:
 - Use `!` for breaking changes (e.g., `feat!:`, `fix!:`)
 
 **Version bumping**: When making changes to a plugin, always update version in both:
+
 1. `plugins/<plugin-name>/.claude-plugin/plugin.json`
 2. `.claude-plugin/marketplace.json` (matching entry)
 
 Use semantic versioning:
+
 - Major (x.0.0): Breaking changes
 - Minor (0.x.0): New features, command additions, refactoring
 - Patch (0.0.x): Bug fixes, documentation only
@@ -83,6 +86,7 @@ Use semantic versioning:
 ## Claude Code Documentation References
 
 ### Plugin Development
+
 - **[Plugins Guide](https://code.claude.com/docs/en/plugins.md)** - Plugin structure, development, testing
 - **[Plugin Reference](https://code.claude.com/docs/en/plugins-reference.md)** - Manifest schema, directory structure
 - **[Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces.md)** - Creating and distributing marketplaces
@@ -90,7 +94,9 @@ Use semantic versioning:
 - **[Slash Commands](https://code.claude.com/docs/en/slash-commands.md#plugin-commands)** - Command structure and naming
 
 ### Command Naming Convention
+
 Commands use subdirectory-based namespacing:
+
 - File: `commands/namespace/command.md` → Invoked as `/namespace:command`
 - The `:` in invocation represents directory separator `/`
 - Example: `commands/prime/vue.md` becomes `/prime:vue`
@@ -135,4 +141,3 @@ After modifying a plugin:
 - `version`: Plugin version
 - `keywords`: Array of tags for discovery
 - `category`: Plugin category (e.g., "framework", "productivity")
-

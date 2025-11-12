@@ -21,6 +21,7 @@ For v4-specific features and migration, always verify with official docs: https:
 ### v4 Setup (Current)
 
 **Prerequisites:**
+
 - Nuxt 4+
 - Tailwind CSS v4
 
@@ -34,12 +35,12 @@ pnpm add @nuxt/ui
 
 ```typescript
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui'],
+  modules: ["@nuxt/ui"],
 
   // Optional: Configure color theme
   colorMode: {
-    preference: 'system', // 'light' | 'dark' | 'system'
-  }
+    preference: "system", // 'light' | 'dark' | 'system'
+  },
 })
 ```
 
@@ -67,10 +68,10 @@ export default defineNuxtConfig({
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'blue',
-      neutral: 'slate'
-    }
-  }
+      primary: "blue",
+      neutral: "slate",
+    },
+  },
 })
 ```
 
@@ -83,7 +84,7 @@ pnpm add @nuxt/ui
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui']
+  modules: ["@nuxt/ui"],
 })
 ```
 
@@ -99,12 +100,14 @@ export default defineNuxtConfig({
 ### v3 → v4 Migration
 
 **Component Renames:**
+
 - `UButtonGroup` → `UFieldGroup`
 - `UFormGroup` → `UFieldGroup`
 - `UVerticalNavigation` → `UNavigationTree`
 
 **Modal/Popover/Slideover Structure Changes:**
 Major structural changes - trigger button now goes inside component, content uses `#content` slot:
+
 ```vue
 <!-- v3 -->
 <UButton @click="open = true">Open</UButton>
@@ -124,24 +127,27 @@ Major structural changes - trigger button now goes inside component, content use
 ```
 
 **Composable Changes:**
+
 - `useModal()` → `useOverlay()`
 - Overlays now close automatically on close events (no manual `.close()` needed)
 
 **Color System:**
 Configure colors in `app.config.ts` instead of component props:
+
 ```typescript
 // app.config.ts (v4)
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'blue', // Changed from 'primary' prop on components
-      neutral: 'slate'
-    }
-  }
+      primary: "blue", // Changed from 'primary' prop on components
+      neutral: "slate",
+    },
+  },
 })
 ```
 
 **Tailwind v4 Requirement:**
+
 - Must use `@import "tailwindcss"` in main.css
 - Tailwind config now uses CSS-based configuration
 
@@ -156,6 +162,7 @@ Major overhaul with many breaking changes. Recommend checking official migration
 ### Forms
 
 #### UInput
+
 ```vue
 <template>
   <UInput
@@ -167,11 +174,12 @@ Major overhaul with many breaking changes. Recommend checking official migration
 </template>
 
 <script setup lang="ts">
-const email = ref('')
+const email = ref("")
 </script>
 ```
 
 #### UTextarea
+
 ```vue
 <template>
   <UTextarea
@@ -182,11 +190,12 @@ const email = ref('')
 </template>
 
 <script setup lang="ts">
-const description = ref('')
+const description = ref("")
 </script>
 ```
 
 #### USelect
+
 ```vue
 <template>
   <USelect
@@ -197,15 +206,16 @@ const description = ref('')
 </template>
 
 <script setup lang="ts">
-const selectedOption = ref('')
+const selectedOption = ref("")
 const options = [
-  { label: 'Option 1', value: 'opt1' },
-  { label: 'Option 2', value: 'opt2' }
+  { label: "Option 1", value: "opt1" },
+  { label: "Option 2", value: "opt2" },
 ]
 </script>
 ```
 
 #### UCheckbox & URadio
+
 ```vue
 <template>
   <div>
@@ -220,11 +230,12 @@ const options = [
 
 <script setup lang="ts">
 const agreed = ref(false)
-const plan = ref('free')
+const plan = ref("free")
 </script>
 ```
 
 #### UFieldGroup (v4) / UFormGroup (v3)
+
 ```vue
 <template>
   <!-- v4 -->
@@ -239,13 +250,14 @@ const plan = ref('free')
 </template>
 
 <script setup lang="ts">
-const email = ref('')
+const email = ref("")
 </script>
 ```
 
 ### Buttons
 
 #### UButton
+
 ```vue
 <template>
   <div class="flex gap-2">
@@ -261,6 +273,7 @@ const email = ref('')
 ```
 
 #### UButtonGroup (v3) / UFieldGroup (v4)
+
 ```vue
 <template>
   <!-- v3 -->
@@ -271,7 +284,9 @@ const email = ref('')
   </UButtonGroup>
 
   <!-- v4: Use flex utilities or UFieldGroup -->
-  <div class="flex gap-0 [&>button]:rounded-none [&>button:first-child]:rounded-l [&>button:last-child]:rounded-r">
+  <div
+    class="flex gap-0 [&>button]:rounded-none [&>button:first-child]:rounded-l [&>button:last-child]:rounded-r"
+  >
     <UButton>One</UButton>
     <UButton>Two</UButton>
     <UButton>Three</UButton>
@@ -282,6 +297,7 @@ const email = ref('')
 ### Overlays
 
 #### UModal
+
 ```vue
 <template>
   <!-- v4: Trigger button inside Modal, content in #content slot -->
@@ -337,6 +353,7 @@ function handleSubmit() {
 ```
 
 #### UPopover
+
 ```vue
 <template>
   <!-- v4: Similar structure to Modal -->
@@ -369,6 +386,7 @@ function handleSubmit() {
 ```
 
 #### UTooltip
+
 ```vue
 <template>
   <UTooltip text="Helpful tooltip">
@@ -380,6 +398,7 @@ function handleSubmit() {
 ### Navigation
 
 #### ULink
+
 ```vue
 <template>
   <div>
@@ -387,19 +406,16 @@ function handleSubmit() {
     <ULink to="/about">About Us</ULink>
 
     <!-- External link -->
-    <ULink to="https://example.com" target="_blank">
-      External Link
-    </ULink>
+    <ULink to="https://example.com" target="_blank"> External Link </ULink>
 
     <!-- With icon -->
-    <ULink to="/settings" icon="i-heroicons-cog">
-      Settings
-    </ULink>
+    <ULink to="/settings" icon="i-heroicons-cog"> Settings </ULink>
   </div>
 </template>
 ```
 
 #### UTabs
+
 ```vue
 <template>
   <UTabs v-model="selectedTab" :items="tabs">
@@ -414,15 +430,16 @@ function handleSubmit() {
 </template>
 
 <script setup lang="ts">
-const selectedTab = ref('account')
+const selectedTab = ref("account")
 const tabs = [
-  { key: 'account', label: 'Account' },
-  { key: 'security', label: 'Security' }
+  { key: "account", label: "Account" },
+  { key: "security", label: "Security" },
 ]
 </script>
 ```
 
 #### UBreadcrumb
+
 ```vue
 <template>
   <UBreadcrumb :items="breadcrumbs" />
@@ -432,9 +449,9 @@ const tabs = [
 const route = useRoute()
 
 const breadcrumbs = computed(() => [
-  { label: 'Home', to: '/' },
-  { label: 'Products', to: '/products' },
-  { label: route.params.id as string }
+  { label: "Home", to: "/" },
+  { label: "Products", to: "/products" },
+  { label: route.params.id as string },
 ])
 </script>
 ```
@@ -442,6 +459,7 @@ const breadcrumbs = computed(() => [
 ### Data Display
 
 #### UCard
+
 ```vue
 <template>
   <UCard>
@@ -461,6 +479,7 @@ const breadcrumbs = computed(() => [
 ```
 
 #### UTable
+
 ```vue
 <template>
   <UTable :columns="columns" :rows="users">
@@ -476,14 +495,14 @@ const breadcrumbs = computed(() => [
 
 <script setup lang="ts">
 const columns = [
-  { key: 'name', label: 'Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'actions', label: 'Actions' }
+  { key: "name", label: "Name" },
+  { key: "email", label: "Email" },
+  { key: "actions", label: "Actions" },
 ]
 
 const users = ref([
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+  { id: 1, name: "John Doe", email: "john@example.com" },
+  { id: 2, name: "Jane Smith", email: "jane@example.com" },
 ])
 
 function editUser(user: any) {
@@ -493,6 +512,7 @@ function editUser(user: any) {
 ```
 
 #### UBadge
+
 ```vue
 <template>
   <div class="flex gap-2">
@@ -504,6 +524,7 @@ function editUser(user: any) {
 ```
 
 #### UAlert
+
 ```vue
 <template>
   <div class="space-y-2">
@@ -526,6 +547,7 @@ function editUser(user: any) {
 ### Feedback
 
 #### UNotification (Toast)
+
 ```vue
 <template>
   <UButton @click="showToast">Show Toast</UButton>
@@ -536,15 +558,16 @@ const toast = useToast()
 
 function showToast() {
   toast.add({
-    title: 'Success',
-    description: 'Your action was successful!',
-    timeout: 3000
+    title: "Success",
+    description: "Your action was successful!",
+    timeout: 3000,
   })
 }
 </script>
 ```
 
 #### UProgress
+
 ```vue
 <template>
   <div>
@@ -578,21 +601,21 @@ const progress = ref(30)
 </template>
 
 <script setup lang="ts">
-import { z } from 'zod'
+import { z } from "zod"
 
 const schema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters')
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
 const state = reactive({
-  email: '',
-  password: ''
+  email: "",
+  password: "",
 })
 
 async function onSubmit() {
   // Form is validated, handle submission
-  console.log('Valid form data:', state)
+  console.log("Valid form data:", state)
 }
 </script>
 ```
@@ -606,14 +629,14 @@ async function onSubmit() {
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'blue',
-      secondary: 'purple',
-      success: 'green',
-      warning: 'yellow',
-      error: 'red',
-      neutral: 'slate'
-    }
-  }
+      primary: "blue",
+      secondary: "purple",
+      success: "green",
+      warning: "yellow",
+      error: "red",
+      neutral: "slate",
+    },
+  },
 })
 ```
 
@@ -628,7 +651,7 @@ Override component styles using Tailwind classes:
     :ui="{
       base: 'font-bold',
       rounded: 'rounded-full',
-      size: { sm: 'px-4 py-2' }
+      size: { sm: 'px-4 py-2' },
     }"
   >
     Custom Styled Button
@@ -649,9 +672,7 @@ Nuxt UI automatically supports dark mode when `@nuxtjs/color-mode` is configured
     </UCard>
 
     <!-- Toggle dark mode -->
-    <UButton @click="toggleDark">
-      Toggle Dark Mode
-    </UButton>
+    <UButton @click="toggleDark"> Toggle Dark Mode </UButton>
   </div>
 </template>
 
@@ -659,7 +680,7 @@ Nuxt UI automatically supports dark mode when `@nuxtjs/color-mode` is configured
 const colorMode = useColorMode()
 
 function toggleDark() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
 }
 </script>
 ```
@@ -686,7 +707,7 @@ When using Nuxt UI v4 with Tailwind v4, the Tailwind setup is automatically conf
 
 ```typescript
 // tailwind.config.ts
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 
 export default {
   theme: {
@@ -694,14 +715,14 @@ export default {
       colors: {
         // Add custom colors that integrate with Nuxt UI
         brand: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
+          50: "#f0f9ff",
+          100: "#e0f2fe",
           // ... more shades
-          900: '#0c4a6e'
-        }
-      }
-    }
-  }
+          900: "#0c4a6e",
+        },
+      },
+    },
+  },
 } satisfies Config
 ```
 
@@ -712,9 +733,9 @@ Reference `app.config.ts` to use custom color in Nuxt UI:
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'brand' // Use custom Tailwind color
-    }
-  }
+      primary: "brand", // Use custom Tailwind color
+    },
+  },
 })
 ```
 
@@ -725,9 +746,7 @@ export default defineAppConfig({
 ```vue
 <template>
   <div>
-    <UButton :loading="isLoading" @click="handleAction">
-      Submit
-    </UButton>
+    <UButton :loading="isLoading" @click="handleAction"> Submit </UButton>
   </div>
 </template>
 
@@ -737,7 +756,7 @@ const isLoading = ref(false)
 async function handleAction() {
   isLoading.value = true
   try {
-    await $fetch('/api/action')
+    await $fetch("/api/action")
   } finally {
     isLoading.value = false
   }
@@ -795,25 +814,29 @@ async function handleDelete() {
 
 <script setup lang="ts">
 const columns = [
-  { key: 'name', label: 'Name' },
-  { key: 'status', label: 'Status' },
-  { key: 'actions', label: '' }
+  { key: "name", label: "Name" },
+  { key: "status", label: "Status" },
+  { key: "actions", label: "" },
 ]
 
-const { data: items, pending } = await useFetch('/api/items')
+const { data: items, pending } = await useFetch("/api/items")
 
 function getActions(row: any) {
   return [
-    [{
-      label: 'Edit',
-      icon: 'i-heroicons-pencil',
-      click: () => editItem(row)
-    }],
-    [{
-      label: 'Delete',
-      icon: 'i-heroicons-trash',
-      click: () => deleteItem(row)
-    }]
+    [
+      {
+        label: "Edit",
+        icon: "i-heroicons-pencil",
+        click: () => editItem(row),
+      },
+    ],
+    [
+      {
+        label: "Delete",
+        icon: "i-heroicons-trash",
+        click: () => deleteItem(row),
+      },
+    ],
   ]
 }
 
@@ -865,10 +888,13 @@ Browse icons at: https://icones.js.org
 ### Common Issues (v4)
 
 **Missing UApp wrapper:**
+
 ```
 Error: Nuxt UI components require <UApp> wrapper
 ```
+
 Solution: Wrap your app in `app.vue`:
+
 ```vue
 <template>
   <UApp>
@@ -881,6 +907,7 @@ Solution: Wrap your app in `app.vue`:
 
 **Tailwind not working:**
 Ensure `main.css` has:
+
 ```css
 @import "tailwindcss";
 ```

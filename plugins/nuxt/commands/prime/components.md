@@ -1,5 +1,5 @@
 ---
-description: Vue component patterns and best practices
+description: Load Vue component patterns and best practices
 ---
 
 # Vue Component Priming
@@ -16,7 +16,11 @@ ALWAYS use TypeScript type-based syntax for `defineProps()`:
 
 ```typescript
 // ✅ Correct: Type-based with destructuring and inline defaults
-const { title, count = 0, enabled = true } = defineProps<{
+const {
+  title,
+  count = 0,
+  enabled = true,
+} = defineProps<{
   title: string
   count?: number
   enabled?: boolean
@@ -28,12 +32,12 @@ defineProps<{
 }>()
 
 // ❌ Wrong: Runtime PropType syntax
-import type { PropType } from 'vue'
+import type { PropType } from "vue"
 defineProps({
   items: {
     type: Array as PropType<string[]>,
-    required: true
-  }
+    required: true,
+  },
 })
 ```
 
@@ -49,7 +53,7 @@ const emit = defineEmits<{
 }>()
 
 // ❌ Wrong: Runtime array syntax
-const emit = defineEmits(['update', 'close'])
+const emit = defineEmits(["update", "close"])
 ```
 
 ### Event Handler Typing
@@ -83,7 +87,7 @@ const modelValue = defineModel<string>({ required: true })
 
 // ❌ Wrong: Manual prop + emit
 const props = defineProps<{ modelValue: string }>()
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+const emit = defineEmits<{ "update:modelValue": [value: string] }>()
 ```
 
 ## Component Structure
@@ -103,7 +107,9 @@ const { title } = defineProps<{ title: string }>()
 </script>
 
 <style scoped>
-div { color: blue; }
+div {
+  color: blue;
+}
 </style>
 ```
 
@@ -151,7 +157,7 @@ PREFER `ref()` for reactive state instead of `reactive()`:
 ```typescript
 // ✅ Preferred: Using ref
 const count = ref(0)
-const user = ref({ name: 'Alice', age: 30 })
+const user = ref({ name: "Alice", age: 30 })
 
 // ❌ Less preferred: Using reactive (loses reactivity on destructure)
 const state = reactive({ count: 0 })
@@ -162,22 +168,26 @@ const state = reactive({ count: 0 })
 Never manually import these in Nuxt projects - they're auto-imported:
 
 **Reactivity:**
+
 - `ref` - Reactive primitive values
 - `reactive` - Reactive objects
 - `computed` - Computed values
 - `watch` - Watch reactive values
 
 **Lifecycle:**
+
 - `onMounted` - Component mounted
 - `onUnmounted` - Component unmounted
 - `onBeforeMount`, `onBeforeUnmount`, etc.
 
 **Component APIs:**
+
 - `defineProps` - Define props (type-based)
 - `defineEmits` - Define emits (type-based)
 - `defineModel` - Define v-model (type-based)
 
 **Utilities:**
+
 - `useId` - Generate unique IDs for accessibility/form elements (SSR-safe)
 
 ## Component Organization
@@ -265,26 +275,30 @@ PREFER VueUse composables over custom implementations for common tasks:
 
 ```typescript
 // ✅ Preferred: Using VueUse (if installed)
-import { useLocalStorage, useMouse, useWindowSize } from '@vueuse/core'
-const token = useLocalStorage('auth-token', '')
+import { useLocalStorage, useMouse, useWindowSize } from "@vueuse/core"
+const token = useLocalStorage("auth-token", "")
 
 // ❌ Avoid: Custom implementation when VueUse exists
-const token = ref(localStorage.getItem('auth-token') || '')
-watch(token, (val) => localStorage.setItem('auth-token', val))
+const token = ref(localStorage.getItem("auth-token") || "")
+watch(token, (val) => localStorage.setItem("auth-token", val))
 ```
 
 ### Common VueUse Patterns
 
 **State:**
+
 - `useToggle`, `useCounter`, `useLocalStorage`, `useSessionStorage`
 
 **DOM:**
+
 - `useMouse`, `useScroll`, `useElementVisibility`, `useIntersectionObserver`, `useResizeObserver`
 
 **Browser:**
+
 - `useClipboard`, `useMediaQuery`, `useDark`, `usePreferredDark`, `useGeolocation`
 
 **Utilities:**
+
 - `refDebounced`, `useDebounceFn`, `refThrottled`, `useThrottleFn`, `useInterval`, `useTimeout`
 
 The `nuxt:nuxt` skill provides detailed VueUse reference when installed.
@@ -400,24 +414,24 @@ For dependency injection:
 
 ```typescript
 // Parent component
-provide('theme', 'dark')
-provide('api', apiClient)
+provide("theme", "dark")
+provide("api", apiClient)
 
 // Child component (any depth)
-const theme = inject('theme')
-const api = inject('api')
+const theme = inject("theme")
+const api = inject("api")
 
 // With TypeScript
-import type { InjectionKey } from 'vue'
+import type { InjectionKey } from "vue"
 
 interface Theme {
-  mode: 'light' | 'dark'
+  mode: "light" | "dark"
 }
 
-const themeKey: InjectionKey<Theme> = Symbol('theme')
+const themeKey: InjectionKey<Theme> = Symbol("theme")
 
 // Provide
-provide(themeKey, { mode: 'dark' })
+provide(themeKey, { mode: "dark" })
 
 // Inject
 const theme = inject(themeKey)
@@ -431,7 +445,7 @@ const count = ref(0)
 
 // Mounted (DOM available)
 onMounted(() => {
-  console.log('Component mounted')
+  console.log("Component mounted")
 })
 
 // Before unmount (cleanup)
@@ -441,7 +455,7 @@ onBeforeUnmount(() => {
 
 // Unmounted
 onUnmounted(() => {
-  console.log('Component unmounted')
+  console.log("Component unmounted")
 })
 
 // Watch effect (runs immediately and on dependencies change)
