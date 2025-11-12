@@ -1,5 +1,5 @@
 ---
-description: Comprehensive Nuxt patterns - data fetching, server routes, middleware, state, composables, layouts, plugins, auto-imports
+description: Nuxt framework patterns and conventions
 ---
 
 # Nuxt Framework Priming

@@ -1,5 +1,5 @@
 ---
-description: Comprehensive Vue patterns - script setup, props/emits/v-model, reactivity, lifecycle, slots, performance, template directives
+description: Vue component patterns and best practices
 ---
 
 # Vue Component Priming
