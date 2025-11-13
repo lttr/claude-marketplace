@@ -1,3 +1,8 @@
+---
+name: browser-tools
+description: Use this skill when the user asks to test, verify, interact with, or automate web pages and browsers. Trigger for requests involving Chrome automation, browser testing, web scraping, screenshot capture, element selection, or checking web applications. Also trigger when user mentions "browser tools" explicitly.
+---
+
 # Browser Tools
 
 Chrome DevTools Protocol automation for agent-assisted web testing and interaction. Uses Chrome running on `:9222` with remote debugging.
