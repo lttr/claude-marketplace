@@ -15,6 +15,17 @@
       },
       "keywords": ["nuxt", "vue", "pinia", "vueuse", "drizzle", "nuxt-ui"],
       "category": "framework"
+    },
+    {
+      "name": "browser-tools",
+      "source": "./plugins/browser-tools",
+      "description": "Chrome automation tools for agent-assisted web testing and interaction using Chrome DevTools Protocol",
+      "version": "1.0.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": ["browser", "chrome", "automation", "testing", "puppeteer", "devtools"],
+      "category": "productivity"
     }
   ]
 }
