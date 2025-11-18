@@ -14,23 +14,9 @@ This skill automates the conversion of lecture/presentation videos into various 
 3. **Transcribe** - Generate text transcript using ElevenLabs API
 4. **Process Text** - Create 4 progressive text refinements
 
-## Workflow Setup
-
-Before running any scripts, change to the plugin skill directory:
-```bash
-cd ~/.claude/plugins/marketplaces/lttr-claude-marketplace/plugins/video-to-article/skills/video-to-article
-```
-
-Then return to the user's working directory to process files:
-```bash
-cd -
-```
-
-Note: Scripts should be run with absolute paths from the plugin directory.
-
 ## Step 1: Validate Metadata
 
-Look for `README.md` in the user's working directory with these frontmatter fields:
+Look for `README.md` in the current directory with these frontmatter fields:
 
 - `title` - Lecture/presentation title
 - `speaker` - Speaker name
@@ -64,14 +50,14 @@ Look for video file in current directory:
 
 ## Step 3: Extract Audio
 
-Check if `audio.mp3` already exists in the user's working directory. If not:
+Check if `audio.mp3` already exists. If not:
 
-Run the extract-audio.sh script with absolute path:
+Run the extract-audio.sh script using the plugin root variable:
 ```bash
-bash ~/.claude/plugins/marketplaces/lttr-claude-marketplace/plugins/video-to-article/skills/video-to-article/scripts/extract-audio.sh <video-file>
+bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/extract-audio.sh <video-file>
 ```
 
-This creates `audio.mp3` in the current working directory.
+This creates `audio.mp3` in the current directory.
 
 ## Step 4: Transcribe Audio
 
@@ -84,7 +70,7 @@ Convert the `lang` field from README.md to the appropriate ISO 639-1 language co
 ### Run Transcription
 
 ```bash
-bash ~/.claude/plugins/marketplaces/lttr-claude-marketplace/plugins/video-to-article/skills/video-to-article/scripts/transcribe-audio.sh <language-code>
+bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <language-code>
 ```
 
 ## Step 5: Generate Text Outputs
