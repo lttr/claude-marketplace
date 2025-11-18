@@ -26,6 +26,17 @@
       },
       "keywords": ["browser", "chrome", "automation", "testing", "puppeteer", "devtools"],
       "category": "productivity"
+    },
+    {
+      "name": "video-to-article",
+      "source": "./plugins/video-to-article",
+      "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
+      "version": "1.0.0",
+      "author": {
+        "name": "Lukáš Trumm"
+      },
+      "keywords": ["transcription", "lecture", "content-creation", "video", "article", "elevenlabs"],
+      "category": "productivity"
     }
   ]
 }
