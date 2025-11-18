@@ -77,32 +77,37 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 Process the transcript through 4 progressive refinements. For each step:
 1. Check if output file exists - skip if present
-2. Apply the appropriate prompt directly
-3. Save to the specified output file
+2. Load and apply the prompt from the prompts directory
+3. Replace `{lang}` and `{slides}` placeholders with actual values
+4. Save to the specified output file
 
 ### Output 1: Cleaned Transcript
 
 **File:** `generated-transcript-cleaned.md`
+**Prompt:** `prompts/01-clean-transcript.md`
 
-Convert `generated-transcript.txt` into a more readable form by dividing it into paragraphs and adding headings. Do not change the content except for obvious typos. Do not change the tone of voice. Remove filler words like "Eh", "Ehm", "Um", "Uh". Remove transcription comments like "(laughter)" or "(2 second pause)". Respond in {lang} language.
+Apply the prompt to `generated-transcript.txt`, replacing `{lang}` with the language from README.md.
 
 ### Output 2: Readable Transcript
 
 **File:** `generated-transcript-readable.md`
+**Prompt:** `prompts/02-make-readable.md`
 
-Using both `generated-transcript.txt` and `generated-transcript-cleaned.md` as inputs, and referencing the slides at {slides}, create a more readable text. Preserve the style but optimize for reading comprehension. Fix typos, repetitions, and improve stylistic clarity. Shorten where it doesn't affect the message. Respond in {lang} language.
+Apply the prompt using both `generated-transcript.txt` and `generated-transcript-cleaned.md` as inputs. Replace `{lang}` with the language and `{slides}` with the slides link from README.md.
 
 ### Output 3: Outline
 
 **File:** `generated-transcript-outline.md`
+**Prompt:** `prompts/03-create-outline.md`
 
-From the cleaned and readable transcripts, create an outline of what was discussed. List the main ideas and messages with very brief content using bullet points. Focus on key takeaways and core concepts. Keep descriptions concise. Respond in {lang} language.
+Apply the prompt to the cleaned and readable transcripts, replacing `{lang}` with the language.
 
 ### Output 4: Article Draft
 
 **File:** `generated-blog-suggestion.md`
+**Prompt:** `prompts/04-draft-article.md`
 
-From all previous outputs, create a draft article for a website. The article should be concise and clear, targeting an informed reader who may not be an expert but is interested in details. Structure with proper headings and logical flow. Include key insights and practical takeaways. Make it engaging and informative. Respond in {lang} language.
+Apply the prompt to all previous outputs, replacing `{lang}` with the language.
 
 ## Summary
 
