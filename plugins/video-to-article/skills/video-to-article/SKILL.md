@@ -75,39 +75,78 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-Process the transcript through 4 progressive refinements. For each step:
-1. Check if output file exists - skip if present
-2. Load and apply the prompt from the prompts directory
-3. Replace `{lang}` and `{slides}` placeholders with actual values
-4. Save to the specified output file
+Process the transcript through 4 progressive refinements. For each step, check if output file exists and skip if present.
 
 ### Output 1: Cleaned Transcript
 
 **File:** `generated-transcript-cleaned.md`
-**Prompt:** `prompts/01-clean-transcript.md`
+**Input:** `generated-transcript.txt`
 
-Apply the prompt to `generated-transcript.txt`, replacing `{lang}` with the language from README.md.
+Convert the transcript into a more readable form by dividing it into paragraphs and adding headings.
+
+**Instructions:**
+- Do not change the content, except for obvious typos
+- Do not change the tone of voice - if the speaker uses informal language, keep it
+- Remove filler words like "Eh", "Ehm", "Um", "Uh"
+- Remove comments related to the transcription itself, or rewrite them elegantly if possible (e.g., "(laughter)" or "(2 second pause)")
+- Respond in {lang} language - maintain the same language as the original transcript
+
+The cleaned transcript should preserve the speaker's authentic voice while being easier to read and follow.
 
 ### Output 2: Readable Transcript
 
 **File:** `generated-transcript-readable.md`
-**Prompt:** `prompts/02-make-readable.md`
+**Inputs:** `generated-transcript.txt` and `generated-transcript-cleaned.md`
 
-Apply the prompt using both `generated-transcript.txt` and `generated-transcript-cleaned.md` as inputs. Replace `{lang}` with the language and `{slides}` with the slides link from README.md.
+You have two inputs:
+1. The first text contains the direct transcript of a lecture
+2. The second text contains a better structured version of this transcript
+
+The slides are available here: {slides}
+
+Create a more readable text from this transcript:
+
+**Instructions:**
+- Preserve the style, but optimize for reading comprehension
+- Fix typos, repetitions, and improve stylistic clarity
+- Shorten where it doesn't affect the message
+- Make it flow naturally for readers while keeping the speaker's voice
+- Respond in {lang} language - the output must be in the same language as the input
+
+The goal is to make the content accessible to readers while maintaining the essence of the spoken presentation.
 
 ### Output 3: Outline
 
 **File:** `generated-transcript-outline.md`
-**Prompt:** `prompts/03-create-outline.md`
+**Inputs:** Cleaned and readable transcripts
 
-Apply the prompt to the cleaned and readable transcripts, replacing `{lang}` with the language.
+From the provided transcript inputs, create an outline of what was discussed.
+
+**Instructions:**
+- List the main ideas and messages with very brief content
+- Use bullet points for clarity
+- Focus on key takeaways and core concepts
+- Keep descriptions concise - just enough to understand the point
+- Respond in {lang} language - the outline must be in the same language as the source material
+
+This outline should serve as a quick reference guide to the presentation's structure and main points.
 
 ### Output 4: Article Draft
 
 **File:** `generated-blog-suggestion.md`
-**Prompt:** `prompts/04-draft-article.md`
+**Inputs:** All previous outputs
 
-Apply the prompt to all previous outputs, replacing `{lang}` with the language.
+From the provided inputs, create a draft article for a website.
+
+**Instructions:**
+- The article should be concise and clear
+- Target an informed reader who may not be an expert but is interested in details
+- Structure with proper headings and logical flow
+- Include key insights and practical takeaways
+- Make it engaging and informative
+- Respond in {lang} language - the article must be in the same language as the source material
+
+The article should stand alone as a valuable piece of content that captures the essence of the presentation for readers who weren't there.
 
 ## Summary
 
