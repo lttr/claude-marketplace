@@ -14,7 +14,7 @@ This skill automates the conversion of lecture/presentation videos into various 
 2. **Validate Input Metadata** - Check for README.md with required frontmatter
 3. **Extract Audio** - Convert video to MP3 using ffmpeg
 4. **Transcribe** - Generate text transcript using ElevenLabs API
-5. **Process Text** - Create 5 progressive text refinements
+5. **Process Text** - Create progressive text refinements
 
 ## Step 0: Folder Setup (if starting from scratch)
 
@@ -109,20 +109,21 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-**YOU MUST GENERATE EXACTLY 5 TEXT OUTPUTS. NO MORE, NO LESS.**
+**YOU MUST GENERATE ALL REQUIRED TEXT OUTPUTS.**
 
-Before starting, check which of these 5 files exist:
+Before starting, check which of these files exist:
 1. `generated-transcript-cleaned.md`
 2. `generated-transcript-readable.md`
 3. `generated-transcript-outline.md`
 4. `generated-key-ideas.md`
-5. `generated-blog-suggestion.md`
+5. `generated-article-formal.md`
+6. `generated-article-direct.md`
 
 **MANDATORY WORKFLOW:**
-- Check file existence for ALL 5 files above
+- Check file existence for ALL files above
 - **Automatically generate ANY missing files without asking user**
 - Skip files that already exist (inform user which were skipped)
-- NEVER declare completion unless all 5 files exist
+- NEVER declare completion unless all files exist
 - NEVER ask user if they want to generate missing files - just generate them
 
 ### Idempotent Generation Strategy
@@ -218,23 +219,52 @@ From the provided transcript inputs, extract the key ideas, tips, and main conce
 
 This should capture the most valuable takeaways someone would want to remember from the talk.
 
-### Output 5: Article Draft
+### Output 5: Article Draft (Formal)
 
-**File:** `generated-blog-suggestion.md`
+**File:** `generated-article-formal.md`
 **Inputs:** All previous outputs (or all available generated files if running incrementally)
 **Check:** Skip if file exists
 
-From the provided inputs, create a draft article for a website.
+From the provided inputs, create a formal, explanatory article draft for a website.
 
 **Instructions:**
-- The article should be concise and clear
-- Target an informed reader who may not be an expert but is interested in details
-- Structure with proper headings and logical flow
-- Include key insights and practical takeaways
-- Make it engaging and informative
+- Use complete sentences with smooth transitions
+- Explanatory style for browsing readers who want context
+- Traditional blog structure with welcoming, informative flow
+- Example opening: "V průběhu posledního roku jsme zaznamenali..." (Czech) or equivalent in target language
+- Include key insights with detailed explanations
+- Make it engaging and comprehensive
 - Respond in {lang} language - the article must be in the same language as the source material
 
-The article should stand alone as a valuable piece of content that captures the essence of the presentation for readers who weren't there.
+**Style characteristics:**
+- Complete sentences, not fragments
+- Smooth transitions between ideas
+- More verbose, explanatory approach
+- Suitable for general audiences browsing content
+
+### Output 6: Article Draft (Direct)
+
+**File:** `generated-article-direct.md`
+**Inputs:** All previous outputs (or all available generated files if running incrementally)
+**Check:** Skip if file exists
+
+From the provided inputs, create a direct, punchy article draft optimized for efficient reading.
+
+**Instructions:**
+- Use fragments and short declarations, not always complete sentences
+- Direct, efficient style for informed readers who are skimming
+- Tighter structure with more bullets and lists
+- Example opening: "Za poslední rok se AI modely radikálně vylepšily." (Czech) or equivalent in target language
+- Focus on key insights delivered concisely
+- Minimize filler and transitions
+- Respond in {lang} language - the article must be in the same language as the source material
+
+**Style characteristics:**
+- Fragments over complete sentences where appropriate
+- Short, punchy declarations
+- More bullet points and lists
+- Denser information per line
+- Suitable for technical audiences or newsletter formats
 
 ## Summary
 
@@ -252,10 +282,11 @@ Skipped (already exists):
 - generated-transcript-cleaned.md
 - generated-transcript-readable.md
 - generated-transcript-outline.md
-- generated-blog-suggestion.md
 
 Generated:
 - generated-key-ideas.md
+- generated-article-formal.md
+- generated-article-direct.md
 
 All outputs in <language> language.
 ```
