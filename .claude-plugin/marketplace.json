@@ -31,7 +31,7 @@
       "name": "video-to-article",
       "source": "./plugins/video-to-article",
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Lukáš Trumm"
       },
