@@ -1,6 +1,7 @@
 ---
 name: video-to-article
 description: Use this skill when the user wants to convert a lecture, presentation, or talk video into text formats (transcript, outline, or article). Trigger when user mentions processing video recordings, creating transcripts from lectures, or generating articles from recorded presentations.
+allowed-tools: Bash, Read, Write, AskUserQuestion, Glob
 ---
 
 # Video to Article Conversion Workflow
@@ -164,8 +165,7 @@ From the provided transcript inputs, create an outline of what was discussed.
 
 This outline should serve as a quick reference guide to the presentation's structure and main points.
 
-### Output 4: Key Ideas
-
+### Output 4: Key Idea
 **File:** `generated-key-ideas.md`
 **Inputs:** Cleaned and readable transcripts
 
