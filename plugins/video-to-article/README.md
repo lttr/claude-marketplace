@@ -77,14 +77,7 @@ The plugin will:
 
 ### Output Files
 
-The workflow creates:
-
-- `audio.mp3` - Extracted audio
-- `generated-transcript.txt` - Raw transcription
-- `generated-transcript-cleaned.md` - Structured transcript
-- `generated-transcript-readable.md` - Reader-optimized version
-- `generated-transcript-outline.md` - Topic outline
-- `generated-blog-suggestion.md` - Article draft
+The workflow creates multiple text outputs including cleaned transcripts, readable versions, outlines, key ideas, and article drafts. All files are prefixed with `generated-*` for easy identification.
 
 ## Supported Languages
 

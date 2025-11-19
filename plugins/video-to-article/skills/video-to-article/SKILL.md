@@ -109,7 +109,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-Process the transcript through 5 progressive refinements. **IMPORTANT: This process is idempotent - running the skill multiple times on the same folder will only generate missing files, never overwrite existing ones.**
+Process the transcript through multiple progressive outputs. **IMPORTANT: This process is idempotent - running the skill multiple times on the same folder will only generate missing files, never overwrite existing ones.**
 
 ### Idempotent Generation Strategy
 
@@ -238,6 +238,7 @@ Skipped (already exists):
 - generated-transcript-cleaned.md
 - generated-transcript-readable.md
 - generated-transcript-outline.md
+- generated-blog-suggestion.md
 
 Generated:
 - generated-key-ideas.md
@@ -246,6 +247,13 @@ All outputs in <language> language.
 ```
 
 If everything was generated fresh, simply list all outputs under "Generated".
+
+**Complete file list for reference:**
+- `generated-transcript-cleaned.md`
+- `generated-transcript-readable.md`
+- `generated-transcript-outline.md`
+- `generated-key-ideas.md`
+- `generated-blog-suggestion.md`
 
 ## Error Handling
 
