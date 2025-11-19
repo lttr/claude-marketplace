@@ -120,9 +120,10 @@ Before starting, check which of these 5 files exist:
 
 **MANDATORY WORKFLOW:**
 - Check file existence for ALL 5 files above
-- Generate ONLY the missing files
-- Skip files that already exist
+- **Automatically generate ANY missing files without asking user**
+- Skip files that already exist (inform user which were skipped)
 - NEVER declare completion unless all 5 files exist
+- NEVER ask user if they want to generate missing files - just generate them
 
 ### Idempotent Generation Strategy
 
