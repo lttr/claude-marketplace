@@ -109,12 +109,32 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-Process the transcript through 5 progressive refinements. For each step, check if output file exists and skip if present.
+Process the transcript through 5 progressive refinements. **IMPORTANT: This process is idempotent - running the skill multiple times on the same folder will only generate missing files, never overwrite existing ones.**
+
+### Idempotent Generation Strategy
+
+The workflow can be safely re-run on folders with partial outputs:
+
+1. **Check each output file before generating** - Use Glob or file existence checks
+2. **Skip files that already exist** - Inform user which files are being skipped
+3. **Generate only missing files** - Never overwrite existing content
+4. **Use existing files as context** - When generating later outputs (like key-ideas), read all available previous outputs for context
+
+Example: If only `generated-key-ideas.md` is missing:
+- Read existing: `generated-transcript-cleaned.md`, `generated-transcript-readable.md`, `generated-transcript-outline.md`
+- Generate: `generated-key-ideas.md` using the existing files as context
+- Skip: All other outputs
+
+This allows users to:
+- Resume interrupted workflows
+- Generate only specific missing outputs
+- Re-run safely without data loss
 
 ### Output 1: Cleaned Transcript
 
 **File:** `generated-transcript-cleaned.md`
 **Input:** `generated-transcript.txt`
+**Check:** Skip if file exists
 
 Convert the transcript into a more readable form by dividing it into paragraphs and adding headings.
 
@@ -131,6 +151,7 @@ The cleaned transcript should preserve the speaker's authentic voice while being
 
 **File:** `generated-transcript-readable.md`
 **Inputs:** `generated-transcript.txt` and `generated-transcript-cleaned.md`
+**Check:** Skip if file exists
 
 You have two inputs:
 1. The first text contains the direct transcript of a lecture
@@ -153,6 +174,7 @@ The goal is to make the content accessible to readers while maintaining the esse
 
 **File:** `generated-transcript-outline.md`
 **Inputs:** Cleaned and readable transcripts
+**Check:** Skip if file exists
 
 From the provided transcript inputs, create an outline of what was discussed.
 
@@ -165,9 +187,10 @@ From the provided transcript inputs, create an outline of what was discussed.
 
 This outline should serve as a quick reference guide to the presentation's structure and main points.
 
-### Output 4: Key Idea
+### Output 4: Key Ideas
 **File:** `generated-key-ideas.md`
-**Inputs:** Cleaned and readable transcripts
+**Inputs:** Cleaned and readable transcripts (or all available generated files if running incrementally)
+**Check:** Skip if file exists
 
 From the provided transcript inputs, extract the key ideas, tips, and main concepts.
 
@@ -184,7 +207,8 @@ This should capture the most valuable takeaways someone would want to remember f
 ### Output 5: Article Draft
 
 **File:** `generated-blog-suggestion.md`
-**Inputs:** All previous outputs
+**Inputs:** All previous outputs (or all available generated files if running incrementally)
+**Check:** Skip if file exists
 
 From the provided inputs, create a draft article for a website.
 
@@ -200,19 +224,28 @@ The article should stand alone as a valuable piece of content that captures the 
 
 ## Summary
 
-After completion, inform the user:
+After completion, inform the user which files were:
+- **Skipped** (already existed)
+- **Generated** (newly created)
+
+Example output:
 ```
-Workflow complete! Generated:
+Workflow complete!
+
+Skipped (already exists):
 - audio.mp3
 - generated-transcript.txt
 - generated-transcript-cleaned.md
 - generated-transcript-readable.md
 - generated-transcript-outline.md
+
+Generated:
 - generated-key-ideas.md
-- generated-blog-suggestion.md
 
 All outputs in <language> language.
 ```
+
+If everything was generated fresh, simply list all outputs under "Generated".
 
 ## Error Handling
 
