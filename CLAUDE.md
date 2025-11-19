@@ -147,3 +147,4 @@ After modifying a plugin:
 - `version`: Plugin version
 - `keywords`: Array of tags for discovery
 - `category`: Plugin category (e.g., "framework", "productivity")
+- DO NOT use exact number of steps or similar references. The number might change and would be misleading in the future.

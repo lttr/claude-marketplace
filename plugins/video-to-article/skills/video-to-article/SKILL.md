@@ -109,9 +109,19 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-**YOU MUST GENERATE ALL REQUIRED TEXT OUTPUTS.**
+### Execution Protocol
 
-Before starting, check which of these files exist:
+Before generating ANY content, you MUST complete these steps in order:
+
+1. **List all required outputs** - Read and acknowledge the complete list below
+2. **Check which files already exist** - Use file existence checks for each output
+3. **Read all existing source files** - Load transcript, outline, key-ideas as context
+4. **Confirm which outputs need generation** - Explicitly state which files are missing
+5. **Only then begin generation** - Generate missing files one by one
+
+### Required Outputs
+
+You MUST generate ALL of these files:
 1. `generated-transcript-cleaned.md` - Cleaned transcript
 2. `generated-transcript-readable.md` - Readable transcript
 3. `generated-transcript-outline.md` - Content outline
