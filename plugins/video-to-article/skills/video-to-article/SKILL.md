@@ -41,12 +41,36 @@ Use the AskUserQuestion tool to collect missing information:
 
 Create or update README.md with collected information.
 
-## Step 2: Find Video File
+## Step 2: Find or Download Video File
+
+### Check for Local Video
 
 Look for video file in current directory:
 - Common patterns: `*.mp4`, `*.mov`, `*.avi`, `*.mkv`
 - If multiple found, ask user which to process
-- If none found, ask user for video file path
+
+### If No Local Video Found
+
+Ask user if they have a YouTube URL using AskUserQuestion tool:
+- "Do you have a YouTube URL for this talk?"
+- If yes, collect the YouTube URL
+- If no, ask for local video file path
+
+### Download from YouTube (if URL provided)
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/download-youtube.sh <youtube-url>
+```
+
+This downloads the video as `video.mp4` in medium quality (720p max).
+
+**Requirements**: User needs yt-dlp installed. If missing, show:
+```
+Install yt-dlp:
+- pip install yt-dlp
+- brew install yt-dlp (macOS)
+- sudo apt install yt-dlp (Ubuntu/Debian)
+```
 
 ## Step 3: Extract Audio
 
