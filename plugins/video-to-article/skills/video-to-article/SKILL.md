@@ -120,6 +120,8 @@ The workflow can be safely re-run on folders with partial outputs:
 3. **Generate only missing files** - Never overwrite existing content
 4. **Use existing files as context** - When generating later outputs (like key-ideas), read all available previous outputs for context
 
+**CRITICAL: You MUST check for ALL output files listed below (Outputs 1-5) individually before declaring the workflow complete. Do NOT skip checking any output in the sequence.**
+
 Example: If only `generated-key-ideas.md` is missing:
 - Read existing: `generated-transcript-cleaned.md`, `generated-transcript-readable.md`, `generated-transcript-outline.md`
 - Generate: `generated-key-ideas.md` using the existing files as context
