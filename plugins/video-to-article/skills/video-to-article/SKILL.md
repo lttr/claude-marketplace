@@ -262,13 +262,6 @@ All outputs in <language> language.
 
 If everything was generated fresh, simply list all outputs under "Generated".
 
-**Complete file list for reference:**
-- `generated-transcript-cleaned.md`
-- `generated-transcript-readable.md`
-- `generated-transcript-outline.md`
-- `generated-key-ideas.md`
-- `generated-blog-suggestion.md`
-
 ## Error Handling
 
 - **Missing ffmpeg**: Prompt user to install ffmpeg
