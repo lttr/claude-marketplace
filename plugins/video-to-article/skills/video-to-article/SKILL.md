@@ -13,7 +13,7 @@ This skill automates the conversion of lecture/presentation videos into various 
 2. **Validate Input Metadata** - Check for README.md with required frontmatter
 3. **Extract Audio** - Convert video to MP3 using ffmpeg
 4. **Transcribe** - Generate text transcript using ElevenLabs API
-5. **Process Text** - Create 4 progressive text refinements
+5. **Process Text** - Create 5 progressive text refinements
 
 ## Step 0: Folder Setup (if starting from scratch)
 
@@ -108,7 +108,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-Process the transcript through 4 progressive refinements. For each step, check if output file exists and skip if present.
+Process the transcript through 5 progressive refinements. For each step, check if output file exists and skip if present.
 
 ### Output 1: Cleaned Transcript
 
@@ -164,7 +164,24 @@ From the provided transcript inputs, create an outline of what was discussed.
 
 This outline should serve as a quick reference guide to the presentation's structure and main points.
 
-### Output 4: Article Draft
+### Output 4: Key Ideas
+
+**File:** `generated-key-ideas.md`
+**Inputs:** Cleaned and readable transcripts
+
+From the provided transcript inputs, extract the key ideas, tips, and main concepts.
+
+**Instructions:**
+- Focus on interesting insights, actionable tips, and core concepts
+- Unlike the outline, don't follow chronological order - prioritize importance
+- Exclude generic or procedural content
+- Each idea should have a brief description explaining why it matters
+- Use bullet points or numbered list
+- Respond in {lang} language - the output must be in the same language as the source material
+
+This should capture the most valuable takeaways someone would want to remember from the talk.
+
+### Output 5: Article Draft
 
 **File:** `generated-blog-suggestion.md`
 **Inputs:** All previous outputs
@@ -191,6 +208,7 @@ Workflow complete! Generated:
 - generated-transcript-cleaned.md
 - generated-transcript-readable.md
 - generated-transcript-outline.md
+- generated-key-ideas.md
 - generated-blog-suggestion.md
 
 All outputs in <language> language.
