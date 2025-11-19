@@ -112,12 +112,14 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 **YOU MUST GENERATE ALL REQUIRED TEXT OUTPUTS.**
 
 Before starting, check which of these files exist:
-1. `generated-transcript-cleaned.md`
-2. `generated-transcript-readable.md`
-3. `generated-transcript-outline.md`
-4. `generated-key-ideas.md`
-5. `generated-article-formal.md`
-6. `generated-article-direct.md`
+1. `generated-transcript-cleaned.md` - Cleaned transcript
+2. `generated-transcript-readable.md` - Readable transcript
+3. `generated-transcript-outline.md` - Content outline
+4. `generated-key-ideas.md` - Key takeaways
+5. `generated-article-formal.md` - Explanatory blog post (long-form, narrative)
+6. `generated-article-direct.md` - Scannable technical brief (concise, bullets)
+
+**IMPORTANT:** Outputs 5 and 6 are TWO DIFFERENT ARTICLE VARIANTS with distinct styles and audiences. You must generate BOTH.
 
 **MANDATORY WORKFLOW:**
 - Check file existence for ALL files above
@@ -125,6 +127,7 @@ Before starting, check which of these files exist:
 - Skip files that already exist (inform user which were skipped)
 - NEVER declare completion unless all files exist
 - NEVER ask user if they want to generate missing files - just generate them
+- **Generate BOTH article variants** (formal and direct) - they serve different purposes
 
 ### Idempotent Generation Strategy
 
@@ -219,52 +222,57 @@ From the provided transcript inputs, extract the key ideas, tips, and main conce
 
 This should capture the most valuable takeaways someone would want to remember from the talk.
 
-### Output 5: Article Draft (Formal)
+### Output 5: Explanatory Blog Post
 
 **File:** `generated-article-formal.md`
 **Inputs:** All previous outputs (or all available generated files if running incrementally)
 **Check:** Skip if file exists
 
-From the provided inputs, create a formal, explanatory article draft for a website.
+Create a traditional blog post with complete explanations and smooth narrative flow.
+
+**Target audience:** General readers discovering the topic, browsing casually
+**Reading context:** Website visitors who have time and want full understanding
 
 **Instructions:**
-- Use complete sentences with smooth transitions
-- Explanatory style for browsing readers who want context
-- Traditional blog structure with welcoming, informative flow
-- Example opening: "V průběhu posledního roku jsme zaznamenali..." (Czech) or equivalent in target language
-- Include key insights with detailed explanations
-- Make it engaging and comprehensive
+- Write in complete, flowing sentences with careful transitions
+- Provide context and background before diving into details
+- Use storytelling elements to maintain engagement
+- Example opening: "V průběhu posledního roku jsme zaznamenali značné změny..." (Czech) or equivalent
+- Explain why concepts matter, not just what they are
+- Guide readers through ideas with clear signposting
 - Respond in {lang} language - the article must be in the same language as the source material
 
 **Style characteristics:**
-- Complete sentences, not fragments
-- Smooth transitions between ideas
-- More verbose, explanatory approach
-- Suitable for general audiences browsing content
+- Narrative structure with introduction, development, conclusion
+- Welcoming tone that assumes less prior knowledge
+- Longer paragraphs with descriptive language
+- Educational approach that builds understanding step-by-step
 
-### Output 6: Article Draft (Direct)
+### Output 6: Scannable Technical Brief
 
 **File:** `generated-article-direct.md`
 **Inputs:** All previous outputs (or all available generated files if running incrementally)
 **Check:** Skip if file exists
 
-From the provided inputs, create a direct, punchy article draft optimized for efficient reading.
+Create a condensed, high-signal article optimized for rapid scanning and information extraction.
+
+**Target audience:** Technical readers or busy professionals who skim content
+**Reading context:** Newsletter, Slack/Discord shares, or quick reference
 
 **Instructions:**
-- Use fragments and short declarations, not always complete sentences
-- Direct, efficient style for informed readers who are skimming
-- Tighter structure with more bullets and lists
-- Example opening: "Za poslední rok se AI modely radikálně vylepšily." (Czech) or equivalent in target language
-- Focus on key insights delivered concisely
-- Minimize filler and transitions
+- Lead with short, declarative statements - skip warm-up sentences
+- Frontload key information in each paragraph
+- Heavy use of bullets, numbered lists, and visual breaks
+- Example opening: "AI modely: radikální skok za rok." (Czech) or equivalent
+- Cut all filler words, hedging, and obvious statements
+- Dense information - every sentence earns its place
 - Respond in {lang} language - the article must be in the same language as the source material
 
 **Style characteristics:**
-- Fragments over complete sentences where appropriate
-- Short, punchy declarations
-- More bullet points and lists
-- Denser information per line
-- Suitable for technical audiences or newsletter formats
+- Telegraphic style - fragments are encouraged when clearer
+- Bullets and lists dominate over prose paragraphs
+- Assumes reader familiarity with domain
+- Optimized for 2-minute skim, not 10-minute read
 
 ## Summary
 
