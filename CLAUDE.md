@@ -27,6 +27,12 @@ claude-marketplace/
 - **Plugin manifest**: `plugins/*/​.claude-plugin/plugin.json` - Individual plugin metadata
 - **Plugin components**: Each plugin has its own directory with skills/, commands/, agents/, etc.
 
+## Skills to Load
+
+When working with plugins or skills in this repository, proactively load:
+- `plugin-creator` - For plugin structure, manifests, and marketplace changes
+- `skill-creator` - For creating or modifying SKILL.md files
+
 ## Working with Plugins
 
 ### Adding a New Plugin

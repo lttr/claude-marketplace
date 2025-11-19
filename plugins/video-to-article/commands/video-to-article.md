@@ -1,4 +1,5 @@
 ---
+name: video-to-article
 description: Convert lecture videos to transcripts and articles
 argument-hint: [youtube-url-or-folder-path]
 ---
