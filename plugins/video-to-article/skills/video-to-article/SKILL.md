@@ -109,18 +109,29 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ## Step 5: Generate Text Outputs
 
-Process the transcript through multiple progressive outputs. **IMPORTANT: This process is idempotent - running the skill multiple times on the same folder will only generate missing files, never overwrite existing ones.**
+**YOU MUST GENERATE EXACTLY 5 TEXT OUTPUTS. NO MORE, NO LESS.**
+
+Before starting, check which of these 5 files exist:
+1. `generated-transcript-cleaned.md`
+2. `generated-transcript-readable.md`
+3. `generated-transcript-outline.md`
+4. `generated-key-ideas.md`
+5. `generated-blog-suggestion.md`
+
+**MANDATORY WORKFLOW:**
+- Check file existence for ALL 5 files above
+- Generate ONLY the missing files
+- Skip files that already exist
+- NEVER declare completion unless all 5 files exist
 
 ### Idempotent Generation Strategy
 
-The workflow can be safely re-run on folders with partial outputs:
+This process is idempotent - running the skill multiple times will only generate missing files, never overwrite existing ones:
 
-1. **Check each output file before generating** - Use Glob or file existence checks
+1. **Check each output file before generating** - Use file existence checks
 2. **Skip files that already exist** - Inform user which files are being skipped
 3. **Generate only missing files** - Never overwrite existing content
 4. **Use existing files as context** - When generating later outputs (like key-ideas), read all available previous outputs for context
-
-**CRITICAL: You MUST check for ALL output files listed below (Outputs 1-5) individually before declaring the workflow complete. Do NOT skip checking any output in the sequence.**
 
 Example: If only `generated-key-ideas.md` is missing:
 - Read existing: `generated-transcript-cleaned.md`, `generated-transcript-readable.md`, `generated-transcript-outline.md`
