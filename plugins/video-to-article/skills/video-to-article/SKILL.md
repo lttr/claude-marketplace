@@ -9,10 +9,19 @@ This skill automates the conversion of lecture/presentation videos into various 
 
 ## Workflow Overview
 
-1. **Validate Input Metadata** - Check for README.md with required frontmatter
-2. **Extract Audio** - Convert video to MP3 using ffmpeg
-3. **Transcribe** - Generate text transcript using ElevenLabs API
-4. **Process Text** - Create 4 progressive text refinements
+1. **Setup Folder** - Create properly named folder if needed
+2. **Validate Input Metadata** - Check for README.md with required frontmatter
+3. **Extract Audio** - Convert video to MP3 using ffmpeg
+4. **Transcribe** - Generate text transcript using ElevenLabs API
+5. **Process Text** - Create 4 progressive text refinements
+
+## Step 0: Folder Setup (if starting from scratch)
+
+If user is starting a new talk/lecture conversion and no folder exists yet:
+
+Create folder using format: `YYYY Title of Talk`
+
+After creating folder, navigate into it and proceed with workflow.
 
 ## Step 1: Validate Metadata
 
