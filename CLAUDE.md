@@ -30,6 +30,7 @@ claude-marketplace/
 ## Skills to Load
 
 When working with plugins or skills in this repository, proactively load:
+
 - `plugin-creator` - For plugin structure, manifests, and marketplace changes
 - `skill-creator` - For creating or modifying SKILL.md files
 
@@ -147,4 +148,9 @@ After modifying a plugin:
 - `version`: Plugin version
 - `keywords`: Array of tags for discovery
 - `category`: Plugin category (e.g., "framework", "productivity")
+
+# Notes
+
 - DO NOT use exact number of steps or similar references. The number might change and would be misleading in the future.
+- DO NOT name a custom command and a skill with the same name, it might confuse Claude Code.
+

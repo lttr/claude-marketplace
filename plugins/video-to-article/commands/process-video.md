@@ -16,9 +16,12 @@ Convert a lecture or presentation video into multiple text formats.
 
 ---
 
+Load video-to-article skill first.
+
 Execute the video-to-article workflow for: {arg1}
 
 **Handling file references:**
+
 - When user provides path via @ syntax (e.g., @"folder name"), extract the actual path
 - The @ syntax provides file/folder context automatically - use the referenced path
 - If path contains spaces and quotes, clean them: `@"My Folder"` → `My Folder`
@@ -26,6 +29,7 @@ Execute the video-to-article workflow for: {arg1}
 - Navigate to the folder before executing workflow
 
 **Input types:**
+
 1. **YouTube URL**: Detect youtube.com or youtu.be pattern and download first
 2. **Folder path**: Navigate to folder and process existing video
 3. **Empty/Interactive**: Ask user for input or use current directory
