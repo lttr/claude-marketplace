@@ -1,6 +1,7 @@
 ---
 name: browser-tools
 description: Use this skill when the user asks to test, verify, interact with, or automate web pages and browsers. Trigger for requests involving Chrome automation, browser testing, web scraping, screenshot capture, element selection, or checking web applications. Also trigger when user mentions "browser tools" explicitly.
+allowed-tools: Bash(node scripts/browser-start.js:*), Bash(node scripts/browser-nav.js:*), Bash(node scripts/browser-eval.js:*), Bash(node scripts/browser-screenshot.js:*), Bash(node scripts/browser-pick.js:*), Bash(node scripts/browser-cookies.js:*), Bash(cd *:*), Bash(pnpm install:*), Read, Glob
 ---
 
 # Browser Tools
