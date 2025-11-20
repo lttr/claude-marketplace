@@ -153,4 +153,3 @@ After modifying a plugin:
 
 - DO NOT use exact number of steps or similar references. The number might change and would be misleading in the future.
 - DO NOT name a custom command and a skill with the same name, it might confuse Claude Code.
-

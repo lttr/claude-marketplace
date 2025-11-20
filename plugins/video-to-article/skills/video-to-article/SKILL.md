@@ -56,12 +56,14 @@ Create or update README.md with collected information.
 ### Check for Local Video
 
 Look for video file in current directory:
+
 - Common patterns: `*.mp4`, `*.mov`, `*.avi`, `*.mkv`
 - If multiple found, ask user which to process
 
 ### If No Local Video Found
 
 Ask user if they have a YouTube URL using AskUserQuestion tool:
+
 - "Do you have a YouTube URL for this talk?"
 - If yes, collect the YouTube URL
 - If no, ask for local video file path
@@ -75,6 +77,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/download-youtube.sh <
 This downloads the video as `video.mp4` in medium quality (720p max).
 
 **Requirements**: User needs yt-dlp installed. If missing, show:
+
 ```
 Install yt-dlp:
 - pip install yt-dlp
@@ -87,6 +90,7 @@ Install yt-dlp:
 Check if `audio.mp3` already exists. If not:
 
 Run the extract-audio.sh script using the plugin root variable:
+
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/extract-audio.sh <video-file>
 ```
@@ -122,6 +126,7 @@ Before generating ANY content, you MUST complete these steps in order:
 ### Required Outputs
 
 You MUST generate ALL of these files:
+
 1. `generated-transcript-cleaned.md` - Cleaned transcript
 2. `generated-transcript-readable.md` - Readable transcript
 3. `generated-transcript-outline.md` - Content outline
@@ -132,6 +137,7 @@ You MUST generate ALL of these files:
 **IMPORTANT:** Outputs 5 and 6 are TWO DIFFERENT ARTICLE VARIANTS with distinct styles and audiences. You must generate BOTH.
 
 **MANDATORY WORKFLOW:**
+
 - Check file existence for ALL files above
 - **Automatically generate ANY missing files without asking user**
 - Skip files that already exist (inform user which were skipped)
@@ -149,11 +155,13 @@ This process is idempotent - running the skill multiple times will only generate
 4. **Use existing files as context** - When generating later outputs (like key-ideas), read all available previous outputs for context
 
 Example: If only `generated-key-ideas.md` is missing:
+
 - Read existing: `generated-transcript-cleaned.md`, `generated-transcript-readable.md`, `generated-transcript-outline.md`
 - Generate: `generated-key-ideas.md` using the existing files as context
 - Skip: All other outputs
 
 This allows users to:
+
 - Resume interrupted workflows
 - Generate only specific missing outputs
 - Re-run safely without data loss
@@ -167,6 +175,7 @@ This allows users to:
 Convert the transcript into a more readable form by dividing it into paragraphs and adding headings.
 
 **Instructions:**
+
 - Do not change the content, except for obvious typos
 - Do not change the tone of voice - if the speaker uses informal language, keep it
 - Remove filler words like "Eh", "Ehm", "Um", "Uh"
@@ -182,6 +191,7 @@ The cleaned transcript should preserve the speaker's authentic voice while being
 **Check:** Skip if file exists
 
 You have two inputs:
+
 1. The first text contains the direct transcript of a lecture
 2. The second text contains a better structured version of this transcript
 
@@ -190,6 +200,7 @@ The slides are available here: {slides}
 Create a more readable text from this transcript:
 
 **Instructions:**
+
 - Preserve the style, but optimize for reading comprehension
 - Fix typos, repetitions, and improve stylistic clarity
 - Shorten where it doesn't affect the message
@@ -207,6 +218,7 @@ The goal is to make the content accessible to readers while maintaining the esse
 From the provided transcript inputs, create an outline of what was discussed.
 
 **Instructions:**
+
 - List the main ideas and messages with very brief content
 - Use bullet points for clarity
 - Focus on key takeaways and core concepts
@@ -216,6 +228,7 @@ From the provided transcript inputs, create an outline of what was discussed.
 This outline should serve as a quick reference guide to the presentation's structure and main points.
 
 ### Output 4: Key Ideas
+
 **File:** `generated-key-ideas.md`
 **Inputs:** Cleaned and readable transcripts (or all available generated files if running incrementally)
 **Check:** Skip if file exists
@@ -223,6 +236,7 @@ This outline should serve as a quick reference guide to the presentation's struc
 From the provided transcript inputs, extract the key ideas, tips, and main concepts.
 
 **Instructions:**
+
 - Focus on interesting insights, actionable tips, and core concepts
 - Unlike the outline, don't follow chronological order - prioritize importance
 - Exclude generic or procedural content
@@ -244,6 +258,7 @@ Create a traditional blog post with complete explanations and smooth narrative f
 **Reading context:** Website visitors who have time and want full understanding
 
 **Instructions:**
+
 - Write in complete, flowing sentences with careful transitions
 - Provide context and background before diving into details
 - Use storytelling elements to maintain engagement
@@ -253,6 +268,7 @@ Create a traditional blog post with complete explanations and smooth narrative f
 - Respond in {lang} language - the article must be in the same language as the source material
 
 **Style characteristics:**
+
 - Narrative structure with introduction, development, conclusion
 - Welcoming tone that assumes less prior knowledge
 - Longer paragraphs with descriptive language
@@ -270,6 +286,7 @@ Create a condensed, high-signal article optimized for rapid scanning and informa
 **Reading context:** Newsletter, Slack/Discord shares, or quick reference
 
 **Instructions:**
+
 - Lead with short, declarative statements - skip warm-up sentences
 - Frontload key information in each paragraph
 - Heavy use of bullets, numbered lists, and visual breaks
@@ -279,6 +296,7 @@ Create a condensed, high-signal article optimized for rapid scanning and informa
 - Respond in {lang} language - the article must be in the same language as the source material
 
 **Style characteristics:**
+
 - Telegraphic style - fragments are encouraged when clearer
 - Bullets and lists dominate over prose paragraphs
 - Assumes reader familiarity with domain
@@ -287,10 +305,12 @@ Create a condensed, high-signal article optimized for rapid scanning and informa
 ## Summary
 
 After completion, inform the user which files were:
+
 - **Skipped** (already existed)
 - **Generated** (newly created)
 
 Example output:
+
 ```
 Workflow complete!
 

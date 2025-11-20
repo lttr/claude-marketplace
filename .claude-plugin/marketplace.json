@@ -24,7 +24,14 @@
       "author": {
         "name": "Lukas Trumm"
       },
-      "keywords": ["browser", "chrome", "automation", "testing", "puppeteer", "devtools"],
+      "keywords": [
+        "browser",
+        "chrome",
+        "automation",
+        "testing",
+        "puppeteer",
+        "devtools"
+      ],
       "category": "productivity"
     },
     {
@@ -35,7 +42,14 @@
       "author": {
         "name": "Lukáš Trumm"
       },
-      "keywords": ["transcription", "lecture", "content-creation", "video", "article", "elevenlabs"],
+      "keywords": [
+        "transcription",
+        "lecture",
+        "content-creation",
+        "video",
+        "article",
+        "elevenlabs"
+      ],
       "category": "productivity"
     }
   ]

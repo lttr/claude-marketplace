@@ -23,63 +23,79 @@ When user asks to test, verify, or interact with web pages using browser tools:
 All scripts located in `skills/browser-tools/scripts/`:
 
 ### browser-start.js
+
 ```bash
 node scripts/browser-start.js              # Fresh profile
 node scripts/browser-start.js --profile    # Persistent profile at /tmp/chrome-profile-browser-tools
 ```
+
 Launch Chrome with remote debugging on port 9222. Use `--profile` to maintain login state between sessions.
 
 ### browser-nav.js
+
 ```bash
 node scripts/browser-nav.js https://example.com
 node scripts/browser-nav.js https://example.com --new
 ```
+
 Navigate to URLs. Use `--new` to open in new tab instead of current tab.
 
 ### browser-eval.js
+
 ```bash
 node scripts/browser-eval.js 'document.title'
 node scripts/browser-eval.js 'document.querySelectorAll("a").length'
 node scripts/browser-eval.js 'Array.from(document.querySelectorAll("h1")).map(h => h.textContent)'
 ```
+
 Execute JavaScript in active tab. Runs in async context. Use for:
+
 - Extract data from pages
 - Inspect page state
 - Manipulate DOM
 - Test page functionality
 
 ### browser-screenshot.js
+
 ```bash
 node scripts/browser-screenshot.js
 ```
+
 Capture current viewport, returns temp file path. Use Read tool to show screenshot to user.
 
 ### browser-pick.js
+
 ```bash
 node scripts/browser-pick.js "Select the submit button"
 ```
+
 **Interactive element picker** - Launches UI overlay for user to click and select elements. Returns element details (tag, id, class, text, html, parent hierarchy).
 
 Use when:
+
 - User says "click that button" or "extract those items"
 - Need specific selectors but page structure is unclear
 - User wants to identify elements visually
 
 Controls:
+
 - Click to select single element
 - Cmd/Ctrl+Click for multiple selections
 - Enter to finish (when multiple selected)
 - ESC to cancel
 
 ### browser-cookies.js
+
 ```bash
 node scripts/browser-cookies.js
 ```
+
 Display all cookies for current tab (domain, path, httpOnly, secure flags). Use for debugging auth issues.
 
 ## Workflow Examples
 
 ### Test dev server feature
+
 ```bash
 # From plugin skill directory
 cd plugins/browser-tools/skills/browser-tools
@@ -104,6 +120,7 @@ SCREENSHOT=$(node scripts/browser-screenshot.js)
 ```
 
 ### Debug authentication
+
 ```bash
 node scripts/browser-start.js --profile
 node scripts/browser-nav.js https://app.example.com/login
@@ -111,6 +128,7 @@ node scripts/browser-cookies.js
 ```
 
 ### Extract data from page
+
 ```bash
 node scripts/browser-start.js
 node scripts/browser-nav.js https://example.com

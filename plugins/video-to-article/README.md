@@ -18,6 +18,7 @@ Automated workflow for converting lecture videos into transcripts, outlines, and
 ### Dependencies
 
 - **ffmpeg**: For audio extraction from video files
+
   ```bash
   # Ubuntu/Debian
   sudo apt install ffmpeg
@@ -70,6 +71,7 @@ Process lecture.mp4 into text outputs
 ```
 
 The plugin will:
+
 1. Validate or prompt for missing README.md metadata
 2. Extract audio from video file
 3. Transcribe using ElevenLabs API
