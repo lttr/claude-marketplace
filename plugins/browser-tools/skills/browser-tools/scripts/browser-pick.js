@@ -2,13 +2,7 @@
 
 import puppeteer from "puppeteer-core"
 
-const message = process.argv.slice(2).join(" ")
-if (!message) {
-  console.log("Usage: browser-pick.js 'message'")
-  console.log("\nExample:")
-  console.log('  browser-pick.js "Click the submit button"')
-  process.exit(1)
-}
+const message = process.argv.slice(2).join(" ") || "Select element(s)"
 
 const b = await puppeteer.connect({
   browserURL: "http://localhost:9222",
@@ -25,10 +19,7 @@ if (!p) {
 // Inject pick() helper into current page
 await p.evaluate(() => {
   if (!window.pick) {
-    window.pick = async (message) => {
-      if (!message) {
-        throw new Error("pick() requires a message parameter")
-      }
+    window.pick = async (message = "Select element(s)") => {
       return new Promise((resolve) => {
         const selections = []
         const selectedElements = new Set()

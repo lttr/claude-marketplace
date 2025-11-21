@@ -66,10 +66,11 @@ Capture current viewport, returns temp file path. Use Read tool to show screensh
 ### browser-pick.js
 
 ```bash
+node scripts/browser-pick.js                      # Uses default message "Select element(s)"
 node scripts/browser-pick.js "Select the submit button"
 ```
 
-**Interactive element picker** - Launches UI overlay for user to click and select elements. Returns element details (tag, id, class, text, html, parent hierarchy).
+**Interactive element picker** - Launches UI overlay for user to click and select elements. Returns element details (tag, id, class, text, html, parent hierarchy). Message parameter is optional.
 
 Use when:
 

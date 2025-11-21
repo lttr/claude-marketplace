@@ -18,6 +18,7 @@ Automate plugin release workflow:
 ## Detection Logic
 
 Look at git log to find:
+
 - Files changed since last "feat:", "fix:", or "chore:" commit that touched version files
 - Determine which plugin directory those changes belong to
 
