@@ -44,10 +44,25 @@ IMPORTANT: Symlink names should NOT have .js extension:
 
 ```bash
 ln -sf "$SCRIPTS_DIR/browser-start.js" ~/bin/browser-start
+```
+
+```bash
 ln -sf "$SCRIPTS_DIR/browser-nav.js" ~/bin/browser-nav
+```
+
+```bash
 ln -sf "$SCRIPTS_DIR/browser-eval.js" ~/bin/browser-eval
+```
+
+```bash
 ln -sf "$SCRIPTS_DIR/browser-screenshot.js" ~/bin/browser-screenshot
+```
+
+```bash
 ln -sf "$SCRIPTS_DIR/browser-pick.js" ~/bin/browser-pick
+```
+
+```bash
 ln -sf "$SCRIPTS_DIR/browser-cookies.js" ~/bin/browser-cookies
 ```
 
@@ -56,7 +71,10 @@ ln -sf "$SCRIPTS_DIR/browser-cookies.js" ~/bin/browser-cookies
 Check if ~/bin is in PATH:
 
 ```bash
-echo $PATH | grep -q "$HOME/bin" && echo "✓ ~/bin is in PATH" || echo "⚠ WARNING: Add ~/bin to PATH in your shell profile"
+case "$PATH" in
+  *"$HOME/bin"*) echo "✓ ~/bin is in PATH" ;;
+  *) echo "⚠ WARNING: Add ~/bin to PATH in your shell profile" ;;
+esac
 ```
 
 ## Summary
@@ -66,3 +84,5 @@ After completion, report:
 - Dependencies installed: ✓
 - Symlinks created: browser-start, browser-nav, browser-eval, browser-screenshot, browser-pick, browser-cookies
 - PATH status: (OK or needs manual addition)
+
+**The browser-tools skill is now ready!** Ask me to test web pages, take screenshots, or interact with browsers.

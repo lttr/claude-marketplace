@@ -28,9 +28,11 @@ All scripts located in `skills/browser-tools/scripts/`:
 
 ### browser-start
 
+By default use the persistent profile at `/tmp/chrome-profile-browser-tools`.
+
 ```bash
+browser-start --profile    # Persistent profile
 browser-start              # Fresh profile
-browser-start --profile    # Persistent profile at /tmp/chrome-profile-browser-tools
 ```
 
 Launch Chrome with remote debugging on port 9222. Use `--profile` to maintain login state between sessions.
