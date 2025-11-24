@@ -20,7 +20,7 @@
       "name": "browser-tools",
       "source": "./plugins/browser-tools",
       "description": "Chrome automation tools for agent-assisted web testing and interaction using Chrome DevTools Protocol",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "author": {
         "name": "Lukas Trumm"
       },

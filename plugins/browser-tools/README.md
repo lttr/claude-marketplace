@@ -17,20 +17,38 @@ Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web 
 /plugin install browser-tools@claude-marketplace
 ```
 
+### Setup
+
+**Run setup once after installation:**
+
+```bash
+/browser-tools:setup
+```
+
+This command:
+
+- Installs npm dependencies (chrome-remote-interface)
+- Creates `~/.bin/` directory if needed
+- Makes all scripts executable
+- Creates global symlinks for easy invocation
+- Verifies `~/.bin` is in your PATH
+
+The setup is idempotent and safe to rerun.
+
 ### Local Testing
 
 ```bash
 /plugin marketplace add /path/to/claude-marketplace
 /plugin install browser-tools@claude-marketplace
+/browser-tools:setup
 ```
 
 ## Requirements
 
 - **Node.js** - For running scripts
-- **pnpm** - Package manager (or npm/yarn)
+- **pnpm** - Package manager for dependency installation
 - **Google Chrome** - Must have `google-chrome` binary available
-
-Dependencies are auto-installed by the skill when first used.
+- **~/.bin in PATH** - For global script access (setup command will verify)
 
 ## Usage
 
@@ -95,12 +113,13 @@ Temp directory (OS-specific)
 
 ## Troubleshooting
 
-**Scripts fail to run:**
+**Scripts not found or fail to run:**
 
 ```bash
-cd plugins/browser-tools/skills/browser-tools/scripts
-pnpm install
+/browser-tools:setup
 ```
+
+Run the setup command to install dependencies and create symlinks.
 
 **Chrome won't start:**
 
@@ -108,10 +127,11 @@ pnpm install
 - Check if port 9222 is already in use
 - Try killing existing Chrome processes
 
-**Dependencies not found:**
+**Scripts work but give "command not found":**
 
-- Skill auto-installs with pnpm
-- Manual fallback: `cd scripts && pnpm install`
+- Verify `~/.bin` is in your PATH
+- Setup command will warn if PATH is missing `~/.bin`
+- Add to PATH: `export PATH="$HOME/.bin:$PATH"` in your shell profile
 
 ## Philosophy
 
