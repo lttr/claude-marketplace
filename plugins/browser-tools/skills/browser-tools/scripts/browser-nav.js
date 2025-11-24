@@ -15,10 +15,24 @@ if (!url) {
   process.exit(1)
 }
 
-const b = await puppeteer.connect({
-  browserURL: "http://localhost:9222",
-  defaultViewport: null,
-})
+// Connect with retry logic in case Chrome just started
+let b
+for (let i = 0; i < 5; i++) {
+  try {
+    b = await puppeteer.connect({
+      browserURL: "http://localhost:9222",
+      defaultViewport: null,
+    })
+    break
+  } catch (err) {
+    if (i === 4) {
+      console.error("✗ Failed to connect to Chrome on :9222")
+      console.error("  Make sure Chrome is running (use browser-start.js)")
+      process.exit(1)
+    }
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+}
 
 if (newTab) {
   const p = await b.newPage()

@@ -48,6 +48,8 @@ for (let i = 0; i < 30; i++) {
       defaultViewport: null,
     })
     await browser.disconnect()
+    // Brief delay to let Chrome fully stabilize after initial connection
+    await new Promise((r) => setTimeout(r, 500))
     connected = true
     break
   } catch {
