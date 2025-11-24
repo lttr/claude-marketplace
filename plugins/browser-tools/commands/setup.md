@@ -2,7 +2,7 @@ Set up browser-tools plugin by installing dependencies and creating global symli
 
 This command:
 
-1. Installs npm dependencies (chrome-remote-interface) in the scripts directory
+1. Installs dependencies using pnpm (chrome-remote-interface) in the scripts directory
 2. Creates ~/.bin/ directory if it doesn't exist
 3. Makes all browser scripts executable
 4. Creates symlinks in ~/.bin/ for: browser-start, browser-nav, browser-eval, browser-screenshot, browser-pick, browser-cookies
