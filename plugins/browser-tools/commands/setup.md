@@ -26,10 +26,10 @@ echo "Found scripts at: $SCRIPTS_DIR"
 cd "$SCRIPTS_DIR" && pnpm install
 ```
 
-**Step 3: Create ~/.bin directory**
+**Step 3: Create ~/bin directory**
 
 ```bash
-mkdir -p ~/.bin
+mkdir -p ~/bin
 ```
 
 **Step 4: Make scripts executable**
@@ -43,20 +43,20 @@ chmod +x "$SCRIPTS_DIR"/browser-*.js
 IMPORTANT: Symlink names should NOT have .js extension:
 
 ```bash
-ln -sf "$SCRIPTS_DIR/browser-start.js" ~/.bin/browser-start
-ln -sf "$SCRIPTS_DIR/browser-nav.js" ~/.bin/browser-nav
-ln -sf "$SCRIPTS_DIR/browser-eval.js" ~/.bin/browser-eval
-ln -sf "$SCRIPTS_DIR/browser-screenshot.js" ~/.bin/browser-screenshot
-ln -sf "$SCRIPTS_DIR/browser-pick.js" ~/.bin/browser-pick
-ln -sf "$SCRIPTS_DIR/browser-cookies.js" ~/.bin/browser-cookies
+ln -sf "$SCRIPTS_DIR/browser-start.js" ~/bin/browser-start
+ln -sf "$SCRIPTS_DIR/browser-nav.js" ~/bin/browser-nav
+ln -sf "$SCRIPTS_DIR/browser-eval.js" ~/bin/browser-eval
+ln -sf "$SCRIPTS_DIR/browser-screenshot.js" ~/bin/browser-screenshot
+ln -sf "$SCRIPTS_DIR/browser-pick.js" ~/bin/browser-pick
+ln -sf "$SCRIPTS_DIR/browser-cookies.js" ~/bin/browser-cookies
 ```
 
 **Step 6: Verify PATH**
 
-Check if ~/.bin is in PATH:
+Check if ~/bin is in PATH:
 
 ```bash
-echo $PATH | grep -q "$HOME/.bin" && echo "✓ ~/.bin is in PATH" || echo "⚠ WARNING: Add ~/.bin to PATH in your shell profile"
+echo $PATH | grep -q "$HOME/bin" && echo "✓ ~/bin is in PATH" || echo "⚠ WARNING: Add ~/bin to PATH in your shell profile"
 ```
 
 ## Summary

@@ -20,7 +20,7 @@ When user asks to test, verify, or interact with web pages using browser tools:
 2. **Navigate & interact** - Use scripts to navigate, evaluate JS, take screenshots
 3. **Return results** - Show output/screenshots to user
 
-**IMPORTANT**: Use command names directly (e.g., `browser-start`), NOT full paths (e.g., `~/.bin/browser-start`). Commands are in PATH after setup.
+**IMPORTANT**: Use command names directly (e.g., `browser-start`), NOT full paths (e.g., `~/bin/browser-start`). Commands are in PATH after setup.
 
 ## Available Scripts
 

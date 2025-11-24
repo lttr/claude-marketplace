@@ -28,10 +28,10 @@ Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web 
 This command:
 
 - Installs npm dependencies (chrome-remote-interface)
-- Creates `~/.bin/` directory if needed
+- Creates `~/bin/` directory if needed
 - Makes all scripts executable
 - Creates global symlinks for easy invocation
-- Verifies `~/.bin` is in your PATH
+- Verifies `~/bin` is in your PATH
 
 The setup is idempotent and safe to rerun.
 
@@ -48,7 +48,7 @@ The setup is idempotent and safe to rerun.
 - **Node.js** - For running scripts
 - **pnpm** - Package manager for dependency installation
 - **Google Chrome** - Must have `google-chrome` binary available
-- **~/.bin in PATH** - For global script access (setup command will verify)
+- **~/bin in PATH** - For global script access (setup command will verify)
 
 ## Usage
 
@@ -129,9 +129,9 @@ Run the setup command to install dependencies and create symlinks.
 
 **Scripts work but give "command not found":**
 
-- Verify `~/.bin` is in your PATH
-- Setup command will warn if PATH is missing `~/.bin`
-- Add to PATH: `export PATH="$HOME/.bin:$PATH"` in your shell profile
+- Verify `~/bin` is in your PATH
+- Setup command will warn if PATH is missing `~/bin`
+- Add to PATH: `export PATH="$HOME/bin:$PATH"` in your shell profile
 
 ## Philosophy
 
