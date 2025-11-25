@@ -13,7 +13,14 @@
       "author": {
         "name": "Lukas Trumm"
       },
-      "keywords": ["nuxt", "vue", "pinia", "vueuse", "drizzle", "nuxt-ui"],
+      "keywords": [
+        "nuxt",
+        "vue",
+        "pinia",
+        "vueuse",
+        "drizzle",
+        "nuxt-ui"
+      ],
       "category": "framework"
     },
     {
@@ -40,7 +47,7 @@
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
       "version": "1.6.4",
       "author": {
-        "name": "Lukáš Trumm"
+        "name": "Lukas Trumm"
       },
       "keywords": [
         "transcription",
@@ -49,6 +56,21 @@
         "video",
         "article",
         "elevenlabs"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "azure-devops",
+      "source": "./plugins/azure-devops",
+      "description": "Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects",
+      "version": "0.1.0",
+      "keywords": [
+        "azure",
+        "devops",
+        "cli",
+        "pipelines",
+        "repos",
+        "boards"
       ],
       "category": "productivity"
     }
