@@ -10,6 +10,7 @@ This is a **Claude Code plugin marketplace** that hosts multiple plugins for dis
 - **nuxt** - Nuxt.js development guidance with Vue best practices
 - **browser-tools** - Chrome automation for web testing via DevTools Protocol
 - **video-to-article** - Convert lecture videos to transcripts and articles
+- **azure-devops** - Azure DevOps CLI guidance (repos, pipelines, boards)
 
 ## Repository Structure
 
@@ -20,7 +21,8 @@ claude-marketplace/
 ├── plugins/
 │   ├── nuxt/                # Nuxt.js development guidance
 │   ├── browser-tools/       # Chrome automation tools
-│   └── video-to-article/    # Video transcription workflow
+│   ├── video-to-article/    # Video transcription workflow
+│   └── azure-devops/        # Azure DevOps CLI guidance
 └── README.md                # Marketplace-level README
 ```
 
@@ -157,3 +159,4 @@ After modifying a plugin:
 
 - DO NOT use exact number of steps or similar references. The number might change and would be misleading in the future.
 - DO NOT name a custom command and a skill with the same name, it might confuse Claude Code.
+- **ALWAYS update README.md** when adding new plugins or making significant changes to reflect current state.

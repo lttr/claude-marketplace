@@ -39,6 +39,27 @@ Automated workflow for converting lecture videos into transcripts, outlines, and
 
 See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) for detailed documentation.
 
+### Azure DevOps Plugin
+
+Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects using the `az` CLI.
+
+**Features:**
+
+- Most-used commands ready to run (list my PRs, my work items)
+- Repository and PR management
+- Pipeline runs and variables
+- Work item queries with WIQL
+- Project, team, and user management
+
+**Installation:**
+
+```shell
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install azure-devops@lttr-claude-marketplace
+```
+
+See [plugins/azure-devops/README.md](./plugins/azure-devops/README.md) for detailed documentation.
+
 ## Installation
 
 ### Add this marketplace
@@ -65,6 +86,7 @@ Select "Browse Plugins" to see available options, or install directly:
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install browser-tools@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
+/plugin install azure-devops@lttr-claude-marketplace
 ```
 
 ## For Plugin Developers
