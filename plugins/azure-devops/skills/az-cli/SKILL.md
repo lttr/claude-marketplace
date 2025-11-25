@@ -117,12 +117,12 @@ Detailed command references available:
 
 Most commands support:
 
-| Flag | Description |
-|------|-------------|
-| `--org` | Organization URL (or set via `az devops configure`) |
-| `--project` | Project name (or set via `az devops configure`) |
-| `--detect` | Auto-detect org/project from git remote |
-| `-o json/table/tsv` | Output format |
+| Flag                | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| `--org`             | Organization URL (or set via `az devops configure`) |
+| `--project`         | Project name (or set via `az devops configure`)     |
+| `--detect`          | Auto-detect org/project from git remote             |
+| `-o json/table/tsv` | Output format                                       |
 
 ## Troubleshooting
 

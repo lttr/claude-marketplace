@@ -3,6 +3,7 @@
 ## Repository Management
 
 ### az repos list
+
 List repositories in a project.
 
 ```bash
@@ -10,6 +11,7 @@ az repos list [--org] [--project] [--detect {false,true}]
 ```
 
 ### az repos show
+
 Get repository details.
 
 ```bash
@@ -17,6 +19,7 @@ az repos show --repository <name-or-id> [--open] [--org] [--project]
 ```
 
 ### az repos create
+
 Create a new repository.
 
 ```bash
@@ -24,6 +27,7 @@ az repos create --name <repo-name> [--org] [--project] [--open]
 ```
 
 ### az repos delete
+
 Delete a repository.
 
 ```bash
@@ -31,6 +35,7 @@ az repos delete --id <repo-id> [--yes] [--org] [--project]
 ```
 
 ### az repos update
+
 Update repository settings.
 
 ```bash
@@ -40,6 +45,7 @@ az repos update --repository <name-or-id> --name <new-name> [--default-branch <b
 ## Pull Requests
 
 ### az repos pr list
+
 List pull requests.
 
 ```bash
@@ -63,6 +69,7 @@ az repos pr list --top 10 --skip 0
 ```
 
 ### az repos pr show
+
 Show PR details.
 
 ```bash
@@ -70,6 +77,7 @@ az repos pr show --id <pr-id> [--open]
 ```
 
 ### az repos pr create
+
 Create a pull request.
 
 ```bash
@@ -87,6 +95,7 @@ az repos pr create \
 ```
 
 ### az repos pr update
+
 Update a pull request.
 
 ```bash
@@ -107,6 +116,7 @@ az repos pr update --id <pr-id> --status abandoned
 ```
 
 ### az repos pr set-vote
+
 Vote on a pull request.
 
 ```bash
@@ -121,6 +131,7 @@ az repos pr set-vote --id <pr-id> --vote 10
 ```
 
 ### az repos pr checkout
+
 Checkout PR branch locally.
 
 ```bash
@@ -130,6 +141,7 @@ az repos pr checkout --id <pr-id>
 ## PR Reviewers
 
 ### az repos pr reviewer list
+
 List PR reviewers.
 
 ```bash
@@ -137,6 +149,7 @@ az repos pr reviewer list --id <pr-id>
 ```
 
 ### az repos pr reviewer add
+
 Add reviewers.
 
 ```bash
@@ -144,6 +157,7 @@ az repos pr reviewer add --id <pr-id> --reviewers user@email.com
 ```
 
 ### az repos pr reviewer remove
+
 Remove a reviewer.
 
 ```bash
@@ -153,6 +167,7 @@ az repos pr reviewer remove --id <pr-id> --reviewer user@email.com
 ## PR Work Items
 
 ### az repos pr work-item list
+
 List linked work items.
 
 ```bash
@@ -160,6 +175,7 @@ az repos pr work-item list --id <pr-id>
 ```
 
 ### az repos pr work-item add
+
 Link work item to PR.
 
 ```bash
@@ -167,6 +183,7 @@ az repos pr work-item add --id <pr-id> --work-items 123 456
 ```
 
 ### az repos pr work-item remove
+
 Unlink work item.
 
 ```bash
@@ -176,6 +193,7 @@ az repos pr work-item remove --id <pr-id> --work-items 123
 ## Branch Policies
 
 ### az repos policy list
+
 List branch policies.
 
 ```bash
@@ -183,6 +201,7 @@ az repos policy list --repository <repo> --branch <branch>
 ```
 
 ### az repos policy create
+
 Create a policy (various types available).
 
 ```bash
@@ -214,6 +233,7 @@ az repos policy build create \
 ## Git References
 
 ### az repos ref list
+
 List branches and tags.
 
 ```bash
@@ -221,6 +241,7 @@ az repos ref list --repository <repo> [--filter heads/] [--filter tags/]
 ```
 
 ### az repos ref create
+
 Create a branch or tag.
 
 ```bash
@@ -231,6 +252,7 @@ az repos ref create \
 ```
 
 ### az repos ref delete
+
 Delete a branch or tag.
 
 ```bash
@@ -240,6 +262,7 @@ az repos ref delete --name refs/heads/branch-name --repository <repo> --object-i
 ## Import Repository
 
 ### az repos import create
+
 Import a repository from external source.
 
 ```bash

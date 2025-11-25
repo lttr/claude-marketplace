@@ -3,6 +3,7 @@
 ## Authentication & Configuration
 
 ### az devops configure
+
 Configure CLI defaults.
 
 ```bash
@@ -17,6 +18,7 @@ az devops configure --defaults project=
 ```
 
 ### az devops login
+
 Set credentials for an organization.
 
 ```bash
@@ -28,6 +30,7 @@ echo $AZURE_DEVOPS_EXT_PAT | az devops login --organization https://dev.azure.co
 ```
 
 ### az devops logout
+
 Clear stored credentials.
 
 ```bash
@@ -41,6 +44,7 @@ az devops logout
 ## Projects
 
 ### az devops project list
+
 List projects in organization.
 
 ```bash
@@ -48,6 +52,7 @@ az devops project list [--top <n>] [--skip <n>] [--state all|deleting|new|wellFo
 ```
 
 ### az devops project show
+
 Show project details.
 
 ```bash
@@ -55,6 +60,7 @@ az devops project show --project <project-name> [--open]
 ```
 
 ### az devops project create
+
 Create a new project.
 
 ```bash
@@ -67,6 +73,7 @@ az devops project create \
 ```
 
 ### az devops project delete
+
 Delete a project.
 
 ```bash
@@ -76,6 +83,7 @@ az devops project delete --id <project-id> [--yes]
 ## Teams
 
 ### az devops team list
+
 List teams in project.
 
 ```bash
@@ -83,6 +91,7 @@ az devops team list [--top <n>] [--skip <n>]
 ```
 
 ### az devops team show
+
 Show team details.
 
 ```bash
@@ -90,6 +99,7 @@ az devops team show --team "Team Name"
 ```
 
 ### az devops team create
+
 Create a team.
 
 ```bash
@@ -97,6 +107,7 @@ az devops team create --name "New Team" [--description "Team description"]
 ```
 
 ### az devops team delete
+
 Delete a team.
 
 ```bash
@@ -104,6 +115,7 @@ az devops team delete --id <team-id> [--yes]
 ```
 
 ### az devops team update
+
 Update team settings.
 
 ```bash
@@ -111,6 +123,7 @@ az devops team update --team "Team Name" --name "New Team Name" --description "U
 ```
 
 ### az devops team list-member
+
 List team members.
 
 ```bash
@@ -120,6 +133,7 @@ az devops team list-member --team "Team Name" [--top <n>] [--skip <n>]
 ## Users
 
 ### az devops user list
+
 List users in organization.
 
 ```bash
@@ -127,6 +141,7 @@ az devops user list [--top <n>] [--skip <n>]
 ```
 
 ### az devops user show
+
 Show user details.
 
 ```bash
@@ -134,6 +149,7 @@ az devops user show --user user@email.com
 ```
 
 ### az devops user add
+
 Add user to organization.
 
 ```bash
@@ -144,6 +160,7 @@ az devops user add \
 ```
 
 ### az devops user update
+
 Update user license.
 
 ```bash
@@ -151,6 +168,7 @@ az devops user update --user user@email.com --license-type basic
 ```
 
 ### az devops user remove
+
 Remove user from organization.
 
 ```bash
@@ -160,6 +178,7 @@ az devops user remove --user user@email.com [--yes]
 ## Service Endpoints (Connections)
 
 ### az devops service-endpoint list
+
 List service connections.
 
 ```bash
@@ -167,6 +186,7 @@ az devops service-endpoint list
 ```
 
 ### az devops service-endpoint show
+
 Show connection details.
 
 ```bash
@@ -174,6 +194,7 @@ az devops service-endpoint show --id <endpoint-id>
 ```
 
 ### az devops service-endpoint create
+
 Create service connection (general).
 
 ```bash
@@ -181,6 +202,7 @@ az devops service-endpoint create --service-endpoint-configuration <config-file>
 ```
 
 ### az devops service-endpoint azurerm create
+
 Create Azure Resource Manager connection.
 
 ```bash
@@ -193,6 +215,7 @@ az devops service-endpoint azurerm create \
 ```
 
 ### az devops service-endpoint github create
+
 Create GitHub connection.
 
 ```bash
@@ -202,6 +225,7 @@ az devops service-endpoint github create \
 ```
 
 ### az devops service-endpoint delete
+
 Delete a service connection.
 
 ```bash
@@ -209,6 +233,7 @@ az devops service-endpoint delete --id <endpoint-id> [--yes]
 ```
 
 ### az devops service-endpoint update
+
 Update service connection.
 
 ```bash
@@ -218,6 +243,7 @@ az devops service-endpoint update --id <endpoint-id> --enable-for-all true
 ## Extensions
 
 ### az devops extension list
+
 List installed extensions.
 
 ```bash
@@ -225,6 +251,7 @@ az devops extension list [--include-built-in] [--include-disabled]
 ```
 
 ### az devops extension show
+
 Show extension details.
 
 ```bash
@@ -232,6 +259,7 @@ az devops extension show --extension-id <id> --publisher-id <publisher>
 ```
 
 ### az devops extension search
+
 Search marketplace extensions.
 
 ```bash
@@ -239,6 +267,7 @@ az devops extension search --search-query "search term"
 ```
 
 ### az devops extension install
+
 Install an extension.
 
 ```bash
@@ -246,6 +275,7 @@ az devops extension install --extension-id <id> --publisher-id <publisher>
 ```
 
 ### az devops extension uninstall
+
 Uninstall an extension.
 
 ```bash
@@ -253,6 +283,7 @@ az devops extension uninstall --extension-id <id> --publisher-id <publisher> [--
 ```
 
 ### az devops extension enable/disable
+
 Enable or disable an extension.
 
 ```bash
@@ -263,6 +294,7 @@ az devops extension disable --extension-id <id> --publisher-id <publisher>
 ## Wiki
 
 ### az devops wiki list
+
 List wikis in project.
 
 ```bash
@@ -270,6 +302,7 @@ az devops wiki list
 ```
 
 ### az devops wiki show
+
 Show wiki details.
 
 ```bash
@@ -277,6 +310,7 @@ az devops wiki show --wiki <wiki-name>
 ```
 
 ### az devops wiki create
+
 Create a wiki.
 
 ```bash
@@ -293,6 +327,7 @@ az devops wiki create \
 ```
 
 ### az devops wiki delete
+
 Delete a wiki.
 
 ```bash
@@ -300,6 +335,7 @@ az devops wiki delete --wiki <wiki-name> [--yes]
 ```
 
 ### az devops wiki page show
+
 Show wiki page.
 
 ```bash
@@ -307,6 +343,7 @@ az devops wiki page show --wiki <wiki-name> --path "/Page Name"
 ```
 
 ### az devops wiki page create
+
 Create a wiki page.
 
 ```bash
@@ -317,6 +354,7 @@ az devops wiki page create \
 ```
 
 ### az devops wiki page update
+
 Update a wiki page.
 
 ```bash
@@ -328,6 +366,7 @@ az devops wiki page update \
 ```
 
 ### az devops wiki page delete
+
 Delete a wiki page.
 
 ```bash
@@ -337,6 +376,7 @@ az devops wiki page delete --wiki <wiki-name> --path "/Page Name" [--yes]
 ## Security
 
 ### az devops security group list
+
 List security groups.
 
 ```bash
@@ -344,6 +384,7 @@ az devops security group list [--scope organization|project]
 ```
 
 ### az devops security group show
+
 Show group details.
 
 ```bash
@@ -351,6 +392,7 @@ az devops security group show --id <group-descriptor>
 ```
 
 ### az devops security group create
+
 Create a security group.
 
 ```bash
@@ -358,6 +400,7 @@ az devops security group create --name "Group Name" [--description "Description"
 ```
 
 ### az devops security group membership list
+
 List group members.
 
 ```bash
@@ -365,6 +408,7 @@ az devops security group membership list --id <group-descriptor>
 ```
 
 ### az devops security group membership add
+
 Add member to group.
 
 ```bash
@@ -372,6 +416,7 @@ az devops security group membership add --group-id <group-id> --member-id <membe
 ```
 
 ### az devops security permission list
+
 List permissions.
 
 ```bash
@@ -381,6 +426,7 @@ az devops security permission list --namespace-id <namespace-id> --token <securi
 ## Invoke (Raw API Calls)
 
 ### az devops invoke
+
 Make arbitrary API calls.
 
 ```bash
@@ -409,6 +455,7 @@ az devops invoke \
 ## Admin (Organization Level)
 
 ### az devops admin banner list
+
 List organization banners.
 
 ```bash
@@ -416,6 +463,7 @@ az devops admin banner list
 ```
 
 ### az devops admin banner add
+
 Add an organization banner.
 
 ```bash
@@ -427,6 +475,7 @@ az devops admin banner add \
 ```
 
 ### az devops admin banner remove
+
 Remove a banner.
 
 ```bash
@@ -434,6 +483,7 @@ az devops admin banner remove --id <banner-id>
 ```
 
 ### az devops admin banner update
+
 Update a banner.
 
 ```bash

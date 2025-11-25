@@ -13,14 +13,7 @@
       "author": {
         "name": "Lukas Trumm"
       },
-      "keywords": [
-        "nuxt",
-        "vue",
-        "pinia",
-        "vueuse",
-        "drizzle",
-        "nuxt-ui"
-      ],
+      "keywords": ["nuxt", "vue", "pinia", "vueuse", "drizzle", "nuxt-ui"],
       "category": "framework"
     },
     {
@@ -64,14 +57,7 @@
       "source": "./plugins/azure-devops",
       "description": "Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects",
       "version": "0.1.0",
-      "keywords": [
-        "azure",
-        "devops",
-        "cli",
-        "pipelines",
-        "repos",
-        "boards"
-      ],
+      "keywords": ["azure", "devops", "cli", "pipelines", "repos", "boards"],
       "category": "productivity"
     }
   ]

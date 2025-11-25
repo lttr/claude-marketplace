@@ -6,12 +6,5 @@
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"
   },
-  "keywords": [
-    "azure",
-    "devops",
-    "cli",
-    "pipelines",
-    "repos",
-    "boards"
-  ]
+  "keywords": ["azure", "devops", "cli", "pipelines", "repos", "boards"]
 }

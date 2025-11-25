@@ -33,14 +33,18 @@ az devops configure --defaults organization=https://dev.azure.com/YOUR_ORG proje
 ## Skill Contents
 
 ### SKILL.md
+
 Most-used commands ready to run:
+
 - List my PRs: `az repos pr list --creator <me>`
 - My work items: `az boards query --wiql "...WHERE [System.AssignedTo] = @Me..."`
 - Pipeline runs: `az pipelines runs list`
 - Create PR, run pipeline, update work items
 
 ### References
+
 Detailed command references:
+
 - `repos.md` - Repositories, PRs, policies, branches
 - `pipelines.md` - Pipelines, runs, variables, releases
 - `boards.md` - Work items, queries, areas, iterations

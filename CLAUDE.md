@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a **Claude Code plugin marketplace** that hosts multiple plugins for distribution.
 
 **Available plugins:**
+
 - **nuxt** - Nuxt.js development guidance with Vue best practices
 - **browser-tools** - Chrome automation for web testing via DevTools Protocol
 - **video-to-article** - Convert lecture videos to transcripts and articles

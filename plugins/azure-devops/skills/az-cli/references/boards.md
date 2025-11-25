@@ -3,6 +3,7 @@
 ## Work Item Queries
 
 ### az boards query
+
 Query work items using WIQL.
 
 ```bash
@@ -31,6 +32,7 @@ az boards query --path "Shared Queries/My Query"
 ```
 
 **WIQL Field References:**
+
 - `[System.Id]` - Work item ID
 - `[System.Title]` - Title
 - `[System.State]` - State (New, Active, Closed, etc.)
@@ -43,6 +45,7 @@ az boards query --path "Shared Queries/My Query"
 - `[System.CreatedDate]` - Created date
 
 **WIQL Macros:**
+
 - `@Me` - Current user
 - `@Today` - Today's date
 - `@CurrentIteration` - Current sprint
@@ -51,6 +54,7 @@ az boards query --path "Shared Queries/My Query"
 ## Work Items
 
 ### az boards work-item show
+
 Show work item details.
 
 ```bash
@@ -58,6 +62,7 @@ az boards work-item show --id <work-item-id> [--open] [--expand all|relations|fi
 ```
 
 ### az boards work-item create
+
 Create a work item.
 
 ```bash
@@ -86,6 +91,7 @@ az boards work-item create \
 ```
 
 **Common work item types:**
+
 - `Task` - Development task
 - `Bug` - Bug/defect
 - `User Story` - User story (Agile)
@@ -95,6 +101,7 @@ az boards work-item create \
 - `Issue` - Issue (Basic process)
 
 ### az boards work-item update
+
 Update a work item.
 
 ```bash
@@ -118,6 +125,7 @@ az boards work-item update --id <id> --description "Updated description"
 ```
 
 ### az boards work-item delete
+
 Delete a work item.
 
 ```bash
@@ -129,6 +137,7 @@ Note: `--destroy` permanently deletes; without it, item goes to recycle bin.
 ## Work Item Relations
 
 ### az boards work-item relation list-type
+
 List available relation types.
 
 ```bash
@@ -136,6 +145,7 @@ az boards work-item relation list-type
 ```
 
 Common relation types:
+
 - `System.LinkTypes.Hierarchy-Forward` - Parent (child -> parent)
 - `System.LinkTypes.Hierarchy-Reverse` - Child (parent -> child)
 - `System.LinkTypes.Related` - Related
@@ -143,6 +153,7 @@ Common relation types:
 - `System.LinkTypes.Dependency-Reverse` - Predecessor
 
 ### az boards work-item relation add
+
 Add a relation.
 
 ```bash
@@ -160,6 +171,7 @@ az boards work-item relation add \
 ```
 
 ### az boards work-item relation remove
+
 Remove a relation.
 
 ```bash
@@ -170,6 +182,7 @@ az boards work-item relation remove \
 ```
 
 ### az boards work-item relation show
+
 Show work item relations.
 
 ```bash
@@ -179,6 +192,7 @@ az boards work-item relation show --id <work-item-id>
 ## Area Paths
 
 ### az boards area project list
+
 List area paths in project.
 
 ```bash
@@ -186,6 +200,7 @@ az boards area project list [--depth <n>]
 ```
 
 ### az boards area project show
+
 Show area details.
 
 ```bash
@@ -193,6 +208,7 @@ az boards area project show --path "\\Project\\Area\\SubArea"
 ```
 
 ### az boards area project create
+
 Create an area path.
 
 ```bash
@@ -200,6 +216,7 @@ az boards area project create --name "New Area" [--path "\\Project\\ParentArea"]
 ```
 
 ### az boards area project delete
+
 Delete an area path.
 
 ```bash
@@ -207,6 +224,7 @@ az boards area project delete --path "\\Project\\Area" [--yes]
 ```
 
 ### az boards area team list
+
 List areas for a team.
 
 ```bash
@@ -214,6 +232,7 @@ az boards area team list --team "Team Name"
 ```
 
 ### az boards area team add
+
 Add area to team.
 
 ```bash
@@ -221,6 +240,7 @@ az boards area team add --team "Team Name" --path "\\Project\\Area" [--include-s
 ```
 
 ### az boards area team remove
+
 Remove area from team.
 
 ```bash
@@ -230,6 +250,7 @@ az boards area team remove --team "Team Name" --path "\\Project\\Area"
 ## Iteration Paths (Sprints)
 
 ### az boards iteration project list
+
 List iterations in project.
 
 ```bash
@@ -237,6 +258,7 @@ az boards iteration project list [--depth <n>]
 ```
 
 ### az boards iteration project show
+
 Show iteration details.
 
 ```bash
@@ -244,6 +266,7 @@ az boards iteration project show --path "\\Project\\Sprint 1"
 ```
 
 ### az boards iteration project create
+
 Create an iteration.
 
 ```bash
@@ -255,6 +278,7 @@ az boards iteration project create \
 ```
 
 ### az boards iteration project delete
+
 Delete an iteration.
 
 ```bash
@@ -262,6 +286,7 @@ az boards iteration project delete --path "\\Project\\Sprint 5" [--yes]
 ```
 
 ### az boards iteration team list
+
 List team iterations.
 
 ```bash
@@ -269,6 +294,7 @@ az boards iteration team list --team "Team Name"
 ```
 
 ### az boards iteration team add
+
 Add iteration to team.
 
 ```bash
@@ -276,6 +302,7 @@ az boards iteration team add --team "Team Name" --id <iteration-id>
 ```
 
 ### az boards iteration team remove
+
 Remove iteration from team.
 
 ```bash
@@ -283,6 +310,7 @@ az boards iteration team remove --team "Team Name" --id <iteration-id>
 ```
 
 ### az boards iteration team list-work-items
+
 List work items in iteration.
 
 ```bash
@@ -290,6 +318,7 @@ az boards iteration team list-work-items --team "Team Name" --id <iteration-id>
 ```
 
 ### az boards iteration team set-backlog-iteration
+
 Set backlog iteration for team.
 
 ```bash
@@ -297,6 +326,7 @@ az boards iteration team set-backlog-iteration --team "Team Name" --id <iteratio
 ```
 
 ### az boards iteration team set-default-iteration
+
 Set default iteration for new work items.
 
 ```bash
