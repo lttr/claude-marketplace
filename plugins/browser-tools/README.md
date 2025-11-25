@@ -14,7 +14,7 @@ Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web 
 
 ```bash
 /plugin marketplace add lukastrumm/claude-marketplace
-/plugin install browser-tools@claude-marketplace
+/plugin install browser-tools@lttr-claude-marketplace
 ```
 
 ### Setup
@@ -39,7 +39,7 @@ The setup is idempotent and safe to rerun.
 
 ```bash
 /plugin marketplace add /path/to/claude-marketplace
-/plugin install browser-tools@claude-marketplace
+/plugin install browser-tools@lttr-claude-marketplace
 /browser-tools:setup
 ```
 

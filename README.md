@@ -22,10 +22,22 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 
 ```shell
 /plugin marketplace add lukastrumm/claude-marketplace
-/plugin install nuxt@claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
 ```
 
 See [plugins/nuxt/README.md](./plugins/nuxt/README.md) for detailed documentation.
+
+### Browser Tools Plugin
+
+Chrome DevTools Protocol automation for agent-assisted web testing and interaction. Lightweight alternative to MCP-based browser tools.
+
+See [plugins/browser-tools/README.md](./plugins/browser-tools/README.md) for detailed documentation.
+
+### Video to Article Plugin
+
+Automated workflow for converting lecture videos into transcripts, outlines, and article drafts using ffmpeg and ElevenLabs API.
+
+See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) for detailed documentation.
 
 ## Installation
 
@@ -47,7 +59,13 @@ Or for local development:
 /plugin
 ```
 
-Select "Browse Plugins" to see available options.
+Select "Browse Plugins" to see available options, or install directly:
+
+```shell
+/plugin install nuxt@lttr-claude-marketplace
+/plugin install browser-tools@lttr-claude-marketplace
+/plugin install video-to-article@lttr-claude-marketplace
+```
 
 ## For Plugin Developers
 

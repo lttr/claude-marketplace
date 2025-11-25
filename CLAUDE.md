@@ -4,7 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Claude Code plugin marketplace** that hosts multiple plugins for distribution. Currently contains the Nuxt plugin with comprehensive Nuxt.js development guidance.
+This is a **Claude Code plugin marketplace** that hosts multiple plugins for distribution.
+
+**Available plugins:**
+- **nuxt** - Nuxt.js development guidance with Vue best practices
+- **browser-tools** - Chrome automation for web testing via DevTools Protocol
+- **video-to-article** - Convert lecture videos to transcripts and articles
 
 ## Repository Structure
 
@@ -13,13 +18,13 @@ claude-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json     # Marketplace catalog listing all plugins
 ├── plugins/
-│   └── nuxt/                # Individual plugin directories
-│       ├── .claude-plugin/
-│       │   └── plugin.json  # Plugin metadata
-│       ├── skills/          # Plugin Skills
-│       └── README.md        # Plugin documentation
+│   ├── nuxt/                # Nuxt.js development guidance
+│   ├── browser-tools/       # Chrome automation tools
+│   └── video-to-article/    # Video transcription workflow
 └── README.md                # Marketplace-level README
 ```
+
+Each plugin contains `.claude-plugin/plugin.json`, optional `skills/`, `commands/`, and `README.md`.
 
 ## Marketplace vs Plugin Files
 
@@ -60,13 +65,12 @@ When working with plugins or skills in this repository, proactively load:
 - **Reference docs**: `plugins/nuxt/skills/nuxt/references/*.md` - Detailed library-specific patterns
 - **Progressive disclosure**: References loaded on-demand to keep context efficient
 
-#### Nuxt Plugin Design Principles
+#### Plugin Design Principles
 
-1. **Dependency-Aware**: Check `package.json` before suggesting library features
-2. **Auto-Import Focused**: Never suggest manual imports for Nuxt/Vue auto-imported APIs
-3. **File-Based Conventions**: Leverage Nuxt directory structure (pages/, server/api/, etc.)
-4. **Official Docs Integration**: Fetch from https://nuxt.com/llms.txt when uncertain
-5. **Version Agnostic**: Support Nuxt 3+ without version-specific assumptions
+1. **Dependency-Aware**: Check project files before suggesting library features
+2. **Convention-Based**: Leverage framework conventions and directory structures
+3. **Official Docs Integration**: Fetch from official sources when uncertain
+4. **Minimal Context**: Keep skills focused to reduce token usage
 
 ## Git Workflow
 
@@ -114,14 +118,14 @@ Commands use subdirectory-based namespacing:
 
 ```bash
 /plugin marketplace add /path/to/claude-marketplace
-/plugin install nuxt@claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
 ```
 
 ### After Publishing to GitHub
 
 ```bash
 /plugin marketplace add lukastrumm/claude-marketplace
-/plugin install nuxt@claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
 ```
 
 ### Testing Plugin Changes

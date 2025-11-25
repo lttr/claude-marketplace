@@ -92,7 +92,7 @@ All outputs will be generated in the specified language.
 ## Installation
 
 ```bash
-/plugin install video-to-article@claude-marketplace
+/plugin install video-to-article@lttr-claude-marketplace
 ```
 
 ## License
