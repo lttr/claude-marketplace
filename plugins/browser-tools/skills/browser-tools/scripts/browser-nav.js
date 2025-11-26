@@ -34,13 +34,29 @@ for (let i = 0; i < 5; i++) {
   }
 }
 
+/**
+ * Navigate with graceful handling of frame detachment errors.
+ * These occur when redirects or JS cause the frame to be replaced mid-navigation.
+ */
+async function navigate(page, targetUrl) {
+  try {
+    await page.goto(targetUrl, { waitUntil: "domcontentloaded" })
+  } catch (err) {
+    if (err.message.includes("frame was detached") || err.message.includes("Target closed")) {
+      await new Promise((r) => setTimeout(r, 500))
+      return
+    }
+    throw err
+  }
+}
+
 if (newTab) {
   const p = await b.newPage()
-  await p.goto(url, { waitUntil: "domcontentloaded" })
+  await navigate(p, url)
   console.log("✓ Opened:", url)
 } else {
   const p = (await b.pages()).at(-1)
-  await p.goto(url, { waitUntil: "domcontentloaded" })
+  await navigate(p, url)
   console.log("✓ Navigated to:", url)
 }
 

@@ -25,7 +25,12 @@ if (!p) {
 
 const result = await p.evaluate((c) => {
   const AsyncFunction = (async () => {}).constructor
-  return new AsyncFunction(`return (${c})`)()
+  // Try as expression first, fall back to statements
+  try {
+    return new AsyncFunction(`return (${c})`)()
+  } catch {
+    return new AsyncFunction(c)()
+  }
 }, code)
 
 if (Array.isArray(result)) {
