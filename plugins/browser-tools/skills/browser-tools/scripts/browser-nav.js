@@ -42,7 +42,10 @@ async function navigate(page, targetUrl) {
   try {
     await page.goto(targetUrl, { waitUntil: "domcontentloaded" })
   } catch (err) {
-    if (err.message.includes("frame was detached") || err.message.includes("Target closed")) {
+    if (
+      err.message.includes("frame was detached") ||
+      err.message.includes("Target closed")
+    ) {
       await new Promise((r) => setTimeout(r, 500))
       return
     }
