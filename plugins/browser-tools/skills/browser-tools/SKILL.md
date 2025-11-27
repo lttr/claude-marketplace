@@ -1,7 +1,7 @@
 ---
 name: browser-tools
 description: Use this skill when the user asks to test, verify, interact with, or automate web pages and browsers. Trigger for requests involving Chrome automation, browser testing, web scraping, screenshot capture, element selection, or checking web applications. Also trigger when user mentions "browser tools" explicitly.
-allowed-tools: Bash(browser-start:*), Bash(browser-nav:*), Bash(browser-eval:*), Bash(browser-screenshot:*), Bash(browser-pick:*), Bash(browser-cookies:*), Read, Glob
+allowed-tools: Bash(browser-start:*), Bash(browser-nav:*), Bash(browser-eval:*), Bash(browser-screenshot:*), Bash(browser-pick:*), Bash(browser-cookies:*), Read, Read(/tmp/screenshot*), Glob
 ---
 
 # Browser Tools
