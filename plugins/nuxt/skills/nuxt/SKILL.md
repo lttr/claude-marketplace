@@ -98,7 +98,7 @@ Nuxt automatically imports these without explicit import statements:
 
 **Important:** Before providing library-specific guidance, check if the library is installed by examining `package.json`. Only include library-specific advice for dependencies that exist in the project.
 
-### Core Libraries (Always Available)
+### Core Libraries (Included by Default)
 
 - **Vue** - Component framework (auto-imported)
 - **Vue Router** - Routing (file-based, managed by Nuxt)
@@ -197,18 +197,18 @@ This skill includes detailed reference documentation for specific topics. Load t
 
 ## How to Use This Skill
 
-1. **Check dependencies** - Always examine `package.json` first to know what libraries are available
+1. **Check dependencies** - Examine `package.json` first to know what libraries are available
 2. **Follow Vue best practices** - Apply patterns from `vue-best-practices.md` to all component code
-3. **Leverage auto-imports** - Never manually import Nuxt/Vue composables that are auto-imported
+3. **Leverage auto-imports** - Don't manually import Nuxt/Vue composables that are auto-imported
 4. **Use file-based conventions** - Follow Nuxt's directory structure for routing, APIs, and middleware
 5. **Reference library docs** - When a library is installed, consult its reference file for specific patterns
-6. **Verify version-specific features** - Reference files include "Last updated" dates; always verify with official docs for version-specific details
+6. **Verify version-specific features** - Reference files include "Last updated" dates; verify with official docs for version-specific details
 7. **Fetch official docs** - For recent features or uncertainty, fetch from https://nuxt.com/llms.txt or module-specific documentation URLs
 
 ### Version-Specific Information
 
 - **Reference files with dates** (marked "Last updated: YYYY-MM") contain version-specific info
-- **Always verify with official docs** when:
+- **Verify with official docs** when:
   - Working with modules not documented in references
   - Module version differs significantly from documentation date
   - Encountering breaking changes or migration scenarios
@@ -235,7 +235,7 @@ This skill includes detailed reference documentation for specific topics. Load t
   - Props interfaces: `ButtonProps`, `CardProps`
   - State interfaces: `AuthState`, `UserState`
   - API types: `CreateUserRequest`, `CreateUserResponse`
-- **Never use `as any`** - prefer type guards, type narrowing, or `as unknown as Type` when absolutely necessary
+- **Don't use `as any`** - prefer type guards, type narrowing, or `as unknown as Type` when absolutely necessary
 
 ### File Structure (Nuxt 4):
 
@@ -247,9 +247,9 @@ This skill includes detailed reference documentation for specific topics. Load t
 
 ### Data Fetching State Handling:
 
-- Always use `status` property (not deprecated `pending`)
+- Use `status` property (not deprecated `pending`)
 - Status values: `'idle' | 'pending' | 'success' | 'error'`
-- Always destructure: `const { data, status, error } = await useFetch(...)`
+- Destructure: `const { data, status, error } = await useFetch(...)`
 - Handle all states in templates:
   ```vue
   <div v-if="status === 'pending'">Loading...</div>
@@ -275,7 +275,7 @@ This skill includes detailed reference documentation for specific topics. Load t
 
 ### Nuxt Projects Should:
 
-- Never manually import auto-imported composables
+- Don't manually import auto-imported composables
 - Use `useFetch` for API calls instead of manual fetch
 - Define server routes in `server/api/` with `.get.ts`, `.post.ts` naming
 - Use `useState` for shared state across components
@@ -307,7 +307,7 @@ When encountering custom utility implementations for common patterns, check if V
 - `@vueuse/core` or `@vueuse/nuxt` is in package.json, OR
 - User explicitly asks about VueUse or requests suggestions for utility libraries
 
-**Never:**
+**Avoid:**
 
 - Force VueUse if not installed
 - Suggest VueUse for simple one-off logic that doesn't need a composable

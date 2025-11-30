@@ -803,13 +803,13 @@ const { data: posts } = await useAsyncData("posts", () =>
 
 ## Best Practices
 
-1. **Define collections** - Always create `content.config.ts` with schemas
+1. **Define collections** - Create `content.config.ts` with schemas
 2. **Use TypeScript** - Type your collections for better DX
 3. **Cache queries** - Use `useAsyncData` with proper keys
 4. **Server-side queries** - Query on server for API routes
 5. **Index for performance** - Consider indexing frequently queried fields
 6. **Validate frontmatter** - Use Zod schemas in collection definitions
-7. **Handle 404s** - Always check if content exists and throw errors
+7. **Handle 404s** - Check if content exists and throw errors
 8. **Use path()** - More efficient than where() for path filtering
 9. **Select fields** - Use `.select()` to reduce payload size
 10. **Pagination** - Implement for large collections

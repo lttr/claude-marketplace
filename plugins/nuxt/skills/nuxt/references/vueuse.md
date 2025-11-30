@@ -8,7 +8,7 @@ VueUse is a collection of essential Vue Composition Utilities. It provides ready
 
 ## Installation Detection
 
-Prefer VueUse over custom implementations when it's installed. Always check package.json first.
+Prefer VueUse over custom implementations when it's installed. Check package.json first.
 
 ## Common Composables
 

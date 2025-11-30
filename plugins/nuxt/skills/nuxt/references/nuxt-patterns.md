@@ -22,7 +22,7 @@ interface User {
 const { data, status, error } = await useFetch<User[]>("/api/users")
 ```
 
-**Always handle all states in templates:**
+**Handle all states in templates:**
 
 ```vue
 <template>

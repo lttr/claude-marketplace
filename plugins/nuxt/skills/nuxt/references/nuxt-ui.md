@@ -14,7 +14,7 @@ Check `package.json` to determine which version is installed:
 - **v3.x** - Previous stable (Nuxt 3, Tailwind v3)
 - **v2.x** - Legacy version (deprecated)
 
-For v4-specific features and migration, always verify with official docs: https://ui.nuxt.com
+For v4-specific features and migration, verify with official docs: https://ui.nuxt.com
 
 ## Installation & Setup
 
@@ -151,7 +151,7 @@ export default defineAppConfig({
 - Must use `@import "tailwindcss"` in main.css
 - Tailwind config now uses CSS-based configuration
 
-For complete migration details, always check: https://ui.nuxt.com/getting-started/migration
+For complete migration details, check: https://ui.nuxt.com/getting-started/migration
 
 ### v2 → v3 Migration
 
@@ -873,7 +873,7 @@ Browse icons at: https://icones.js.org
 
 ## Best Practices
 
-1. **Always wrap app with UApp (v4)** - Required for proper functioning
+1. **Wrap app with UApp (v4)** - Required for proper functioning
 2. **Use v-model:open for modals** (v4) - Breaking change from v3
 3. **Configure colors in app.config.ts** (v4) - Centralized theming
 4. **Check package.json version** - Use version-appropriate syntax
@@ -881,7 +881,7 @@ Browse icons at: https://icones.js.org
 6. **Use built-in validation** - Integrate with Zod for form validation
 7. **Prefer composition** - Use slots and composables over prop overload
 8. **Follow Tailwind patterns** - Nuxt UI components accept Tailwind classes
-9. **Test dark mode** - Always verify components in both light and dark modes
+9. **Test dark mode** - Verify components in both light and dark modes
 
 ## Troubleshooting
 
@@ -941,4 +941,4 @@ When upgrading from v3 to v4:
 
 ---
 
-**Note:** Always verify version-specific syntax with official documentation at https://ui.nuxt.com. This reference covers v3 and v4, but breaking changes may occur in future releases.
+**Note:** Verify version-specific syntax with official documentation at https://ui.nuxt.com. This reference covers v3 and v4, but breaking changes may occur in future releases.

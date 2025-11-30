@@ -8,7 +8,7 @@ Tailwind CSS is automatically integrated into Nuxt through the `@nuxtjs/tailwind
 
 ## When to Use Tailwind
 
-**Detection:** Always check `package.json` for `@nuxtjs/tailwindcss` dependency before suggesting Tailwind patterns.
+**Detection:** Check `package.json` for `@nuxtjs/tailwindcss` dependency before suggesting Tailwind patterns.
 
 **If Tailwind is installed:**
 
@@ -431,7 +431,7 @@ For VSCode autocomplete, create `.vscode/settings.json`:
 </style>
 ```
 
-## JIT Mode (Always On in v3+)
+## JIT Mode (On by Default in v3+)
 
 Just-In-Time compilation is default in Tailwind v3+. Benefits:
 
@@ -566,7 +566,7 @@ const bgClass = computed(() => {
 1. **Use Tailwind viewer in dev** - Enable `viewer: true` to explore your config
 2. **Avoid @apply overuse** - Prefer composition over extraction for most cases
 3. **Use arbitrary values sparingly** - Stick to design system values when possible
-4. **Leverage dark mode utilities** - Always test with `dark:` variants
+4. **Leverage dark mode utilities** - Test with `dark:` variants
 5. **Keep config minimal** - Only extend when design system requires it
 6. **Use safelist for dynamic classes** - Or ensure full class names in templates
 7. **Enable IntelliSense** - Configure VSCode for autocomplete
@@ -635,7 +635,7 @@ Key changes when upgrading to Tailwind v4:
 
 4. **New color system** - Improved color utilities with better composability
 
-Always consult official Tailwind v4 migration guide for comprehensive changes.
+Consult official Tailwind v4 migration guide for comprehensive changes.
 
 ## Official Resources
 
@@ -647,4 +647,4 @@ Always consult official Tailwind v4 migration guide for comprehensive changes.
 
 ---
 
-**Note:** Always verify version-specific features with official documentation. This guide covers both Tailwind v3 and v4, focusing on Nuxt integration.
+**Note:** Verify version-specific features with official documentation. This guide covers both Tailwind v3 and v4, focusing on Nuxt integration.

@@ -136,7 +136,7 @@ browser-eval 'Array.from(document.querySelectorAll(".product")).map(p => ({name:
 
 ## Important Notes
 
-- **Chrome must be installed** - Scripts use `google-chrome` binary
+- **Chrome required** - Scripts use `google-chrome` binary
 - **Port 9222** - Chrome runs with `--remote-debugging-port=9222`
 - **Profile location** - `/tmp/chrome-profile-browser-tools` when using `--profile`
 - **Temp screenshots** - Screenshots saved to OS temp directory

@@ -656,7 +656,7 @@ export default defineEventHandler(async (event) => {
 
 1. **Use prefix_except_default strategy** - Better UX for default locale users
 2. **Enable browser detection** - Auto-redirect to user's preferred language
-3. **Provide language switcher** - Always visible on every page
+3. **Provide language switcher** - Visible on every page
 4. **Use lazy loading for large apps** - Load translations on demand
 5. **Organize translations by feature** - Use nested keys (`nav.home`, `products.title`)
 6. **Include locale in SEO** - Use `hreflang` links and `og:locale`

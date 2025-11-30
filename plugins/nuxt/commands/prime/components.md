@@ -8,11 +8,11 @@ description: Load Vue component patterns and best practices
 
 ## Script Setup Syntax
 
-ALWAYS use `<script setup lang="ts">` for component script sections.
+Use `<script setup lang="ts">` for component script sections.
 
 ### Props
 
-ALWAYS use TypeScript type-based syntax for `defineProps()`:
+Use TypeScript type-based syntax for `defineProps()`:
 
 ```typescript
 // ✅ Correct: Type-based with destructuring and inline defaults
@@ -43,7 +43,7 @@ defineProps({
 
 ### Emits
 
-ALWAYS use type-based syntax for `defineEmits`:
+Use type-based syntax for `defineEmits`:
 
 ```typescript
 // ✅ Correct: Type-based emits
@@ -94,7 +94,7 @@ const emit = defineEmits<{ "update:modelValue": [value: string] }>()
 
 ### Template Placement
 
-ALWAYS place `<template>` section first, before `<script>` and `<style>`:
+Place `<template>` section first, before `<script>` and `<style>`:
 
 ```vue
 <!-- ✅ Correct order -->
@@ -115,7 +115,7 @@ div {
 
 ### Component Naming
 
-- ALWAYS use multi-word component names except for Nuxt pages and layouts
+- Use multi-word component names except for Nuxt pages and layouts
 - Examples: `UserProfile.vue`, `SearchBar.vue` (not `User.vue`, `Search.vue`)
 - Exception: `pages/index.vue`, `pages/about.vue`, `layouts/default.vue`
 
@@ -123,7 +123,7 @@ div {
 
 ### v-for Loops
 
-ALWAYS use `key` in v-for loops and prefer `of` over `in`:
+Use `key` in v-for loops and prefer `of` over `in`:
 
 ```vue
 <!-- ✅ Correct -->
@@ -138,7 +138,7 @@ ALWAYS use `key` in v-for loops and prefer `of` over `in`:
 
 ### Prop Binding Shorthand
 
-ALWAYS use shorthand syntax when passing props with same name as variable:
+Use shorthand syntax when passing props with same name as variable:
 
 ```vue
 <!-- ✅ Correct: Shorthand -->
@@ -165,7 +165,7 @@ const state = reactive({ count: 0 })
 
 ### Auto-Imported Vue APIs
 
-Never manually import these in Nuxt projects - they're auto-imported:
+Don't manually import these in Nuxt projects - they're auto-imported:
 
 **Reactivity:**
 
@@ -244,7 +244,7 @@ function handleSearch() { /* ... */ }
 
 ### If NO Tailwind
 
-ALWAYS use `<style scoped>`. PREFER short, simple class names - scoped styles eliminate need for BEM:
+Use `<style scoped>`. Prefer short, simple class names - scoped styles eliminate need for BEM:
 
 ```vue
 <!-- ✅ Preferred -->
@@ -313,7 +313,7 @@ The `nuxt:nuxt` skill provides detailed VueUse reference when installed.
 
 - Place component prop interfaces in same file or `/types` directory
 - Use PascalCase: `ButtonProps`, `CardProps`, `UserState`
-- Never use `as any` - prefer type guards or `as unknown as Type`
+- Don't use `as any` - prefer type guards or `as unknown as Type`
 
 ## Performance Patterns
 

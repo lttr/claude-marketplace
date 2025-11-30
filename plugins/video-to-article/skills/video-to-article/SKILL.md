@@ -115,7 +115,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <
 
 ### Execution Protocol
 
-Before generating ANY content, you MUST complete these steps in order:
+Before generating content, complete these steps in order:
 
 1. **List all required outputs** - Read and acknowledge the complete list below
 2. **Check which files already exist** - Use file existence checks for each output
@@ -125,7 +125,7 @@ Before generating ANY content, you MUST complete these steps in order:
 
 ### Required Outputs
 
-You MUST generate ALL of these files:
+Generate all of these files:
 
 1. `generated-transcript-cleaned.md` - Cleaned transcript
 2. `generated-transcript-readable.md` - Readable transcript
@@ -134,16 +134,16 @@ You MUST generate ALL of these files:
 5. `generated-article-formal.md` - Explanatory blog post (long-form, narrative)
 6. `generated-article-direct.md` - Scannable technical brief (concise, bullets)
 
-**IMPORTANT:** Outputs 5 and 6 are TWO DIFFERENT ARTICLE VARIANTS with distinct styles and audiences. You must generate BOTH.
+**Note:** Outputs 5 and 6 are two different article variants with distinct styles and audiences. Generate both.
 
-**MANDATORY WORKFLOW:**
+**Workflow:**
 
-- Check file existence for ALL files above
-- **Automatically generate ANY missing files without asking user**
+- Check file existence for all files above
+- Automatically generate any missing files without asking user
 - Skip files that already exist (inform user which were skipped)
-- NEVER declare completion unless all files exist
-- NEVER ask user if they want to generate missing files - just generate them
-- **Generate BOTH article variants** (formal and direct) - they serve different purposes
+- Don't declare completion unless all files exist
+- Don't ask user if they want to generate missing files - just generate them
+- Generate both article variants (formal and direct) - they serve different purposes
 
 ### Idempotent Generation Strategy
 
@@ -151,7 +151,7 @@ This process is idempotent - running the skill multiple times will only generate
 
 1. **Check each output file before generating** - Use file existence checks
 2. **Skip files that already exist** - Inform user which files are being skipped
-3. **Generate only missing files** - Never overwrite existing content
+3. **Generate only missing files** - Don't overwrite existing content
 4. **Use existing files as context** - When generating later outputs (like key-ideas), read all available previous outputs for context
 
 Example: If only `generated-key-ideas.md` is missing:

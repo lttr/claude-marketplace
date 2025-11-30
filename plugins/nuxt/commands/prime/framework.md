@@ -28,7 +28,7 @@ interface User {
 const { data, status, error } = await useFetch<User[]>("/api/users")
 ```
 
-**Always handle all states in templates:**
+**Handle all states in templates:**
 
 ```vue
 <template>
@@ -506,7 +506,7 @@ const data = await $api("/users")
 
 ## Auto-Imported APIs
 
-Never manually import these - Nuxt auto-imports them:
+Don't manually import these - Nuxt auto-imports them:
 
 **Vue APIs:** `ref`, `reactive`, `computed`, `watch`, `onMounted`, `defineProps`, `defineEmits`, `defineModel`
 

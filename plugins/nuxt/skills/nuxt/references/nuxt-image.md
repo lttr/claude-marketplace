@@ -532,7 +532,7 @@ export default defineNuxtConfig({
 
 ## Best Practices
 
-1. **Always include alt text** - Essential for accessibility
+1. **Include alt text** - Essential for accessibility
 2. **Use NuxtPicture for hero images** - Better format support and responsiveness
 3. **Specify dimensions** - Prevents layout shift
 4. **Lazy load by default** - Except above-the-fold images
@@ -571,7 +571,7 @@ Check:
 
 ### Layout Shift
 
-Always specify width and height:
+Specify width and height:
 
 ```vue
 <template>
@@ -592,4 +592,4 @@ Always specify width and height:
 
 ---
 
-**Note:** Always verify provider-specific features with official documentation. Image optimization strategies may vary by provider.
+**Note:** Verify provider-specific features with official documentation. Image optimization strategies may vary by provider.

@@ -4,12 +4,12 @@ These patterns apply to Vue 3+ and modern Nuxt applications.
 
 ## Script Setup Syntax
 
-ALWAYS use `<script setup lang="ts">` for component script sections.
+Use `<script setup lang="ts">` for component script sections.
 
 ### Props
 
-- ALWAYS use TypeScript type-based syntax for `defineProps()` instead of runtime `PropType` declarations
-- ALWAYS destructure props directly from `defineProps()` to maintain reactivity and enable inline defaults
+- Use TypeScript type-based syntax for `defineProps()` instead of runtime `PropType` declarations
+- Destructure props directly from `defineProps()` to maintain reactivity and enable inline defaults
 - If no props are used in the script section, call `defineProps()` without destructuring
 
 ```typescript
@@ -41,7 +41,7 @@ defineProps({
 
 ### Emits
 
-ALWAYS use type-based syntax for `defineEmits` in TypeScript instead of runtime array syntax.
+Use type-based syntax for `defineEmits` in TypeScript instead of runtime array syntax.
 
 ```typescript
 // ✅ Correct: Type-based emits
@@ -89,7 +89,7 @@ const emit = defineEmits<{ "update:modelValue": [value: string] }>()
 
 ### Template Placement
 
-ALWAYS place the `<template>` section at the top of Vue SFC files, before `<script>` and `<style>` sections.
+Place the `<template>` section at the top of Vue SFC files, before `<script>` and `<style>` sections.
 
 ```vue
 <!-- ✅ Correct order -->
@@ -110,7 +110,7 @@ div {
 
 ### Component Naming
 
-- ALWAYS use multi-word component names except for Nuxt pages and layouts
+- Use multi-word component names except for Nuxt pages and layouts
 - Examples: `UserProfile.vue`, `SearchBar.vue` (not `User.vue`, `Search.vue`)
 - Exception: `pages/index.vue`, `pages/about.vue`, `layouts/default.vue` are acceptable
 
@@ -118,8 +118,8 @@ div {
 
 ### v-for Loops
 
-- ALWAYS use `key` in v-for loops
-- ALWAYS use `v-for="item of items"` instead of `v-for="item in items"` to match JavaScript `for...of` syntax
+- Use `key` in v-for loops
+- Use `v-for="item of items"` instead of `v-for="item in items"` to match JavaScript `for...of` syntax
 
 ```vue
 <!-- ✅ Correct -->
@@ -134,7 +134,7 @@ div {
 
 ### Prop Binding Shorthand
 
-ALWAYS use shorthand syntax (`:propName`) when passing a prop with the same name as the variable, instead of verbose form (`:propName="propName"`).
+Use shorthand syntax (`:propName`) when passing a prop with the same name as the variable, instead of verbose form (`:propName="propName"`).
 
 ```vue
 <!-- ✅ Correct: Shorthand -->
@@ -213,7 +213,7 @@ function handleSearch() { /* ... */ }
 
 ## Styling
 
-ALWAYS use `<style scoped>` for component-specific styles. PREFER short, simple class names - scoped styles eliminate need for BEM or complex naming:
+Use `<style scoped>` for component-specific styles. Prefer short, simple class names - scoped styles eliminate need for BEM or complex naming:
 
 ```vue
 <!-- ✅ Preferred -->
