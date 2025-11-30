@@ -9,7 +9,7 @@
       "name": "nuxt",
       "source": "./plugins/nuxt",
       "description": "Nuxt development guidance with Vue best practices, auto-imports awareness, and library-specific patterns for Pinia, VueUse, and more",
-      "version": "2.3.0",
+      "version": "2.3.1",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -20,7 +20,7 @@
       "name": "browser-tools",
       "source": "./plugins/browser-tools",
       "description": "Chrome automation tools for agent-assisted web testing and interaction using Chrome DevTools Protocol",
-      "version": "1.2.7",
+      "version": "1.2.8",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -38,7 +38,7 @@
       "name": "video-to-article",
       "source": "./plugins/video-to-article",
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
-      "version": "1.6.4",
+      "version": "1.6.5",
       "author": {
         "name": "Lukas Trumm"
       },
