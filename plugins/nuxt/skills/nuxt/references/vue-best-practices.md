@@ -39,6 +39,18 @@ defineProps({
 })
 ```
 
+**Vue version note:** Reactive props destructuring with inline defaults (shown above) requires **Vue 3.5+**. For Vue 3.4 and below, use `withDefaults()`:
+
+```typescript
+// Vue 3.4 and below: Use withDefaults for type-safe defaults
+const props = withDefaults(defineProps<{
+  title: string
+  count?: number
+}>(), {
+  count: 0
+})
+```
+
 ### Emits
 
 Use type-based syntax for `defineEmits` in TypeScript instead of runtime array syntax.

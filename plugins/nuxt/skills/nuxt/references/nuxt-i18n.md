@@ -282,6 +282,108 @@ console.log(browserLocale) // 'en-US'
 </script>
 ```
 
+### useLocaleRoute
+
+Get localized route object (includes locale prefix):
+
+```vue
+<script setup lang="ts">
+const localeRoute = useLocaleRoute()
+
+// Get route object for about page in current locale
+const aboutRoute = localeRoute({ name: 'about' })
+
+// Navigate with full route object
+navigateTo(aboutRoute)
+</script>
+```
+
+### useLocaleHead
+
+SEO meta for current locale:
+
+```vue
+<script setup lang="ts">
+const i18nHead = useLocaleHead({ addSeoAttributes: true })
+
+useHead({
+  htmlAttrs: { lang: i18nHead.value.htmlAttrs?.lang },
+  link: i18nHead.value.link,
+  meta: i18nHead.value.meta,
+})
+</script>
+```
+
+### useSetI18nParams
+
+Set route params per locale for SEO:
+
+```vue
+<script setup lang="ts">
+const setI18nParams = useSetI18nParams()
+
+// Set different slugs for different locales
+setI18nParams({
+  en: { slug: 'about-us' },
+  fr: { slug: 'a-propos' },
+})
+</script>
+```
+
+### useCookieLocale
+
+Access locale cookie directly:
+
+```vue
+<script setup lang="ts">
+const cookieLocale = useCookieLocale()
+console.log(cookieLocale.value) // 'en' or null
+</script>
+```
+
+## Components
+
+### NuxtLinkLocale
+
+Localized link component (auto-prefixes current locale):
+
+```vue
+<template>
+  <NuxtLinkLocale to="/about">About</NuxtLinkLocale>
+  <!-- Renders: /fr/about when locale is 'fr' -->
+
+  <NuxtLinkLocale to="/contact" locale="es">Contact (ES)</NuxtLinkLocale>
+  <!-- Forces Spanish locale: /es/contact -->
+</template>
+```
+
+### SwitchLocalePathLink
+
+Link to current page in different locale:
+
+```vue
+<template>
+  <SwitchLocalePathLink locale="fr">Français</SwitchLocalePathLink>
+  <SwitchLocalePathLink locale="es">Español</SwitchLocalePathLink>
+</template>
+```
+
+## Macros
+
+### defineI18nRoute
+
+Per-page locale configuration:
+
+```vue
+<script setup lang="ts">
+defineI18nRoute({
+  locales: ['en', 'fr'], // Only available in these locales
+  // or
+  locales: false, // Disable localization for this page
+})
+</script>
+```
+
 ## Common Patterns
 
 ### Language Switcher

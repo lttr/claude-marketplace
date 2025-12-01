@@ -260,8 +260,10 @@ export default defineEventHandler(async (event) => {
 ### Generate Migration
 
 ```bash
-npx drizzle-kit generate:sqlite
+npx drizzle-kit generate
 ```
+
+Database type is specified in `drizzle.config.ts`, not the command.
 
 ### Run Migration
 

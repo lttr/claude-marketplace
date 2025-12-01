@@ -620,6 +620,190 @@ async function onSubmit() {
 </script>
 ```
 
+## Composables
+
+### useToast
+
+Show toast notifications:
+
+```vue
+<script setup lang="ts">
+const toast = useToast()
+
+function notify() {
+  toast.add({
+    title: 'Success',
+    description: 'Operation completed',
+    icon: 'i-heroicons-check-circle',
+    timeout: 5000,
+    color: 'success',
+  })
+}
+</script>
+```
+
+### useOverlay
+
+Programmatically control overlays (modals, slidevers, drawers):
+
+```vue
+<script setup lang="ts">
+const overlay = useOverlay()
+
+// Open a modal component programmatically
+async function openConfirm() {
+  const result = await overlay.create(ConfirmDialog, {
+    title: 'Confirm Action',
+    message: 'Are you sure?',
+  })
+  if (result) {
+    // User confirmed
+  }
+}
+</script>
+```
+
+### defineShortcuts
+
+Define keyboard shortcuts:
+
+```vue
+<script setup lang="ts">
+defineShortcuts({
+  // Simple shortcut
+  'meta_k': () => openSearch(),
+  // With modifier
+  'ctrl_shift_p': () => openCommandPalette(),
+  // Escape to close
+  'escape': () => closeModal(),
+})
+</script>
+```
+
+### useFormField
+
+Integrate custom inputs with UForm validation:
+
+```vue
+<script setup lang="ts">
+// Inside custom input component
+const { inputId, name, error, ...field } = useFormField()
+</script>
+
+<template>
+  <div>
+    <input :id="inputId" :name="name" v-bind="field" />
+    <span v-if="error">{{ error }}</span>
+  </div>
+</template>
+```
+
+## Additional Components
+
+Nuxt UI v4 includes 100+ components. Key categories beyond basics:
+
+### Dashboard Components
+
+Pre-built dashboard layout system:
+
+```vue
+<template>
+  <UDashboardGroup>
+    <UDashboardSidebar collapsible>
+      <UDashboardSidebarToggle />
+      <UNavigationTree :items="navItems" />
+    </UDashboardSidebar>
+
+    <UDashboardPanel>
+      <UDashboardNavbar>
+        <template #left>
+          <UDashboardSearchButton />
+        </template>
+      </UDashboardNavbar>
+
+      <UDashboardToolbar>
+        <!-- Toolbar content -->
+      </UDashboardToolbar>
+
+      <slot />
+    </UDashboardPanel>
+  </UDashboardGroup>
+</template>
+```
+
+Components: `UDashboardGroup`, `UDashboardSidebar`, `UDashboardPanel`, `UDashboardNavbar`, `UDashboardToolbar`, `UDashboardSearch`, `UDashboardResizeHandle`
+
+### Chat Components (AI Integration)
+
+For building AI chat interfaces (Vercel AI SDK compatible):
+
+```vue
+<template>
+  <UChatMessages :messages="messages">
+    <template #message="{ message }">
+      <UChatMessage
+        :content="message.content"
+        :role="message.role"
+        :avatar="message.role === 'user' ? userAvatar : aiAvatar"
+      />
+    </template>
+  </UChatMessages>
+
+  <UChatPrompt v-model="input" @submit="sendMessage">
+    <template #submit>
+      <UChatPromptSubmit :loading="isLoading" />
+    </template>
+  </UChatPrompt>
+</template>
+```
+
+Components: `UChatMessage`, `UChatMessages`, `UChatPrompt`, `UChatPromptSubmit`, `UChatPalette`
+
+### Calendar & Date Components
+
+```vue
+<template>
+  <UCalendar v-model="selectedDate" />
+
+  <UInputDate v-model="date" placeholder="Select date" />
+</template>
+```
+
+### Page Layout Components
+
+Pre-built page sections for marketing/docs sites:
+
+```vue
+<template>
+  <UPageHero title="Welcome" description="Build faster with Nuxt UI">
+    <template #actions>
+      <UButton>Get Started</UButton>
+    </template>
+  </UPageHero>
+
+  <UPageSection>
+    <UPageGrid>
+      <UPageCard title="Feature 1" description="..." />
+      <UPageCard title="Feature 2" description="..." />
+    </UPageGrid>
+  </UPageSection>
+</template>
+```
+
+Components: `UPage`, `UPageHero`, `UPageSection`, `UPageGrid`, `UPageCard`, `UPageFeature`, `UPageCTA`, `UPageColumns`
+
+### Other Notable Components
+
+- `UCommandPalette` - Fuzzy search command menu
+- `UTree` - Hierarchical data display
+- `UTimeline` - Event sequences
+- `UStepper` - Multi-step processes
+- `UFileUpload` - File upload with drag-drop
+- `UColorPicker` - Color selection
+- `UDrawer` - Sliding panel
+
+Full component list: https://ui.nuxt.com/components
+
 ## Theming & Customization
 
 ### Color Configuration (v4)

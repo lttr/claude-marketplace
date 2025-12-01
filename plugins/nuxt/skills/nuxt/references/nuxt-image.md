@@ -263,18 +263,24 @@ export const getImage: ProviderGetImage = (src, { modifiers, baseURL }) => {
 }
 ```
 
+### Other Providers
+
+25+ providers available including: AWS Amplify, Bunny, Cloudflare, Contentful, Directus, GitHub, ImageKit, Imgix, Sanity, Shopify, Strapi, Supabase, Twicpics, Uploadcare.
+
+See full list: https://image.nuxt.com/providers
+
 ## Composables
 
-### $img Helper
+### useImage (Recommended)
 
 Generate image URLs programmatically:
 
 ```vue
 <script setup lang="ts">
-const { $img } = useNuxtApp()
+const img = useImage()
 
 // Generate optimized URL
-const imageUrl = $img("/images/photo.jpg", {
+const imageUrl = img("/images/photo.jpg", {
   width: 800,
   height: 600,
   format: "webp",
@@ -283,13 +289,24 @@ const imageUrl = $img("/images/photo.jpg", {
 
 // Use in v-bind or computed
 const backgroundImage = computed(() =>
-  $img("/images/hero.jpg", { width: 1920 }),
+  img("/images/hero.jpg", { width: 1920 }),
 )
 </script>
 
 <template>
   <div :style="{ backgroundImage: `url(${backgroundImage})` }">Content</div>
 </template>
+```
+
+### $img Helper (Legacy)
+
+Alternative via `useNuxtApp()`:
+
+```vue
+<script setup lang="ts">
+const { $img } = useNuxtApp()
+const imageUrl = $img("/images/photo.jpg", { width: 800 })
+</script>
 ```
 
 ## Performance Optimization

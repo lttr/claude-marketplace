@@ -676,6 +676,60 @@ const { data: navigation } = await useAsyncData("navigation", () =>
 </template>
 ```
 
+### queryCollectionItemSurroundings
+
+Get previous/next items for navigation:
+
+```vue
+<script setup lang="ts">
+const route = useRoute()
+const { data: surround } = await useAsyncData("surround", () =>
+  queryCollectionItemSurroundings("docs", route.path),
+)
+</script>
+
+<template>
+  <div class="flex justify-between">
+    <NuxtLink v-if="surround?.prev" :to="surround.prev.path">
+      ← {{ surround.prev.title }}
+    </NuxtLink>
+    <NuxtLink v-if="surround?.next" :to="surround.next.path">
+      {{ surround.next.title }} →
+    </NuxtLink>
+  </div>
+</template>
+```
+
+### queryCollectionSearchSections
+
+Full-text search across content sections:
+
+```vue
+<script setup lang="ts">
+const searchQuery = ref('')
+
+const { data: searchResults } = await useAsyncData(
+  'search',
+  () => queryCollectionSearchSections('docs', searchQuery.value),
+  { watch: [searchQuery] }
+)
+</script>
+```
+
+## Prose Components
+
+Nuxt Content provides `Prose*` components for rendering markdown elements with custom styling. Place in `components/content/`:
+
+- `ProseH1`, `ProseH2`, `ProseH3` - Headings
+- `ProseP` - Paragraphs
+- `ProseA` - Links
+- `ProseCode`, `ProsePre` - Code blocks
+- `ProseImg` - Images
+- `ProseUl`, `ProseOl`, `ProseLi` - Lists
+- `ProseTable`, `ProseThead`, `ProseTbody`, `ProseTr`, `ProseTh`, `ProseTd` - Tables
+
+See full list: https://content.nuxt.com/docs/components/prose
+
 ## Markdown Features
 
 ### Syntax Highlighting
@@ -800,6 +854,23 @@ const { data: posts } = await useAsyncData("posts", () =>
    - `.order()` instead of `.sort()`
 
 5. **SQL-backed storage** - faster queries for large datasets
+
+## Deployment
+
+Nuxt Content works with all Nuxt deployment targets. Key platforms with specific guides:
+
+- **Cloudflare Pages/Workers** - Use D1 database adapter
+- **Vercel** - Edge-compatible with serverless functions
+- **Netlify** - Static or serverless deployment
+- **NuxtHub** - First-party hosting with database support
+
+See deployment guides: https://content.nuxt.com/docs/deploy
+
+## Integrations
+
+- **Nuxt Studio** - Visual CMS editor for content: https://nuxt.studio
+- **I18n** - Multi-language content with locale-based collections
+- **LLMs/AI** - Generate embeddings for semantic search
 
 ## Best Practices
 

@@ -22,6 +22,8 @@ interface User {
 const { data, status, error } = await useFetch<User[]>("/api/users")
 ```
 
+**Status values:** `'idle'` | `'pending'` | `'success'` | `'error'`
+
 **Handle all states in templates:**
 
 ```vue
@@ -290,10 +292,12 @@ export default defineEventHandler(async (event) => {
 
 ### Protected API Routes
 
+Requires `nuxt-auth-utils` module for session management.
+
 ```typescript
 // server/api/admin/users.get.ts
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
+  const session = await requireUserSession(event) // from nuxt-auth-utils
 
   if (!session.user.isAdmin) {
     throw createError({
