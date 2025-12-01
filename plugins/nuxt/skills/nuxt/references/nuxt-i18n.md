@@ -291,7 +291,7 @@ Get localized route object (includes locale prefix):
 const localeRoute = useLocaleRoute()
 
 // Get route object for about page in current locale
-const aboutRoute = localeRoute({ name: 'about' })
+const aboutRoute = localeRoute({ name: "about" })
 
 // Navigate with full route object
 navigateTo(aboutRoute)
@@ -324,8 +324,8 @@ const setI18nParams = useSetI18nParams()
 
 // Set different slugs for different locales
 setI18nParams({
-  en: { slug: 'about-us' },
-  fr: { slug: 'a-propos' },
+  en: { slug: "about-us" },
+  fr: { slug: "a-propos" },
 })
 </script>
 ```
@@ -377,7 +377,7 @@ Per-page locale configuration:
 ```vue
 <script setup lang="ts">
 defineI18nRoute({
-  locales: ['en', 'fr'], // Only available in these locales
+  locales: ["en", "fr"], // Only available in these locales
   // or
   locales: false, // Disable localization for this page
 })

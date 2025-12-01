@@ -706,12 +706,12 @@ Full-text search across content sections:
 
 ```vue
 <script setup lang="ts">
-const searchQuery = ref('')
+const searchQuery = ref("")
 
 const { data: searchResults } = await useAsyncData(
-  'search',
-  () => queryCollectionSearchSections('docs', searchQuery.value),
-  { watch: [searchQuery] }
+  "search",
+  () => queryCollectionSearchSections("docs", searchQuery.value),
+  { watch: [searchQuery] },
 )
 </script>
 ```

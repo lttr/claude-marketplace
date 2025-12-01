@@ -288,9 +288,7 @@ const imageUrl = img("/images/photo.jpg", {
 })
 
 // Use in v-bind or computed
-const backgroundImage = computed(() =>
-  img("/images/hero.jpg", { width: 1920 }),
-)
+const backgroundImage = computed(() => img("/images/hero.jpg", { width: 1920 }))
 </script>
 
 <template>

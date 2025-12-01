@@ -632,11 +632,11 @@ const toast = useToast()
 
 function notify() {
   toast.add({
-    title: 'Success',
-    description: 'Operation completed',
-    icon: 'i-heroicons-check-circle',
+    title: "Success",
+    description: "Operation completed",
+    icon: "i-heroicons-check-circle",
     timeout: 5000,
-    color: 'success',
+    color: "success",
   })
 }
 </script>
@@ -653,8 +653,8 @@ const overlay = useOverlay()
 // Open a modal component programmatically
 async function openConfirm() {
   const result = await overlay.create(ConfirmDialog, {
-    title: 'Confirm Action',
-    message: 'Are you sure?',
+    title: "Confirm Action",
+    message: "Are you sure?",
   })
   if (result) {
     // User confirmed
@@ -671,11 +671,11 @@ Define keyboard shortcuts:
 <script setup lang="ts">
 defineShortcuts({
   // Simple shortcut
-  'meta_k': () => openSearch(),
+  meta_k: () => openSearch(),
   // With modifier
-  'ctrl_shift_p': () => openCommandPalette(),
+  ctrl_shift_p: () => openCommandPalette(),
   // Escape to close
-  'escape': () => closeModal(),
+  escape: () => closeModal(),
 })
 </script>
 ```

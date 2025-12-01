@@ -1,7 +1,7 @@
 {
   "name": "nuxt",
   "description": "Nuxt development guidance with Vue best practices, auto-imports awareness, and library-specific patterns for Pinia, VueUse, and more",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "author": {
     "name": "Lukas Trumm"
   }

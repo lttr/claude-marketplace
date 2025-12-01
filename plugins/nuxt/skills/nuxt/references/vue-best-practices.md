@@ -43,12 +43,15 @@ defineProps({
 
 ```typescript
 // Vue 3.4 and below: Use withDefaults for type-safe defaults
-const props = withDefaults(defineProps<{
-  title: string
-  count?: number
-}>(), {
-  count: 0
-})
+const props = withDefaults(
+  defineProps<{
+    title: string
+    count?: number
+  }>(),
+  {
+    count: 0,
+  },
+)
 ```
 
 ### Emits
