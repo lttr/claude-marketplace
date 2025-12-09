@@ -66,6 +66,10 @@ ln -sf "$SCRIPTS_DIR/browser-pick.js" ~/bin/browser-pick
 ln -sf "$SCRIPTS_DIR/browser-cookies.js" ~/bin/browser-cookies
 ```
 
+```bash
+ln -sf "$SCRIPTS_DIR/browser-console.js" ~/bin/browser-console
+```
+
 **Step 6: Verify PATH**
 
 Check if ~/bin is in PATH:
@@ -82,7 +86,7 @@ esac
 After completion, report:
 
 - Dependencies installed: ✓
-- Symlinks created: browser-start, browser-nav, browser-eval, browser-screenshot, browser-pick, browser-cookies
+- Symlinks created: browser-start, browser-nav, browser-eval, browser-screenshot, browser-pick, browser-cookies, browser-console
 - PATH status: (OK or needs manual addition)
 
 **The browser-tools skill is now ready!** Ask me to test web pages, take screenshots, or interact with browsers.

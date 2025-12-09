@@ -1,7 +1,7 @@
 ---
 name: browser-tools
 description: Use this skill when the user asks to test, verify, interact with, or automate web pages and browsers. Trigger for requests involving Chrome automation, browser testing, web scraping, screenshot capture, element selection, or checking web applications. Also trigger when user mentions "browser tools" explicitly.
-allowed-tools: Bash(browser-start:*), Bash(browser-nav:*), Bash(browser-eval:*), Bash(browser-screenshot:*), Bash(browser-pick:*), Bash(browser-cookies:*), Read, Read(/tmp/screenshot*), Glob
+allowed-tools: Bash(browser-start:*), Bash(browser-nav:*), Bash(browser-eval:*), Bash(browser-screenshot:*), Bash(browser-pick:*), Bash(browser-cookies:*), Bash(browser-console:*), Read, Read(/tmp/screenshot*), Glob
 ---
 
 # Browser Tools
@@ -90,6 +90,33 @@ Controls:
 - Cmd/Ctrl+Click for multiple selections
 - Enter to finish (when multiple selected)
 - ESC to cancel
+
+### browser-console
+
+```bash
+browser-console                    # Stream logs (default)
+browser-console --no-follow        # Snapshot: collect for 2s then exit
+browser-console --level error,warn # Filter by log level
+browser-console --timeout 5000     # Snapshot duration (with --no-follow)
+```
+
+Capture console logs (log, warn, error, info, debug) from Chrome. Includes stack traces for errors and page errors.
+
+**Limitation**: Only captures logs from connection time onward. Start early to capture all relevant output.
+
+**Background usage** (recommended for debugging sessions):
+
+```bash
+# 1. Start console capture in background
+browser-console &
+
+# 2. Use other browser tools
+browser-nav http://localhost:3000
+browser-eval "triggerSomeAction()"
+
+# 3. Check captured logs via BashOutput tool
+# 4. Kill when done via KillShell tool
+```
 
 ### browser-cookies
 
