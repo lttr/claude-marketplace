@@ -3,29 +3,28 @@
 import puppeteer from "puppeteer-core"
 
 const args = process.argv.slice(2)
-const noFollow = args.includes("--no-follow")
 const levelIdx = args.indexOf("--level")
 const levelFilter = levelIdx !== -1 ? args[levelIdx + 1]?.split(",") : null
-const timeoutIdx = args.indexOf("--timeout")
-const timeout = timeoutIdx !== -1 ? parseInt(args[timeoutIdx + 1]) : 2000
+const urlIdx = args.indexOf("--url")
+const targetUrl = urlIdx !== -1 ? args[urlIdx + 1] : null
+const noExit = args.includes("--no-exit")
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log("Usage: browser-console [options]")
   console.log("")
   console.log("Capture console logs from Chrome DevTools.")
-  console.log("Streams by default - run in background and check output later.")
   console.log("")
   console.log("Options:")
-  console.log("  --no-follow     Exit after timeout instead of streaming")
+  console.log("  --url URL       Navigate to URL and exit after page load")
+  console.log("  --no-exit       With --url: keep streaming after load")
   console.log(
     "  --level LEVELS  Filter: log,warn,error,info,debug (comma-separated)",
   )
-  console.log(
-    "  --timeout MS    Duration in ms for --no-follow mode (default: 2000)",
-  )
   console.log("")
-  console.log("Note: Only captures logs from connection time onward.")
-  console.log("      Start early to capture all relevant logs.")
+  console.log("Examples:")
+  console.log("  browser-console                    # Stream until Ctrl+C")
+  console.log("  browser-console --url http://...   # Capture page load logs")
+  console.log("  browser-console --level error      # Stream errors only")
   process.exit(0)
 }
 
@@ -163,10 +162,26 @@ p.on("pageerror", (err) => {
   }
 })
 
-if (noFollow) {
-  // Snapshot mode - wait, then exit
-  await new Promise((r) => setTimeout(r, timeout))
-  await b.disconnect()
+if (targetUrl) {
+  // Navigate mode - capture logs during navigation
+  await p.goto(targetUrl, { waitUntil: "load" })
+
+  if (noExit) {
+    // Keep streaming after load
+    console.error("Page loaded. Streaming logs (Ctrl+C to stop)...")
+    process.on("SIGINT", async () => {
+      await b.disconnect()
+      process.exit(0)
+    })
+    process.on("SIGTERM", async () => {
+      await b.disconnect()
+      process.exit(0)
+    })
+    await new Promise(() => {})
+  } else {
+    // Exit after load
+    await b.disconnect()
+  }
 } else {
   // Streaming mode - handle Ctrl+C gracefully
   process.on("SIGINT", async () => {

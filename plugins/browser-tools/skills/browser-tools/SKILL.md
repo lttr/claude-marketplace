@@ -94,28 +94,30 @@ Controls:
 ### browser-console
 
 ```bash
-browser-console                    # Stream logs (default)
-browser-console --no-follow        # Snapshot: collect for 2s then exit
-browser-console --level error,warn # Filter by log level
-browser-console --timeout 5000     # Snapshot duration (with --no-follow)
+browser-console                         # Stream logs until Ctrl+C or kill
+browser-console --url http://...        # Navigate and exit after load
+browser-console --url http://... --no-exit  # Navigate then keep streaming
+browser-console --level error,warn      # Filter by log level
 ```
 
 Capture console logs (log, warn, error, info, debug) from Chrome. Includes stack traces for errors and page errors.
 
-**Limitation**: Only captures logs from connection time onward. Start early to capture all relevant output.
+**Modes:**
 
-**Background usage** (recommended for debugging sessions):
+- **Streaming** (default): Captures logs until process is killed. Best for workflow monitoring.
+- **Navigation** (`--url`): Navigates to URL and exits after page load. Captures logs during page initialization.
+
+**Claude Code usage:**
 
 ```bash
-# 1. Start console capture in background
-browser-console &
+# Page load logs - auto-exits after load
+browser-console --url http://localhost:3000
 
-# 2. Use other browser tools
+# Workflow monitoring - run in background, kill when done
+browser-console &
 browser-nav http://localhost:3000
 browser-eval "triggerSomeAction()"
-
-# 3. Check captured logs via BashOutput tool
-# 4. Kill when done via KillShell tool
+# Check logs via BashOutput, kill via KillShell
 ```
 
 ### browser-cookies
