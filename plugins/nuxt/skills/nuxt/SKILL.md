@@ -113,6 +113,7 @@ Check `package.json` for these before suggesting their features:
 - `pinia` or `@pinia/nuxt` - State management → See `references/pinia.md`
 - `@vueuse/core` or `@vueuse/nuxt` - Composition utilities → See `references/vueuse.md`
 - `drizzle-orm` - Database ORM → See `references/drizzle-db0.md`
+- `@nuxthub/core` - Full-stack platform (DB, blob, KV, cache) → See `references/nuxthub.md`
 
 **Core Nuxt Modules (Dedicated References):**
 
@@ -185,8 +186,14 @@ This skill includes detailed reference documentation for specific topics. Load t
 
 **`references/drizzle-db0.md`** - Database with Drizzle ORM
 
-- Only use if `drizzle-orm` is installed
+- Only use if `drizzle-orm` is installed (without NuxtHub)
 - Covers: Setup, schema definition, CRUD operations, queries, joins, filtering, transactions, migrations, type safety
+
+**`references/nuxthub.md`** - NuxtHub Full-Stack Platform (Last updated: 2025-12)
+
+- Only use if `@nuxthub/core` is installed
+- Covers: Multi-vendor deployment, Drizzle ORM integration, blob storage, KV storage, caching, migrations CLI, DevTools integration
+- **Note:** NuxtHub v0.10 uses Drizzle ORM with `hub:db` imports - different from standalone Drizzle setup
 
 ### Other Modules
 
