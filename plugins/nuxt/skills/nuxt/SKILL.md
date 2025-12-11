@@ -115,6 +115,10 @@ Check `package.json` for these before suggesting their features:
 - `drizzle-orm` - Database ORM → See `references/drizzle-db0.md`
 - `@nuxthub/core` - Full-stack platform (DB, blob, KV, cache) → See `references/nuxthub.md`
 
+**Testing:**
+
+- `@nuxt/test-utils` + `vitest` - Unit and component testing → See `references/nuxt-testing.md`
+
 **Core Nuxt Modules (Dedicated References):**
 
 - `@nuxt/ui` - UI component library → See `references/nuxt-ui.md`
@@ -194,6 +198,13 @@ This skill includes detailed reference documentation for specific topics. Load t
 - Only use if `@nuxthub/core` is installed
 - Covers: Multi-vendor deployment, Drizzle ORM integration, blob storage, KV storage, caching, migrations CLI, DevTools integration
 - **Note:** NuxtHub v0.10 uses Drizzle ORM with `hub:db` imports - different from standalone Drizzle setup
+
+### Testing
+
+**`references/nuxt-testing.md`** - Nuxt Test Utils with Vitest (Last updated: 2025-12)
+
+- Only use if `@nuxt/test-utils` and `vitest` are installed
+- Covers: Vitest configuration, test environments, mountSuspended, renderSuspended, mockNuxtImport, mockComponent, registerEndpoint, component/composable/API testing patterns
 
 ### Other Modules
 
