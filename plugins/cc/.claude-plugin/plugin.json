@@ -1,0 +1,9 @@
+{
+  "name": "cc",
+  "version": "1.0.0",
+  "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",
+  "author": {
+    "name": "Lukas Trumm"
+  },
+  "keywords": ["claude-code", "plugin", "skill", "authoring", "introspection"]
+}

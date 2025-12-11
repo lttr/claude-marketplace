@@ -59,6 +59,17 @@
       "version": "0.1.0",
       "keywords": ["azure", "devops", "cli", "pipelines", "repos", "boards"],
       "category": "productivity"
+    },
+    {
+      "name": "cc",
+      "source": "./plugins/cc",
+      "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",
+      "version": "1.0.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": ["claude-code", "plugin", "skill", "authoring", "introspection"],
+      "category": "development"
     }
   ]
 }
