@@ -34,10 +34,12 @@ A marketplace is a JSON catalog enabling plugin discovery and distribution.
 Each plugin entry in the `plugins` array:
 
 **Required:**
+
 - `name`: Plugin identifier (kebab-case, must match plugin.json)
 - `source`: Plugin origin specification
 
 **Optional:**
+
 - `description`: Plugin purpose
 - `version`: Plugin version (semantic versioning)
 - `author`: Creator information

@@ -7,6 +7,7 @@ Extract all built-in Task tool subagent types from your system prompt's Task too
 First, check `~/.claude/agents/` for any .md files to get the list of custom agent names.
 
 Then for each built-in agent type (excluding any custom agent names), show:
+
 - Name
 - Purpose (1 line)
 - Available tools

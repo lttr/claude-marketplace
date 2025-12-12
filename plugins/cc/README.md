@@ -19,6 +19,7 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 ### Commands
 
 **Introspection (`/cc:list:*`):**
+
 - `/cc:list:builtin-commands` - List all built-in Claude Code slash commands
 - `/cc:list:builtin-agents` - List all Task tool subagent types
 - `/cc:list:builtin-tools` - List all built-in tools
@@ -31,6 +32,7 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 - `/cc:list:memory` - List memory files
 
 **Authoring (`/cc:command:*`):**
+
 - `/cc:command:create` - Create a new custom Claude Code command
 
 ## Usage
@@ -38,6 +40,7 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 ### Creating a Plugin
 
 Trigger the `plugin-creator` skill by asking:
+
 - "Create a new plugin called my-plugin"
 - "Add a command to my plugin"
 - "Bump the version of my-plugin"
@@ -61,6 +64,7 @@ python scripts/bump_version.py my-plugin minor \
 ### Creating a Skill
 
 Trigger the `skill-creator` skill by asking:
+
 - "Create a new skill for PDF editing"
 - "Help me build a skill for my BigQuery workflows"
 
@@ -83,6 +87,7 @@ For questions about Claude Code features, CLI flags, or capabilities, use the bu
 ## Development
 
 See the plugin-creator skill's `references/` directory for detailed documentation on:
+
 - Plugin structure and manifest schema
 - Marketplace configuration
 - Development workflows

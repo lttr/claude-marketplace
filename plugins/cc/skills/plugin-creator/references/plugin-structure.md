@@ -24,9 +24,11 @@ plugin-name/
 **Location:** `.claude-plugin/plugin.json` (must be in this directory)
 
 **Required fields:**
+
 - `name`: Unique identifier (kebab-case)
 
 **Standard metadata:**
+
 - `version`: Semantic versioning (e.g., "1.0.0")
 - `description`: Plugin purpose
 - `author`: Object with name, email, url
@@ -36,6 +38,7 @@ plugin-name/
 - `keywords`: Array of search terms
 
 **Component paths (optional):**
+
 - `commands`: Path to commands directory
 - `agents`: Path to agents directory
 - `hooks`: Path to hooks configuration

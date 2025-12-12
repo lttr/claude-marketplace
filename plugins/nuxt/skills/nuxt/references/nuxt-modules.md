@@ -64,6 +64,26 @@ Auto-configured Tailwind CSS integration. For comprehensive guidance including s
 
 **Check:** `@nuxtjs/color-mode` in package.json
 
+**Documentation:** https://color-mode.nuxtjs.org/
+
+### Installation
+
+```bash
+npx nuxt module add color-mode
+```
+
+### Composable API
+
+```typescript
+const colorMode = useColorMode()
+
+// Properties:
+colorMode.preference // User's preference ('system', 'light', 'dark', etc.) - writeable
+colorMode.value // Actual detected mode when preference is 'system' - read-only
+colorMode.unknown // True during SSR before client detection
+colorMode.forced // True if page forces a color mode
+```
+
 ### Toggle Dark Mode
 
 ```vue
@@ -80,6 +100,67 @@ function toggleDark() {
     {{ colorMode.value === "dark" ? "🌞" : "🌙" }}
   </button>
 </template>
+```
+
+### Color Mode Selector
+
+```vue
+<template>
+  <select v-model="$colorMode.preference">
+    <option value="system">System</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</template>
+```
+
+### Force Mode Per Page
+
+Lock specific pages to a color mode (useful for incremental dark mode adoption):
+
+```vue
+<script setup lang="ts">
+definePageMeta({
+  colorMode: "light", // or 'dark'
+})
+</script>
+
+<template>
+  <!-- Hide color picker on forced pages -->
+  <ColorPicker v-if="!$colorMode.forced" />
+</template>
+```
+
+### Configuration
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  colorMode: {
+    preference: "system", // Default: 'system'
+    fallback: "light", // Fallback if system unavailable
+    storage: "localStorage", // 'localStorage' | 'sessionStorage' | 'cookie'
+    storageKey: "nuxt-color-mode",
+    classPrefix: "", // e.g., 'theme-' → 'theme-dark'
+    classSuffix: "", // e.g., '-mode' → 'dark-mode'
+    dataValue: undefined, // Set to add data-theme="dark" attribute
+  },
+})
+```
+
+### CSS Styling
+
+Module adds class to `<html>` (e.g., `.dark`, `.light`):
+
+```css
+/* Plain CSS */
+.dark body {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+/* Tailwind - works out of the box */
+/* Uses Tailwind's dark: variant automatically */
 ```
 
 ## ESLint (@nuxt/eslint)

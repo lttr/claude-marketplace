@@ -80,9 +80,9 @@ Skills use a three-level loading system to manage context efficiently:
 
 1. **Metadata (name + description)** - Always in context (~100 words)
 2. **SKILL.md body** - When skill triggers (<5k words)
-3. **Bundled resources** - As needed by Claude (Unlimited*)
+3. **Bundled resources** - As needed by Claude (Unlimited\*)
 
-*Unlimited because scripts can be executed without reading into context window.
+\*Unlimited because scripts can be executed without reading into context window.
 
 ## Skill Creation Process
 
@@ -93,6 +93,7 @@ To create a skill, follow the "Skill Creation Process" in order, skipping steps 
 Before diving into skill functionality, determine where the skill should live. Use the AskUserQuestion tool to clarify:
 
 **Skill placement options:**
+
 1. **Global user skills** (`~/.claude/skills/`) - For skills used across all projects
 2. **Project-specific skills** (`<project>/.claude/skills/`) - For project/repo-specific workflows
 3. **Plugin skills** (`<plugin-repo>/plugins/<name>/skills/`) - For skills distributed via plugin marketplace
@@ -100,6 +101,7 @@ Before diving into skill functionality, determine where the skill should live. U
 Ask the user which scope applies. This determines the output path for Step 3 (initialization).
 
 **Example questions:**
+
 - "Should this skill be available globally across all your projects, or specific to this project/repository?"
 - "Are you building this skill to distribute as part of a plugin marketplace?"
 
@@ -159,6 +161,7 @@ scripts/init_skill.py <skill-name> --path <output-directory>
 ```
 
 Use the path determined in Step 1:
+
 - **Global:** `~/.claude/skills/`
 - **Project:** `<project-path>/.claude/skills/`
 - **Plugin:** `<plugin-repo>/plugins/<plugin-name>/skills/`
@@ -194,6 +197,7 @@ description: [TODO: Complete and informative explanation...]
 ```
 
 Replace the description TODO with a detailed explanation covering:
+
 - **What** the skill does
 - **When** to use it (specific triggers: file types, keywords, scenarios)
 - Write in third person (e.g., "This skill should be used when..." not "Use this skill when...")
@@ -215,12 +219,14 @@ scripts/package_skill.py <path/to/skill-folder>
 ```
 
 The validation checks:
+
 - YAML frontmatter format and required fields
 - Skill naming conventions and directory structure
 - Description completeness and quality
 - File organization and resource references
 
 **Note:** The packaging script also creates a zip file for Claude Chat distribution. This is optional for Claude Code workflows where skills are typically:
+
 - Added to `~/.claude/skills/` for global access
 - Included in project `.claude/skills/` for project-specific use
 - Distributed via plugin marketplaces
@@ -232,6 +238,7 @@ If validation fails, fix the errors and test the skill directly in Claude Code.
 After testing the skill, users may request improvements. Often this happens right after using the skill, with fresh context of how the skill performed.
 
 **Iteration workflow:**
+
 1. Use the skill on real tasks
 2. Notice struggles or inefficiencies
 3. Identify how SKILL.md or bundled resources should be updated

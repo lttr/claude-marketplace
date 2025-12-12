@@ -54,6 +54,7 @@ When making changes to a plugin, update version in **both** locations:
 2. `.claude-plugin/marketplace.json` (matching plugin entry)
 
 **Semantic versioning:**
+
 - **Major (x.0.0)**: Breaking changes
 - **Minor (0.x.0)**: New features, refactoring
 - **Patch (0.0.x)**: Bug fixes, documentation only
@@ -110,6 +111,7 @@ git push origin main
 **GitHub-hosted marketplace:**
 
 Users add via:
+
 ```bash
 /plugin marketplace add owner/repo
 /plugin install plugin-name@marketplace-name
@@ -118,6 +120,7 @@ Users add via:
 **Local marketplace:**
 
 Users add via absolute path:
+
 ```bash
 /plugin marketplace add /path/to/marketplace
 ```
@@ -131,6 +134,7 @@ Commands use subdirectory-based namespacing:
 - The `:` represents directory separator `/`
 
 **Examples:**
+
 - `commands/prime/vue.md` → `/prime:vue`
 - `commands/docs/generate.md` → `/docs:generate`
 - `commands/simple.md` → `/simple`

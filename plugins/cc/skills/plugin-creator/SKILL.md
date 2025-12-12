@@ -12,6 +12,7 @@ Create and manage Claude Code plugins with proper structure, manifests, and mark
 ## When to Use This Skill
 
 Trigger this skill when:
+
 - Creating new plugins for a marketplace
 - Adding or modifying plugin components (commands, skills, agents, hooks)
 - Updating plugin versions
@@ -36,6 +37,7 @@ python scripts/create_plugin.py plugin-name \
 ```
 
 This automatically:
+
 - Creates plugin directory structure
 - Generates `plugin.json` manifest
 - Creates README template
@@ -51,6 +53,7 @@ python scripts/bump_version.py plugin-name major|minor|patch \
 ```
 
 Semantic versioning rules:
+
 - **major**: Breaking changes (1.0.0 → 2.0.0)
 - **minor**: New features, refactoring (1.0.0 → 1.1.0)
 - **patch**: Bug fixes, docs only (1.0.0 → 1.0.1)
@@ -182,12 +185,14 @@ Commands use subdirectory-based namespacing with `:` separator:
 - File: `commands/simple.md` → `/simple`
 
 Examples:
+
 - `commands/prime/vue.md` → `/prime:vue`
 - `commands/docs/generate.md` → `/docs:generate`
 
 ## Version Management
 
 **Critical:** Always update version in BOTH locations:
+
 1. `plugins/<name>/.claude-plugin/plugin.json`
 2. `.claude-plugin/marketplace.json` (matching entry)
 
@@ -209,18 +214,23 @@ git commit -m "feat!: breaking change to plugin API"
 This skill includes detailed reference documentation:
 
 ### references/plugin-structure.md
+
 Complete plugin directory structure, manifest schema, component types, and path requirements.
 
 ### references/marketplace-schema.md
+
 Marketplace manifest format, plugin entry schema, source specifications, and team distribution setup.
 
 ### references/workflows.md
+
 Step-by-step workflows for creating plugins, version bumping, local testing, publishing, and common plugin patterns.
 
 ### scripts/create_plugin.py
+
 Automates plugin creation with proper structure and manifest generation.
 
 ### scripts/bump_version.py
+
 Updates version in both plugin.json and marketplace.json simultaneously.
 
 ## Key References

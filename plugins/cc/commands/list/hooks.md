@@ -10,6 +10,7 @@ Show all configured hooks from both project-level and global Claude Code setting
 ## Your task
 
 Read the settings files and display hooks in a compact format showing:
+
 - Event type
 - Matcher pattern
 - Brief description or script name (basename only for file paths)
