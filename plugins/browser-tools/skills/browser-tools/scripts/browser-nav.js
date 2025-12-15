@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 
+// Clean error output - suppress verbose stack traces
+process.on("uncaughtException", (e) => {
+  console.error(`✗ ${e.message}`)
+  process.exit(1)
+})
+process.on("unhandledRejection", (e) => {
+  console.error(`✗ ${e.message}`)
+  process.exit(1)
+})
+
 import puppeteer from "puppeteer-core"
 
 const url = process.argv[2]
