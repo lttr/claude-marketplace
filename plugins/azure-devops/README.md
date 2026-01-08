@@ -11,9 +11,9 @@ Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects us
 
 ## Features
 
-- **`/commit-push-pr`** - Commit, push, and create Azure DevOps PR in one command
-- **`/start-work`** - Set work item to "Active"
-- **`/code-review`** - Set work item to "Code Review"
+- **`/azdo:commit-push-pr`** - Commit, push, and create Azure DevOps PR in one command
+- **`/azdo:ticket:start`** - Set work item to "Active"
+- **`/azdo:ticket:cr`** - Set work item to "Code Review"
 - **az-cli skill** - Practical commands for Azure DevOps CLI
   - List your PRs and work items
   - Run and monitor pipelines
