@@ -95,14 +95,14 @@ Format questions to be:
 ### 5. Write Output
 
 ```bash
-mkdir -p ~/.aitools/triage
+mkdir -p ./.aitools/triage
 ```
 
-Save to `~/.aitools/triage/<identifier>.md`
+Save to `./.aitools/triage/<identifier>.md`
 
 Naming:
 
-- With ticket ID: `<ticket-id> - <slugified-title>.md`
+- With ticket ID: `<ticket-id>-<slugified-title>.md`
 - Without ticket ID: `<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
@@ -156,11 +156,20 @@ Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 1. [Question]
 ```
 
+## Interactive Clarification
+
+Use `AskUserQuestion` tool for things the user likely knows:
+
+- Input is too sparse to meaningfully analyze
+- Critical ambiguity blocks analysis (e.g., which of two features is meant)
+- Multiple valid interpretations exist and you need to pick one
+
+If user answers "I don't know" or selects "Other" without an answer, write that question to the output file for follow-up with stakeholders.
+
 ## Tips
 
 - Don't ask questions the codebase or docs already answer - explore first
 - Surface implicit requirements from docs - tickets often assume documented knowledge
 - Prioritize ruthlessly - 3 critical questions > 10 nice-to-haves
 - Frame questions to unblock decisions, not gather trivia
-- If input is very sparse, ask for more context before full analysis
 - When docs contradict the ticket, flag it as a blocker question

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(az boards:*), Bash(az account:*), Bash(mkdir:*), Write, Read, Glob, Grep, Task, Skill, mcp__atlassian__*
+allowed-tools: Bash(az boards:*), Bash(az account:*), Bash(mkdir:*), Write, Read, Glob, Grep, Task, Skill, AskUserQuestion, mcp__atlassian__*
 description: Triage an Azure DevOps work item with Confluence context
 argument-hint: <ticket-id> [confluence-search-terms]
 ---
@@ -33,10 +33,13 @@ If description or acceptance criteria are HTML, extract readable text.
 
 ### 3. Fetch Related Documentation from Confluence
 
-Use Atlassian MCP tools to search for related documentation:
+**Always search Confluence** for related documentation—tickets often assume knowledge documented elsewhere.
+
+Use Atlassian MCP tools with multiple searches:
 
 - Search by ticket title keywords
 - Search by area path / feature name
+- Search by domain terms from description
 - If additional search terms provided in arguments, use those
 
 Look for:
@@ -45,6 +48,7 @@ Look for:
 - Architecture documents
 - Related feature documentation
 - Business requirements
+- Existing decisions or constraints
 
 ### 4. Run Triage Analysis
 
@@ -58,10 +62,10 @@ With all gathered context (ticket + Confluence + codebase), apply the triage met
 ### 5. Write Output
 
 ```bash
-mkdir -p ~/.aitools/triage
+mkdir -p ./.aitools/triage
 ```
 
-Save to `~/.aitools/triage/<ticket-id> - <slugified-title>.md`
+Save to `./.aitools/triage/<ticket-id>-<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 

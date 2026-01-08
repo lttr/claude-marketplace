@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(mkdir:*), Write, Read, Glob, Grep, Task
+allowed-tools: Bash(mkdir:*), Write, Read, Glob, Grep, Task, AskUserQuestion
 description: Triage manually pasted requirements or specifications
 argument-hint: [short-title]
 ---
@@ -36,10 +36,10 @@ No external ticket system or documentation system - analyze against local codeba
 ### 3. Write Output
 
 ```bash
-mkdir -p ~/.aitools/triage
+mkdir -p ./.aitools/triage
 ```
 
-Save to `~/.aitools/triage/<slugified-title>.md`
+Save to `./.aitools/triage/<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 

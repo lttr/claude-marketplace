@@ -57,7 +57,7 @@ To customize, edit the plugin files directly:
 
 | Setting       | Value                      | Location                           |
 | ------------- | -------------------------- | ---------------------------------- |
-| Output path   | `~/.aitools/triage/`       | `skills/triage/SKILL.md`, commands |
+| Output path   | `./.aitools/triage/`       | `skills/triage/SKILL.md`, commands |
 | Ticket system | Azure DevOps               | `commands/triage/azdo.md`          |
 | Doc system    | Confluence (Atlassian MCP) | `.mcp.json`                        |
 
