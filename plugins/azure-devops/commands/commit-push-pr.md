@@ -39,7 +39,8 @@ Check `git diff --cached --name-only`. If any staged files weren't modified by C
      --source-branch <current-branch> \
      --target-branch main \
      --title "<PR title>" \
-     --description "<PR description with summary of changes>"
+     --description "<PR description with summary of changes>" \
+     --work-items <ticket_number>  # if ticket number is known
    ```
 6. **Report**: Show PR URL and summary
 
