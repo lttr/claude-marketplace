@@ -33,7 +33,11 @@ Apply the triage methodology from SKILL.md:
 
 No external ticket system or documentation system - analyze against local codebase only.
 
-### 3. Write Output
+### 3. Ask Questions Interactively
+
+**Use `AskUserQuestion` tool** to ask blockers and scope questions the user might know. Only unanswered questions go to the output file.
+
+### 4. Write Output
 
 ```bash
 mkdir -p ./.aitools/triage
@@ -43,7 +47,7 @@ Save to `./.aitools/triage/<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 
-### 4. Summary
+### 5. Summary
 
 Output:
 

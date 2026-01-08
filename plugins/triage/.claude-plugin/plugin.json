@@ -1,6 +1,6 @@
 {
   "name": "triage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Triage issues and specifications for completeness, gathering context from Azure DevOps, Confluence, and local codebase",
   "author": {
     "name": "Lukas Trumm",

@@ -59,7 +59,11 @@ With all gathered context (ticket + Confluence + codebase), apply the triage met
 - Assess completeness across all dimensions
 - Generate prioritized questions
 
-### 5. Write Output
+### 5. Ask Questions Interactively
+
+**Use `AskUserQuestion` tool** to ask blockers and scope questions the user might know. Only unanswered questions go to the output file.
+
+### 6. Write Output
 
 ```bash
 mkdir -p ./.aitools/triage
@@ -69,7 +73,7 @@ Save to `./.aitools/triage/<ticket-id>-<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 
-### 6. Summary
+### 7. Summary
 
 Output:
 

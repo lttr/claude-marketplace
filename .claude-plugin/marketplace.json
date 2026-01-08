@@ -81,7 +81,7 @@
       "name": "triage",
       "source": "./plugins/triage",
       "description": "Triage issues and specifications for completeness, gathering context from Azure DevOps, Confluence, and local codebase",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "keywords": [
         "triage",
         "azure-devops",

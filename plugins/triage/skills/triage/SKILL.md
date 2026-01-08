@@ -79,20 +79,25 @@ Rate overall completeness: **Ready** / **Mostly Ready** / **Needs Clarification*
 
 ### 4. Generate Questions
 
-Produce a prioritized list of questions organized by:
+Identify questions organized by:
 
 1. **Blockers** - Questions that must be answered before any work can begin
 2. **Scope clarification** - Questions that define boundaries
 3. **Technical decisions** - Questions about implementation approach
 4. **Nice to know** - Questions that would help but aren't blocking
 
-Format questions to be:
+### 5. Ask Questions Interactively
 
-- Specific and actionable
-- Tied to a concrete decision or gap
-- Easy to answer (yes/no or short response when possible)
+**Use `AskUserQuestion` tool** to ask the user any questions they might be able to answer (especially blockers and scope questions).
 
-### 5. Write Output
+- Ask 1-4 questions at a time using the tool's multi-question format
+- For each question, provide 2-4 concrete answer options
+- Record answers to incorporate into the output
+- If user selects "Other" without an answer or says they don't know → mark as unanswered
+
+Only questions the user couldn't answer go to the output file for stakeholder follow-up.
+
+### 6. Write Output
 
 ```bash
 mkdir -p ./.aitools/triage
@@ -156,15 +161,7 @@ Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 1. [Question]
 ```
 
-## Interactive Clarification
-
-Use `AskUserQuestion` tool for things the user likely knows:
-
-- Input is too sparse to meaningfully analyze
-- Critical ambiguity blocks analysis (e.g., which of two features is meant)
-- Multiple valid interpretations exist and you need to pick one
-
-If user answers "I don't know" or selects "Other" without an answer, write that question to the output file for follow-up with stakeholders.
+Note: Only include questions the user couldn't answer during interactive clarification.
 
 ## Tips
 
