@@ -1,0 +1,74 @@
+---
+allowed-tools: Bash(az boards:*), Bash(az account:*), Bash(mkdir:*), Write, Read, Glob, Grep, Task, Skill, mcp__atlassian__*
+description: Triage an Azure DevOps work item with Confluence context
+argument-hint: <ticket-id> [confluence-search-terms]
+---
+
+## Task
+
+Triage Azure DevOps work item #$ARGUMENTS by gathering context and generating clarifying questions.
+
+## Steps
+
+### 1. Load Azure DevOps Skill
+
+Invoke the `azure-devops:az-cli` skill to get proper CLI reference for Azure Boards commands.
+
+### 2. Fetch Ticket from Azure DevOps
+
+```bash
+az boards work-item show --id <ticket-id> --expand all -o json
+```
+
+Extract per config.md field mappings:
+
+- Title
+- Description
+- Acceptance criteria
+- State, Type, Assigned To
+- Area Path, Iteration Path
+- Relations (parent/child links)
+
+If description or acceptance criteria are HTML, extract readable text.
+
+### 3. Fetch Related Documentation from Confluence
+
+Use Atlassian MCP tools to search for related documentation:
+
+- Search by ticket title keywords
+- Search by area path / feature name
+- If additional search terms provided in arguments, use those
+
+Look for:
+
+- Technical specs
+- Architecture documents
+- Related feature documentation
+- Business requirements
+
+### 4. Run Triage Analysis
+
+With all gathered context (ticket + Confluence + codebase), apply the triage methodology from SKILL.md:
+
+- Explore local codebase for technical context (use Explore agent)
+- Search local project docs (`docs/`, `README.md`, ADRs)
+- Assess completeness across all dimensions
+- Generate prioritized questions
+
+### 5. Write Output
+
+```bash
+mkdir -p ~/.aitools/triage
+```
+
+Save to `~/.aitools/triage/<ticket-id> - <slugified-title>.md`
+
+Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
+
+### 6. Summary
+
+Output:
+
+- File path where triage was saved
+- Completeness rating
+- Count of blocker questions (if any)

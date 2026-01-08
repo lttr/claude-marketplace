@@ -76,6 +76,20 @@
         "introspection"
       ],
       "category": "development"
+    },
+    {
+      "name": "triage",
+      "source": "./plugins/triage",
+      "description": "Triage issues and specifications for completeness, gathering context from Azure DevOps, Confluence, and local codebase",
+      "version": "0.1.0",
+      "keywords": [
+        "triage",
+        "azure-devops",
+        "confluence",
+        "requirements",
+        "specifications"
+      ],
+      "category": "productivity"
     }
   ]
 }
