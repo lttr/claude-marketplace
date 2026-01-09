@@ -9,12 +9,12 @@ Generate activity summaries revealing what's happening in a codebase day-to-day 
 
 ## Data Sources
 
-| Source           | Tool                 | Data                                    |
-| ---------------- | -------------------- | --------------------------------------- |
-| Azure PRs        | `az repos pr list`   | PRs opened, merged, reviewed            |
-| Azure Work Items | `az boards query`    | Tickets started, completed, in progress |
-| Local Git        | `git log`            | Commits in current repo                 |
-| Confluence       | MCP tools (optional) | Related documentation changes           |
+| Source           | Tool               | Data                                    |
+| ---------------- | ------------------ | --------------------------------------- |
+| Azure PRs        | `az repos pr list` | PRs opened, merged, reviewed            |
+| Azure Work Items | `az boards query`  | Tickets started, completed, in progress |
+| Local Git        | `git log`          | Commits in current repo                 |
+| Confluence       | Atlassian MCP      | Recently modified pages (optional)      |
 
 ## Workflow
 
@@ -23,16 +23,35 @@ Generate activity summaries revealing what's happening in a codebase day-to-day 
 Run collectors from the current repository directory:
 
 ```bash
-SKILL_DIR="$PLUGIN_DIR/skills/codebase-insights"
-
 # Azure PRs (last N days)
-node $SKILL_DIR/collectors/azure-prs.js --days 7
+node $PLUGIN_DIR/collectors/azure-prs.js --days 7
 
 # Azure work items (last N days)
-node $SKILL_DIR/collectors/azure-workitems.js --days 7
+node $PLUGIN_DIR/collectors/azure-workitems.js --days 7
 
 # Local git commits (last N days)
-node $SKILL_DIR/collectors/git-commits.js --days 7
+node $PLUGIN_DIR/collectors/git-commits.js --days 7
+```
+
+**Confluence (optional):** If Atlassian MCP is available, search for recent pages:
+
+```
+mcp__atlassian__rovo_search(query: "modified:>YYYY-MM-DD space_key")
+```
+
+Extract and save to `.insights/raw/confluence.json`:
+
+```json
+[
+  {
+    "id": "12345",
+    "title": "Page Title",
+    "space": "SPACE",
+    "lastModified": "2025-01-08",
+    "lastModifiedBy": "Author Name",
+    "url": "https://..."
+  }
+]
 ```
 
 Data saved to `.insights/raw/`.
@@ -41,10 +60,10 @@ Data saved to `.insights/raw/`.
 
 ```bash
 # For daily summary
-node $SKILL_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
+node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
 
 # For weekly summary
-node $SKILL_DIR/collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
+node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
 ```
 
 ### 3. Generate Summary
@@ -87,10 +106,11 @@ az login
 
 ## Confluence Integration
 
-If Atlassian MCP tools are available, the skill will also search for:
+Requires Atlassian MCP server configured. During data collection, use `rovo_search` to find recently modified pages.
 
-- Recently modified pages in project-related spaces
-- Documentation changes correlating with code changes
+**Search query format:** `modified:>YYYY-MM-DD [space_key] [keywords]`
+
+Collects metadata only: page title, space, last modified date, author. No full content.
 
 Confluence is **optional** - the skill works without it.
 
@@ -101,7 +121,8 @@ Confluence is **optional** - the skill works without it.
 ├── raw/
 │   ├── prs.json           # Azure PRs
 │   ├── workitems.json     # Azure work items
-│   └── commits.json       # Local git commits
+│   ├── commits.json       # Local git commits
+│   └── confluence.json    # Confluence pages (optional)
 ├── 2025-01-08-insights.md # Daily reports
 └── 2025-W02-insights.md   # Weekly reports
 ```
