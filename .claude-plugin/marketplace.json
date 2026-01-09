@@ -53,11 +53,21 @@
       "category": "productivity"
     },
     {
-      "name": "azure-devops",
-      "source": "./plugins/azure-devops",
-      "description": "Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects",
-      "version": "0.4.0",
-      "keywords": ["azure", "devops", "cli", "pipelines", "repos", "boards"],
+      "name": "dev-flow",
+      "source": "./plugins/dev-flow",
+      "description": "Developer workflow automation: triage requirements, generate activity insights, and manage Azure DevOps workflows with Confluence integration",
+      "version": "1.0.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": [
+        "triage",
+        "insights",
+        "azure-devops",
+        "confluence",
+        "git",
+        "workflow"
+      ],
       "category": "productivity"
     },
     {
@@ -76,20 +86,6 @@
         "introspection"
       ],
       "category": "development"
-    },
-    {
-      "name": "triage",
-      "source": "./plugins/triage",
-      "description": "Triage issues and specifications for completeness, gathering context from Azure DevOps, Confluence, and local codebase",
-      "version": "0.2.1",
-      "keywords": [
-        "triage",
-        "azure-devops",
-        "confluence",
-        "requirements",
-        "specifications"
-      ],
-      "category": "productivity"
     }
   ]
 }

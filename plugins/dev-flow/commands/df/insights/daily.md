@@ -22,13 +22,12 @@ Generate a summary of today's (or specified date's) codebase activity.
 Run collectors to gather fresh data:
 
 ```bash
-SKILL_DIR="$PLUGIN_DIR/skills/codebase-insights"
 DATE="${ARGUMENTS:-$(date +%Y-%m-%d)}"
 
 # Collect from all sources
-node $SKILL_DIR/collectors/azure-prs.js --days 1
-node $SKILL_DIR/collectors/azure-workitems.js --days 1
-node $SKILL_DIR/collectors/git-commits.js --days 1
+node $PLUGIN_DIR/collectors/azure-prs.js --days 1
+node $PLUGIN_DIR/collectors/azure-workitems.js --days 1
+node $PLUGIN_DIR/collectors/git-commits.js --days 1
 ```
 
 ### 2. Filter Data
@@ -36,9 +35,9 @@ node $SKILL_DIR/collectors/git-commits.js --days 1
 Filter each data source for the target date:
 
 ```bash
-node $SKILL_DIR/collectors/filter-by-date.js .insights/raw/prs.json --day $DATE > /tmp/prs.json
-node $SKILL_DIR/collectors/filter-by-date.js .insights/raw/workitems.json --day $DATE > /tmp/workitems.json
-node $SKILL_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day $DATE > /tmp/commits.json
+node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/prs.json --day $DATE > /tmp/prs.json
+node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/workitems.json --day $DATE > /tmp/workitems.json
+node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day $DATE > /tmp/commits.json
 ```
 
 ### 3. Confluence (Optional)
@@ -51,7 +50,7 @@ Skip silently if MCP tools are not configured.
 
 ### 4. Generate Summary
 
-Read the template from `$SKILL_DIR/templates/daily-summary.md`.
+Read the template from `$PLUGIN_DIR/skills/insights/templates/daily-summary.md`.
 
 Combine all data sources and generate a comprehensive daily summary.
 

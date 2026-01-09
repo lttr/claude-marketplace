@@ -39,26 +39,26 @@ Automated workflow for converting lecture videos into transcripts, outlines, and
 
 See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) for detailed documentation.
 
-### Azure DevOps Plugin
+### Dev Flow Plugin
 
-Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects using the `az` CLI.
+Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
 
 **Features:**
 
-- Most-used commands ready to run (list my PRs, my work items)
-- Repository and PR management
-- Pipeline runs and variables
-- Work item queries with WIQL
-- Project, team, and user management
+- `/df:triage` - Analyze requirements against local codebase
+- `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
+- `/df:azdo:pr` - Commit, push, create Azure DevOps PR in one step
+- `/df:azdo:triage <ticket-id>` - Triage Azure ticket with Confluence context
+- `/df:azdo:ticket:start`, `/df:azdo:ticket:cr` - Work item state changes
 
 **Installation:**
 
 ```shell
 /plugin marketplace add lukastrumm/claude-marketplace
-/plugin install azure-devops@lttr-claude-marketplace
+/plugin install dev-flow@lttr-claude-marketplace
 ```
 
-See [plugins/azure-devops/README.md](./plugins/azure-devops/README.md) for detailed documentation.
+See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
 
 ## Installation
 
@@ -86,7 +86,7 @@ Select "Browse Plugins" to see available options, or install directly:
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install browser-tools@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
-/plugin install azure-devops@lttr-claude-marketplace
+/plugin install dev-flow@lttr-claude-marketplace
 ```
 
 ## For Plugin Developers
