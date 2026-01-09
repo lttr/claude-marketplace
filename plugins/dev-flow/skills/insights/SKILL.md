@@ -9,12 +9,12 @@ Generate activity summaries revealing what's happening in a codebase day-to-day 
 
 ## Data Sources
 
-| Source | Tool | Data |
-|--------|------|------|
-| Azure PRs | `az repos pr list` | PRs opened, merged, reviewed |
-| Azure Work Items | `az boards query` | Tickets started, completed, in progress |
-| Local Git | `git log` | Commits in current repo |
-| Confluence | MCP tools (optional) | Related documentation changes |
+| Source           | Tool                 | Data                                    |
+| ---------------- | -------------------- | --------------------------------------- |
+| Azure PRs        | `az repos pr list`   | PRs opened, merged, reviewed            |
+| Azure Work Items | `az boards query`    | Tickets started, completed, in progress |
+| Local Git        | `git log`            | Commits in current repo                 |
+| Confluence       | MCP tools (optional) | Related documentation changes           |
 
 ## Workflow
 
@@ -57,14 +57,15 @@ Use templates from `$SKILL_DIR/templates/`:
 ### 4. Save Output
 
 Reports saved to `.insights/`:
+
 - Daily: `.insights/YYYY-MM-DD-insights.md`
 - Weekly: `.insights/YYYY-WXX-insights.md`
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `/insights:daily [date]` | Generate daily codebase summary |
+| Command                   | Description                      |
+| ------------------------- | -------------------------------- |
+| `/insights:daily [date]`  | Generate daily codebase summary  |
 | `/insights:weekly [date]` | Generate weekly codebase summary |
 
 ## Usage Examples
@@ -87,6 +88,7 @@ az login
 ## Confluence Integration
 
 If Atlassian MCP tools are available, the skill will also search for:
+
 - Recently modified pages in project-related spaces
 - Documentation changes correlating with code changes
 
@@ -107,12 +109,14 @@ Confluence is **optional** - the skill works without it.
 ## Report Sections
 
 ### Daily Summary
+
 - **Pull Requests**: Opened, merged, reviewed today
 - **Commits**: By author, by area
 - **Work Items**: State changes (started, completed)
 - **Key Changes**: AI-synthesized summary
 
 ### Weekly Summary
+
 - **Overview**: High-level activity summary
 - **PR Activity**: Week's PRs with outcomes
 - **Commit Themes**: Patterns and focus areas

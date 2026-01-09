@@ -4,16 +4,16 @@
  * Usage: node git-commits.js --days <n>
  */
 
-import { execSync } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
-import { join, basename } from 'node:path'
+import { execSync } from "node:child_process"
+import { mkdirSync, writeFileSync } from "node:fs"
+import { join, basename } from "node:path"
 
 const args = process.argv.slice(2)
-const daysIndex = args.indexOf('--days')
+const daysIndex = args.indexOf("--days")
 const days = daysIndex >= 0 ? parseInt(args[daysIndex + 1], 10) : 7
 
-const outputDir = join(process.cwd(), '.insights', 'raw')
-const outputFile = join(outputDir, 'commits.json')
+const outputDir = join(process.cwd(), ".insights", "raw")
+const outputFile = join(outputDir, "commits.json")
 
 mkdirSync(outputDir, { recursive: true })
 
@@ -29,22 +29,22 @@ const repoName = basename(process.cwd())
 try {
   const gitLog = execSync(
     `git log --since="${sinceDate}" --format="%h|%cs|%an|%s"`,
-    { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }
+    { encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
   ).trim()
 
   const commits = []
 
   if (gitLog) {
-    for (const line of gitLog.split('\n')) {
-      const [hash, date, author, ...messageParts] = line.split('|')
-      const message = messageParts.join('|')
+    for (const line of gitLog.split("\n")) {
+      const [hash, date, author, ...messageParts] = line.split("|")
+      const message = messageParts.join("|")
 
       commits.push({
         repo: repoName,
         hash,
         date,
         author,
-        message
+        message,
       })
     }
   }
@@ -52,6 +52,6 @@ try {
   writeFileSync(outputFile, JSON.stringify(commits, null, 2))
   console.log(`Collected ${commits.length} commits to: ${outputFile}`)
 } catch (err) {
-  console.error('Error collecting commits:', err.message)
+  console.error("Error collecting commits:", err.message)
   process.exit(1)
 }

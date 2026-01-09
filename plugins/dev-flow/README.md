@@ -36,36 +36,36 @@ dev-flow/
 
 ## Generic vs Specific
 
-| Component | Scope | Data Sources |
-|-----------|-------|--------------|
-| `skills/triage/` | Generic | Local codebase only |
-| `skills/insights/` | Generic | Template-based, source-agnostic |
-| `skills/sources/az-cli/` | Azure-specific | Azure DevOps CLI |
-| `collectors/git-commits.js` | Generic | Local git |
-| `collectors/azure-*.js` | Azure-specific | Azure DevOps API |
-| `/df:triage` | Generic | Local codebase |
-| `/df:insights:*` | Hybrid | Azure + Git + Confluence (optional) |
-| `/df:azdo:*` | Azure-specific | Azure DevOps + Confluence |
+| Component                   | Scope          | Data Sources                        |
+| --------------------------- | -------------- | ----------------------------------- |
+| `skills/triage/`            | Generic        | Local codebase only                 |
+| `skills/insights/`          | Generic        | Template-based, source-agnostic     |
+| `skills/sources/az-cli/`    | Azure-specific | Azure DevOps CLI                    |
+| `collectors/git-commits.js` | Generic        | Local git                           |
+| `collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |
+| `/df:triage`                | Generic        | Local codebase                      |
+| `/df:insights:*`            | Hybrid         | Azure + Git + Confluence (optional) |
+| `/df:azdo:*`                | Azure-specific | Azure DevOps + Confluence           |
 
 ## Commands
 
 ### Generic
 
-| Command | Description |
-|---------|-------------|
+| Command                             | Description                                          |
+| ----------------------------------- | ---------------------------------------------------- |
 | `/df:commit [message] [push] [all]` | Commit with commitlint format (`type(ticket#): msg`) |
-| `/df:triage [title]` | Triage pasted requirements against local codebase |
-| `/df:insights:daily [date]` | Daily activity summary |
-| `/df:insights:weekly [date]` | Weekly activity summary |
+| `/df:triage [title]`                | Triage pasted requirements against local codebase    |
+| `/df:insights:daily [date]`         | Daily activity summary                               |
+| `/df:insights:weekly [date]`        | Weekly activity summary                              |
 
 ### Azure DevOps
 
-| Command | Description |
-|---------|-------------|
-| `/df:azdo:pr [message]` | Commit, push, create Azure DevOps PR |
+| Command                       | Description                                 |
+| ----------------------------- | ------------------------------------------- |
+| `/df:azdo:pr [message]`       | Commit, push, create Azure DevOps PR        |
 | `/df:azdo:triage <ticket-id>` | Triage Azure ticket with Confluence context |
-| `/df:azdo:ticket:start <id>` | Set work item to Active |
-| `/df:azdo:ticket:cr <id>` | Set work item to Code Review |
+| `/df:azdo:ticket:start <id>`  | Set work item to Active                     |
+| `/df:azdo:ticket:cr <id>`     | Set work item to Code Review                |
 
 ## Data Sources
 

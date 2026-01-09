@@ -1,5 +1,14 @@
 ---
-allowed-tools: ["Bash", "Read", "Write", "Glob", "Grep", "mcp__plugin_triage_atlassian__search", "mcp__plugin_triage_atlassian__getConfluencePage"]
+allowed-tools:
+  [
+    "Bash",
+    "Read",
+    "Write",
+    "Glob",
+    "Grep",
+    "mcp__plugin_triage_atlassian__search",
+    "mcp__plugin_triage_atlassian__getConfluencePage",
+  ]
 description: Generate weekly codebase activity summary from Azure DevOps, git, and optionally Confluence
 arguments:
   - name: date
@@ -45,6 +54,7 @@ The filter outputs the ISO week (e.g., `2025-W02`) to stderr for naming.
 ### 3. Confluence (Optional)
 
 If Atlassian MCP tools are available:
+
 - Search for pages modified during the week
 - Look for documentation related to merged PRs
 - Include relevant context from project spaces
@@ -56,6 +66,7 @@ Skip silently if MCP tools are not configured.
 Read the template from `$PLUGIN_DIR/skills/insights/templates/weekly-summary.md`.
 
 Generate a comprehensive weekly summary covering:
+
 - PR activity with review patterns
 - Commit themes and patterns
 - Work item progress
@@ -69,6 +80,7 @@ Save the report to `.insights/YYYY-WXX-insights.md` (ISO week format).
 ## Output
 
 Report includes:
+
 - Overview of the week
 - PR summary table with status
 - Commit activity by area and contributor

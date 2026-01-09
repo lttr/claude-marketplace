@@ -1,5 +1,14 @@
 ---
-allowed-tools: ["Bash", "Read", "Write", "Glob", "Grep", "mcp__plugin_triage_atlassian__search", "mcp__plugin_triage_atlassian__getConfluencePage"]
+allowed-tools:
+  [
+    "Bash",
+    "Read",
+    "Write",
+    "Glob",
+    "Grep",
+    "mcp__plugin_triage_atlassian__search",
+    "mcp__plugin_triage_atlassian__getConfluencePage",
+  ]
 description: Generate daily codebase activity summary from Azure DevOps, git, and optionally Confluence
 arguments:
   - name: date
@@ -43,6 +52,7 @@ node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day $
 ### 3. Confluence (Optional)
 
 If Atlassian MCP tools are available, search for related documentation changes:
+
 - Use `mcp__plugin_triage_atlassian__search` to find recently modified pages
 - Fetch page content if relevant
 
@@ -61,6 +71,7 @@ Save the report to `.insights/$DATE-insights.md`.
 ## Output
 
 Report includes:
+
 - Pull request activity (opened, merged, in review)
 - Commit summary by author/area
 - Work item state changes

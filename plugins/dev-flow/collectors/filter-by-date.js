@@ -9,14 +9,16 @@
  *   --range START END    Filter date range (inclusive)
  */
 
-import { readFile } from 'node:fs/promises'
+import { readFile } from "node:fs/promises"
 
 const args = process.argv.slice(2)
 const inputFile = args[0]
 const mode = args[1]
 
 if (!inputFile || !mode) {
-  console.error('Usage: node filter-by-date.js <input.json> --day|--week|--range <date(s)>')
+  console.error(
+    "Usage: node filter-by-date.js <input.json> --day|--week|--range <date(s)>",
+  )
   process.exit(1)
 }
 
@@ -31,7 +33,7 @@ function getWeekRange(dateStr) {
   sunday.setDate(monday.getDate() + 6)
   return {
     start: monday.toISOString().slice(0, 10),
-    end: sunday.toISOString().slice(0, 10)
+    end: sunday.toISOString().slice(0, 10),
   }
 }
 
@@ -40,8 +42,8 @@ function getISOWeek(dateStr) {
   const thursday = new Date(date)
   thursday.setDate(date.getDate() + (4 - (date.getDay() || 7)))
   const yearStart = new Date(thursday.getFullYear(), 0, 1)
-  const weekNumber = Math.ceil((((thursday - yearStart) / 86400000) + 1) / 7)
-  return `${thursday.getFullYear()}-W${String(weekNumber).padStart(2, '0')}`
+  const weekNumber = Math.ceil(((thursday - yearStart) / 86400000 + 1) / 7)
+  return `${thursday.getFullYear()}-W${String(weekNumber).padStart(2, "0")}`
 }
 
 function isInRange(itemDate, start, end) {
@@ -54,28 +56,29 @@ function getItemDate(item) {
 }
 
 try {
-  const data = JSON.parse(await readFile(inputFile, 'utf8'))
+  const data = JSON.parse(await readFile(inputFile, "utf8"))
   let filtered
   let weekInfo = null
 
   switch (mode) {
-    case '--day': {
+    case "--day": {
       const day = args[2] || new Date().toISOString().slice(0, 10)
-      filtered = data.filter(item => getItemDate(item) === day)
+      filtered = data.filter((item) => getItemDate(item) === day)
       break
     }
-    case '--week': {
+    case "--week": {
       const date = args[2] || new Date().toISOString().slice(0, 10)
       const { start, end } = getWeekRange(date)
       weekInfo = { start, end, isoWeek: getISOWeek(date) }
-      filtered = data.filter(item => isInRange(getItemDate(item), start, end))
+      filtered = data.filter((item) => isInRange(getItemDate(item), start, end))
       console.error(`Week: ${start} to ${end} (${weekInfo.isoWeek})`)
       break
     }
-    case '--range': {
+    case "--range": {
       const [start, end] = args.slice(2)
-      if (!start || !end) throw new Error('Range requires start and end: --range START END')
-      filtered = data.filter(item => isInRange(getItemDate(item), start, end))
+      if (!start || !end)
+        throw new Error("Range requires start and end: --range START END")
+      filtered = data.filter((item) => isInRange(getItemDate(item), start, end))
       break
     }
     default:
@@ -84,6 +87,6 @@ try {
 
   console.log(JSON.stringify(filtered, null, 2))
 } catch (err) {
-  console.error('Error:', err.message)
+  console.error("Error:", err.message)
   process.exit(1)
 }

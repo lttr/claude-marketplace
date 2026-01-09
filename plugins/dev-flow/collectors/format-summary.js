@@ -4,7 +4,7 @@
  * Usage: echo '{"commits":[], "prs":[], "workitems":[]}' | node format-summary.js
  */
 
-import { createInterface } from 'node:readline'
+import { createInterface } from "node:readline"
 
 async function readStdin() {
   const lines = []
@@ -12,15 +12,15 @@ async function readStdin() {
   for await (const line of rl) {
     lines.push(line)
   }
-  return lines.join('\n')
+  return lines.join("\n")
 }
 
 function formatPRs(prs) {
-  if (!prs || prs.length === 0) return 'No PR activity'
+  if (!prs || prs.length === 0) return "No PR activity"
 
-  const opened = prs.filter(p => p.status === 'active')
-  const merged = prs.filter(p => p.status === 'completed')
-  const abandoned = prs.filter(p => p.status === 'abandoned')
+  const opened = prs.filter((p) => p.status === "active")
+  const merged = prs.filter((p) => p.status === "completed")
+  const abandoned = prs.filter((p) => p.status === "abandoned")
 
   const lines = []
   lines.push(`- **Opened:** ${opened.length}`)
@@ -28,24 +28,24 @@ function formatPRs(prs) {
   if (abandoned.length > 0) lines.push(`- **Abandoned:** ${abandoned.length}`)
 
   if (merged.length > 0) {
-    lines.push('\n**Merged PRs:**')
+    lines.push("\n**Merged PRs:**")
     for (const pr of merged.slice(0, 10)) {
       lines.push(`- #${pr.id}: ${pr.title} (${pr.author})`)
     }
   }
 
   if (opened.length > 0) {
-    lines.push('\n**Open PRs:**')
+    lines.push("\n**Open PRs:**")
     for (const pr of opened.slice(0, 10)) {
       lines.push(`- #${pr.id}: ${pr.title} (${pr.author})`)
     }
   }
 
-  return lines.join('\n')
+  return lines.join("\n")
 }
 
 function formatCommits(commits) {
-  if (!commits || commits.length === 0) return 'No commits'
+  if (!commits || commits.length === 0) return "No commits"
 
   // Group by author
   const byAuthor = {}
@@ -64,19 +64,19 @@ function formatCommits(commits) {
     if (authorCommits.length > 5) {
       lines.push(`- ... and ${authorCommits.length - 5} more`)
     }
-    lines.push('')
+    lines.push("")
   }
 
-  return lines.join('\n')
+  return lines.join("\n")
 }
 
 function formatWorkItems(items) {
-  if (!items || items.length === 0) return 'No work item changes'
+  if (!items || items.length === 0) return "No work item changes"
 
   // Group by state
   const byState = {}
   for (const item of items) {
-    const state = item.state || 'Unknown'
+    const state = item.state || "Unknown"
     if (!byState[state]) byState[state] = []
     byState[state].push(item)
   }
@@ -86,16 +86,16 @@ function formatWorkItems(items) {
   for (const [state, stateItems] of Object.entries(byState)) {
     lines.push(`**${state}** (${stateItems.length}):`)
     for (const item of stateItems.slice(0, 5)) {
-      const assignee = item.assignedTo ? ` (${item.assignedTo})` : ''
+      const assignee = item.assignedTo ? ` (${item.assignedTo})` : ""
       lines.push(`- #${item.id}: ${item.title}${assignee}`)
     }
     if (stateItems.length > 5) {
       lines.push(`- ... and ${stateItems.length - 5} more`)
     }
-    lines.push('')
+    lines.push("")
   }
 
-  return lines.join('\n')
+  return lines.join("\n")
 }
 
 try {
@@ -113,6 +113,6 @@ ${formatWorkItems(data.workitems)}`
 
   console.log(output)
 } catch (err) {
-  console.error('Error:', err.message)
+  console.error("Error:", err.message)
   process.exit(1)
 }
