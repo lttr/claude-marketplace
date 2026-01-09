@@ -46,9 +46,9 @@ Create a weekly codebase activity summary covering:
 
 **Summary:** X opened, Y merged, Z in review
 
-| PR   | Title     | Author | Status | Notes       |
-| ---- | --------- | ------ | ------ | ----------- |
-| #123 | Feature X | @user  | Merged | Key context |
+| PR          | Title     | Author | Status | Notes       |
+| ----------- | --------- | ------ | ------ | ----------- |
+| [#123](url) | Feature X | @user  | Merged | Key context |
 
 **Review Activity:**
 
@@ -80,12 +80,12 @@ Create a weekly codebase activity summary covering:
 
 **Completed Items:**
 
-- #456: Work item title
-- #789: Work item title
+- [#456](url): Work item title
+- [#789](url): Work item title
 
 **In Progress:**
 
-- #012: Work item title (assignee)
+- [#012](url): Work item title (assignee)
 
 ### Themes & Patterns
 
@@ -108,6 +108,7 @@ Create a weekly codebase activity summary covering:
 
 ## Guidelines
 
+- **Use markdown links** for PRs and work items using the `url` field from the data
 - Identify **patterns** across individual commits and PRs
 - Connect work items to actual code changes
 - Highlight **velocity** (how much got done) and **direction** (where things are heading)

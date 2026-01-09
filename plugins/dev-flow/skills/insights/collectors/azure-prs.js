@@ -59,6 +59,9 @@ try {
         vote: r.vote, // 10=approved, 5=approved with suggestions, -5=wait, -10=rejected
       })),
       repository: pr.repository?.name,
+      url: pr.repository?.webUrl
+        ? `${pr.repository.webUrl}/pullrequest/${pr.pullRequestId}`
+        : null,
     }))
 
   writeFileSync(outputFile, JSON.stringify(prs, null, 2))

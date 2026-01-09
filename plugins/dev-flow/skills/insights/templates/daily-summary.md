@@ -48,7 +48,7 @@ Brief 1-2 sentence overview of the day's activity.
 
 Notable PRs:
 
-- #123: Title (author) - brief context
+- [#123](url): Title (author) - brief context
 
 ### Commits
 
@@ -67,6 +67,7 @@ Synthesized summary of the most significant changes and their impact.
 
 ## Guidelines
 
+- **Use markdown links** for PRs and work items using the `url` field from the data
 - Focus on **what changed** and **why it matters**
 - Group related commits into themes
 - Highlight cross-cutting changes that affect multiple areas

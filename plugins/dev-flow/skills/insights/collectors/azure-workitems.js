@@ -30,15 +30,26 @@ try {
   const items = JSON.parse(queryResult)
 
   // Map to simpler structure
-  const workItems = items.map((item) => ({
-    id: item.fields?.["System.Id"] || item.id,
-    title: item.fields?.["System.Title"],
-    type: item.fields?.["System.WorkItemType"],
-    state: item.fields?.["System.State"],
-    assignedTo: item.fields?.["System.AssignedTo"]?.displayName,
-    changedDate: item.fields?.["System.ChangedDate"]?.slice(0, 10),
-    createdDate: item.fields?.["System.CreatedDate"]?.slice(0, 10),
-  }))
+  const workItems = items.map((item) => {
+    const id = item.fields?.["System.Id"] || item.id
+    // Construct web URL from API URL: .../wit/workItems/{id} -> .../_workitems/edit/{id}
+    const url = item.url
+      ? item.url.replace(
+          /\/_apis\/wit\/workItems\/.*/,
+          `/_workitems/edit/${id}`,
+        )
+      : null
+    return {
+      id,
+      title: item.fields?.["System.Title"],
+      type: item.fields?.["System.WorkItemType"],
+      state: item.fields?.["System.State"],
+      assignedTo: item.fields?.["System.AssignedTo"]?.displayName,
+      changedDate: item.fields?.["System.ChangedDate"]?.slice(0, 10),
+      createdDate: item.fields?.["System.CreatedDate"]?.slice(0, 10),
+      url,
+    }
+  })
 
   writeFileSync(outputFile, JSON.stringify(workItems, null, 2))
   console.log(`Collected ${workItems.length} work items to: ${outputFile}`)
