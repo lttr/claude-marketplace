@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+/**
+ * Collect Azure DevOps PRs
+ * Usage: node azure-prs.js --days <n>
+ */
+
+import { execSync } from 'node:child_process'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+const args = process.argv.slice(2)
+const daysIndex = args.indexOf('--days')
+const days = daysIndex >= 0 ? parseInt(args[daysIndex + 1], 10) : 7
+
+const outputDir = join(process.cwd(), '.insights', 'raw')
+const outputFile = join(outputDir, 'prs.json')
+
+mkdirSync(outputDir, { recursive: true })
+
+function getDateNDaysAgo(n) {
+  const date = new Date()
+  date.setDate(date.getDate() - n)
+  return date.toISOString().slice(0, 10)
+}
+
+const sinceDate = getDateNDaysAgo(days)
+
+try {
+  // Fetch all PRs (completed, active, abandoned)
+  const result = execSync(
+    `az repos pr list --status all --output json`,
+    { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }
+  )
+
+  const allPRs = JSON.parse(result)
+
+  // Filter to PRs created or closed within the date range
+  const prs = allPRs
+    .filter(pr => {
+      const createdDate = pr.creationDate?.slice(0, 10)
+      const closedDate = pr.closedDate?.slice(0, 10)
+      return (createdDate && createdDate >= sinceDate) ||
+             (closedDate && closedDate >= sinceDate)
+    })
+    .map(pr => ({
+      id: pr.pullRequestId,
+      title: pr.title,
+      author: pr.createdBy?.displayName || 'Unknown',
+      status: pr.status,
+      sourceBranch: pr.sourceRefName?.replace('refs/heads/', ''),
+      targetBranch: pr.targetRefName?.replace('refs/heads/', ''),
+      createdDate: pr.creationDate?.slice(0, 10),
+      closedDate: pr.closedDate?.slice(0, 10),
+      mergeStatus: pr.mergeStatus,
+      reviewers: (pr.reviewers || []).map(r => ({
+        name: r.displayName,
+        vote: r.vote // 10=approved, 5=approved with suggestions, -5=wait, -10=rejected
+      })),
+      repository: pr.repository?.name
+    }))
+
+  writeFileSync(outputFile, JSON.stringify(prs, null, 2))
+  console.log(`Collected ${prs.length} PRs to: ${outputFile}`)
+} catch (err) {
+  console.error('Error fetching PRs:', err.message)
+  console.error('Ensure az devops is configured: az devops configure --defaults organization=... project=...')
+  process.exit(1)
+}

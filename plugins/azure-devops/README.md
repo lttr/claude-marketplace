@@ -1,6 +1,6 @@
 # azure-devops
 
-Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects using the `az` CLI.
+Azure DevOps CLI guidance and codebase insights for managing repos, pipelines, boards, and understanding project activity.
 
 ## Installation
 
@@ -11,14 +11,27 @@ Azure DevOps CLI guidance for managing repos, pipelines, boards, and projects us
 
 ## Features
 
+### Commands
+
 - **`/azdo:commit-push-pr`** - Commit, push, and create Azure DevOps PR in one command
 - **`/azdo:ticket:start`** - Set work item to "Active"
 - **`/azdo:ticket:cr`** - Set work item to "Code Review"
-- **az-cli skill** - Practical commands for Azure DevOps CLI
+- **`/insights:daily [date]`** - Generate daily codebase activity summary
+- **`/insights:weekly [date]`** - Generate weekly codebase activity summary
+
+### Skills
+
+- **az-cli** - Practical commands for Azure DevOps CLI
   - List your PRs and work items
   - Run and monitor pipelines
   - Query work items with WIQL
   - Manage repositories and branches
+
+- **codebase-insights** - Generate activity summaries from multiple sources
+  - Azure PRs (opened, merged, reviewed)
+  - Azure work items (state changes)
+  - Local git commits
+  - Confluence pages (optional)
 
 ## Prerequisites
 
