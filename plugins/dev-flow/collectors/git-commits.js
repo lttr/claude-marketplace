@@ -29,7 +29,7 @@ const repoName = basename(process.cwd())
 try {
   const gitLog = execSync(
     `git log --since="${sinceDate}" --format="%h|%cs|%an|%s"`,
-    { encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
+    { encoding: "utf8", maxBuffer: 50 * 1024 * 1024 },
   ).trim()
 
   const commits = []

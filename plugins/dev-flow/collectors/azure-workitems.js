@@ -21,10 +21,10 @@ mkdirSync(outputDir, { recursive: true })
 const wiql = `SELECT [System.Id], [System.Title], [System.State], [System.WorkItemType], [System.AssignedTo], [System.ChangedDate], [System.CreatedDate] FROM WorkItems WHERE [System.ChangedDate] >= @Today - ${days} ORDER BY [System.ChangedDate] DESC`
 
 try {
-  // Query work items
+  // Query work items - use large buffer for big projects
   const queryResult = execSync(
     `az boards query --wiql "${wiql}" --output json`,
-    { encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
+    { encoding: "utf8", maxBuffer: 50 * 1024 * 1024 },
   )
 
   const items = JSON.parse(queryResult)

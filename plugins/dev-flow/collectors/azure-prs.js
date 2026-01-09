@@ -26,10 +26,10 @@ function getDateNDaysAgo(n) {
 const sinceDate = getDateNDaysAgo(days)
 
 try {
-  // Fetch all PRs (completed, active, abandoned)
+  // Fetch all PRs (completed, active, abandoned) - large buffer for big repos
   const result = execSync(`az repos pr list --status all --output json`, {
     encoding: "utf8",
-    stdio: ["pipe", "pipe", "pipe"],
+    maxBuffer: 50 * 1024 * 1024,
   })
 
   const allPRs = JSON.parse(result)
