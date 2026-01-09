@@ -1,6 +1,6 @@
 ---
 name: df:insights
-description: Generate daily and weekly codebase activity summaries from Azure DevOps (PRs, work items), local git commits, and optionally Confluence. Use when asked about "what happened", "codebase activity", "team summary", "pr summary", or to understand what's going on in a large codebase.
+description: Generate daily and weekly codebase activity summaries from Azure DevOps (PRs, work items), local git commits, and Confluence. Use when asked about "what happened", "codebase activity", "team summary", "pr summary", or to understand what's going on in a large codebase.
 ---
 
 # Codebase Insights Skill
@@ -14,7 +14,7 @@ Generate activity summaries revealing what's happening in a codebase day-to-day 
 | Azure PRs        | `az repos pr list` | PRs opened, merged, reviewed            |
 | Azure Work Items | `az boards query`  | Tickets started, completed, in progress |
 | Local Git        | `git log`          | Commits in current repo                 |
-| Confluence       | Atlassian MCP      | Recently modified pages (optional)      |
+| Confluence       | Atlassian MCP      | Recently modified pages                 |
 
 ## Workflow
 
@@ -33,7 +33,7 @@ node collectors/azure-workitems.js --days 7
 node collectors/git-commits.js --days 7
 ```
 
-**Confluence (optional):** If Atlassian MCP is available, search for recent pages:
+**Confluence:** Search for recent pages using Atlassian MCP:
 
 ```
 mcp__atlassian__rovo_search(query: "modified:>YYYY-MM-DD space_key")
@@ -113,7 +113,7 @@ Requires Atlassian MCP server configured. During data collection, use `rovo_sear
 
 Collects metadata only: page title, space, last modified date, author. No full content.
 
-Confluence is **optional** - the skill works without it.
+Ensure Atlassian MCP is configured.
 
 ## Output Structure
 
@@ -123,7 +123,7 @@ Confluence is **optional** - the skill works without it.
 │   ├── prs.json           # Azure PRs
 │   ├── workitems.json     # Azure work items
 │   ├── commits.json       # Local git commits
-│   └── confluence.json    # Confluence pages (optional)
+│   └── confluence.json    # Confluence pages
 ├── 2025-01-08-insights.md # Daily reports
 └── 2025-W02-insights.md   # Weekly reports
 ```
