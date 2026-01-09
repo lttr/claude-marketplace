@@ -11,7 +11,8 @@ This is a **Claude Code plugin marketplace** that hosts multiple plugins for dis
 - **nuxt** - Nuxt.js development guidance with Vue best practices
 - **browser-tools** - Chrome automation for web testing via DevTools Protocol
 - **video-to-article** - Convert lecture videos to transcripts and articles
-- **azure-devops** - Azure DevOps CLI guidance (repos, pipelines, boards)
+- **dev-flow** - Developer workflow automation (triage, insights, Azure DevOps, git)
+- **cc** - Claude Code authoring tools (plugins, skills, introspection)
 
 ## Repository Structure
 
@@ -23,7 +24,8 @@ claude-marketplace/
 │   ├── nuxt/                # Nuxt.js development guidance
 │   ├── browser-tools/       # Chrome automation tools
 │   ├── video-to-article/    # Video transcription workflow
-│   └── azure-devops/        # Azure DevOps CLI guidance
+│   ├── dev-flow/            # Developer workflow automation
+│   └── cc/                  # Claude Code authoring tools
 └── README.md                # Marketplace-level README
 ```
 
@@ -109,11 +111,22 @@ Use semantic versioning:
 
 ### Command Naming Convention
 
-Commands use subdirectory-based namespacing:
+Commands use subdirectory-based namespacing by default:
 
 - File: `commands/namespace/command.md` → Invoked as `/namespace:command`
 - The `:` in invocation represents directory separator `/`
 - Example: `commands/prime/vue.md` becomes `/prime:vue`
+
+**Explicit naming**: Add `name:` in frontmatter to override path-based naming:
+
+```yaml
+---
+name: df:commit
+description: Create a git commit
+---
+```
+
+This allows `/df:commit` even if file is at `commands/df/commit.md` in a `dev-flow` plugin (otherwise would be `/dev-flow:df:commit`).
 
 ## Installation & Testing
 

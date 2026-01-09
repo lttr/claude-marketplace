@@ -8,7 +8,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 dev-flow/
 ├── skills/
 │   ├── triage/           # Generic - requirement analysis methodology
-│   ├── insights/         # Generic - activity summary generation
+│   ├── insights/         # Hybrid - activity summary generation
 │   │   └── templates/    # Report templates (daily, weekly)
 │   └── sources/
 │       └── az-cli/       # Azure-specific - CLI command reference
@@ -39,7 +39,7 @@ dev-flow/
 | Component                   | Scope          | Data Sources                        |
 | --------------------------- | -------------- | ----------------------------------- |
 | `skills/triage/`            | Generic        | Local codebase only                 |
-| `skills/insights/`          | Generic        | Template-based, source-agnostic     |
+| `skills/insights/`          | Hybrid         | Azure + Git + Confluence (optional) |
 | `skills/sources/az-cli/`    | Azure-specific | Azure DevOps CLI                    |
 | `collectors/git-commits.js` | Generic        | Local git                           |
 | `collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |

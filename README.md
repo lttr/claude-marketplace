@@ -45,6 +45,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 
 **Features:**
 
+- `/df:commit` - Git commit with commitlint format (`type(ticket#): msg`)
 - `/df:triage` - Analyze requirements against local codebase
 - `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
 - `/df:azdo:pr` - Commit, push, create Azure DevOps PR in one step
