@@ -27,9 +27,10 @@ Check `git diff --cached --name-only`. If any staged files weren't modified by C
 **Workflow:**
 
 1. **Branch check**: If on main/master, create a feature branch:
-   - Format: `feature/<ticket_number>-<optional-description>`
+   - Format: `feature/<ticket_number>-<optional-description>` (hyphen after ticket number, NOT slash)
    - Get ticket number from: `$ARGUMENTS`, conversation context (Azure DevOps work item), or ask user
-   - Example: `feature/12345-add-user-auth`
+   - ✅ `feature/12345-add-user-auth`
+   - ❌ `feature/12345/add-user-auth`
 2. **Identify files**: Find Claude-modified files from conversation
 3. **Stage & commit**: Use `git add <files>` then commit with meaningful message
 4. **Push**: `git push -u origin <branch>` (set upstream)
