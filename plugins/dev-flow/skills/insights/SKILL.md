@@ -82,11 +82,11 @@ Reports saved to `.insights/`:
 
 ## Commands
 
-| Command                      | Description                              |
-| ---------------------------- | ---------------------------------------- |
-| `/df:insights:daily [date]`  | Generate daily codebase summary          |
-| `/df:insights:weekly [date]` | Generate weekly codebase summary         |
-| `/df:insights:catchup`       | Download raw data since last collection  |
+| Command                      | Description                             |
+| ---------------------------- | --------------------------------------- |
+| `/df:insights:daily [date]`  | Generate daily codebase summary         |
+| `/df:insights:weekly [date]` | Generate weekly codebase summary        |
+| `/df:insights:catchup`       | Download raw data since last collection |
 
 ## Usage Examples
 

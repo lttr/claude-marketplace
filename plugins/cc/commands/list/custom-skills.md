@@ -8,6 +8,7 @@ List all custom skills by scanning these locations:
 2. **Plugin skills**: `~/.claude/plugins/cache/**/skills/*/SKILL.md`
 
 For each skill found, extract and display:
+
 - Skill name (from directory name or frontmatter)
 - Description (from frontmatter or first paragraph)
 - Source (user vs plugin name)

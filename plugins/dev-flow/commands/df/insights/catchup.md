@@ -1,13 +1,7 @@
 ---
 name: df:insights:catchup
 allowed-tools:
-  [
-    "Bash",
-    "Read",
-    "Write",
-    "Glob",
-    "mcp__plugin_triage_atlassian__search",
-  ]
+  ["Bash", "Read", "Write", "Glob", "mcp__plugin_triage_atlassian__search"]
 description: Download raw insights data from last collection date until today
 ---
 
