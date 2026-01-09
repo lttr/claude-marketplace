@@ -24,13 +24,13 @@ Run collectors from the current repository directory:
 
 ```bash
 # Azure PRs (last N days)
-node $PLUGIN_DIR/collectors/azure-prs.js --days 7
+node collectors/azure-prs.js --days 7
 
 # Azure work items (last N days)
-node $PLUGIN_DIR/collectors/azure-workitems.js --days 7
+node collectors/azure-workitems.js --days 7
 
 # Local git commits (last N days)
-node $PLUGIN_DIR/collectors/git-commits.js --days 7
+node collectors/git-commits.js --days 7
 ```
 
 **Confluence (optional):** If Atlassian MCP is available, search for recent pages:
@@ -60,10 +60,10 @@ Data saved to `.insights/raw/`.
 
 ```bash
 # For daily summary
-node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
+node collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
 
 # For weekly summary
-node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
+node collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
 ```
 
 ### 3. Generate Summary
