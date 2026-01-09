@@ -53,6 +53,7 @@ dev-flow/
 
 | Command | Description |
 |---------|-------------|
+| `/df:commit [message] [push] [all]` | Commit with commitlint format (`type(ticket#): msg`) |
 | `/df:triage [title]` | Triage pasted requirements against local codebase |
 | `/df:insights:daily [date]` | Daily activity summary |
 | `/df:insights:weekly [date]` | Weekly activity summary |
