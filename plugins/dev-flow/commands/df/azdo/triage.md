@@ -1,4 +1,5 @@
 ---
+name: df:azdo:triage
 allowed-tools: Bash(az boards:*), Bash(az account:*), Bash(mkdir:*), Write, Read, Glob, Grep, Task, Skill, AskUserQuestion, mcp__plugin_triage_atlassian__*
 description: Triage an Azure DevOps work item with Confluence context
 argument-hint: <ticket-id> [confluence-search-terms]
@@ -12,7 +13,7 @@ Triage Azure DevOps work item #$ARGUMENTS by gathering context and generating cl
 
 ### 1. Load Azure DevOps Skill
 
-Invoke the `dev-flow:az-cli` skill to get proper CLI reference for Azure Boards commands.
+Invoke the `df:az-cli` skill to get proper CLI reference for Azure Boards commands.
 
 ### 2. Fetch Ticket from Azure DevOps
 

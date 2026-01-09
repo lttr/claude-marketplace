@@ -1,5 +1,5 @@
 ---
-name: triage
+name: df:triage
 description: This skill should be used when the user wants to triage an issue, review a specification, or assess requirements completeness. Trigger when user mentions "triage", "review this spec", "is this requirement complete", "what questions should I ask", or provides a description/acceptance criteria that needs evaluation before implementation. The skill analyzes input against the codebase and project documentation to surface implicit requirements and generate clarifying questions.
 ---
 

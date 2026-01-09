@@ -1,4 +1,5 @@
 ---
+name: df:triage
 allowed-tools: Bash(mkdir:*), Write, Read, Glob, Grep, Task, AskUserQuestion
 description: Triage manually pasted requirements or specifications
 argument-hint: [short-title]

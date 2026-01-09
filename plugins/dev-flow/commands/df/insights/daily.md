@@ -1,4 +1,5 @@
 ---
+name: df:insights:daily
 allowed-tools:
   [
     "Bash",

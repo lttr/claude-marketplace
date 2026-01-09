@@ -1,4 +1,5 @@
 ---
+name: df:azdo:ticket:cr
 allowed-tools: Bash(az boards work-item:*)
 description: Set Azure DevOps work item to Code Review
 argument-hint: <ticket_number>

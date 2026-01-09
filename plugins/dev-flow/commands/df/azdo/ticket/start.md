@@ -1,4 +1,5 @@
 ---
+name: df:azdo:ticket:start
 allowed-tools: Bash(az boards work-item:*)
 description: Set Azure DevOps work item to Active
 argument-hint: <ticket_number>

@@ -1,5 +1,5 @@
 ---
-name: codebase-insights
+name: df:insights
 description: Generate daily and weekly codebase activity summaries from Azure DevOps (PRs, work items), local git commits, and optionally Confluence. Use when asked about "what happened", "codebase activity", "team summary", "pr summary", or to understand what's going on in a large codebase.
 ---
 
@@ -63,10 +63,10 @@ Reports saved to `.insights/`:
 
 ## Commands
 
-| Command                   | Description                      |
-| ------------------------- | -------------------------------- |
-| `/insights:daily [date]`  | Generate daily codebase summary  |
-| `/insights:weekly [date]` | Generate weekly codebase summary |
+| Command                      | Description                      |
+| ---------------------------- | -------------------------------- |
+| `/df:insights:daily [date]`  | Generate daily codebase summary  |
+| `/df:insights:weekly [date]` | Generate weekly codebase summary |
 
 ## Usage Examples
 
