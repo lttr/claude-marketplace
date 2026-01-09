@@ -69,6 +69,14 @@ Combine all data sources and generate a comprehensive daily summary.
 
 Save the report to `.insights/$DATE-insights.md`.
 
+### 6. Cleanup
+
+Remove temporary filtered files after the report is saved:
+
+```bash
+rm -f /tmp/prs.json /tmp/workitems.json /tmp/commits.json
+```
+
 ## Output
 
 Report includes:

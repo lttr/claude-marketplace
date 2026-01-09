@@ -78,6 +78,14 @@ Generate a comprehensive weekly summary covering:
 
 Save the report to `.insights/YYYY-WXX-insights.md` (ISO week format).
 
+### 6. Cleanup
+
+Remove temporary filtered files after the report is saved:
+
+```bash
+rm -f /tmp/prs.json /tmp/workitems.json /tmp/commits.json
+```
+
 ## Output
 
 Report includes:
