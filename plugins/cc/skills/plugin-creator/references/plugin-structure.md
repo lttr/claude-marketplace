@@ -99,5 +99,24 @@ commands/
 
 - All paths relative to plugin root
 - Start with `./` for custom paths
-- Use `${CLAUDE_PLUGIN_ROOT}` for dynamic resolution in hooks/MCP
 - Components must be at plugin root, not inside `.claude-plugin/`
+
+### Referencing Scripts from Skills/Commands
+
+When SKILL.md or command files need to reference scripts, templates, or other files:
+
+```bash
+# Correct - use ${CLAUDE_PLUGIN_ROOT} with full path from plugin root
+node ${CLAUDE_PLUGIN_ROOT}/skills/my-skill/scripts/helper.js
+bash ${CLAUDE_PLUGIN_ROOT}/skills/my-skill/scripts/process.sh
+
+# Wrong - relative paths don't resolve correctly
+node scripts/helper.js
+node ./scripts/helper.js
+```
+
+**Important:**
+
+- `${CLAUDE_PLUGIN_ROOT}` resolves to the specific plugin's root directory at runtime
+- Always use full path from plugin root (e.g., `skills/skill-name/scripts/file.js`)
+- Never use `$PLUGIN_DIR` or `$SKILL_DIR` - these are not real variables

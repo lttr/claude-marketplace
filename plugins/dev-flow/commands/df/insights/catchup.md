@@ -47,9 +47,9 @@ if [ $DAYS -gt 90 ]; then DAYS=90; fi
 Run all collectors with the calculated day range:
 
 ```bash
-node $PLUGIN_DIR/collectors/azure-prs.js --days $DAYS
-node $PLUGIN_DIR/collectors/azure-workitems.js --days $DAYS
-node $PLUGIN_DIR/collectors/git-commits.js --days $DAYS
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days $DAYS
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days $DAYS
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/git-commits.js --days $DAYS
 ```
 
 ### 4. Confluence (Optional)

@@ -24,13 +24,13 @@ Run collectors from the current repository directory:
 
 ```bash
 # Azure PRs (last N days)
-node collectors/azure-prs.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 7
 
 # Azure work items (last N days)
-node collectors/azure-workitems.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days 7
 
 # Local git commits (last N days)
-node collectors/git-commits.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/git-commits.js --days 7
 ```
 
 **Confluence:** Search for recent pages using Atlassian MCP:
@@ -60,15 +60,15 @@ Data saved to `.insights/raw/`.
 
 ```bash
 # For daily summary
-node collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/commits.json --day 2025-01-08
 
 # For weekly summary
-node collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/commits.json --week 2025-01-08
 ```
 
 ### 3. Generate Summary
 
-Use templates from `$SKILL_DIR/templates/`:
+Use templates from `${CLAUDE_PLUGIN_ROOT}/skills/insights/templates/`:
 
 - `daily-summary.md` - Daily activity report
 - `weekly-summary.md` - Weekly activity report
@@ -93,7 +93,7 @@ Reports saved to `.insights/`:
 For monthly reviews, use the significance-based formatter:
 
 ```bash
-node $SKILL_DIR/collectors/format-review.mjs --month YYYY-MM
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/format-review.mjs --month YYYY-MM
 ```
 
 Or follow the `templates/monthly-review.md` template for AI-generated analysis focusing on:

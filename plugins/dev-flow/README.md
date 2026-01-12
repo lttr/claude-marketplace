@@ -9,17 +9,16 @@ dev-flow/
 ├── skills/
 │   ├── triage/           # Generic - requirement analysis methodology
 │   ├── insights/         # Hybrid - activity summary generation
-│   │   └── templates/    # Report templates (daily, weekly)
+│   │   ├── templates/    # Report templates (daily, weekly)
+│   │   └── collectors/   # Runtime scripts for data collection
+│   │       ├── azure-prs.js      # Azure-specific
+│   │       ├── azure-workitems.js # Azure-specific
+│   │       ├── git-commits.js    # Generic (local git)
+│   │       ├── filter-by-date.js # Generic utility
+│   │       └── format-summary.js # Generic utility
 │   └── sources/
 │       └── az-cli/       # Azure-specific - CLI command reference
 │           └── references/
-│
-├── collectors/           # Runtime scripts for data collection
-│   ├── azure-prs.js      # Azure-specific
-│   ├── azure-workitems.js # Azure-specific
-│   ├── git-commits.js    # Generic (local git)
-│   ├── filter-by-date.js # Generic utility
-│   └── format-summary.js # Generic utility
 │
 └── commands/df/          # /df:* namespace
     ├── triage.md         # Generic - manual input triage
@@ -36,16 +35,16 @@ dev-flow/
 
 ## Generic vs Specific
 
-| Component                   | Scope          | Data Sources                        |
-| --------------------------- | -------------- | ----------------------------------- |
-| `skills/triage/`            | Generic        | Local codebase only                 |
-| `skills/insights/`          | Hybrid         | Azure + Git + Confluence (optional) |
-| `skills/sources/az-cli/`    | Azure-specific | Azure DevOps CLI                    |
-| `collectors/git-commits.js` | Generic        | Local git                           |
-| `collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |
-| `/df:triage`                | Generic        | Local codebase                      |
-| `/df:insights:*`            | Hybrid         | Azure + Git + Confluence (optional) |
-| `/df:azdo:*`                | Azure-specific | Azure DevOps + Confluence           |
+| Component                                   | Scope          | Data Sources                        |
+| ------------------------------------------- | -------------- | ----------------------------------- |
+| `skills/triage/`                            | Generic        | Local codebase only                 |
+| `skills/insights/`                          | Hybrid         | Azure + Git + Confluence (optional) |
+| `skills/sources/az-cli/`                    | Azure-specific | Azure DevOps CLI                    |
+| `skills/insights/collectors/git-commits.js` | Generic        | Local git                           |
+| `skills/insights/collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |
+| `/df:triage`                                | Generic        | Local codebase                      |
+| `/df:insights:*`                            | Hybrid         | Azure + Git + Confluence (optional) |
+| `/df:azdo:*`                                | Azure-specific | Azure DevOps + Confluence           |
 
 ## Commands
 

@@ -35,9 +35,9 @@ Run collectors to gather the week's data:
 DATE="${ARGUMENTS:-$(date +%Y-%m-%d)}"
 
 # Collect 7 days of data
-node $PLUGIN_DIR/collectors/azure-prs.js --days 7
-node $PLUGIN_DIR/collectors/azure-workitems.js --days 7
-node $PLUGIN_DIR/collectors/git-commits.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days 7
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/git-commits.js --days 7
 ```
 
 ### 2. Filter Data
@@ -45,9 +45,9 @@ node $PLUGIN_DIR/collectors/git-commits.js --days 7
 Filter each data source for the target week (Mon-Sun):
 
 ```bash
-node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/prs.json --week $DATE > /tmp/prs.json
-node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/workitems.json --week $DATE > /tmp/workitems.json
-node $PLUGIN_DIR/collectors/filter-by-date.js .insights/raw/commits.json --week $DATE > /tmp/commits.json
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/prs.json --week $DATE > /tmp/prs.json
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/workitems.json --week $DATE > /tmp/workitems.json
+node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/commits.json --week $DATE > /tmp/commits.json
 ```
 
 The filter outputs the ISO week (e.g., `2025-W02`) to stderr for naming.
@@ -64,7 +64,7 @@ Skip silently if MCP tools are not configured.
 
 ### 4. Generate Summary
 
-Read the template from `$PLUGIN_DIR/skills/insights/templates/weekly-summary.md`.
+Read the template from `${CLAUDE_PLUGIN_ROOT}/skills/insights/templates/weekly-summary.md`.
 
 Generate a comprehensive weekly summary covering:
 
