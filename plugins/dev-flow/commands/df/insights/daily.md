@@ -23,17 +23,40 @@ Generate a summary of today's (or specified date's) codebase activity.
 
 ## Arguments
 
-- `$ARGUMENTS` - Optional date in YYYY-MM-DD format (defaults to today)
+- `$ARGUMENTS` - Optional date in YYYY-MM-DD format
+
+## Date Defaults
+
+When no date is provided:
+
+- **Monday** → Friday (last business day)
+- **Tuesday-Friday** → Yesterday
+- **Saturday/Sunday** → Friday
 
 ## Workflow
 
-### 1. Collect Data
+### 1. Determine Target Date
+
+```bash
+if [ -n "$ARGUMENTS" ]; then
+  DATE="$ARGUMENTS"
+else
+  DOW=$(date +%u)  # 1=Mon, 7=Sun
+  case $DOW in
+    1) DATE=$(date -d "last Friday" +%Y-%m-%d) ;;      # Monday → Friday
+    6) DATE=$(date -d "yesterday" +%Y-%m-%d) ;;        # Saturday → Friday
+    7) DATE=$(date -d "last Friday" +%Y-%m-%d) ;;      # Sunday → Friday
+    *) DATE=$(date -d "yesterday" +%Y-%m-%d) ;;        # Tue-Fri → yesterday
+  esac
+fi
+echo "Target date: $DATE"
+```
+
+### 2. Collect Data
 
 Run collectors to gather fresh data:
 
 ```bash
-DATE="${ARGUMENTS:-$(date +%Y-%m-%d)}"
-
 # Collect from all sources
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 1
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days 1

@@ -23,17 +23,33 @@ Generate a comprehensive summary of the week's codebase activity.
 
 ## Arguments
 
-- `$ARGUMENTS` - Optional date within target week (defaults to current week)
+- `$ARGUMENTS` - Optional date within target week
+
+## Date Defaults
+
+When no date is provided, defaults to **previous complete week** (Mon-Sun), not the current incomplete week.
 
 ## Workflow
 
-### 1. Collect Data
+### 1. Determine Target Week
+
+```bash
+if [ -n "$ARGUMENTS" ]; then
+  DATE="$ARGUMENTS"
+else
+  # Default to previous complete week
+  # Go back 7 days, then find that week's Monday
+  WEEK_AGO=$(date -d "-7 days" +%Y-%m-%d)
+  DATE=$(date -d "$WEEK_AGO -$(date -d $WEEK_AGO +%u) days + 1 day" +%Y-%m-%d)
+fi
+echo "Target week containing: $DATE"
+```
+
+### 2. Collect Data
 
 Run collectors to gather the week's data:
 
 ```bash
-DATE="${ARGUMENTS:-$(date +%Y-%m-%d)}"
-
 # Collect 7 days of data
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 7
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days 7
