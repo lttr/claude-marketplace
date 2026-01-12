@@ -56,7 +56,7 @@
       "name": "dev-flow",
       "source": "./plugins/dev-flow",
       "description": "Developer workflow automation: triage requirements, generate activity insights, and manage Azure DevOps workflows with Confluence integration",
-      "version": "1.6.2",
+      "version": "1.7.0",
       "author": {
         "name": "Lukas Trumm"
       },

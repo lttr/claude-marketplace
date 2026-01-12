@@ -10,12 +10,15 @@ dev-flow/
 │   ├── triage/           # Generic - requirement analysis methodology
 │   ├── insights/         # Hybrid - activity summary generation
 │   │   ├── templates/    # Report templates (daily, weekly)
-│   │   └── collectors/   # Runtime scripts for data collection
-│   │       ├── azure-prs.js      # Azure-specific
-│   │       ├── azure-workitems.js # Azure-specific
-│   │       ├── git-commits.js    # Generic (local git)
-│   │       ├── filter-by-date.js # Generic utility
-│   │       └── format-summary.js # Generic utility
+│   │   ├── collectors/   # Runtime scripts for data collection
+│   │   │   ├── azure-prs.js      # Azure-specific
+│   │   │   ├── azure-workitems.js # Azure-specific
+│   │   │   ├── git-commits.js    # Generic (local git)
+│   │   │   ├── filter-by-date.js # Generic utility
+│   │   │   └── format-summary.js # Generic utility
+│   │   └── dashboard/    # Interactive visualization
+│   │       ├── generate.ts       # Deno dashboard generator
+│   │       └── template.html     # Dashboard HTML template
 │   └── sources/
 │       └── az-cli/       # Azure-specific - CLI command reference
 │           └── references/
@@ -56,6 +59,7 @@ dev-flow/
 | `/df:triage [title]`                | Triage pasted requirements against local codebase    |
 | `/df:insights:daily [date]`         | Daily activity summary                               |
 | `/df:insights:weekly [date]`        | Weekly activity summary                              |
+| `/df:insights:view [--serve]`       | Interactive dashboard (static HTML or dev server)    |
 
 ### Azure DevOps
 
@@ -76,3 +80,4 @@ dev-flow/
 
 - Azure CLI with `azure-devops` extension (for Azure commands)
 - Atlassian MCP server (for Confluence integration, optional)
+- Deno runtime (for `/df:insights:view` dashboard)
