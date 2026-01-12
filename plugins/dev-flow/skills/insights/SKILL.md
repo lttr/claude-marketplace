@@ -88,6 +88,21 @@ Reports saved to `.insights/`:
 | `/df:insights:weekly [date]` | Generate weekly codebase summary        |
 | `/df:insights:catchup`       | Download raw data since last collection |
 
+### Monthly Review
+
+For monthly reviews, use the significance-based formatter:
+
+```bash
+node $SKILL_DIR/collectors/format-review.mjs --month YYYY-MM
+```
+
+Or follow the `templates/monthly-review.md` template for AI-generated analysis focusing on:
+
+- High-impact initiatives grouped by theme
+- Effort estimation (HIGH/MEDIUM/LOW)
+- Status tracking (Shipped/In Progress/Troubled)
+- Top contributors by focus area
+
 ## Usage Examples
 
 - "What happened in the codebase today?"
@@ -145,3 +160,11 @@ Ensure Atlassian MCP is configured.
 - **Work Items**: Sprint progress, completions
 - **Contributors**: Who worked on what
 - **Highlights**: Notable achievements
+
+### Monthly Review
+
+- **High-Impact Initiatives**: Work grouped by theme with effort/status
+- **Feature Completions**: What shipped and its impact
+- **Top Contributors**: Who drove what areas
+- **Themes Summary**: PR distribution across themes
+- **Key Observations**: Merge rate, bottlenecks, concerns
