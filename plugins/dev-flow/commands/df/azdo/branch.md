@@ -1,6 +1,6 @@
 ---
 name: df:azdo:branch
-allowed-tools: Bash(git branch:*), Bash(git checkout:*), Bash(git status:*)
+allowed-tools: Bash(git branch:*), Bash(git checkout:*), Bash(git status:*), Bash(az boards:*)
 description: Create a feature branch from ticket context or arguments
 argument-hint: [ticket-id] [description]
 ---
@@ -22,12 +22,17 @@ Example: `feature/12345-add-user-auth`
 
 - If provided: `<ticket-id> [description]` → use directly
 - If empty: extract from conversation context (e.g., prior `/df:azdo:triage` output)
+- If empty: check whether there is just one work item in Azure DevOps
 
 **Workflow:**
 
 1. **Get ticket info:**
-   - From `$ARGUMENTS`: first arg = ticket ID, rest = description
-   - From context: look for Azure DevOps work item number and title from triage
+   - From `$ARGUMENTS`: first arg = ticket ID, rest = optional description
+   - If ticket ID given but no description: fetch from Azure DevOps:
+     ```bash
+     az boards work-item show --id <ticket_id> --query "{id:id,title:fields.\"System.Title\"}" -o json
+     ```
+   - From context: look for Azure DevOps work item number and title from prior triage
    - If neither available: ask user for ticket ID
 
 2. **Format description:**
