@@ -104,11 +104,10 @@
 **Interface:**
 
 ```typescript
-interface <
-  Name >
-  {
-    // props/types
-  }
+interface<Name>
+{
+  // props/types
+}
 ```
 
 ---
