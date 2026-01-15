@@ -19,6 +19,15 @@ Analyzes code diffs by data source, not category. Each agent has a unique invest
 
 Run these steps sequentially. Each step outputs JSON for Phase 2.
 
+### Step 1.0: Verify Rule Files Exist
+
+```bash
+fd CLAUDE.md --type f
+fd . .claude/rules --type f 2>/dev/null
+```
+
+If neither CLAUDE.md nor .claude/rules/ exist, abort: "No rule files found. Create CLAUDE.md or .claude/rules/ to enable code review."
+
 ### Step 1.1: Collect Rule Paths
 
 **Agent instructions:**

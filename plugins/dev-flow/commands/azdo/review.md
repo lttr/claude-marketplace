@@ -50,52 +50,13 @@ Save diff to `/tmp/review-diff-<pr-id>.diff`. Skill expects diff file path.
 
 Parse diff to extract list of changed files.
 
-### 7. Check for Rule Files
+### 7. Invoke Code Review Skill
 
-```bash
-fd CLAUDE.md --type f
-fd . .claude/rules --type f 2>/dev/null
-```
-
-If neither exist, abort: "No rule files found. Create CLAUDE.md or .claude/rules/ to enable code review."
-
-### 8. Invoke Code Review Skill
-
-Pass to `df:code-review` skill:
+Invoke `df:code-review` skill with:
 
 - Diff file path from step 5
 - Changed files list from step 6
 - PR metadata: title, description, author
-
-The skill handles:
-
-- **Phase 1:** Context gathering (rule paths, tech stack, change summary)
-- **Phase 2:** 5 parallel review agents (rules, bugs, dependencies, history, comments)
-- **Phase 3:** Per-issue scoring with separate Haiku agents
-- **Phase 4:** Filter (≥75) and format output
-
-## Output
-
-```markdown
-## PR Review: #<pr-id> - <title>
-
-**Author:** <author> | **Target:** <target-branch> | **Status:** <status>
-
-**Files changed:** X | **Issues found:** X critical, X important
-
-### Critical Issues (score ≥90)
-...
-
-### Important Issues (score 75-89)
-...
-
-### Minor Notes (informational)
-...
-
-### Summary
-- **Recommendation:** approve | request-changes | needs-discussion
-- **Risk areas:** ...
-```
 
 ## Notes
 
