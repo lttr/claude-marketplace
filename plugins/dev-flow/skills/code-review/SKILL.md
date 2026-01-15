@@ -377,6 +377,16 @@ Output: { "score": 75, "reasoning": "..." }
 - **Risk areas:** {list if any}
 ```
 
+### Save to File
+
+After generating the review, save it to `.aitools/reviews/`:
+
+1. Create directory if needed: `mkdir -p .aitools/reviews`
+2. Generate timestamp: `date +%Y-%m-%d_%H-%M`
+3. Save as: `.aitools/reviews/{timestamp}_{branch-name}.md`
+   - Example: `.aitools/reviews/2025-01-15_14-30_feature-auth.md`
+4. Confirm save location to user
+
 ---
 
 ## Error Handling
