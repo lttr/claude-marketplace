@@ -5,9 +5,9 @@ description: Code review an Azure DevOps pull request (read-only)
 argument-hint: <pr-id or pr-url>
 ---
 
-# Azure DevOps PR Code Review
+# Azure DevOps PR Code Review (v2)
 
-Review an Azure DevOps pull request. **Read-only** - does not post comments.
+Review an Azure DevOps pull request using data-source-based agents. **Read-only** - does not post comments.
 
 **Arguments (`$ARGUMENTS`):** PR ID (e.g., `12345`) or PR URL
 
@@ -16,7 +16,6 @@ Review an Azure DevOps pull request. **Read-only** - does not post comments.
 ### 1. Fetch PR Details
 
 ```bash
-# If URL provided, extract PR ID from it
 az repos pr show --id <pr-id> --output json
 ```
 
@@ -39,35 +38,63 @@ If ineligible, explain why and stop.
 az repos pr diff --id <pr-id>
 ```
 
-### 4. Get Changed Files
+### 4. Check Diff Size
+
+Count changed files. If >50 files, warn user: "Large diff (X files). Proceed with full review or filter to specific paths?"
+
+### 5. Save Diff to Temp File
+
+Save diff to `/tmp/review-diff-<pr-id>.diff`. Skill expects diff file path.
+
+### 6. Get Changed Files
 
 Parse diff to extract list of changed files.
 
-### 5. Invoke Code Review Skill
+### 7. Check for Rule Files
+
+```bash
+fd CLAUDE.md --type f
+fd . .claude/rules --type f 2>/dev/null
+```
+
+If neither exist, abort: "No rule files found. Create CLAUDE.md or .claude/rules/ to enable code review."
+
+### 8. Invoke Code Review Skill
 
 Pass to `df:code-review` skill:
 
-- Diff content from step 3
-- Changed files list from step 4
+- Diff file path from step 5
+- Changed files list from step 6
 - PR metadata: title, description, author
 
-The skill handles all review logic:
+The skill handles:
 
-- Context gathering (CLAUDE.md, tech stack)
-- Parallel review agents
-- Issue scoring and filtering
-- Output formatting
+- **Phase 1:** Context gathering (rule paths, tech stack, change summary)
+- **Phase 2:** 5 parallel review agents (rules, bugs, dependencies, history, comments)
+- **Phase 3:** Per-issue scoring with separate Haiku agents
+- **Phase 4:** Filter (≥75) and format output
 
 ## Output
-
-Skill outputs review with PR metadata header:
 
 ```markdown
 ## PR Review: #<pr-id> - <title>
 
 **Author:** <author> | **Target:** <target-branch> | **Status:** <status>
 
-[... skill output ...]
+**Files changed:** X | **Issues found:** X critical, X important
+
+### Critical Issues (score ≥90)
+...
+
+### Important Issues (score 75-89)
+...
+
+### Minor Notes (informational)
+...
+
+### Summary
+- **Recommendation:** approve | request-changes | needs-discussion
+- **Risk areas:** ...
 ```
 
 ## Notes
