@@ -51,11 +51,13 @@ git diff <base>...HEAD
 ### 5. Invoke Code Review Skill
 
 Pass to `df:code-review` skill:
+
 - Diff content from step 4
 - Changed files list from step 3
 - Branch name as title
 
 The skill handles:
+
 - Context gathering (CLAUDE.md, tech stack, linter configs)
 - Parallel review agents
 - Issue scoring

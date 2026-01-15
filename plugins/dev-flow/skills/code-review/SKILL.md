@@ -8,6 +8,7 @@ description: Core code review logic. Trigger when invoked by review commands. Do
 Analyzes code diffs for issues, checking against project conventions, security concerns, and common bugs.
 
 **Expected input from invoking command:**
+
 - Diff content
 - List of changed files
 - Optional: PR metadata (title, description, author)
@@ -21,26 +22,32 @@ Before reviewing, gather project context:
 ```bash
 # Find all CLAUDE.md files
 fd CLAUDE.md --type f
+
+# Find project rules
+fd . .claude/rules --type f 2>/dev/null
 ```
 
 Read root `CLAUDE.md` plus any in directories containing changed files.
+
+Also check `.claude/rules/` for domain-specific rules (e.g., `security.md`, `testing.md`). These contain targeted conventions that should inform the review.
 
 ### 1.2 Tech Stack Detection
 
 Check for these files to understand the stack:
 
-| File | Stack |
-|------|-------|
-| `package.json` | Node.js - check dependencies, scripts |
-| `tsconfig.json` | TypeScript - check strict settings |
-| `pyproject.toml` / `requirements.txt` | Python |
-| `go.mod` | Go |
-| `Cargo.toml` | Rust |
-| `composer.json` | PHP |
+| File                                  | Stack                                 |
+| ------------------------------------- | ------------------------------------- |
+| `package.json`                        | Node.js - check dependencies, scripts |
+| `tsconfig.json`                       | TypeScript - check strict settings    |
+| `pyproject.toml` / `requirements.txt` | Python                                |
+| `go.mod`                              | Go                                    |
+| `Cargo.toml`                          | Rust                                  |
+| `composer.json`                       | PHP                                   |
 
 ### 1.3 Linter/Formatter Configs
 
 Check for project conventions:
+
 - `.eslintrc*`, `eslint.config.*` - JS/TS linting rules
 - `biome.json` - Biome config
 - `.prettierrc*` - Formatting
@@ -60,18 +67,21 @@ Focus on recently modified sections to understand coding patterns.
 
 Launch these review agents in parallel (use Sonnet model):
 
-### Agent 1: CLAUDE.md Compliance
+### Agent 1: Guidelines Compliance
 
-Check if changes follow project guidelines:
+Check if changes follow project guidelines from CLAUDE.md and `.claude/rules/`:
+
 - Naming conventions
 - File organization patterns
 - Architectural boundaries
 - Technology choices
 - Testing requirements
+- Domain-specific rules (security, performance, etc.)
 
 ### Agent 2: Bug Scan
 
 Shallow scan for obvious issues in **changed lines only**:
+
 - Null/undefined access without checks
 - Off-by-one errors
 - Resource leaks (unclosed handles, missing cleanup)
@@ -82,6 +92,7 @@ Shallow scan for obvious issues in **changed lines only**:
 ### Agent 3: Convention Check
 
 Based on detected tech stack:
+
 - Naming consistency (camelCase, snake_case, etc.)
 - Import organization
 - File/folder structure patterns
@@ -91,6 +102,7 @@ Based on detected tech stack:
 ### Agent 4: Security Scan
 
 OWASP basics on changed code:
+
 - SQL injection (string concatenation in queries)
 - XSS (unescaped user input in HTML)
 - Command injection (shell commands with user input)
@@ -102,14 +114,15 @@ OWASP basics on changed code:
 
 For each issue found, launch a Haiku agent to score:
 
-| Score | Meaning |
-|-------|---------|
-| 0-25 | False positive or pre-existing issue |
-| 50 | Minor nitpick, style preference |
-| 75 | Real issue, should be addressed |
-| 100 | Critical, will cause bugs/security issues |
+| Score | Meaning                                   |
+| ----- | ----------------------------------------- |
+| 0-25  | False positive or pre-existing issue      |
+| 50    | Minor nitpick, style preference           |
+| 75    | Real issue, should be addressed           |
+| 100   | Critical, will cause bugs/security issues |
 
 **Scoring criteria:**
+
 - Is this introduced by the current changes? (not pre-existing)
 - Would this be caught by linter/compiler? (skip if yes)
 - Is this a style preference or a real problem?
@@ -147,9 +160,10 @@ Only include issues scored **≥75**.
 ## False Positives to Ignore
 
 Always skip:
+
 - Pre-existing issues not introduced by this diff
 - Issues a linter/compiler would catch
-- Pure style preferences not in CLAUDE.md
+- Pure style preferences not in CLAUDE.md or `.claude/rules/`
 - Changes on lines not modified in the diff
 - Intentional changes aligned with PR/branch purpose
 - Test files with intentionally "bad" code for testing

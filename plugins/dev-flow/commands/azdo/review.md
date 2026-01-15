@@ -25,6 +25,7 @@ Extract: `pullRequestId`, `title`, `description`, `status`, `createdBy.displayNa
 ### 2. Check Eligibility
 
 Use Haiku agent to check - skip if:
+
 - Status is `completed` or `abandoned`
 - Title contains `[WIP]` or `[Draft]`
 - Author is a bot/automation account
@@ -45,11 +46,13 @@ Parse diff to extract list of changed files.
 ### 5. Invoke Code Review Skill
 
 Pass to `df:code-review` skill:
+
 - Diff content from step 3
 - Changed files list from step 4
 - PR metadata: title, description, author
 
 The skill handles all review logic:
+
 - Context gathering (CLAUDE.md, tech stack)
 - Parallel review agents
 - Issue scoring and filtering
