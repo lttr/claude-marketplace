@@ -4,6 +4,60 @@ I have extracted a couple of extensions for my Claude Code experience.
 
 ## Available Plugins
 
+### Browser Tools Plugin
+
+Chrome DevTools Protocol automation for agent-assisted web testing and interaction. Lightweight alternative to MCP-based browser tools.
+
+See [plugins/browser-tools/README.md](./plugins/browser-tools/README.md) for detailed documentation.
+
+### CC Plugin
+
+Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals.
+
+**Features:**
+
+- `plugin-creator` skill - Create and manage plugins with proper structure
+- `skill-creator` skill - Guide for creating effective skills
+- `/cc:list:*` commands - Introspect built-in tools, agents, commands, hooks, memory
+- `/cc:command:create` - Create new custom commands
+
+**Installation:**
+
+```shell
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install cc@lttr-claude-marketplace
+```
+
+See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
+
+### Dev Flow Plugin
+
+Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
+
+**Features:**
+
+- `/df:commit` - Git commit with commitlint format (`type(ticket#): msg`)
+- `/df:review` - Code review current branch (v2 with data-source agents)
+- `/df:triage` - Analyze requirements against local codebase
+- `df:spec` skill - Generate implementation spec from triage output
+- `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
+- `/df:insights:view` - Interactive dashboard
+- `/df:insights:catchup` - Download raw insights data
+- `/df:azdo:pr` - Commit, push, create Azure DevOps PR in one step
+- `/df:azdo:branch` - Create feature branch from ticket
+- `/df:azdo:review` - Code review Azure DevOps PR
+- `/df:azdo:triage <ticket-id>` - Triage Azure ticket with Confluence context
+- `/df:azdo:ticket:start`, `/df:azdo:ticket:cr` - Work item state changes
+
+**Installation:**
+
+```shell
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install dev-flow@lttr-claude-marketplace
+```
+
+See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
+
 ### Nuxt Plugin
 
 Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
@@ -27,39 +81,11 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 
 See [plugins/nuxt/README.md](./plugins/nuxt/README.md) for detailed documentation.
 
-### Browser Tools Plugin
-
-Chrome DevTools Protocol automation for agent-assisted web testing and interaction. Lightweight alternative to MCP-based browser tools.
-
-See [plugins/browser-tools/README.md](./plugins/browser-tools/README.md) for detailed documentation.
-
 ### Video to Article Plugin
 
 Automated workflow for converting lecture videos into transcripts, outlines, and article drafts using ffmpeg and ElevenLabs API.
 
 See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) for detailed documentation.
-
-### Dev Flow Plugin
-
-Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
-
-**Features:**
-
-- `/df:commit` - Git commit with commitlint format (`type(ticket#): msg`)
-- `/df:triage` - Analyze requirements against local codebase
-- `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
-- `/df:azdo:pr` - Commit, push, create Azure DevOps PR in one step
-- `/df:azdo:triage <ticket-id>` - Triage Azure ticket with Confluence context
-- `/df:azdo:ticket:start`, `/df:azdo:ticket:cr` - Work item state changes
-
-**Installation:**
-
-```shell
-/plugin marketplace add lukastrumm/claude-marketplace
-/plugin install dev-flow@lttr-claude-marketplace
-```
-
-See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
 
 ## Installation
 
@@ -84,10 +110,11 @@ Or for local development:
 Select "Browse Plugins" to see available options, or install directly:
 
 ```shell
-/plugin install nuxt@lttr-claude-marketplace
 /plugin install browser-tools@lttr-claude-marketplace
-/plugin install video-to-article@lttr-claude-marketplace
+/plugin install cc@lttr-claude-marketplace
 /plugin install dev-flow@lttr-claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
+/plugin install video-to-article@lttr-claude-marketplace
 ```
 
 ## For Plugin Developers

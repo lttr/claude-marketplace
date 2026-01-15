@@ -4,7 +4,7 @@ Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web 
 
 ## Features
 
-- **Lightweight**: 6 focused scripts vs 21+ MCP tools
+- **Lightweight**: 7 focused scripts vs 21+ MCP tools
 - **Composable**: Chain commands, save outputs, process results
 - **Profile support**: Maintain login state across sessions
 - **Interactive picking**: Visual element selection interface
@@ -94,6 +94,7 @@ All scripts in `skills/browser-tools/scripts/`:
 - **browser-screenshot.js** - Capture viewport
 - **browser-pick.js** - Interactive element picker
 - **browser-cookies.js** - Display cookies
+- **browser-console.js** - Monitor console messages
 
 See [SKILL.md](skills/browser-tools/SKILL.md) for detailed documentation.
 

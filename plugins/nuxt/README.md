@@ -18,16 +18,18 @@ This plugin includes a comprehensive **Nuxt skill** that automatically activates
 
 ## Installation
 
-### From GitHub (after publishing)
+### From GitHub
 
 ```bash
-/plugin install nuxt@lttr/nuxt-claude-plugin
+/plugin marketplace add lukastrumm/claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
 ```
 
 ### Local Testing
 
 ```bash
-/plugin install nuxt@file:///home/lukas/code/nuxt-claude-plugin
+/plugin marketplace add /path/to/claude-marketplace
+/plugin install nuxt@lttr-claude-marketplace
 ```
 
 ## Usage

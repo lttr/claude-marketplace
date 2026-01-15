@@ -45,34 +45,12 @@ Trigger the `plugin-creator` skill by asking:
 - "Add a command to my plugin"
 - "Bump the version of my-plugin"
 
-Or use the automation scripts directly:
-
-```bash
-# Create plugin structure
-python scripts/create_plugin.py my-plugin \
-  --marketplace-root /path/to/marketplace \
-  --author-name "Your Name" \
-  --author-email "email@example.com" \
-  --description "Plugin description" \
-  --keywords "keyword1,keyword2"
-
-# Bump version
-python scripts/bump_version.py my-plugin minor \
-  --marketplace-root /path/to/marketplace
-```
-
 ### Creating a Skill
 
 Trigger the `skill-creator` skill by asking:
 
 - "Create a new skill for PDF editing"
 - "Help me build a skill for my BigQuery workflows"
-
-Or initialize directly:
-
-```bash
-python scripts/init_skill.py my-skill --path ~/.claude/skills/
-```
 
 ### Creating a Command
 

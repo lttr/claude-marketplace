@@ -8,6 +8,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 dev-flow/
 ├── skills/
 │   ├── triage/           # Generic - requirement analysis methodology
+│   ├── spec/             # Generic - implementation spec from triage
 │   ├── insights/         # Hybrid - activity summary generation
 │   │   ├── templates/    # Report templates (daily, weekly)
 │   │   ├── collectors/   # Runtime scripts for data collection
@@ -41,6 +42,7 @@ dev-flow/
 | Component                                   | Scope          | Data Sources                        |
 | ------------------------------------------- | -------------- | ----------------------------------- |
 | `skills/triage/`                            | Generic        | Local codebase only                 |
+| `skills/spec/`                              | Generic        | Triage output + codebase            |
 | `skills/insights/`                          | Hybrid         | Azure + Git + Confluence (optional) |
 | `skills/sources/az-cli/`                    | Azure-specific | Azure DevOps CLI                    |
 | `skills/insights/collectors/git-commits.js` | Generic        | Local git                           |
@@ -56,16 +58,20 @@ dev-flow/
 | Command                             | Description                                          |
 | ----------------------------------- | ---------------------------------------------------- |
 | `/df:commit [message] [push] [all]` | Commit with commitlint format (`type(ticket#): msg`) |
+| `/df:review [base-branch]`          | Code review current branch (v2, data-source agents)  |
 | `/df:triage [title]`                | Triage pasted requirements against local codebase    |
 | `/df:insights:daily [date]`         | Daily activity summary                               |
 | `/df:insights:weekly [date]`        | Weekly activity summary                              |
 | `/df:insights:view [--serve]`       | Interactive dashboard (static HTML or dev server)    |
+| `/df:insights:catchup`              | Download raw insights data since last collection     |
 
 ### Azure DevOps
 
 | Command                       | Description                                 |
 | ----------------------------- | ------------------------------------------- |
 | `/df:azdo:pr [message]`       | Commit, push, create Azure DevOps PR        |
+| `/df:azdo:branch [id] [desc]` | Create feature branch from ticket           |
+| `/df:azdo:review <pr-id>`     | Code review Azure DevOps PR                 |
 | `/df:azdo:triage <ticket-id>` | Triage Azure ticket with Confluence context |
 | `/df:azdo:ticket:start <id>`  | Set work item to Active                     |
 | `/df:azdo:ticket:cr <id>`     | Set work item to Code Review                |
