@@ -30,7 +30,9 @@ dev-flow/
     │   ├── daily.md
     │   └── weekly.md
     └── azdo/             # Azure-specific
-        ├── pr.md         # Commit + push + PR workflow
+        ├── pr/
+        │   ├── create.md # Commit + push + PR workflow
+        │   └── complete.md # Complete (merge) PR
         ├── triage.md     # Azure ticket triage
         └── ticket/
             ├── start.md  # Set work item to Active
@@ -67,10 +69,11 @@ dev-flow/
 
 ### Azure DevOps
 
-| Command                       | Description                                 |
-| ----------------------------- | ------------------------------------------- |
-| `/df:azdo:pr [message]`       | Commit, push, create Azure DevOps PR        |
-| `/df:azdo:branch [id] [desc]` | Create feature branch from ticket           |
+| Command                                  | Description                                 |
+| ---------------------------------------- | ------------------------------------------- |
+| `/df:azdo:pr:create [message]`           | Commit, push, create Azure DevOps PR        |
+| `/df:azdo:pr:complete [--transition-work-items]` | Complete (merge) PR for current branch |
+| `/df:azdo:branch [id] [desc]`            | Create feature branch from ticket           |
 | `/df:azdo:review <pr-id>`     | Code review Azure DevOps PR                 |
 | `/df:azdo:triage <ticket-id>` | Triage Azure ticket with Confluence context |
 | `/df:azdo:ticket:start <id>`  | Set work item to Active                     |

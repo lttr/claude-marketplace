@@ -1,5 +1,5 @@
 ---
-name: df:azdo:pr
+name: df:azdo:pr:create
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git show:*), Bash(git rev-parse:*), Bash(git push:*), Bash(git branch:*), Bash(git checkout:*), Bash(az repos pr:*)
 description: Commit changes, push branch, and create Azure DevOps PR in one workflow
 argument-hint: [commit message]
