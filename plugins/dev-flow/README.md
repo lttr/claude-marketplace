@@ -69,15 +69,15 @@ dev-flow/
 
 ### Azure DevOps
 
-| Command                                  | Description                                 |
-| ---------------------------------------- | ------------------------------------------- |
-| `/df:azdo:pr:create [message]`           | Commit, push, create Azure DevOps PR        |
-| `/df:azdo:pr:complete [--transition-work-items]` | Complete (merge) PR for current branch |
-| `/df:azdo:branch [id] [desc]`            | Create feature branch from ticket           |
-| `/df:azdo:review <pr-id>`     | Code review Azure DevOps PR                 |
-| `/df:azdo:triage <ticket-id>` | Triage Azure ticket with Confluence context |
-| `/df:azdo:ticket:start <id>`  | Set work item to Active                     |
-| `/df:azdo:ticket:cr <id>`     | Set work item to Code Review                |
+| Command                                          | Description                                 |
+| ------------------------------------------------ | ------------------------------------------- |
+| `/df:azdo:pr:create [message]`                   | Commit, push, create Azure DevOps PR        |
+| `/df:azdo:pr:complete [--transition-work-items]` | Complete (merge) PR for current branch      |
+| `/df:azdo:branch [id] [desc]`                    | Create feature branch from ticket           |
+| `/df:azdo:review <pr-id>`                        | Code review Azure DevOps PR                 |
+| `/df:azdo:triage <ticket-id>`                    | Triage Azure ticket with Confluence context |
+| `/df:azdo:ticket:start <id>`                     | Set work item to Active                     |
+| `/df:azdo:ticket:cr <id>`                        | Set work item to Code Review                |
 
 ## Data Sources
 

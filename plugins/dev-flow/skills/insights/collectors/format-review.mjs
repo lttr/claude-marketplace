@@ -106,7 +106,9 @@ function formatReview(month) {
 
   // Filter by month if specified (prefer updatedDate over createdDate)
   const monthFilter = month ? (d) => d?.startsWith(month) : () => true
-  const filteredPRs = prs.filter((p) => monthFilter(p.updatedDate || p.createdDate))
+  const filteredPRs = prs.filter((p) =>
+    monthFilter(p.updatedDate || p.createdDate),
+  )
   const filteredCommits = commits.filter((c) => monthFilter(c.date))
 
   // Group PRs by theme

@@ -39,9 +39,10 @@ try {
     .filter((pr) => {
       const createdDate = pr.creationDate?.slice(0, 10)
       const closedDate = pr.closedDate?.slice(0, 10)
-      const updatedDate = pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10)
-        || pr.closedDate?.slice(0, 10)
-        || pr.creationDate?.slice(0, 10)
+      const updatedDate =
+        pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10) ||
+        pr.closedDate?.slice(0, 10) ||
+        pr.creationDate?.slice(0, 10)
       return (
         (createdDate && createdDate >= sinceDate) ||
         (closedDate && closedDate >= sinceDate) ||
@@ -53,9 +54,10 @@ try {
         ? `${pr.repository.webUrl}/pullrequest/${pr.pullRequestId}`
         : null
       // Use most recent activity date for grouping (update > close > create)
-      const updatedDate = pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10)
-        || pr.closedDate?.slice(0, 10)
-        || pr.creationDate?.slice(0, 10)
+      const updatedDate =
+        pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10) ||
+        pr.closedDate?.slice(0, 10) ||
+        pr.creationDate?.slice(0, 10)
       return {
         id: pr.pullRequestId,
         title: pr.title,
