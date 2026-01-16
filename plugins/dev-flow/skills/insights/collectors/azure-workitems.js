@@ -39,15 +39,17 @@ try {
           `/_workitems/edit/${id}`,
         )
       : null
+    const title = item.fields?.["System.Title"]
     return {
       id,
-      title: item.fields?.["System.Title"],
+      title,
       type: item.fields?.["System.WorkItemType"],
       state: item.fields?.["System.State"],
       assignedTo: item.fields?.["System.AssignedTo"]?.displayName,
       changedDate: item.fields?.["System.ChangedDate"]?.slice(0, 10),
       createdDate: item.fields?.["System.CreatedDate"]?.slice(0, 10),
       url,
+      link: url ? `[${title}](${url})` : title, // Pre-formatted markdown link
     }
   })
 

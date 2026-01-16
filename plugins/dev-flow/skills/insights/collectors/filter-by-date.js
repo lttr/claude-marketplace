@@ -51,8 +51,9 @@ function isInRange(itemDate, start, end) {
 }
 
 function getItemDate(item) {
-  // Support multiple date field names
-  return item.date || item.createdDate || item.changedDate
+  // Prefer updatedDate (most recent activity) over createdDate
+  // This ensures PRs appear in reports for when they were last active, not just created
+  return item.updatedDate || item.date || item.changedDate || item.createdDate
 }
 
 try {

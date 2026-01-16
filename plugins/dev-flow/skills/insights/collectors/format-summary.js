@@ -30,14 +30,15 @@ function formatPRs(prs) {
   if (merged.length > 0) {
     lines.push("\n**Merged PRs:**")
     for (const pr of merged.slice(0, 10)) {
-      lines.push(`- #${pr.id}: ${pr.title} (${pr.author})`)
+      // Use pre-formatted link field, fallback to title if not available
+      lines.push(`- ${pr.link || pr.title} (${pr.author})`)
     }
   }
 
   if (opened.length > 0) {
     lines.push("\n**Open PRs:**")
     for (const pr of opened.slice(0, 10)) {
-      lines.push(`- #${pr.id}: ${pr.title} (${pr.author})`)
+      lines.push(`- ${pr.link || pr.title} (${pr.author})`)
     }
   }
 
@@ -87,7 +88,8 @@ function formatWorkItems(items) {
     lines.push(`**${state}** (${stateItems.length}):`)
     for (const item of stateItems.slice(0, 5)) {
       const assignee = item.assignedTo ? ` (${item.assignedTo})` : ""
-      lines.push(`- #${item.id}: ${item.title}${assignee}`)
+      // Use pre-formatted link field, fallback to title if not available
+      lines.push(`- ${item.link || item.title}${assignee}`)
     }
     if (stateItems.length > 5) {
       lines.push(`- ... and ${stateItems.length - 5} more`)

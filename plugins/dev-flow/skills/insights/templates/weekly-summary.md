@@ -46,9 +46,9 @@ Create a weekly codebase activity summary covering:
 
 **Summary:** X opened, Y merged, Z in review
 
-| PR          | Title     | Author | Status | Notes       |
-| ----------- | --------- | ------ | ------ | ----------- |
-| [#123](url) | Feature X | @user  | Merged | Key context |
+| PR (use `link` field) | Author | Status | Notes       |
+| --------------------- | ------ | ------ | ----------- |
+| [PR Title](full-url)  | @user  | Merged | Key context |
 
 **Review Activity:**
 
@@ -108,7 +108,9 @@ Create a weekly codebase activity summary covering:
 
 ## Guidelines
 
-- **Use markdown links** for PRs and work items using the `url` field from the data
+- **CRITICAL: Use pre-formatted `link` field** for PRs - never construct URLs or use #number format
+- **Group by `updatedDate`** - this is the most recent activity date (update > close > create)
+- If a PR was created before the week but updated during it, include it in this report
 - Identify **patterns** across individual commits and PRs
 - Connect work items to actual code changes
 - Highlight **velocity** (how much got done) and **direction** (where things are heading)

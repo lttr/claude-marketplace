@@ -104,9 +104,9 @@ function formatReview(month) {
     )
   } catch {}
 
-  // Filter by month if specified
-  const monthFilter = month ? (d) => d.startsWith(month) : () => true
-  const filteredPRs = prs.filter((p) => monthFilter(p.createdDate))
+  // Filter by month if specified (prefer updatedDate over createdDate)
+  const monthFilter = month ? (d) => d?.startsWith(month) : () => true
+  const filteredPRs = prs.filter((p) => monthFilter(p.updatedDate || p.createdDate))
   const filteredCommits = commits.filter((c) => monthFilter(c.date))
 
   // Group PRs by theme
@@ -160,13 +160,13 @@ function formatReview(month) {
     lines.push(`### ${initNum}. ${theme}`)
     lines.push(`**Effort: ${effort} | Status: ${status}**\n`)
 
-    // List key PRs
+    // List key PRs (use pre-formatted link field)
     lines.push("Key PRs:")
     themePRs.slice(0, 5).forEach((pr) => {
       const icon =
         pr.status === "completed" ? "✅" : pr.status === "active" ? "🔄" : "❌"
       const shortAuthor = pr.author.split(" ")[0]
-      lines.push(`- ${icon} ${pr.title} (${shortAuthor})`)
+      lines.push(`- ${icon} ${pr.link || pr.title} (${shortAuthor})`)
     })
     if (themePRs.length > 5) {
       lines.push(`- ... and ${themePRs.length - 5} more`)

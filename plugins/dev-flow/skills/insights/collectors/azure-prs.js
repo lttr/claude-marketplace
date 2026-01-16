@@ -34,35 +34,48 @@ try {
 
   const allPRs = JSON.parse(result)
 
-  // Filter to PRs created or closed within the date range
+  // Filter to PRs created, closed, or updated within the date range
   const prs = allPRs
     .filter((pr) => {
       const createdDate = pr.creationDate?.slice(0, 10)
       const closedDate = pr.closedDate?.slice(0, 10)
+      const updatedDate = pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10)
+        || pr.closedDate?.slice(0, 10)
+        || pr.creationDate?.slice(0, 10)
       return (
         (createdDate && createdDate >= sinceDate) ||
-        (closedDate && closedDate >= sinceDate)
+        (closedDate && closedDate >= sinceDate) ||
+        (updatedDate && updatedDate >= sinceDate)
       )
     })
-    .map((pr) => ({
-      id: pr.pullRequestId,
-      title: pr.title,
-      author: pr.createdBy?.displayName || "Unknown",
-      status: pr.status,
-      sourceBranch: pr.sourceRefName?.replace("refs/heads/", ""),
-      targetBranch: pr.targetRefName?.replace("refs/heads/", ""),
-      createdDate: pr.creationDate?.slice(0, 10),
-      closedDate: pr.closedDate?.slice(0, 10),
-      mergeStatus: pr.mergeStatus,
-      reviewers: (pr.reviewers || []).map((r) => ({
-        name: r.displayName,
-        vote: r.vote, // 10=approved, 5=approved with suggestions, -5=wait, -10=rejected
-      })),
-      repository: pr.repository?.name,
-      url: pr.repository?.webUrl
+    .map((pr) => {
+      const url = pr.repository?.webUrl
         ? `${pr.repository.webUrl}/pullrequest/${pr.pullRequestId}`
-        : null,
-    }))
+        : null
+      // Use most recent activity date for grouping (update > close > create)
+      const updatedDate = pr.lastMergeSourceCommit?.committer?.date?.slice(0, 10)
+        || pr.closedDate?.slice(0, 10)
+        || pr.creationDate?.slice(0, 10)
+      return {
+        id: pr.pullRequestId,
+        title: pr.title,
+        author: pr.createdBy?.displayName || "Unknown",
+        status: pr.status,
+        sourceBranch: pr.sourceRefName?.replace("refs/heads/", ""),
+        targetBranch: pr.targetRefName?.replace("refs/heads/", ""),
+        createdDate: pr.creationDate?.slice(0, 10),
+        closedDate: pr.closedDate?.slice(0, 10),
+        updatedDate, // Primary date for grouping - most recent activity
+        mergeStatus: pr.mergeStatus,
+        reviewers: (pr.reviewers || []).map((r) => ({
+          name: r.displayName,
+          vote: r.vote, // 10=approved, 5=approved with suggestions, -5=wait, -10=rejected
+        })),
+        repository: pr.repository?.name,
+        url, // Full URL - use this in reports, never construct manually
+        link: url ? `[${pr.title}](${url})` : pr.title, // Pre-formatted markdown link
+      }
+    })
 
   writeFileSync(outputFile, JSON.stringify(prs, null, 2))
   console.log(`Collected ${prs.length} PRs to: ${outputFile}`)

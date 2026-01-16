@@ -46,9 +46,9 @@ Brief 1-2 sentence overview of the day's activity.
 - **Merged:** N
 - **In Review:** N
 
-Notable PRs:
+Notable PRs (use the pre-formatted `link` field from data):
 
-- [#123](url): Title (author) - brief context
+- [PR Title](full-url) (author) - brief context
 
 ### Commits
 
@@ -67,7 +67,9 @@ Synthesized summary of the most significant changes and their impact.
 
 ## Guidelines
 
-- **Use markdown links** for PRs and work items using the `url` field from the data
+- **CRITICAL: Use pre-formatted `link` field** for PRs - never construct URLs or use #number format
+- **Group by `updatedDate`** - this is the most recent activity date (update > close > create)
+- If a PR was created earlier but updated on {{DATE}}, include it in this report
 - Focus on **what changed** and **why it matters**
 - Group related commits into themes
 - Highlight cross-cutting changes that affect multiple areas
