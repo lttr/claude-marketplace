@@ -1,6 +1,6 @@
 ---
 name: df:commit
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git show:*), Bash(git rev-parse:*), Bash(git rev-list:*), Bash(git push:*)
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git commit:*), Bash(git show:*), Bash(git rev-parse:*), Bash(git rev-list:*), Bash(git push:*), Bash(npx prettier:*)
 description: Create a git commit with intelligent message generation
 argument-hint: [commit message] [push] [all]
 ---
@@ -65,10 +65,11 @@ bug(190910): fix translations    # invalid type
 1. Identify Claude-modified files from conversation (or all files if `$ARGUMENTS` contains "all")
 2. If no files to commit, inform user
 3. Record `git rev-parse HEAD`
-4. Extract ticket number from branch name (e.g., `feature/12345-desc` → `12345`)
-5. Split into multiple commits if changes are unrelated
-6. Stage with `git add <files>` and commit (file-level staging includes others' changes to same file)
-7. Show summary: `git log --oneline` from recorded HEAD
-8. Push if "push" in `$ARGUMENTS`
+4. **Run prettier on files to commit** - `npx prettier --write <files>` (skip if no .prettierrc)
+5. Extract ticket number from branch name (e.g., `feature/12345-desc` → `12345`)
+6. Split into multiple commits if changes are unrelated
+7. Stage with `git add <files>` and commit (file-level staging includes others' changes to same file)
+8. Show summary: `git log --oneline` from recorded HEAD
+9. Push if "push" in `$ARGUMENTS`
 
 Execute git commands in parallel where possible. Output only the first line of commit message(s).

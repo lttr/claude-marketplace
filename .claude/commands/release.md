@@ -7,19 +7,20 @@ allowed-tools: Read, Edit, Bash(prettier --write .:*), Bash(git log:*), Bash(git
 
 Automate plugin release workflow:
 
-1. **Check for uncommitted changes** - if any exist, warn user to commit them properly first (don't lump into version bump)
+1. **Check for uncommitted changes** - if any exist, STOP and warn user to commit first
 2. Run `prettier --write .` to format all files
-3. Detect which plugin was modified since last version bump commit
-4. Bump version (minor) in both:
+3. **If prettier modified files** - commit them as `style: format with prettier`
+4. Detect which plugin was modified since last version bump commit
+5. Bump version (minor) in both:
    - `plugins/<plugin-name>/.claude-plugin/plugin.json`
    - `.claude-plugin/marketplace.json` (matching entry)
-5. **Update README.md** - sync plugin descriptions, version numbers, and feature lists with current state
-6. Commit with conventional commit message
-7. Push to remote
+6. **Update README.md** - sync plugin descriptions, version numbers, and feature lists with current state
+7. Commit version bump with conventional commit message
+8. Push to remote
 
 ## Safety: Uncommitted Changes
 
-If uncommitted changes exist before starting, warn the user - those changes likely need their own commit (feat/fix) before the version bump commit. Don't lump forgotten work into the release commit.
+If uncommitted changes exist before starting, STOP immediately. Those changes need their own commit (feat/fix) before release. Never lump forgotten work into version bump.
 
 ## Detection Logic
 
