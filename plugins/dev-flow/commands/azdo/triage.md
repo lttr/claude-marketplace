@@ -67,10 +67,10 @@ With all gathered context (ticket + Confluence + codebase), apply the triage met
 ### 6. Write Output
 
 ```bash
-mkdir -p ./.aitools/triage
+mkdir -p ./.aiwork/triage
 ```
 
-Save to `./.aitools/triage/<ticket-id>-<slugified-title>.md`
+Save to `./.aiwork/triage/<ticket-id>-<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 

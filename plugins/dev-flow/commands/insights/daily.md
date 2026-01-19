@@ -52,18 +52,45 @@ fi
 echo "Target date: $DATE"
 ```
 
-### 2. Collect Data
+### 2. Auto-Catchup (when no date argument)
 
-Run collectors to gather fresh data:
+If `$ARGUMENTS` is empty, check for data gaps and run catchup:
 
 ```bash
-# Collect from all sources
+if [ -z "$ARGUMENTS" ] && [ -f .insights/raw/commits.json ]; then
+  LAST_DATE=$(cat .insights/raw/commits.json | node -e "
+    const data = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+    const dates = data.map(d => d.date).filter(Boolean).sort();
+    console.log(dates[dates.length - 1] || '');
+  ")
+  if [ -n "$LAST_DATE" ]; then
+    DAYS_GAP=$(( ($(date +%s) - $(date -d "$LAST_DATE" +%s)) / 86400 ))
+    if [ $DAYS_GAP -gt 1 ]; then
+      echo "Gap detected: $DAYS_GAP days since $LAST_DATE. Running catchup..."
+      DAYS_GAP=$((DAYS_GAP + 1))  # buffer
+      [ $DAYS_GAP -gt 90 ] && DAYS_GAP=90
+      node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days $DAYS_GAP
+      node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days $DAYS_GAP
+      node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/git-commits.js --days $DAYS_GAP
+    fi
+  fi
+fi
+```
+
+Skip catchup when explicit date provided (user wants specific day only).
+
+### 3. Collect Data
+
+Run collectors to gather fresh data (if catchup didn't already):
+
+```bash
+# Collect from all sources (1 day if no catchup ran)
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 1
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-workitems.js --days 1
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/git-commits.js --days 1
 ```
 
-### 2. Filter Data
+### 4. Filter Data
 
 Filter each data source for the target date:
 
@@ -73,7 +100,7 @@ node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insight
 node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/filter-by-date.js .insights/raw/commits.json --day $DATE > /tmp/commits.json
 ```
 
-### 3. Confluence (Optional)
+### 5. Confluence (Optional)
 
 If Atlassian MCP tools are available, search for related documentation changes:
 
@@ -82,17 +109,17 @@ If Atlassian MCP tools are available, search for related documentation changes:
 
 Skip silently if MCP tools are not configured.
 
-### 4. Generate Summary
+### 6. Generate Summary
 
 Read the template from `${CLAUDE_PLUGIN_ROOT}/skills/insights/templates/daily-summary.md`.
 
 Combine all data sources and generate a comprehensive daily summary.
 
-### 5. Save Output
+### 7. Save Output
 
 Save the report to `.insights/$DATE-insights.md`.
 
-### 6. Cleanup
+### 8. Cleanup
 
 Remove temporary filtered files after the report is saved:
 

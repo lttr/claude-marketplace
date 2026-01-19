@@ -90,3 +90,17 @@ dev-flow/
 - Azure CLI with `azure-devops` extension (for Azure commands)
 - Atlassian MCP server (for Confluence integration, optional)
 - Deno runtime (for `/df:insights:view` dashboard)
+
+## .aiwork/ Output
+
+Dev-flow saves artifacts to `.aiwork/` directories:
+
+| Folder              | Content                    |
+| ------------------- | -------------------------- |
+| `.aiwork/triage/`   | Requirement analysis       |
+| `.aiwork/specs/`    | Implementation specs       |
+| `.aiwork/reviews/`  | Code review reports        |
+
+**Works without configuration** - directories created automatically.
+
+**For full conventions** (naming, frontmatter, cross-references), install [aiwork-folder-protocol](../aiwork-folder-protocol). Without it, files are saved but naming/organization guidance is missing.

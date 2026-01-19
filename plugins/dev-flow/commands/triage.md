@@ -41,10 +41,10 @@ No external ticket system or documentation system - analyze against local codeba
 ### 4. Write Output
 
 ```bash
-mkdir -p ./.aitools/triage
+mkdir -p ./.aiwork/triage
 ```
 
-Save to `./.aitools/triage/<slugified-title>.md`
+Save to `./.aiwork/triage/<slugified-title>.md`
 
 Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
 

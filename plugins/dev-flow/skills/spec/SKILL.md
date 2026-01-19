@@ -13,7 +13,7 @@ Transform triage output and user decisions into a detailed implementation specif
 
 The skill expects one of:
 
-- **Triage file path** - Read from `.aitools/triage/<ticket>.md`
+- **Triage file path** - Read from `.aiwork/triage/<ticket>.md`
 - **Ticket ID** - Fetch from Azure DevOps, then locate or create triage
 - **Continue from triage** - Use context from just-completed triage session
 
@@ -67,7 +67,7 @@ If not already done in triage, use Explore agent to gather:
 
 ### 4. Generate Spec
 
-Write to `.aitools/specs/<ticket-id>-<slugified-title>.md`
+Write to `.aiwork/specs/<ticket-id>-<slugified-title>.md`
 
 Use the template from `assets/spec-template.md`.
 

@@ -379,12 +379,12 @@ Output: { "score": 75, "reasoning": "..." }
 
 ### Save to File
 
-After generating the review, save it to `.aitools/reviews/`:
+After generating the review, save it to `.aiwork/reviews/`:
 
-1. Create directory if needed: `mkdir -p .aitools/reviews`
+1. Create directory if needed: `mkdir -p .aiwork/reviews`
 2. Generate timestamp: `date +%Y-%m-%d_%H-%M`
-3. Save as: `.aitools/reviews/{timestamp}_{branch-name}.md`
-   - Example: `.aitools/reviews/2025-01-15_14-30_feature-auth.md`
+3. Save as: `.aiwork/reviews/{timestamp}_{branch-name}.md`
+   - Example: `.aiwork/reviews/2025-01-15_14-30_feature-auth.md`
 4. Confirm save location to user
 
 ---

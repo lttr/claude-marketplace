@@ -100,10 +100,10 @@ Only questions the user couldn't answer go to the output file for stakeholder fo
 ### 6. Write Output
 
 ```bash
-mkdir -p ./.aitools/triage
+mkdir -p ./.aiwork/triage
 ```
 
-Save to `./.aitools/triage/<identifier>.md`
+Save to `./.aiwork/triage/<identifier>.md`
 
 Naming:
 
