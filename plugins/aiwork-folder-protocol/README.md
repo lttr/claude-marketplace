@@ -5,6 +5,7 @@
 ## What it provides
 
 A consistent convention for storing and naming:
+
 - **plans/** - Implementation plans
 - **specs/** - Task specifications
 - **triage/** - Requirement analysis

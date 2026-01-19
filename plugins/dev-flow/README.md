@@ -95,11 +95,11 @@ dev-flow/
 
 Dev-flow saves artifacts to `.aiwork/` directories:
 
-| Folder              | Content                    |
-| ------------------- | -------------------------- |
-| `.aiwork/triage/`   | Requirement analysis       |
-| `.aiwork/specs/`    | Implementation specs       |
-| `.aiwork/reviews/`  | Code review reports        |
+| Folder             | Content              |
+| ------------------ | -------------------- |
+| `.aiwork/triage/`  | Requirement analysis |
+| `.aiwork/specs/`   | Implementation specs |
+| `.aiwork/reviews/` | Code review reports  |
 
 **Works without configuration** - directories created automatically.
 
