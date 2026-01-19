@@ -58,6 +58,20 @@ Developer workflow automation: triage requirements, generate activity insights, 
 
 See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
 
+### AI Work Folder Protocol
+
+Standardizes `.aiwork/` artifact organization for AI-assisted workflows. Defines conventions for naming, frontmatter, and cross-references across plans, specs, triage, reviews, and logs.
+
+**Used by:** dev-flow plugin (optional but recommended)
+
+**Installation:**
+
+```shell
+/plugin install aiwork-folder-protocol@lttr-claude-marketplace
+```
+
+See [plugins/aiwork-folder-protocol/README.md](./plugins/aiwork-folder-protocol/README.md) for detailed documentation.
+
 ### Nuxt Plugin
 
 Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
@@ -115,6 +129,7 @@ Select "Browse Plugins" to see available options, or install directly:
 /plugin install dev-flow@lttr-claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
+/plugin install aiwork-folder-protocol@lttr-claude-marketplace
 ```
 
 ## For Plugin Developers
