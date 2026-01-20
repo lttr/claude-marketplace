@@ -1,6 +1,6 @@
 ---
-name: df:spec
-description: This skill should be used when the user wants to generate an implementation specification from triage output and clarifying questions. Trigger when user says "write spec", "create spec", "generate spec", or after completing a triage when the user wants to proceed to spec writing. The skill asks structured questions about decisions, then generates a detailed implementation spec with dependency graphs, migration details, and acceptance criteria.
+name: df:spec-methodology
+description: Methodology reference for generating implementation specs. Invoked via /df:spec command.
 ---
 
 # Implementation Spec Generator

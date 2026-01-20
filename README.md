@@ -37,9 +37,9 @@ Developer workflow automation: triage requirements, generate activity insights, 
 **Features:**
 
 - `/df:commit` - Git commit with commitlint format (`type(ticket#): msg`)
-- `/df:review` - Code review current branch (v2 with data-source agents)
+- `/df:review` - Code review current branch
 - `/df:triage` - Analyze requirements against local codebase
-- `df:spec` skill - Generate implementation spec from triage output
+- `/df:spec` - Generate implementation spec from triage output
 - `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
 - `/df:insights:view` - Interactive dashboard
 - `/df:insights:catchup` - Download raw insights data
@@ -60,7 +60,7 @@ See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed docu
 
 ### AI Work Folder Protocol
 
-Standardizes `.aiwork/` artifact organization for AI-assisted workflows. Defines conventions for naming, frontmatter, and cross-references across plans, specs, triage, reviews, and logs.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows. Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs. Version control is optional.
 
 **Used by:** dev-flow plugin (optional but recommended)
 
