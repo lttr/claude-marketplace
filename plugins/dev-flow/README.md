@@ -74,6 +74,8 @@ dev-flow/
 | ------------------------------------------------ | ------------------------------------------- |
 | `/df:azdo:pr:create [message]`                   | Commit, push, create Azure DevOps PR        |
 | `/df:azdo:pr:complete [--transition-work-items]` | Complete (merge) PR for current branch      |
+| `/df:azdo:pr:list [all]`                         | List active PRs (mine by default, or all)   |
+| `/df:azdo:pr:checkout <pr-id>`                   | Checkout PR branch locally                  |
 | `/df:azdo:branch [id] [desc]`                    | Create feature branch from ticket           |
 | `/df:azdo:review <pr-id>`                        | Code review Azure DevOps PR                 |
 | `/df:azdo:triage <ticket-id>`                    | Triage Azure ticket with Confluence context |
