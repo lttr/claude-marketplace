@@ -61,6 +61,7 @@ dev-flow/
 | ----------------------------------- | ---------------------------------------------------- |
 | `/df:commit [message] [push] [all]` | Commit with commitlint format (`type(ticket#): msg`) |
 | `/df:review [base-branch]`          | Code review current branch (v2, data-source agents)  |
+| `/df:spec [triage-file]`            | Generate implementation spec from triage output      |
 | `/df:triage [title]`                | Triage pasted requirements against local codebase    |
 | `/df:insights:daily [date]`         | Daily activity summary                               |
 | `/df:insights:weekly [date]`        | Weekly activity summary                              |
