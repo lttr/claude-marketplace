@@ -46,9 +46,9 @@ Create a weekly codebase activity summary covering:
 
 **Summary:** X opened, Y merged, Z in review
 
-| PR (use `link` field) | Author | Status | Notes       |
-| --------------------- | ------ | ------ | ----------- |
-| [PR Title](full-url)  | @user  | Merged | Key context |
+| PR | Author | Status | Notes |
+| -- | ------ | ------ | ----- |
+| [PR#ID](pr-url) type([#ticketId](ticket-url)): title | @user | Merged | Key context |
 
 **Review Activity:**
 
@@ -80,12 +80,12 @@ Create a weekly codebase activity summary covering:
 
 **Completed Items:**
 
-- [#456](url): Work item title
-- [#789](url): Work item title
+- [#456](ticket-url): Work item title
+- [#789](ticket-url): Work item title
 
 **In Progress:**
 
-- [#012](url): Work item title (assignee)
+- [#012](ticket-url): Work item title (assignee)
 
 ### Themes & Patterns
 
@@ -106,9 +106,33 @@ Create a weekly codebase activity summary covering:
 - Dependencies to watch
 ```
 
+## URL Construction
+
+When `url` field is null, construct URLs using these patterns:
+
+**Azure DevOps PRs:**
+```
+https://dev.azure.com/{org}/{project}/_git/{repository}/pullrequest/{id}
+```
+- Default org: `drmaxglobal`
+- Default project: `ecommerce-operations`
+- Repository: use the `repository` field from PR data
+
+**Azure DevOps Work Items:**
+```
+https://dev.azure.com/{org}/{project}/_workitems/edit/{id}/
+```
+- Default org: `drmaxglobal`
+- Default project: `platform-team`
+
+**Ticket ID extraction:**
+- Extract from PR title patterns like `feat(123456):`, `fix(123456):`, `chore(123456):`
+- The number in parentheses is the work item/ticket ID
+
 ## Guidelines
 
-- **CRITICAL: Use pre-formatted `link` field** for PRs - never construct URLs or use #number format
+- **Make ALL references clickable** - PRs, tickets, and work items should be markdown links
+- **Format:** `[PR#89400](url) feat([#178334](ticket-url)): description`
 - **Group by `updatedDate`** - this is the most recent activity date (update > close > create)
 - If a PR was created before the week but updated during it, include it in this report
 - Identify **patterns** across individual commits and PRs

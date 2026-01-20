@@ -127,6 +127,16 @@ Remove temporary filtered files after the report is saved:
 rm -f /tmp/prs.json /tmp/workitems.json /tmp/commits.json
 ```
 
+### 9. Open Dashboard
+
+After saving the report, regenerate and open the dashboard:
+
+```bash
+deno run --allow-read --allow-write --allow-net \
+  ${CLAUDE_PLUGIN_ROOT}/skills/insights/dashboard/generate.ts --open
+xdg-open .insights/dashboard.html
+```
+
 ## Output
 
 Report includes:

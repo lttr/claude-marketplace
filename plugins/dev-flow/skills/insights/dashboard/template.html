@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dev-Flow Insights Dashboard</title>
+    <title>Codebase Insights</title>
     <style>
       :root {
         --bg: #0d1117;
         --surface: #161b22;
+        --surface-hover: #1c2129;
         --border: #30363d;
         --text: #c9d1d9;
         --text-muted: #8b949e;
@@ -16,24 +17,16 @@
         --yellow: #d29922;
         --red: #f85149;
         --purple: #a371f7;
+        --orange: #db6d28;
       }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: var(--bg);
         color: var(--text);
         line-height: 1.5;
       }
-      .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+      .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
       header {
         display: flex;
         justify-content: space-between;
@@ -42,31 +35,10 @@
         border-bottom: 1px solid var(--border);
         margin-bottom: 20px;
       }
-      h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-      }
-      .stats-bar {
-        display: flex;
-        gap: 24px;
-        padding: 16px;
-        background: var(--surface);
-        border-radius: 8px;
-        margin-bottom: 20px;
-      }
-      .stat {
-        display: flex;
-        flex-direction: column;
-      }
-      .stat-value {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--accent);
-      }
-      .stat-label {
-        font-size: 0.875rem;
-        color: var(--text-muted);
-      }
+      h1 { font-size: 1.25rem; font-weight: 600; }
+      .date-range { color: var(--text-muted); font-size: 0.875rem; }
+
+      /* Tabs */
       .tabs {
         display: flex;
         gap: 4px;
@@ -81,277 +53,221 @@
         cursor: pointer;
         font-size: 0.875rem;
         border-bottom: 2px solid transparent;
-        transition: all 0.2s;
       }
-      .tab:hover {
-        color: var(--text);
-      }
-      .tab.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-      }
-      .tab-content {
-        display: none;
-      }
-      .tab-content.active {
-        display: block;
-      }
-      .charts-grid {
+      .tab:hover { color: var(--text); }
+      .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+      .tab-content { display: none; }
+      .tab-content.active { display: block; }
+
+      /* Report View (default) */
+      .report-layout {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 240px 1fr;
         gap: 20px;
       }
-      .chart-card {
-        background: var(--surface);
-        border-radius: 8px;
-        padding: 16px;
-      }
-      .chart-card h3 {
-        font-size: 0.875rem;
-        color: var(--text-muted);
-        margin-bottom: 12px;
-      }
-      .chart-container {
-        position: relative;
-        height: 250px;
-      }
-      .reports-layout {
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        gap: 20px;
-      }
-      .reports-list {
+      .report-nav {
         background: var(--surface);
         border-radius: 8px;
         padding: 12px;
-        max-height: 600px;
+        max-height: calc(100vh - 180px);
         overflow-y: auto;
+        position: sticky;
+        top: 20px;
       }
-      .report-item {
-        padding: 10px 12px;
+      .report-nav-item {
+        padding: 8px 12px;
         border-radius: 6px;
         cursor: pointer;
         font-size: 0.875rem;
-        transition: background 0.2s;
+        margin-bottom: 4px;
       }
-      .report-item:hover {
-        background: var(--border);
-      }
-      .report-item.active {
-        background: var(--accent);
-        color: var(--bg);
-      }
-      .report-item-date {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-      }
-      .report-item.active .report-item-date {
-        color: var(--bg);
-        opacity: 0.7;
-      }
-      .report-content {
+      .report-nav-item:hover { background: var(--surface-hover); }
+      .report-nav-item.active { background: var(--accent); color: var(--bg); }
+      .report-nav-type { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+      .report-nav-item.active .report-nav-type { color: var(--bg); opacity: 0.7; }
+
+      .report-body {
         background: var(--surface);
         border-radius: 8px;
-        padding: 24px;
+        padding: 24px 32px;
         min-height: 400px;
       }
-      .report-content h1,
-      .report-content h2,
-      .report-content h3 {
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-      }
-      .report-content h1:first-child {
-        margin-top: 0;
-      }
-      .report-content ul,
-      .report-content ol {
-        padding-left: 1.5em;
-      }
-      .report-content a {
-        color: var(--accent);
-      }
-      .report-content table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1em 0;
-      }
-      .report-content th,
-      .report-content td {
-        padding: 8px 12px;
-        border: 1px solid var(--border);
-        text-align: left;
-      }
-      .report-content th {
-        background: var(--bg);
-      }
-      .raw-data-section {
-        background: var(--surface);
-        border-radius: 8px;
-        margin-bottom: 12px;
-      }
-      .raw-data-header {
+      .report-body h1, .report-body h2, .report-body h3 { margin-top: 1.5em; margin-bottom: 0.5em; }
+      .report-body h1:first-child, .report-body h2:first-child { margin-top: 0; }
+      .report-body ul, .report-body ol { padding-left: 1.5em; margin: 0.5em 0; }
+      .report-body li { margin: 0.25em 0; }
+      .report-body a { color: var(--accent); }
+      .report-body strong { color: var(--text); }
+      .report-body code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+      .report-body table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+      .report-body th, .report-body td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+      .report-body th { background: var(--bg); }
+
+      /* Activity Feed */
+      .activity-feed { display: flex; flex-direction: column; gap: 12px; }
+      .activity-section { background: var(--surface); border-radius: 8px; overflow: hidden; }
+      .activity-section-header {
         padding: 12px 16px;
-        cursor: pointer;
+        background: var(--bg);
+        font-weight: 600;
+        font-size: 0.875rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid transparent;
       }
-      .raw-data-header:hover {
+      .activity-section-count {
         background: var(--border);
-        border-radius: 8px;
-      }
-      .raw-data-section.open .raw-data-header {
-        border-bottom-color: var(--border);
-        border-radius: 8px 8px 0 0;
-      }
-      .raw-data-content {
-        display: none;
-        padding: 16px;
-        max-height: 400px;
-        overflow: auto;
-      }
-      .raw-data-section.open .raw-data-content {
-        display: block;
-      }
-      pre {
-        background: var(--bg);
-        padding: 12px;
-        border-radius: 6px;
-        overflow-x: auto;
-        font-size: 0.8rem;
-      }
-      code {
-        font-family: "Fira Code", monospace;
-      }
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.875rem;
-      }
-      .data-table th,
-      .data-table td {
-        padding: 8px 12px;
-        border-bottom: 1px solid var(--border);
-        text-align: left;
-      }
-      .data-table th {
-        color: var(--text-muted);
-        font-weight: 500;
-        position: sticky;
-        top: 0;
-        background: var(--surface);
-      }
-      .data-table a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      .data-table a:hover {
-        text-decoration: underline;
-      }
-      .status-badge {
-        display: inline-block;
         padding: 2px 8px;
-        border-radius: 12px;
+        border-radius: 10px;
         font-size: 0.75rem;
+        font-weight: normal;
+      }
+
+      .activity-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        gap: 12px;
+      }
+      .activity-item:last-child { border-bottom: none; }
+      .activity-item:hover { background: var(--surface-hover); }
+
+      .activity-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .icon-pr { background: var(--green); color: var(--bg); }
+      .icon-pr-active { background: var(--yellow); color: var(--bg); }
+      .icon-pr-conflict { background: var(--red); color: white; }
+      .icon-commit { background: var(--purple); color: white; }
+      .icon-workitem { background: var(--accent); color: var(--bg); }
+
+      .activity-content { flex: 1; min-width: 0; }
+      .activity-title {
+        font-weight: 500;
+        margin-bottom: 2px;
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .activity-title a { color: var(--text); text-decoration: none; }
+      .activity-title a:hover { color: var(--accent); }
+      .activity-meta { font-size: 0.8rem; color: var(--text-muted); }
+      .activity-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        border-radius: 4px;
         font-weight: 500;
       }
-      .status-completed {
-        background: var(--green);
+      .badge-merged { background: var(--green); color: var(--bg); }
+      .badge-active { background: var(--yellow); color: var(--bg); }
+      .badge-conflict { background: var(--red); color: white; }
+      .badge-review { background: var(--purple); color: white; }
+
+      /* By Area */
+      .area-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+      .area-card {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .area-header {
+        font-weight: 600;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+      }
+      .area-items { font-size: 0.875rem; }
+      .area-item { padding: 6px 0; border-bottom: 1px solid var(--border); }
+      .area-item:last-child { border-bottom: none; }
+      .area-item a { color: var(--accent); text-decoration: none; }
+      .area-item a:hover { text-decoration: underline; }
+
+      /* People View */
+      .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+      .person-card {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .person-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .person-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
         color: var(--bg);
       }
-      .status-active {
-        background: var(--yellow);
-        color: var(--bg);
-      }
-      .status-abandoned {
-        background: var(--red);
-        color: white;
-      }
-      .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--text-muted);
-      }
-      .chevron {
-        transition: transform 0.2s;
-      }
-      .raw-data-section.open .chevron {
-        transform: rotate(180deg);
-      }
+      .person-name { font-weight: 600; }
+      .person-stats { font-size: 0.8rem; color: var(--text-muted); }
+      .person-items { font-size: 0.875rem; }
+      .person-item { padding: 4px 0; }
+      .person-item a { color: var(--text-muted); text-decoration: none; }
+      .person-item a:hover { color: var(--accent); }
+
+      .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
     </style>
   </head>
   <body>
     <div class="container">
       <header>
-        <h1>Dev-Flow Insights</h1>
-        <span id="date-range"></span>
+        <h1>Codebase Insights</h1>
+        <span class="date-range" id="date-range"></span>
       </header>
 
-      <div class="stats-bar">
-        <div class="stat">
-          <span class="stat-value" id="stat-prs">0</span>
-          <span class="stat-label">Pull Requests</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="stat-commits">0</span>
-          <span class="stat-label">Commits</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="stat-workitems">0</span>
-          <span class="stat-label">Work Items</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="stat-reports">0</span>
-          <span class="stat-label">Reports</span>
-        </div>
-      </div>
-
       <div class="tabs">
-        <button class="tab active" data-tab="charts">Charts</button>
-        <button class="tab" data-tab="reports">Reports</button>
-        <button class="tab" data-tab="raw">Raw Data</button>
+        <button class="tab active" data-tab="report">Today's Report</button>
+        <button class="tab" data-tab="activity">Activity Feed</button>
+        <button class="tab" data-tab="areas">By Area</button>
+        <button class="tab" data-tab="people">People</button>
+        <button class="tab" data-tab="history">History</button>
       </div>
 
-      <div id="charts" class="tab-content active">
-        <div class="charts-grid">
-          <div class="chart-card">
-            <h3>PR Activity Over Time</h3>
-            <div class="chart-container"><canvas id="pr-chart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <h3>Commits by Author</h3>
-            <div class="chart-container">
-              <canvas id="commits-chart"></canvas>
-            </div>
-          </div>
-          <div class="chart-card">
-            <h3>Work Item States</h3>
-            <div class="chart-container">
-              <canvas id="workitems-chart"></canvas>
-            </div>
-          </div>
-          <div class="chart-card">
-            <h3>Activity Timeline</h3>
-            <div class="chart-container">
-              <canvas id="timeline-chart"></canvas>
-            </div>
+      <div id="report" class="tab-content active">
+        <div class="report-layout">
+          <div class="report-nav" id="report-nav"></div>
+          <div class="report-body" id="report-body">
+            <div class="empty-state">No reports yet. Run /df:insights:daily</div>
           </div>
         </div>
       </div>
 
-      <div id="reports" class="tab-content">
-        <div class="reports-layout">
-          <div class="reports-list" id="reports-list"></div>
-          <div class="report-content" id="report-content">
-            <div class="empty-state">Select a report to view</div>
-          </div>
-        </div>
+      <div id="activity" class="tab-content">
+        <div class="activity-feed" id="activity-feed"></div>
       </div>
 
-      <div id="raw" class="tab-content">
-        <div id="raw-data-container"></div>
+      <div id="areas" class="tab-content">
+        <div class="area-grid" id="areas-grid"></div>
+      </div>
+
+      <div id="people" class="tab-content">
+        <div class="people-grid" id="people-grid"></div>
+      </div>
+
+      <div id="history" class="tab-content">
+        <div class="report-layout">
+          <div class="report-nav" id="history-nav"></div>
+          <div class="report-body" id="history-body">
+            <div class="empty-state">Select a report</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -359,9 +275,37 @@
     <!-- MARKED_PLACEHOLDER -->
 
     <script>
-      // Data injected by generator
       const DATA = {{DATA}};
       const REPORTS = {{REPORTS}};
+
+      // Helpers
+      const escapeHtml = s => s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+      const prUrl = (pr) => pr.url || `https://dev.azure.com/drmaxglobal/ecommerce-operations/_git/${pr.repository}/pullrequest/${pr.id}`;
+      const ticketUrl = (id) => `https://dev.azure.com/drmaxglobal/platform-team/_workitems/edit/${id}/`;
+      const extractTicket = (title) => {
+        const match = title?.match(/\((\d{5,6})\)/);
+        return match ? match[1] : null;
+      };
+      const getArea = (pr) => {
+        const branch = pr.sourceBranch || '';
+        const title = pr.title || '';
+        const combined = (branch + ' ' + title).toLowerCase();
+        if (combined.includes('checkout') || combined.includes('cart') || combined.includes('payment')) return 'Checkout';
+        if (combined.includes('catalog') || combined.includes('product') || combined.includes('filter')) return 'Catalog';
+        if (combined.includes('search')) return 'Search';
+        if (combined.includes('account') || combined.includes('profile') || combined.includes('auth')) return 'My Account';
+        if (combined.includes('cms') || combined.includes('content')) return 'CMS';
+        if (combined.includes('ui') || combined.includes('component')) return 'UI Library';
+        if (combined.includes('base') || combined.includes('core')) return 'Core';
+        if (combined.includes('i18n') || combined.includes('translation')) return 'i18n';
+        if (combined.includes('perf') || combined.includes('inp') || combined.includes('cache')) return 'Performance';
+        return 'Other';
+      };
+      const getInitials = (name) => {
+        if (!name) return '?';
+        const parts = name.replace(/\(.*\)/, '').trim().split(/\s+/);
+        return parts.length > 1 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : name.substring(0, 2).toUpperCase();
+      };
 
       // Tab switching
       document.querySelectorAll('.tab').forEach(tab => {
@@ -373,266 +317,240 @@
         });
       });
 
-      // Stats
-      document.getElementById('stat-prs').textContent = DATA.prs?.length || 0;
-      document.getElementById('stat-commits').textContent = DATA.commits?.length || 0;
-      document.getElementById('stat-workitems').textContent = DATA.workitems?.length || 0;
-      document.getElementById('stat-reports').textContent = REPORTS.length;
-
       // Date range
-      if (DATA.prs?.length || DATA.commits?.length) {
-        const dates = [
-          ...(DATA.prs || []).map(p => p.createdDate),
-          ...(DATA.commits || []).map(c => c.date)
-        ].filter(Boolean).sort();
-        if (dates.length) {
-          document.getElementById('date-range').textContent = `${dates[0]} - ${dates[dates.length - 1]}`;
-        }
+      const allDates = [...(DATA.prs || []).map(p => p.updatedDate || p.createdDate), ...(DATA.commits || []).map(c => c.date)].filter(Boolean).sort();
+      if (allDates.length) {
+        document.getElementById('date-range').textContent = allDates.length > 1
+          ? `${allDates[0]} → ${allDates[allDates.length - 1]}`
+          : allDates[0];
       }
 
-      // Charts
-      const chartColors = {
-        blue: 'rgba(88, 166, 255, 0.8)',
-        green: 'rgba(63, 185, 80, 0.8)',
-        yellow: 'rgba(210, 153, 34, 0.8)',
-        red: 'rgba(248, 81, 73, 0.8)',
-        purple: 'rgba(163, 113, 247, 0.8)',
-      };
+      // Sort reports by date (newest first)
+      const sortedReports = REPORTS.sort((a, b) => b.name.localeCompare(a.name));
+      const latestReport = sortedReports[0];
 
-      // PR Chart - by status
-      if (DATA.prs?.length) {
-        const prsByStatus = DATA.prs.reduce((acc, pr) => {
-          acc[pr.status] = (acc[pr.status] || 0) + 1;
-          return acc;
-        }, {});
-        new Chart(document.getElementById('pr-chart'), {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(prsByStatus),
-            datasets: [{
-              data: Object.values(prsByStatus),
-              backgroundColor: [chartColors.green, chartColors.yellow, chartColors.red]
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#c9d1d9' } } }
-          }
-        });
-      }
+      // Blockers (conflicts, stuck PRs) - computed for Activity Feed
+      const blockers = (DATA.prs || []).filter(pr =>
+        pr.mergeStatus === 'conflicts' ||
+        (pr.status === 'active' && pr.reviewers?.every(r => r.vote === 0))
+      );
 
-      // Commits by author
-      if (DATA.commits?.length) {
-        const byAuthor = DATA.commits.reduce((acc, c) => {
-          acc[c.author] = (acc[c.author] || 0) + 1;
-          return acc;
-        }, {});
-        const sorted = Object.entries(byAuthor).sort((a, b) => b[1] - a[1]).slice(0, 10);
-        new Chart(document.getElementById('commits-chart'), {
-          type: 'bar',
-          data: {
-            labels: sorted.map(([name]) => name),
-            datasets: [{
-              label: 'Commits',
-              data: sorted.map(([, count]) => count),
-              backgroundColor: chartColors.blue
-            }]
-          },
-          options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
-              y: { ticks: { color: '#c9d1d9' }, grid: { display: false } }
-            }
-          }
-        });
-      }
+      // Report nav & body
+      const reportNav = document.getElementById('report-nav');
+      const reportBody = document.getElementById('report-body');
 
-      // Work items by state
-      if (DATA.workitems?.length) {
-        const byState = DATA.workitems.reduce((acc, wi) => {
-          acc[wi.state] = (acc[wi.state] || 0) + 1;
-          return acc;
-        }, {});
-        new Chart(document.getElementById('workitems-chart'), {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(byState),
-            datasets: [{
-              data: Object.values(byState),
-              backgroundColor: [chartColors.blue, chartColors.green, chartColors.yellow, chartColors.purple, chartColors.red]
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#c9d1d9' } } }
-          }
-        });
-      }
-
-      // Activity timeline
-      const allDates = new Set([
-        ...(DATA.prs || []).map(p => p.createdDate),
-        ...(DATA.commits || []).map(c => c.date)
-      ].filter(Boolean));
-      if (allDates.size) {
-        const sortedDates = [...allDates].sort();
-        const prsByDate = (DATA.prs || []).reduce((acc, pr) => {
-          acc[pr.createdDate] = (acc[pr.createdDate] || 0) + 1;
-          return acc;
-        }, {});
-        const commitsByDate = (DATA.commits || []).reduce((acc, c) => {
-          acc[c.date] = (acc[c.date] || 0) + 1;
-          return acc;
-        }, {});
-        new Chart(document.getElementById('timeline-chart'), {
-          type: 'line',
-          data: {
-            labels: sortedDates,
-            datasets: [
-              {
-                label: 'PRs',
-                data: sortedDates.map(d => prsByDate[d] || 0),
-                borderColor: chartColors.blue,
-                tension: 0.3
-              },
-              {
-                label: 'Commits',
-                data: sortedDates.map(d => commitsByDate[d] || 0),
-                borderColor: chartColors.green,
-                tension: 0.3
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#c9d1d9' } } },
-            scales: {
-              x: { ticks: { color: '#8b949e', maxTicksLimit: 10 }, grid: { color: '#30363d' } },
-              y: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }
-            }
-          }
-        });
-      }
-
-      // Reports list
-      const reportsList = document.getElementById('reports-list');
-      const reportContent = document.getElementById('report-content');
-      if (REPORTS.length) {
-        REPORTS.sort((a, b) => b.name.localeCompare(a.name)).forEach((report, i) => {
-          const item = document.createElement('div');
-          item.className = 'report-item' + (i === 0 ? ' active' : '');
+      if (sortedReports.length) {
+        sortedReports.slice(0, 7).forEach((report, i) => {
           const type = report.name.includes('-W') ? 'Weekly' : 'Daily';
-          item.innerHTML = `<div>${report.name.replace('.md', '').replace('-insights', '')}</div><div class="report-item-date">${type}</div>`;
-          item.addEventListener('click', () => {
-            document.querySelectorAll('.report-item').forEach(r => r.classList.remove('active'));
+          const dateStr = report.name.replace('.md', '').replace('-insights', '');
+          const item = document.createElement('div');
+          item.className = 'report-nav-item' + (i === 0 ? ' active' : '');
+          item.innerHTML = `<div>${dateStr}</div><div class="report-nav-type">${type}</div>`;
+          item.onclick = () => {
+            document.querySelectorAll('#report-nav .report-nav-item').forEach(r => r.classList.remove('active'));
             item.classList.add('active');
-            reportContent.innerHTML = marked.parse(report.content);
-          });
-          reportsList.appendChild(item);
+            reportBody.innerHTML = marked.parse(report.content);
+          };
+          reportNav.appendChild(item);
         });
-        // Show first report
-        if (REPORTS[0]) {
-          reportContent.innerHTML = marked.parse(REPORTS.sort((a, b) => b.name.localeCompare(a.name))[0].content);
-        }
-      } else {
-        reportsList.innerHTML = '<div class="empty-state">No reports found</div>';
+        reportBody.innerHTML = marked.parse(latestReport.content);
       }
 
-      // Raw data
-      const rawContainer = document.getElementById('raw-data-container');
-      const rawFiles = [
-        { name: 'Pull Requests', key: 'prs', data: DATA.prs },
-        { name: 'Commits', key: 'commits', data: DATA.commits },
-        { name: 'Work Items', key: 'workitems', data: DATA.workitems },
-        { name: 'Confluence', key: 'confluence', data: DATA.confluence }
-      ];
+      // History nav (all reports)
+      const historyNav = document.getElementById('history-nav');
+      const historyBody = document.getElementById('history-body');
 
-      rawFiles.forEach(({ name, key, data }) => {
-        if (!data?.length) return;
-        const section = document.createElement('div');
-        section.className = 'raw-data-section';
-        section.innerHTML = `
-          <div class="raw-data-header">
-            <span>${name} (${data.length})</span>
-            <span class="chevron">▼</span>
-          </div>
-          <div class="raw-data-content">
-            ${renderDataTable(key, data)}
-          </div>
-        `;
-        section.querySelector('.raw-data-header').addEventListener('click', () => {
-          section.classList.toggle('open');
-        });
-        rawContainer.appendChild(section);
+      sortedReports.forEach((report, i) => {
+        const type = report.name.includes('-W') ? 'Weekly' : 'Daily';
+        const dateStr = report.name.replace('.md', '').replace('-insights', '');
+        const item = document.createElement('div');
+        item.className = 'report-nav-item';
+        item.innerHTML = `<div>${dateStr}</div><div class="report-nav-type">${type}</div>`;
+        item.onclick = () => {
+          document.querySelectorAll('#history-nav .report-nav-item').forEach(r => r.classList.remove('active'));
+          item.classList.add('active');
+          historyBody.innerHTML = marked.parse(report.content);
+        };
+        historyNav.appendChild(item);
       });
 
-      function renderDataTable(key, data) {
-        if (key === 'prs') {
-          return `<table class="data-table">
-            <thead><tr><th>Title</th><th>Author</th><th>Status</th><th>Created</th><th>Repo</th></tr></thead>
-            <tbody>${data.map(pr => `
-              <tr>
-                <td><a href="${pr.url}" target="_blank">${escapeHtml(pr.title)}</a></td>
-                <td>${escapeHtml(pr.author)}</td>
-                <td><span class="status-badge status-${pr.status}">${pr.status}</span></td>
-                <td>${pr.createdDate}</td>
-                <td>${escapeHtml(pr.repository)}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>`;
-        }
-        if (key === 'commits') {
-          return `<table class="data-table">
-            <thead><tr><th>Message</th><th>Author</th><th>Date</th><th>Repo</th></tr></thead>
-            <tbody>${data.map(c => `
-              <tr>
-                <td>${escapeHtml(c.message.split('\n')[0])}</td>
-                <td>${escapeHtml(c.author)}</td>
-                <td>${c.date}</td>
-                <td>${escapeHtml(c.repo)}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>`;
-        }
-        if (key === 'workitems') {
-          return `<table class="data-table">
-            <thead><tr><th>Title</th><th>Type</th><th>State</th><th>Assigned</th></tr></thead>
-            <tbody>${data.map(wi => `
-              <tr>
-                <td><a href="${wi.url}" target="_blank">${escapeHtml(wi.title)}</a></td>
-                <td>${escapeHtml(wi.type)}</td>
-                <td>${escapeHtml(wi.state)}</td>
-                <td>${escapeHtml(wi.assignedTo || '-')}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>`;
-        }
-        if (key === 'confluence') {
-          return `<table class="data-table">
-            <thead><tr><th>Title</th><th>Space</th><th>Modified</th><th>By</th></tr></thead>
-            <tbody>${data.map(page => `
-              <tr>
-                <td><a href="${page.url}" target="_blank">${escapeHtml(page.title)}</a></td>
-                <td>${escapeHtml(page.space)}</td>
-                <td>${page.lastModified}</td>
-                <td>${escapeHtml(page.lastModifiedBy)}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>`;
-        }
-        return `<pre><code>${escapeHtml(JSON.stringify(data, null, 2))}</code></pre>`;
+      // Activity Feed
+      const activityFeed = document.getElementById('activity-feed');
+      const prs = (DATA.prs || []).sort((a, b) => (b.updatedDate || b.createdDate).localeCompare(a.updatedDate || a.createdDate));
+
+      // Blockers section (conflicts, needs review)
+      if (blockers.length) {
+        activityFeed.innerHTML += `
+          <div class="activity-section" style="border: 1px solid var(--yellow);">
+            <div class="activity-section-header" style="background: rgba(210, 153, 34, 0.2);">
+              <span>⚠️ Needs Attention</span>
+              <span class="activity-section-count">${blockers.length}</span>
+            </div>
+            ${blockers.map(pr => {
+              const ticket = extractTicket(pr.title);
+              const hasConflict = pr.mergeStatus === 'conflicts';
+              const reason = hasConflict ? 'Conflicts' : 'Needs review';
+              return `<div class="activity-item">
+                <div class="activity-icon ${hasConflict ? 'icon-pr-conflict' : 'icon-pr-active'}">${hasConflict ? '!' : '?'}</div>
+                <div class="activity-content">
+                  <div class="activity-title">
+                    <a href="${prUrl(pr)}" target="_blank">PR#${pr.id}</a>
+                    <span class="activity-badge ${hasConflict ? 'badge-conflict' : 'badge-active'}">${reason}</span>
+                    <span>${escapeHtml(pr.title)}</span>
+                  </div>
+                  <div class="activity-meta">
+                    ${escapeHtml(pr.author)}
+                    ${ticket ? ` · <a href="${ticketUrl(ticket)}" target="_blank">#${ticket}</a>` : ''}
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        `;
       }
 
-      function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      // Merged PRs
+      const merged = prs.filter(pr => pr.status === 'completed');
+      if (merged.length) {
+        activityFeed.innerHTML += `
+          <div class="activity-section">
+            <div class="activity-section-header">
+              <span>✅ Merged</span>
+              <span class="activity-section-count">${merged.length}</span>
+            </div>
+            ${merged.map(pr => {
+              const ticket = extractTicket(pr.title);
+              return `<div class="activity-item">
+                <div class="activity-icon icon-pr">✓</div>
+                <div class="activity-content">
+                  <div class="activity-title">
+                    <a href="${prUrl(pr)}" target="_blank">PR#${pr.id}</a>
+                    <span>${escapeHtml(pr.title)}</span>
+                  </div>
+                  <div class="activity-meta">
+                    ${escapeHtml(pr.author)} · ${pr.closedDate || pr.updatedDate}
+                    ${ticket ? ` · <a href="${ticketUrl(ticket)}" target="_blank">#${ticket}</a>` : ''}
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      // Active PRs
+      const active = prs.filter(pr => pr.status === 'active');
+      if (active.length) {
+        activityFeed.innerHTML += `
+          <div class="activity-section">
+            <div class="activity-section-header">
+              <span>🔄 In Progress</span>
+              <span class="activity-section-count">${active.length}</span>
+            </div>
+            ${active.map(pr => {
+              const ticket = extractTicket(pr.title);
+              const hasConflict = pr.mergeStatus === 'conflicts';
+              const hasApprovals = pr.reviewers?.some(r => r.vote > 0);
+              const iconClass = hasConflict ? 'icon-pr-conflict' : 'icon-pr-active';
+              const badge = hasConflict ? '<span class="activity-badge badge-conflict">Conflicts</span>' :
+                           hasApprovals ? '<span class="activity-badge badge-review">Approved</span>' : '';
+              return `<div class="activity-item">
+                <div class="activity-icon ${iconClass}">${hasConflict ? '!' : '⋯'}</div>
+                <div class="activity-content">
+                  <div class="activity-title">
+                    <a href="${prUrl(pr)}" target="_blank">PR#${pr.id}</a>
+                    ${badge}
+                    <span>${escapeHtml(pr.title)}</span>
+                  </div>
+                  <div class="activity-meta">
+                    ${escapeHtml(pr.author)} → ${pr.targetBranch}
+                    ${ticket ? ` · <a href="${ticketUrl(ticket)}" target="_blank">#${ticket}</a>` : ''}
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      // By Area
+      const areasGrid = document.getElementById('areas-grid');
+      const prsByArea = {};
+      prs.forEach(pr => {
+        const area = getArea(pr);
+        if (!prsByArea[area]) prsByArea[area] = [];
+        prsByArea[area].push(pr);
+      });
+
+      Object.entries(prsByArea).sort((a, b) => b[1].length - a[1].length).forEach(([area, areaPrs]) => {
+        areasGrid.innerHTML += `
+          <div class="area-card">
+            <div class="area-header">
+              <span>${area}</span>
+              <span style="color: var(--text-muted); font-weight: normal;">${areaPrs.length} PRs</span>
+            </div>
+            <div class="area-items">
+              ${areaPrs.slice(0, 8).map(pr => {
+                const ticket = extractTicket(pr.title);
+                const status = pr.status === 'completed' ? '✓' : '⋯';
+                return `<div class="area-item">
+                  ${status} <a href="${prUrl(pr)}" target="_blank">PR#${pr.id}</a>
+                  ${ticket ? `<a href="${ticketUrl(ticket)}" target="_blank">#${ticket}</a>` : ''}
+                  <span style="color: var(--text-muted);">· ${escapeHtml(pr.author.split(' ')[0])}</span>
+                </div>`;
+              }).join('')}
+              ${areaPrs.length > 8 ? `<div style="color: var(--text-muted); padding-top: 8px;">+${areaPrs.length - 8} more</div>` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      // People
+      const peopleGrid = document.getElementById('people-grid');
+      const prsByPerson = {};
+      prs.forEach(pr => {
+        const author = pr.author || 'Unknown';
+        if (!prsByPerson[author]) prsByPerson[author] = { prs: [], commits: 0 };
+        prsByPerson[author].prs.push(pr);
+      });
+      (DATA.commits || []).forEach(c => {
+        const author = c.author || 'Unknown';
+        if (!prsByPerson[author]) prsByPerson[author] = { prs: [], commits: 0 };
+        prsByPerson[author].commits++;
+      });
+
+      Object.entries(prsByPerson)
+        .sort((a, b) => (b[1].prs.length + b[1].commits) - (a[1].prs.length + a[1].commits))
+        .slice(0, 12)
+        .forEach(([name, data]) => {
+          const merged = data.prs.filter(p => p.status === 'completed').length;
+          const active = data.prs.filter(p => p.status === 'active').length;
+
+          peopleGrid.innerHTML += `
+            <div class="person-card">
+              <div class="person-header">
+                <div class="person-avatar">${getInitials(name)}</div>
+                <div>
+                  <div class="person-name">${escapeHtml(name.replace(/\s*\(.*\)/, ''))}</div>
+                  <div class="person-stats">
+                    ${merged ? `${merged} merged` : ''}
+                    ${active ? `${merged ? ' · ' : ''}${active} active` : ''}
+                    ${data.commits ? `${(merged || active) ? ' · ' : ''}${data.commits} commits` : ''}
+                  </div>
+                </div>
+              </div>
+              <div class="person-items">
+                ${data.prs.slice(0, 4).map(pr => {
+                  const status = pr.status === 'completed' ? '✓' : '⋯';
+                  return `<div class="person-item">${status} <a href="${prUrl(pr)}" target="_blank">PR#${pr.id}: ${escapeHtml(pr.title.substring(0, 40))}${pr.title.length > 40 ? '...' : ''}</a></div>`;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+      if (!prs.length && !sortedReports.length) {
+        activityFeed.innerHTML = '<div class="empty-state">No activity data. Run /df:insights:daily first.</div>';
       }
     </script>
   </body>
