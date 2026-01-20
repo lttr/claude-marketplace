@@ -1,6 +1,6 @@
 # aiwork-folder-protocol
 
-`.aiwork/` is a folder for AI-related work. This protocol standardizes how artifacts are organized across projects.
+`.aiwork/` is a repository-local folder for AI-related work. This protocol standardizes how artifacts are organized within each repository.
 
 ## What it provides
 
@@ -14,10 +14,10 @@ A consistent convention for storing and naming:
 
 ## Installation
 
-1. Copy `AIWORK.md` to `~/.claude/`:
+1. Copy `aiwork-protocol.md` to `~/.claude/`:
 
 ```bash
-cp AIWORK.md ~/.claude/AIWORK.md
+cp aiwork-protocol.md ~/.claude/aiwork-protocol.md
 ```
 
 2. Add reference to your `~/.claude/CLAUDE.md`:
@@ -25,7 +25,7 @@ cp AIWORK.md ~/.claude/AIWORK.md
 ```markdown
 ## AI-Generated Artifacts
 
-@AIWORK.md
+@aiwork-protocol.md
 ```
 
 The protocol will now load in every Claude Code session.
@@ -39,4 +39,4 @@ This protocol pairs well with the [dev-flow](../dev-flow) plugin which provides 
 
 ## Manual usage
 
-Even without dev-flow, Claude will follow the protocol when asked to save plans, specs, or other artifacts to `.aiwork/`.
+Even without dev-flow, Claude will follow the protocol when asked to save plans, specs, or other artifacts to the repository's `.aiwork/` folder.
