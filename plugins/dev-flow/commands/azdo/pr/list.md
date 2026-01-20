@@ -37,6 +37,7 @@ List active pull requests from current Azure DevOps repository.
 **Output format:**
 
 For personal view:
+
 ```
 **Created by me:**
 | ID | Title | Unresolved |
