@@ -69,7 +69,7 @@ az devops invoke \
 Extract code comments (threads with file context):
 
 ```bash
-jq '[.value[] | select(.threadContext.filePath) | select(.status != "closed") | {
+jq '[.value[] | select(.threadContext.filePath) | select(.status == "closed" | not) | {
   id: .id,
   file: .threadContext.filePath,
   line: .threadContext.rightFileStart.line,
