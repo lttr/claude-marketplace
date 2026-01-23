@@ -21,14 +21,17 @@ Fetch PR comments from Azure DevOps and assess each against the current codebase
 ### 1. Pre-flight Checks
 
 **Uncommitted changes:**
+
 ```bash
 git status --porcelain
 ```
+
 If output non-empty → **WARN**: "Uncommitted changes detected. Comments assessment may not reflect your latest work."
 
 ### 2. Determine PR ID
 
 Priority:
+
 1. If `$ARGUMENTS` contains a number → use it
 2. Try auto-detect from current branch:
    ```bash
@@ -64,6 +67,7 @@ az devops invoke \
 ### 5. Parse Comments
 
 Extract code comments (threads with file context):
+
 ```bash
 jq '[.value[] | select(.threadContext.filePath) | select(.status != "closed") | {
   id: .id,
