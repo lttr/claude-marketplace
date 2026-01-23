@@ -96,28 +96,28 @@ For each active/pending comment:
 ### 7. Output Summary
 
 ```
-## PR #<id> Comment Assessment
+## PR #<id> Comments
+<warnings section only if any>
 
-**Branch:** <current-branch>
-**Warnings:** <any warnings from pre-flight>
+### Comments
 
-### Active Comments (<count>)
+<status-emoji> **<file-path>:<line>** (<author>)
+> <comment-text>
+<your-assessment in 1-2 sentences>
 
-#### <file-path>:<line> - <status-emoji> <status>
-**Author:** <author>
-**Comment:** <comment-text>
-**Assessment:** <your-assessment>
+[repeat for each comment]
 
 ---
 
-### Summary
-- Addressed: X
-- Partially addressed: X
-- Not addressed: X
-- Unable to assess: X
+**Totals:** ✅ X addressed · 🔄 X partial · ❌ X pending · ❓ X unclear
 
-### Recommended Actions
-<List any comments that need attention>
+### Proposed Answers
+
+For each unaddressed or partially addressed comment, suggest a reply:
+
+**<file-path>:<line>**
+> Suggested reply: <brief response explaining what was done, or asking for clarification, or explaining why the original approach was kept>
+
 ```
 
 ## Notes
