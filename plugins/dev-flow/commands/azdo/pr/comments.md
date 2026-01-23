@@ -118,3 +118,24 @@ For each active/pending comment:
 - Only assesses **active** threads (skips closed/resolved)
 - Line numbers may shift - look for nearby context if exact line doesn't match
 - Use `az devops invoke` for threads API (not directly exposed in `az repos pr`)
+
+## Posting Reply (if user requests)
+
+```bash
+az devops invoke \
+  --area git \
+  --resource pullRequestThreadComments \
+  --route-parameters \
+    project=ecommerce-operations \
+    repositoryId=drmax-nsf-global \
+    pullRequestId=<PR_ID> \
+    threadId=<THREAD_ID> \
+  --http-method POST \
+  --in-file <(cat <<'EOF'
+{"content": "<reply-content>"}
+EOF
+) \
+  -o json
+```
+
+**Verify success:** Check response contains `"id":` field with a comment ID number. Do NOT retry if first attempt returns valid JSON with an ID — that means it succeeded.
