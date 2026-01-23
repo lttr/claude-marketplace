@@ -92,7 +92,7 @@ For each active/pending comment:
    - ❓ **Unable to assess** - File deleted, heavily refactored, or comment unclear
 
 4. **Provide brief assessment** - What changed (or didn't) and whether it addresses the feedback
-5. **Draft reply** (for unaddressed/partial) - Concise, polite response explaining what was done or rationale
+5. **Draft reply** (for unaddressed/partial) - Clear, direct explanation (no hollow praise)
 
 ### 7. Output Summary
 
