@@ -92,6 +92,7 @@ For each active/pending comment:
    - ❓ **Unable to assess** - File deleted, heavily refactored, or comment unclear
 
 4. **Provide brief assessment** - What changed (or didn't) and whether it addresses the feedback
+5. **Draft reply** (for unaddressed/partial) - Concise, polite response explaining what was done or rationale
 
 ### 7. Output Summary
 
@@ -103,20 +104,12 @@ For each active/pending comment:
 
 <status-emoji> **<file-path>:<line>** (<author>)
 > <comment-text>
-<your-assessment in 1-2 sentences>
-
-[repeat for each comment]
+<assessment in 1-2 sentences>
+**Reply:** <proposed reply if unaddressed/partial>
 
 ---
 
 **Totals:** ✅ X addressed · 🔄 X partial · ❌ X pending · ❓ X unclear
-
-### Proposed Answers
-
-For each unaddressed or partially addressed comment, suggest a reply:
-
-**<file-path>:<line>**
-> Suggested reply: <brief response explaining what was done, or asking for clarification, or explaining why the original approach was kept>
 
 ```
 
