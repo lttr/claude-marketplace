@@ -29,15 +29,21 @@ if (args.includes("--help") || args.includes("-h")) {
   console.log("Options:")
   console.log("  --url URL       Navigate to URL and exit after hydration")
   console.log("  --no-exit       With --url: keep streaming after load")
-  console.log("  --wait MS       Wait time after load for late logs (default: 3000)")
+  console.log(
+    "  --wait MS       Wait time after load for late logs (default: 3000)",
+  )
   console.log(
     "  --level LEVELS  Filter: log,warn,error,info,debug (comma-separated)",
   )
   console.log("")
   console.log("Examples:")
   console.log("  browser-console                    # Stream until Ctrl+C")
-  console.log("  browser-console --url http://...   # Capture page load + hydration")
-  console.log("  browser-console --url http://... --wait 3000  # Wait 3s for slow apps")
+  console.log(
+    "  browser-console --url http://...   # Capture page load + hydration",
+  )
+  console.log(
+    "  browser-console --url http://... --wait 3000  # Wait 3s for slow apps",
+  )
   console.log("  browser-console --level error      # Stream errors only")
   process.exit(0)
 }
