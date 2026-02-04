@@ -18,6 +18,8 @@ const levelFilter = levelIdx !== -1 ? args[levelIdx + 1]?.split(",") : null
 const urlIdx = args.indexOf("--url")
 const targetUrl = urlIdx !== -1 ? args[urlIdx + 1] : null
 const noExit = args.includes("--no-exit")
+const waitIdx = args.indexOf("--wait")
+const waitMs = waitIdx !== -1 ? parseInt(args[waitIdx + 1], 10) || 3000 : 3000
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log("Usage: browser-console [options]")
@@ -25,15 +27,17 @@ if (args.includes("--help") || args.includes("-h")) {
   console.log("Capture console logs from Chrome DevTools.")
   console.log("")
   console.log("Options:")
-  console.log("  --url URL       Navigate to URL and exit after page load")
+  console.log("  --url URL       Navigate to URL and exit after hydration")
   console.log("  --no-exit       With --url: keep streaming after load")
+  console.log("  --wait MS       Wait time after load for late logs (default: 3000)")
   console.log(
     "  --level LEVELS  Filter: log,warn,error,info,debug (comma-separated)",
   )
   console.log("")
   console.log("Examples:")
   console.log("  browser-console                    # Stream until Ctrl+C")
-  console.log("  browser-console --url http://...   # Capture page load logs")
+  console.log("  browser-console --url http://...   # Capture page load + hydration")
+  console.log("  browser-console --url http://... --wait 3000  # Wait 3s for slow apps")
   console.log("  browser-console --level error      # Stream errors only")
   process.exit(0)
 }
@@ -173,8 +177,11 @@ p.on("pageerror", (err) => {
 })
 
 if (targetUrl) {
-  // Navigate mode - capture logs during navigation
-  await p.goto(targetUrl, { waitUntil: "load" })
+  // Navigate mode - capture logs during navigation + hydration
+  await p.goto(targetUrl, { waitUntil: "networkidle2" })
+
+  // Wait for late console messages (Vue hydration, framework init, etc.)
+  await new Promise((r) => setTimeout(r, waitMs))
 
   if (noExit) {
     // Keep streaming after load
