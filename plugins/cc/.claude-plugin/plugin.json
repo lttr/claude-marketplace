@@ -1,6 +1,6 @@
 {
   "name": "cc",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",
   "author": {
     "name": "Lukas Trumm"
