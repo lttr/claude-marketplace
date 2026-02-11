@@ -20,20 +20,27 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 
 **Introspection (`/cc:list:*`):**
 
-- `/cc:list:builtin-commands` - List all built-in Claude Code slash commands
-- `/cc:list:builtin-agents` - List all Task tool subagent types
 - `/cc:list:builtin-tools` - List all built-in tools
-- `/cc:list:custom-commands` - ~~Deprecated~~ (use `/skills` instead)
-- `/cc:list:custom-agents` - List custom agents
-- `/cc:list:custom-skills` - List available skills
-- `/cc:list:mcp-tools` - List MCP server tools
 - `/cc:list:hooks` - List configured hooks
-- `/cc:list:plugins` - List installed plugins
-- `/cc:list:memory` - List memory files
 
 **Authoring (`/cc:command:*`):**
 
 - `/cc:command:create` - Create a new custom Claude Code command
+
+### Deprecated Commands
+
+The following commands were removed in favor of native Claude Code alternatives:
+
+| Removed command | Use instead |
+|---|---|
+| `/cc:list:builtin-commands` | `/help` |
+| `/cc:list:custom-commands` | `/skills` |
+| `/cc:list:custom-skills` | `/skills` |
+| `/cc:list:builtin-agents` | `/agents` |
+| `/cc:list:custom-agents` | `/agents` |
+| `/cc:list:mcp-tools` | `/mcp` |
+| `/cc:list:memory` | `/memory` |
+| `/cc:list:plugins` | `/plugin` |
 
 ## Usage
 

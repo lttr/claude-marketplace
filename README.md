@@ -18,7 +18,8 @@ Claude Code authoring tools: create plugins, skills, commands, and introspect Cl
 
 - `plugin-creator` skill - Create and manage plugins with proper structure
 - `skill-creator` skill - Guide for creating effective skills
-- `/cc:list:*` commands - Introspect built-in tools, agents, commands, hooks, memory
+- `/cc:list:builtin-tools` - List built-in tools
+- `/cc:list:hooks` - List configured hooks
 - `/cc:command:create` - Create new custom commands
 
 **Installation:**
