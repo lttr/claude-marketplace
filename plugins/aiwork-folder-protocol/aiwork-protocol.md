@@ -52,30 +52,37 @@ Datetime prefix on files is optional when the task is short-lived. A folder with
 All phases are optional. Use only what the task needs. Recommended sections listed below are guidelines, not requirements.
 
 ### triage
+
 Requirement analysis - what is the problem, what do we know.
 Sections: Summary, Analysis, Dependencies, Completeness %, Blocker Questions
 
 ### research
+
 Knowledge gathering - exploring codebase, reading docs, understanding constraints.
 Sections: Findings, Key Decisions, Open Questions
 
 ### spec
+
 Implementation specification - what exactly are we building.
 Sections: Summary, Decisions table, Scope (in/out), Implementation, Acceptance Criteria
 
 ### plan
+
 Implementation steps - how to build it, in actionable chunks. Multiple plans allowed for phased work.
 Sections: Goal, Steps (numbered), Unresolved Questions
 
 ### review
+
 Code review report.
 Sections: Summary, Critical/Important Issues, Recommendation (approve|changes-requested)
 
 ### notes
+
 Process information, findings, decisions, or other useful context gained during implementation.
 Freeform structure.
 
 ### docs/
+
 Subfolder for downloaded external documentation relevant to the task.
 
 ## Frontmatter
@@ -84,7 +91,7 @@ Subfolder for downloaded external documentation relevant to the task.
 ---
 status: draft|active|complete|superseded
 ticket: #123456                    # if applicable
-references:                        # external references
+references: # external references
   - https://docs.example.com/auth
 ---
 ```

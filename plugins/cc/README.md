@@ -31,16 +31,16 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 
 The following commands were removed in favor of native Claude Code alternatives:
 
-| Removed command | Use instead |
-|---|---|
-| `/cc:list:builtin-commands` | `/help` |
-| `/cc:list:custom-commands` | `/skills` |
-| `/cc:list:custom-skills` | `/skills` |
-| `/cc:list:builtin-agents` | `/agents` |
-| `/cc:list:custom-agents` | `/agents` |
-| `/cc:list:mcp-tools` | `/mcp` |
-| `/cc:list:memory` | `/memory` |
-| `/cc:list:plugins` | `/plugin` |
+| Removed command             | Use instead |
+| --------------------------- | ----------- |
+| `/cc:list:builtin-commands` | `/help`     |
+| `/cc:list:custom-commands`  | `/skills`   |
+| `/cc:list:custom-skills`    | `/skills`   |
+| `/cc:list:builtin-agents`   | `/agents`   |
+| `/cc:list:custom-agents`    | `/agents`   |
+| `/cc:list:mcp-tools`        | `/mcp`      |
+| `/cc:list:memory`           | `/memory`   |
+| `/cc:list:plugins`          | `/plugin`   |
 
 ## Usage
 
