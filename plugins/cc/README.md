@@ -23,7 +23,7 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 - `/cc:list:builtin-commands` - List all built-in Claude Code slash commands
 - `/cc:list:builtin-agents` - List all Task tool subagent types
 - `/cc:list:builtin-tools` - List all built-in tools
-- `/cc:list:custom-commands` - List available custom commands
+- `/cc:list:custom-commands` - ~~Deprecated~~ (use `/skills` instead)
 - `/cc:list:custom-agents` - List custom agents
 - `/cc:list:custom-skills` - List available skills
 - `/cc:list:mcp-tools` - List MCP server tools

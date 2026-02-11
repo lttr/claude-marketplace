@@ -77,7 +77,7 @@
       "name": "cc",
       "source": "./plugins/cc",
       "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "author": {
         "name": "Lukas Trumm"
       },
