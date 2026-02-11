@@ -1,16 +1,20 @@
 # aiwork-folder-protocol
 
-`.aiwork/` is a repository-local folder for AI-related work. This protocol standardizes how artifacts are organized within each repository.
+`.aiwork/` is a repository-local folder for AI-related work artifacts, organized by feature or task.
 
 ## What it provides
 
-A consistent convention for storing and naming:
+A consistent convention for organizing AI work artifacts per task:
 
-- **plans/** - Implementation plans
-- **specs/** - Task specifications
-- **triage/** - Requirement analysis
-- **reviews/** - Code review reports
-- **logs/** - Action logs
+- **triage** - Requirement analysis
+- **research** - Knowledge gathering
+- **spec** - Implementation specification
+- **plan** - Implementation steps (multiple allowed)
+- **review** - Code review reports
+- **notes** - Freeform process notes
+- **docs/** - Downloaded reference documentation
+
+Each task gets its own dated folder (e.g., `2026-01-27_auth-refactor/`) with artifacts created sequentially inside.
 
 ## Installation
 
