@@ -20,9 +20,10 @@ dev-flow/
 │   │   └── dashboard/    # Interactive visualization
 │   │       ├── generate.ts       # Deno dashboard generator
 │   │       └── template.html     # Dashboard HTML template
-│   └── sources/
-│       └── az-cli/       # Azure-specific - CLI command reference
-│           └── references/
+│   ├── azdo-pr-comments/ # Azure-specific - PR thread management
+│   ├── code-review/      # Generic - code review methodology
+│   └── az-cli/           # Azure-specific - CLI command reference
+│       └── references/
 │
 └── commands/df/          # /df:* namespace
     ├── triage.md         # Generic - manual input triage
@@ -46,7 +47,9 @@ dev-flow/
 | `skills/triage/`                            | Generic        | Local codebase only                 |
 | `skills/spec/`                              | Generic        | Triage output + codebase            |
 | `skills/insights/`                          | Hybrid         | Azure + Git + Confluence (optional) |
-| `skills/sources/az-cli/`                    | Azure-specific | Azure DevOps CLI                    |
+| `skills/azdo-pr-comments/`                  | Azure-specific | Azure DevOps PR threads API         |
+| `skills/code-review/`                       | Generic        | Local codebase                      |
+| `skills/az-cli/`                            | Azure-specific | Azure DevOps CLI                    |
 | `skills/insights/collectors/git-commits.js` | Generic        | Local git                           |
 | `skills/insights/collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |
 | `/df:triage`                                | Generic        | Local codebase                      |
