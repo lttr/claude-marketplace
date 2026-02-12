@@ -61,6 +61,6 @@ Invoke `df:code-review` skill with:
 ## Notes
 
 - Uses `az repos pr` commands (requires azure-devops CLI extension)
-- Does NOT post comments - output is for your review only
-- To post feedback: `az repos pr create-comment --id <pr-id> --content "..."`
+- Does NOT post comments automatically - output is for your review only
+- To post comments on specific files/lines, the `df:azdo-pr-comments` skill has the API reference
 - For local branch review, use `/df:review` instead
