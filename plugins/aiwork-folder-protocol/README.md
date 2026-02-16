@@ -8,13 +8,14 @@ A consistent convention for organizing AI work artifacts per task:
 
 - **triage** - Requirement analysis
 - **research** - Knowledge gathering
-- **spec** - Implementation specification
-- **plan** - Implementation steps (multiple allowed)
+- **prd** - Product requirements, user stories, success criteria
+- **spec** - Technical specification, architecture decisions
+- **plan** - Implementation steps (typical output of Plan mode)
 - **review** - Code review reports
-- **notes** - Freeform process notes
+- **notes** - Findings, decisions, context from implementation
 - **docs/** - Downloaded reference documentation
 
-Each task gets its own dated folder (e.g., `2026-01-27_auth-refactor/`) with artifacts created sequentially inside.
+Each task gets its own dated folder (e.g., `2026-01-27_auth-refactor/`) with simple file names (`spec.md`, `plan.md`, `plan_2.md`).
 
 ## Installation
 
