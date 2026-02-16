@@ -94,7 +94,7 @@
       "name": "aiwork-folder-protocol",
       "source": "./plugins/aiwork-folder-protocol",
       "description": "Standardizes .aiwork/ artifact organization by task with sequential artifact creation, naming conventions, and frontmatter",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Lukas Trumm"
       },
