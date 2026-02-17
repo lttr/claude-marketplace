@@ -1,6 +1,6 @@
 {
   "name": "aiwork-folder-protocol",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": ".aiwork/ is a folder for AI-related work artifacts, organized by feature or task with sequential artifact creation",
   "author": {
     "name": "Lukas Trumm",
