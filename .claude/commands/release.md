@@ -1,6 +1,6 @@
 ---
 description: Format, bump version, commit and push plugin release
-allowed-tools: Read, Edit, Bash(prettier --write .:*), Bash(git log:*), Bash(git diff:*), Bash(git status:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Glob
+allowed-tools: Read, Edit, Bash(git log:*), Bash(git diff:*), Bash(git status:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Glob
 ---
 
 # Release Command
@@ -8,15 +8,13 @@ allowed-tools: Read, Edit, Bash(prettier --write .:*), Bash(git log:*), Bash(git
 Automate plugin release workflow:
 
 1. **Check for uncommitted changes** - if any exist, STOP and warn user to commit first
-2. Run `prettier --write .` to format all files
-3. **If prettier modified files** - commit them as `style: format with prettier`
-4. Detect which plugin was modified since last version bump commit
-5. Bump version (minor) in both:
+2. Detect which plugin was modified since last version bump commit
+3. Bump version (minor) in both:
    - `plugins/<plugin-name>/.claude-plugin/plugin.json`
    - `.claude-plugin/marketplace.json` (matching entry)
-6. **Update README.md** - sync plugin descriptions, version numbers, and feature lists with current state
-7. Commit version bump with conventional commit message
-8. Push to remote
+4. **Update README.md** - sync plugin descriptions, version numbers, and feature lists with current state
+5. Commit version bump with conventional commit message
+6. Push to remote
 
 ## Safety: Uncommitted Changes
 
