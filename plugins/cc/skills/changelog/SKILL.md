@@ -67,6 +67,7 @@ Only run this AFTER the changelog summary is fully rendered. Never run it if the
 When `systemPromptDiff.prompt` or `systemPromptDiff.flags` is non-null, summarize the unified diff into actionable bullet points. Categorize changes:
 
 **Prompt changes** - summarize each meaningful hunk as one bullet:
+
 - New sections/blocks added (e.g. "New `currentDate` context block added")
 - Instructions changed (e.g. "Auto memory guidelines expanded with what to/not to save")
 - Tool schema changes (e.g. "AskUserQuestion got `markdown` preview field")
@@ -74,6 +75,7 @@ When `systemPromptDiff.prompt` or `systemPromptDiff.flags` is non-null, summariz
 - Removed content (e.g. "Agent Teams 'not available' disclaimer removed")
 
 **Flag changes** - list added/removed flags:
+
 - Added: `flag_name`
 - Removed: `flag_name`
 
