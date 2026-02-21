@@ -15,6 +15,7 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 
 - **plugin-creator** - Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration
 - **skill-creator** - Guide for creating effective skills that extend Claude's capabilities
+- **changelog** - Show recent Claude Code changes, scored by relevance to your installed skills, commands, and usage patterns
 
 ### Commands
 
