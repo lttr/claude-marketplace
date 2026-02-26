@@ -67,12 +67,14 @@ With all gathered context (ticket + Confluence + codebase), apply the triage met
 ### 6. Write Output
 
 ```bash
-mkdir -p ./.aiwork/triage
+mkdir -p ./.aiwork/{date}_{slug}
 ```
 
-Save to `./.aiwork/triage/<ticket-id>-<slugified-title>.md`
+Save to `./.aiwork/{date}_{slug}/triage.md`
 
-Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
+Where `{date}` = `YYYY-MM-DD`, `{slug}` = `<ticket-id>-<slugified-title>` (lowercase, spaces→hyphens, remove special chars, max 40 chars).
+
+If a task folder already exists for this ticket (search `.aiwork/` for matching folders by ticket ID), place the file there.
 
 ### 7. Summary
 

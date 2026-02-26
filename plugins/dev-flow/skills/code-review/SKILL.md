@@ -379,13 +379,14 @@ Output: { "score": 75, "reasoning": "..." }
 
 ### Save to File
 
-After generating the review, save it to `.aiwork/reviews/`:
+**Output location:** If the project defines an `.aiwork/` folder protocol (e.g., naming conventions, frontmatter, folder structure), follow that protocol. Otherwise use these defaults:
 
-1. Create directory if needed: `mkdir -p .aiwork/reviews`
-2. Generate timestamp: `date +%Y-%m-%d_%H-%M`
-3. Save as: `.aiwork/reviews/{timestamp}_{branch-name}.md`
-   - Example: `.aiwork/reviews/2025-01-15_14-30_feature-auth.md`
-4. Confirm save location to user
+1. Generate date and slug: `YYYY-MM-DD` + branch name slugified (max 40 chars)
+2. Create directory: `mkdir -p .aiwork/{date}_{slug}`
+3. Save as: `.aiwork/{date}_{slug}/review.md`
+   - Example: `.aiwork/2025-01-15_feature-auth/review.md`
+4. If a task folder already exists for this branch/feature, place `review.md` there instead
+5. Confirm save location to user
 
 ---
 

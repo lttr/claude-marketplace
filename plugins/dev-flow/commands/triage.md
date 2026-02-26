@@ -41,12 +41,14 @@ No external ticket system or documentation system - analyze against local codeba
 ### 4. Write Output
 
 ```bash
-mkdir -p ./.aiwork/triage
+mkdir -p ./.aiwork/{date}_{slug}
 ```
 
-Save to `./.aiwork/triage/<slugified-title>.md`
+Save to `./.aiwork/{date}_{slug}/triage.md`
 
-Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
+Where `{date}` = `YYYY-MM-DD`, `{slug}` = slugified title (lowercase, spaces→hyphens, remove special chars, max 40 chars).
+
+If a task folder already exists for this topic (search `.aiwork/` for matching folders), place the file there.
 
 ### 5. Summary
 

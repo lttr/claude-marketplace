@@ -15,8 +15,9 @@ Generate an implementation specification from triage output. The user provides a
 
 Expect one of:
 
-- **Triage file path** - e.g., `.aiwork/triage/auth-refactor.md`
-- **Ticket ID** - Locate triage at `.aiwork/triage/*<ticket-id>*.md`
+- **Triage file path** - e.g., `.aiwork/2026-01-15_auth-refactor/triage.md`
+- **Ticket ID** - Search `.aiwork/*<ticket-id>*/triage.md`
+- **Slug match** - Search `.aiwork/*<slug>*/triage.md`
 - **No argument** - Ask user to specify or list recent triage files
 
 If `$ARGUMENTS` provided, use it. Otherwise, prompt user.
@@ -33,10 +34,12 @@ Apply the spec methodology from `skills/spec/SKILL.md`:
 ### 3. Write Output
 
 ```bash
-mkdir -p ./.aiwork/specs
+mkdir -p ./.aiwork/{date}_{slug}
 ```
 
-Save to `./.aiwork/specs/<ticket-id>-<slugified-title>.md`
+Save to `./.aiwork/{date}_{slug}/spec.md`
+
+If a task folder already exists (from triage or otherwise), place `spec.md` there.
 
 ### 4. Summary
 

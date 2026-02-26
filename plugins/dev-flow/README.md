@@ -99,14 +99,16 @@ dev-flow/
 
 ## .aiwork/ Output
 
-Dev-flow saves artifacts to `.aiwork/` directories:
+Dev-flow saves artifacts to per-task folders in `.aiwork/`:
 
-| Folder             | Content              |
-| ------------------ | -------------------- |
-| `.aiwork/triage/`  | Requirement analysis |
-| `.aiwork/specs/`   | Implementation specs |
-| `.aiwork/reviews/` | Code review reports  |
+```
+.aiwork/
+  2026-01-15_auth-refactor/
+    triage.md
+    spec.md
+    review.md
+```
 
-**Works without configuration** - directories created automatically.
+Each task gets a folder named `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (spec after triage, review) are placed in the same task folder when one exists.
 
-**For full conventions** (naming, frontmatter, cross-references), install [aiwork-folder-protocol](../aiwork-folder-protocol). Without it, files are saved but naming/organization guidance is missing.
+**Works without configuration** - directories created automatically. If the project defines an `.aiwork/` folder protocol (naming, frontmatter, structure), dev-flow follows it.

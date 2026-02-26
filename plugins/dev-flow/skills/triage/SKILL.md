@@ -99,18 +99,22 @@ Only questions the user couldn't answer go to the output file for stakeholder fo
 
 ### 6. Write Output
 
+**Output location:** If the project defines an `.aiwork/` folder protocol (e.g., naming conventions, frontmatter, folder structure), follow that protocol. Otherwise use these defaults:
+
 ```bash
-mkdir -p ./.aiwork/triage
+mkdir -p ./.aiwork/{date}_{slug}
 ```
 
-Save to `./.aiwork/triage/<identifier>.md`
+Save to `./.aiwork/{date}_{slug}/triage.md`
 
-Naming:
+Where:
 
-- With ticket ID: `<ticket-id>-<slugified-title>.md`
-- Without ticket ID: `<slugified-title>.md`
+- `{date}` = current date as `YYYY-MM-DD`
+- `{slug}` = with ticket ID: `<ticket-id>-<slugified-title>`, without: `<slugified-title>`
 
-Slugify: lowercase, spaces→hyphens, remove special chars, max 50 chars.
+Slugify: lowercase, spaces→hyphens, remove special chars, max 40 chars.
+
+If a task folder already exists for this ticket/slug (search `.aiwork/` for matching folders), place the file there instead of creating a new one.
 
 ## Output Format
 

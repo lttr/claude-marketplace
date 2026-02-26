@@ -13,9 +13,9 @@ Transform triage output and user decisions into a detailed implementation specif
 
 The skill expects one of:
 
-- **Triage file path** - Read from `.aiwork/triage/<ticket>.md`
-- **Ticket ID** - Fetch from Azure DevOps, then locate or create triage
-- **Continue from triage** - Use context from just-completed triage session
+- **Triage file path** - Read from `.aiwork/*/triage.md` (any task folder)
+- **Ticket ID** - Search `.aiwork/*<ticket-id>*/triage.md`, or fetch from Azure DevOps
+- **Continue from triage** - Use context and task folder from just-completed triage session
 
 Extract from triage:
 
@@ -67,7 +67,16 @@ If not already done in triage, use Explore agent to gather:
 
 ### 4. Generate Spec
 
-Write to `.aiwork/specs/<ticket-id>-<slugified-title>.md`
+**Output location:** If the project defines an `.aiwork/` folder protocol (e.g., naming conventions, frontmatter, folder structure), follow that protocol. Otherwise use these defaults:
+
+Write to `.aiwork/{date}_{slug}/spec.md`
+
+Where:
+
+- `{date}` = current date as `YYYY-MM-DD`
+- `{slug}` = with ticket ID: `<ticket-id>-<slugified-title>`, without: `<slugified-title>`
+
+If a task folder already exists (from triage or otherwise), place `spec.md` in the same folder.
 
 Use the template from `assets/spec-template.md`.
 
