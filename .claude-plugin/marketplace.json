@@ -20,7 +20,7 @@
       "name": "browser-tools",
       "source": "./plugins/browser-tools",
       "description": "Chrome automation tools for agent-assisted web testing and interaction using Chrome DevTools Protocol",
-      "version": "1.6.0",
+      "version": "1.6.1",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -38,7 +38,7 @@
       "name": "video-to-article",
       "source": "./plugins/video-to-article",
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
-      "version": "1.6.5",
+      "version": "1.6.6",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -56,7 +56,7 @@
       "name": "dev-flow",
       "source": "./plugins/dev-flow",
       "description": "Developer workflow automation: triage requirements, generate specs, code review, activity insights, and manage Azure DevOps workflows with Confluence integration",
-      "version": "1.23.0",
+      "version": "1.23.1",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -77,7 +77,7 @@
       "name": "cc",
       "source": "./plugins/cc",
       "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "author": {
         "name": "Lukas Trumm"
       },
