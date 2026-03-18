@@ -173,16 +173,18 @@ After modifying a plugin:
 
 When skills or commands need to reference scripts, templates, or other files within the plugin:
 
-- **Use `${CLAUDE_PLUGIN_ROOT}`** - This resolves to the specific plugin's root directory at runtime
-- **Full path from plugin root** - Include the complete path: `${CLAUDE_PLUGIN_ROOT}/skills/skill-name/scripts/foo.sh`
+- **Prefer `${CLAUDE_SKILL_DIR}`** for files within the skill's own directory (scripts, references, assets, templates)
+- **Use `${CLAUDE_PLUGIN_ROOT}`** only for files outside the skill's directory (other skills, shared plugin resources)
 - **Never use relative paths** - Paths like `./scripts/` or `collectors/` won't resolve correctly
-- **Never use `$PLUGIN_DIR` or `$SKILL_DIR`** - These are not real variables
 
 Example:
 
 ```bash
-# Correct
-node ${CLAUDE_PLUGIN_ROOT}/skills/insights/collectors/azure-prs.js --days 7
+# Best - skill referencing its own files
+node ${CLAUDE_SKILL_DIR}/collectors/azure-prs.js --days 7
+
+# OK - referencing another skill's files
+node ${CLAUDE_PLUGIN_ROOT}/skills/other-skill/scripts/helper.js
 
 # Wrong - relative path won't work
 node collectors/azure-prs.js --days 7

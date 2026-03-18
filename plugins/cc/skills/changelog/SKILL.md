@@ -13,13 +13,13 @@ Show recent Claude Code changes, scored by relevance to the user's installed ski
 1. Run the data collection script:
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/skills/changelog/scripts/cc-changelog.ts 2>/dev/null
+${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts 2>/dev/null
 ```
 
 To force a date-based lookback (ignoring lastVersion state), pass `--lookback-days=N`:
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/skills/changelog/scripts/cc-changelog.ts --lookback-days=14 2>/dev/null
+${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts --lookback-days=14 2>/dev/null
 ```
 
 Use `--lookback-days` when the user asks for changes from a specific time period (e.g. "last 14 days", "last week" = 7 days).
@@ -57,7 +57,7 @@ Use `--lookback-days` when the user asks for changes from a specific time period
 4. **After presenting results to the user**, advance the watermark so the same changes aren't shown again:
 
 ```bash
-${CLAUDE_PLUGIN_ROOT}/skills/changelog/scripts/cc-changelog-advance.ts 2>/dev/null
+${CLAUDE_SKILL_DIR}/scripts/cc-changelog-advance.ts 2>/dev/null
 ```
 
 Only run this AFTER the changelog summary is fully rendered. Never run it if the versions array was empty.

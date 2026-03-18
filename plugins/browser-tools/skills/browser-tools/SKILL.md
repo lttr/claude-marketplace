@@ -24,7 +24,7 @@ When user asks to test, verify, or interact with web pages using browser tools:
 
 ## Available Scripts
 
-All scripts located in `skills/browser-tools/scripts/`:
+All scripts located in `${CLAUDE_SKILL_DIR}/scripts/`:
 
 ### browser-start
 

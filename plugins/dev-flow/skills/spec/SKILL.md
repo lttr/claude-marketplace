@@ -78,7 +78,7 @@ Where:
 
 If a task folder already exists (from triage or otherwise), place `spec.md` in the same folder.
 
-Use the template from `assets/spec-template.md`.
+Use the template from `${CLAUDE_SKILL_DIR}/assets/spec-template.md`.
 
 ## Question Templates
 

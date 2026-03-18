@@ -141,7 +141,7 @@ Add `scripts/` when:
 
 Scripts save tokens and improve reliability vs regenerating code each time.
 
-**Path resolution:** For plugin skills, reference scripts with `${CLAUDE_PLUGIN_ROOT}/skills/skill-name/scripts/helper.js` (relative paths won't resolve). For global/project skills, relative paths work fine.
+**Path resolution:** For plugin skills, reference scripts with `${CLAUDE_SKILL_DIR}/scripts/helper.js` (relative paths won't resolve). Use `${CLAUDE_PLUGIN_ROOT}` only when referencing files outside the skill's own directory. For global/project skills, relative paths work fine.
 
 ## When to Split Files
 

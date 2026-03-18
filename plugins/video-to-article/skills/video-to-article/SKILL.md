@@ -71,7 +71,7 @@ Ask user if they have a YouTube URL using AskUserQuestion tool:
 ### Download from YouTube (if URL provided)
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/download-youtube.sh <youtube-url>
+bash ${CLAUDE_SKILL_DIR}/scripts/download-youtube.sh <youtube-url>
 ```
 
 This downloads the video as `video.mp4` in medium quality (720p max).
@@ -92,7 +92,7 @@ Check if `audio.mp3` already exists. If not:
 Run the extract-audio.sh script using the plugin root variable:
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/extract-audio.sh <video-file>
+bash ${CLAUDE_SKILL_DIR}/scripts/extract-audio.sh <video-file>
 ```
 
 This creates `audio.mp3` in the current directory.
@@ -108,7 +108,7 @@ Convert the `lang` field from README.md to the appropriate ISO 639-1 language co
 ### Run Transcription
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/video-to-article/scripts/transcribe-audio.sh <language-code>
+bash ${CLAUDE_SKILL_DIR}/scripts/transcribe-audio.sh <language-code>
 ```
 
 ## Step 5: Generate Text Outputs
