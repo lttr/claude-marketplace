@@ -138,6 +138,14 @@ Use one of these alternatives instead:
 - [`playwright-cli`](https://playwright.dev/docs/test-cli) skill - full-featured browser automation via Playwright
 - An `agent-browser` style MCP/skill solution
 
+**Migration checklist** (if you were using `browser-tools`):
+
+- Uninstall the plugin: `/plugin uninstall browser-tools@lttr-claude-marketplace`
+- Remove any `browser-tools` references from your global `~/.claude/CLAUDE.md` (or project `CLAUDE.md`) and point them at your replacement skill. Common places to check:
+  - "Browser Usage" guidance that tells Claude to load `browser-tools` for UI testing, debugging, screenshots, or render verification
+  - "Element picking" instructions that reference the `browser-pick` tool (e.g. "when I say 'let me pick an element'…")
+- If `/tmp/chrome-profile-browser-tools` exists (created when running with `--profile`), remove it: `trash-put /tmp/chrome-profile-browser-tools`
+
 ## For Plugin Developers
 
 To add your plugin to this marketplace:

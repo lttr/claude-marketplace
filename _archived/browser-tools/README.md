@@ -2,6 +2,15 @@
 
 > **Deprecated and archived.** This plugin is no longer listed in the `lttr-claude-marketplace` and is kept here for historical reference only. Use the `playwright-cli` skill or an `agent-browser`-style solution instead.
 
+## Why this existed
+
+Built before Claude Code had CLI-based browser skills like `playwright-cli`. The goal was low-token browser interaction inside Claude Code: a handful of focused shell scripts instead of 20+ MCP tools, so the model could drive a browser without blowing the context window.
+
+## Why it was deprecated
+
+- **Flaky installation.** The `/browser-tools:setup` step (npm dependencies + global symlinks) had to be re-run periodically — dependencies would go missing or the setup would drift, and the plugin would stop working until reinstalled.
+- **Better alternatives now exist.** `playwright-cli` and similar skills give the same low-token, CLI-driven browser control with a much more robust stack underneath.
+
 Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web testing, verification, and interaction without heavyweight MCP servers.
 
 ## Features
