@@ -1,4 +1,6 @@
-# Browser Tools Plugin
+# Browser Tools Plugin (DEPRECATED)
+
+> **Deprecated and archived.** This plugin is no longer listed in the `lttr-claude-marketplace` and is kept here for historical reference only. Use the `playwright-cli` skill or an `agent-browser`-style solution instead.
 
 Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web testing, verification, and interaction without heavyweight MCP servers.
 

@@ -17,24 +17,6 @@
       "category": "framework"
     },
     {
-      "name": "browser-tools",
-      "source": "./plugins/browser-tools",
-      "description": "Chrome automation tools for agent-assisted web testing and interaction using Chrome DevTools Protocol",
-      "version": "1.6.1",
-      "author": {
-        "name": "Lukas Trumm"
-      },
-      "keywords": [
-        "browser",
-        "chrome",
-        "automation",
-        "testing",
-        "puppeteer",
-        "devtools"
-      ],
-      "category": "productivity"
-    },
-    {
       "name": "video-to-article",
       "source": "./plugins/video-to-article",
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",

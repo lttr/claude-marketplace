@@ -4,12 +4,6 @@ I have extracted a couple of extensions for my Claude Code experience.
 
 ## Available Plugins
 
-### Browser Tools Plugin
-
-Chrome DevTools Protocol automation for agent-assisted web testing and interaction. Lightweight alternative to MCP-based browser tools.
-
-See [plugins/browser-tools/README.md](./plugins/browser-tools/README.md) for detailed documentation.
-
 ### CC Plugin
 
 Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals.
@@ -126,13 +120,23 @@ Or for local development:
 Select "Browse Plugins" to see available options, or install directly:
 
 ```shell
-/plugin install browser-tools@lttr-claude-marketplace
 /plugin install cc@lttr-claude-marketplace
 /plugin install dev-flow@lttr-claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
 /plugin install aiwork-folder-protocol@lttr-claude-marketplace
 ```
+
+## Deprecated Plugins
+
+### Browser Tools (archived)
+
+The `browser-tools` plugin has been deprecated and is no longer published through this marketplace. The source remains in [`_archived/browser-tools/`](./_archived/browser-tools) for reference.
+
+Use one of these alternatives instead:
+
+- [`playwright-cli`](https://playwright.dev/docs/test-cli) skill - full-featured browser automation via Playwright
+- An `agent-browser` style MCP/skill solution
 
 ## For Plugin Developers
 

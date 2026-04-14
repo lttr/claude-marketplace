@@ -9,10 +9,11 @@ This is a **Claude Code plugin marketplace** that hosts multiple plugins for dis
 **Available plugins:**
 
 - **nuxt** - Nuxt.js development guidance with Vue best practices
-- **browser-tools** - Chrome automation for web testing via DevTools Protocol
 - **video-to-article** - Convert lecture videos to transcripts and articles
 - **dev-flow** - Developer workflow automation (triage, insights, Azure DevOps, git)
 - **cc** - Claude Code authoring tools (plugins, skills, introspection)
+
+Deprecated plugins live under `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked.
 
 ## Repository Structure
 
@@ -22,10 +23,10 @@ claude-marketplace/
 │   └── marketplace.json     # Marketplace catalog listing all plugins
 ├── plugins/
 │   ├── nuxt/                # Nuxt.js development guidance
-│   ├── browser-tools/       # Chrome automation tools
 │   ├── video-to-article/    # Video transcription workflow
 │   ├── dev-flow/            # Developer workflow automation
 │   └── cc/                  # Claude Code authoring tools
+├── _archived/               # Deprecated plugins, not published
 └── README.md                # Marketplace-level README
 ```
 
