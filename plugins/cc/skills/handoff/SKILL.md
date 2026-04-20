@@ -1,6 +1,8 @@
 ---
-allowed-tools: Write, Read, Bash(git status:*), Bash(git log:*), Bash(git diff:*)
+name: cc:handoff
 description: Write ~/.claude/custom-handoff.md to hand off current work to the next session
+disable-model-invocation: true
+allowed-tools: Write, Read, Bash(git status:*), Bash(git log:*), Bash(git diff:*)
 ---
 
 Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) summarizing current work so the next Claude session can pick up where this one left off.

@@ -1,6 +1,8 @@
 ---
-allowed-tools: Bash
+name: cc:list:hooks
 description: List all configured hooks
+disable-model-invocation: true
+allowed-tools: Bash
 ---
 
 ## Context

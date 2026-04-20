@@ -5,6 +5,8 @@ description: This skill should be used when creating, modifying, or managing Cla
 
 # Plugin Creator
 
+Official docs: <https://code.claude.com/docs/en/plugins.md>, <https://code.claude.com/docs/en/plugins-reference.md>, <https://code.claude.com/docs/en/plugin-marketplaces.md>. Fetch when unsure about manifest schema, distribution, or recent features.
+
 ## Overview
 
 Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration. This skill provides workflows, automation scripts, and reference documentation for plugin development.
