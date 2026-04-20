@@ -28,6 +28,27 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 
 - `/cc:command:create` - Create a new custom Claude Code command
 
+**Session handoff:**
+
+Claude Code has no native, lightweight way to start a follow-up session. The existing options are both costly: describing a bespoke markdown artifact is slow to write and slow to re-read, and running `/compact` is token-heavy and often loses the original intent. `/cc:handoff` fills that gap with a fixed-shape, ~200-word note at a stable path, loaded in one line at the start of the next session.
+
+- `/cc:handoff` - Write `~/.claude/custom-handoff.md` so a fresh Claude session can resume current work. Load it in a new session with a custom script like this:
+
+  ```bash
+  #!/usr/bin/env bash
+  # clh: start claude with ~/.claude/custom-handoff.md as first prompt
+  set -euo pipefail
+
+  handoff="${HOME}/.claude/custom-handoff.md"
+
+  if [[ ! -s "$handoff" ]]; then
+    echo "clh: $handoff missing or empty" >&2
+    exit 1
+  fi
+
+  exec claude --dangerously-skip-permissions "$(<"$handoff")" "$@"
+  ```
+
 ### Deprecated Commands
 
 The following commands were removed in favor of native Claude Code alternatives:
