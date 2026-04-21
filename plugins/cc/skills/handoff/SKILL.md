@@ -2,10 +2,15 @@
 name: cc:handoff
 description: Write ~/.claude/custom-handoff.md to hand off current work to the next session
 disable-model-invocation: true
-allowed-tools: Write, Read, Bash(git status:*), Bash(git log:*), Bash(git diff:*)
+allowed-tools: Write, Bash(trash-put:*), Bash(git status:*), Bash(git log:*), Bash(git diff:*)
 ---
 
 Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) summarizing current work so the next Claude session can pick up where this one left off.
+
+## Steps
+
+1. Run `trash-put ~/.claude/custom-handoff.md 2>/dev/null || true` to remove any prior handoff (ignore error if file absent).
+2. Write fresh content per template. No merge, no preserve.
 
 ## Template
 
