@@ -85,6 +85,6 @@ Skip cosmetic changes (typo fixes, whitespace, path changes in test environments
 ## Notes
 
 - The script handles all data fetching, parsing, and relevance scoring
-- State is persisted at `~/.claude/cache/cc-changelog-state.json`
+- State is persisted at `~/.claude/custom-cache/cc-changelog-state.json`
 - First run uses a 14-day lookback window; subsequent runs check from last version
 - Requires `gh` CLI authenticated with GitHub

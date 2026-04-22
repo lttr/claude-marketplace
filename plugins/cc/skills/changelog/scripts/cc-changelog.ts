@@ -41,7 +41,7 @@ interface Output {
 
 // --- Config ---
 
-const STATE_PATH = `${Deno.env.get("HOME")}/.claude/cache/cc-changelog-state.json`
+const STATE_PATH = `${Deno.env.get("HOME")}/.claude/custom-cache/cc-changelog-state.json`
 const SKILLS_DIR = `${Deno.env.get("HOME")}/.claude/skills`
 const COMMANDS_DIR = `${Deno.env.get("HOME")}/.claude/commands`
 const SETTINGS_PATH = `${Deno.env.get("HOME")}/.claude/settings.json`
