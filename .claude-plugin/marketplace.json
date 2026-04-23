@@ -37,8 +37,8 @@
     {
       "name": "dev-flow",
       "source": "./plugins/dev-flow",
-      "description": "Developer workflow automation: triage requirements, generate specs, code review, activity insights, and manage Azure DevOps workflows with Confluence integration",
-      "version": "1.23.2",
+      "description": "Developer workflow automation as 8 NL-driven skills: triage, code-review, branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
+      "version": "3.0.0",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -50,8 +50,7 @@
         "confluence",
         "git",
         "workflow",
-        "commit",
-        "commitlint"
+        "pull-request"
       ],
       "category": "productivity"
     },
