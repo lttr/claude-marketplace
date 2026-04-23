@@ -1,176 +1,179 @@
 ---
-name: df:triage
-description: This skill should be used when the user wants to triage an issue, review a specification, or assess requirements completeness. Trigger when user mentions "triage", "review this spec", "is this requirement complete", "what questions should I ask", or provides a description/acceptance criteria that needs evaluation before implementation. The skill analyzes input against the codebase and project documentation to surface implicit requirements and generate clarifying questions.
+name: triage
+description: Triage requirements, specs, or tickets. Detect input (Azure DevOps ticket id/URL, pasted text, markdown path, or empty prompt). Explore codebase + docs, score completeness, ask clarifying questions, save markdown report. Trigger when user says "triage", "review this spec", "is this requirement complete", or provides a ticket/spec to assess.
 ---
 
 # Triage
 
-Analyze requirements, issues, or specifications for completeness. Explore the codebase to understand context, then generate targeted questions to fill gaps before implementation begins.
+Analyze requirements for completeness. Explore code + docs, surface gaps, ask clarifying questions, save report.
+
+## Input Detection
+
+Argument is `$ARGUMENTS`.
+
+| Form                                  | Source                          |
+| ------------------------------------- | ------------------------------- |
+| empty                                 | prompt user to paste / describe |
+| numeric (`12345`)                     | Azure DevOps work item id       |
+| URL containing `_workitems/edit/<id>` | Azure DevOps URL → extract id   |
+| path ending `.md`                     | local markdown spec file        |
+| anything else                         | treat as pasted text            |
+
+Ambiguous → ask. Do NOT guess.
 
 ## Workflow
 
-### 1. Receive and Parse Input
+### 1. Resolve input
 
-The user provides input as plain text - typically:
+#### empty
 
-- Issue descriptions
-- Acceptance criteria
-- Feature requests
-- Bug reports with reproduction steps
-- Stakeholder comments or requirements
+Prompt: "Paste requirements / spec text, or give a ticket id, URL, or .md path."
 
-Extract and identify:
+#### Azure DevOps id / URL
 
-- **Goal**: What is being requested or solved
-- **Scope**: What parts of the system are affected
-- **Constraints**: Any mentioned limitations or requirements
-- **Acceptance criteria**: How success will be measured
+Invoke `az-cli` skill for reference, then:
 
-### 2. Explore Codebase and Documentation
+```bash
+az boards work-item show --id <id> --expand all -o json
+```
 
-#### Codebase
+Extract title, description, acceptance criteria, state, type, assignedTo, areaPath, iterationPath, relations. HTML descriptions → readable text.
 
-Use the Explore agent to understand:
+**Always search Confluence** (Atlassian MCP tools) for related docs:
 
-- Project structure and architecture
-- Relevant existing code that would be modified
-- Patterns and conventions used in the codebase
-- Related features or similar implementations
-- Test coverage and testing patterns
+- by ticket title keywords
+- by area path / feature name
+- by domain terms from description
+- additional terms from `$ARGUMENTS` if provided
 
-#### Local Documentation
+Look for: technical specs, ADRs, related-feature docs, business rules, prior decisions.
 
-Search for relevant documentation that may contain implicit requirements:
+#### `.md` path
 
-- `docs/`, `documentation/`, `wiki/` directories
-- `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`
-- API specs (`openapi.yaml`, `swagger.json`)
-- ADRs (Architecture Decision Records)
-- Inline documentation and code comments
+Read file. Use file content as input. Title from H1 or filename.
 
-#### External Documentation
+#### pasted text
 
-If configured (see `config.md`), search external documentation systems for:
+Use as-is. Derive title from first line / sentence.
 
-- **Business rules** that the ticket assumes but doesn't state
-- **Existing constraints** documented elsewhere
-- **Related features** that may have dependencies
-- **Domain terminology** that clarifies ambiguous terms
-- **Edge cases** already documented for similar features
+### 2. Explore codebase + docs
 
-### 3. Assess Completeness
+#### Codebase (Explore agent)
 
-Evaluate the input against these dimensions:
+- Project structure / architecture
+- Existing code that would be modified
+- Patterns and conventions
+- Related features
+- Test coverage patterns
 
-| Dimension               | Questions to Consider                                    |
-| ----------------------- | -------------------------------------------------------- |
-| **Problem clarity**     | Is the problem/goal clearly stated? Why is this needed?  |
-| **Scope definition**    | What's in scope? What's explicitly out of scope?         |
-| **User impact**         | Who benefits? What user journey is affected?             |
-| **Acceptance criteria** | How do we know when it's done? What are success metrics? |
-| **Edge cases**          | What happens in error states? Empty states? Boundaries?  |
-| **Technical scope**     | Which components/files are affected? API changes?        |
-| **Dependencies**        | Blocked by anything? Needs coordination with other work? |
-| **Non-functional**      | Performance requirements? Security considerations?       |
-| **Data**                | Schema changes? Migration needed? Data implications?     |
-| **UX/UI**               | Designs provided? Interaction patterns defined?          |
+#### Local docs
 
-Rate overall completeness: **Ready** / **Mostly Ready** / **Needs Clarification** / **Underspecified**
+`docs/`, `documentation/`, `wiki/`, `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, OpenAPI specs, ADRs, inline code comments.
 
-### 4. Generate Questions
+### 3. Assess completeness
 
-Identify questions organized by:
+| Dimension               | Questions                               |
+| ----------------------- | --------------------------------------- |
+| **Problem clarity**     | Goal stated? Why needed?                |
+| **Scope**               | In scope? Explicitly out?               |
+| **User impact**         | Who benefits? Journey affected?         |
+| **Acceptance criteria** | Done definition? Success metrics?       |
+| **Edge cases**          | Errors? Empty states? Boundaries?       |
+| **Technical scope**     | Components/files affected? API changes? |
+| **Dependencies**        | Blocked by? Coordination?               |
+| **Non-functional**      | Performance? Security?                  |
+| **Data**                | Schema? Migration?                      |
+| **UX/UI**               | Designs? Patterns?                      |
 
-1. **Blockers** - Questions that must be answered before any work can begin
-2. **Scope clarification** - Questions that define boundaries
-3. **Technical decisions** - Questions about implementation approach
-4. **Nice to know** - Questions that would help but aren't blocking
+Rate: **Ready** / **Mostly Ready** / **Needs Clarification** / **Underspecified**.
 
-### 5. Ask Questions Interactively
+### 4. Generate questions
 
-**Use `AskUserQuestion` tool** to ask the user any questions they might be able to answer (especially blockers and scope questions).
+Categories:
 
-- Ask 1-4 questions at a time using the tool's multi-question format
-- For each question, provide 2-4 concrete answer options
-- Record answers to incorporate into the output
-- If user selects "Other" without an answer or says they don't know → mark as unanswered
+1. **Blockers** — must answer before any work
+2. **Scope clarification** — boundaries
+3. **Technical decisions** — implementation
+4. **Nice to know** — non-blocking
 
-Only questions the user couldn't answer go to the output file for stakeholder follow-up.
+### 5. Ask interactively
 
-### 6. Write Output
+Use `AskUserQuestion`. 1–4 questions per call, 2–4 options each. Record answers. Unanswered → output file.
 
-**Output location:** If the project defines an `.aiwork/` folder protocol (e.g., naming conventions, frontmatter, folder structure), follow that protocol. Otherwise use these defaults:
+### 6. Write output
+
+If `.aiwork/` protocol present, follow it. Otherwise:
 
 ```bash
 mkdir -p ./.aiwork/{date}_{slug}
 ```
 
-Save to `./.aiwork/{date}_{slug}/triage.md`
+Save to `./.aiwork/{date}_{slug}/triage.md`.
 
-Where:
+`{date}` = `YYYY-MM-DD`. `{slug}` = with ticket: `<ticket-id>-<slugified-title>`, else `<slugified-title>`. Slugify: lowercase, spaces→hyphens, strip special chars, max 40 chars.
 
-- `{date}` = current date as `YYYY-MM-DD`
-- `{slug}` = with ticket ID: `<ticket-id>-<slugified-title>`, without: `<slugified-title>`
-
-Slugify: lowercase, spaces→hyphens, remove special chars, max 40 chars.
-
-If a task folder already exists for this ticket/slug (search `.aiwork/` for matching folders), place the file there instead of creating a new one.
+If folder already exists for this ticket/slug, place file there.
 
 ## Output Format
 
 ```markdown
 # Triage: [Short title]
 
-**Source**: [Ticket ID/URL if available, or "Manual input"]
+**Source**: [Ticket ID/URL or "Manual input"]
 **Date**: [YYYY-MM-DD]
 **Completeness**: [Ready | Mostly Ready | Needs Clarification | Underspecified]
 
 ## Summary
 
-[1-sentence summary of what was provided]
+[1-sentence summary]
 
 ### Understanding
 
-[2-3 sentences capturing the core request and affected areas based on codebase exploration]
+[2-3 sentences from codebase exploration]
 
 ### What's Clear
 
-- [Bullet points of well-defined aspects]
+- ...
 
 ### Implicit Requirements (from docs)
 
-- [Requirements found in documentation that the ticket assumes but doesn't state]
-- [Business rules, constraints, or edge cases documented elsewhere]
+- [Reqs found in docs that ticket assumes but doesn't state]
 
 ### Gaps Identified
 
-- [Bullet points of missing or ambiguous information]
+- ...
 
 ### Questions
 
 #### Blockers
 
-1. [Question] — [Why this blocks progress]
+1. [Question] — [Why it blocks]
 
 #### Scope Clarification
 
-1. [Question]
+1. ...
 
 #### Technical Decisions
 
-1. [Question]
+1. ...
 
 #### Nice to Know
 
-1. [Question]
+1. ...
 ```
 
-Note: Only include questions the user couldn't answer during interactive clarification.
+Only unanswered questions go in output.
+
+### 7. Summary to user
+
+- File path saved
+- Completeness rating
+- Blocker count
 
 ## Tips
 
-- Don't ask questions the codebase or docs already answer - explore first
-- Surface implicit requirements from docs - tickets often assume documented knowledge
-- Prioritize ruthlessly - 3 critical questions > 10 nice-to-haves
-- Frame questions to unblock decisions, not gather trivia
-- When docs contradict the ticket, flag it as a blocker question
+- Don't ask what code/docs already answer — explore first
+- Surface implicit requirements from docs — tickets assume documented knowledge
+- 3 critical questions > 10 nice-to-haves
+- Frame to unblock decisions, not gather trivia
+- Docs contradict ticket → blocker question
