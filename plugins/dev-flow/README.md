@@ -1,114 +1,90 @@
 # dev-flow
 
-Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
+Developer workflow automation. Single primitive: skills. Each is invokable as `/dev-flow:<skill>` with natural-language args — no rigid flags.
 
-## Structure
+## Skills
+
+| Skill         | Invoke                                   | Purpose                                                                |
+| ------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
+| `triage`      | `/dev-flow:triage [id\|url\|.md\|text]`  | Assess requirement completeness, ask clarifying questions              |
+| `code-review` | `/dev-flow:code-review [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
+| `branch`      | `/dev-flow:branch <ticket>`              | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
+| `pr`          | `/dev-flow:pr <op>`                      | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
+| `pr-comments` | `/dev-flow:pr-comments [id]`             | Read, assess, post AZDO PR thread comments                             |
+| `ticket`      | `/dev-flow:ticket <id> <state>`          | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
+| `insights`    | `/dev-flow:insights <op>`                | `daily` / `weekly` / `catchup` / `view` activity reports               |
+| `az-cli`      | (model-invoked)                          | NL-driven Azure DevOps CLI reference                                   |
+
+## Multi-op Skills
+
+`pr` and `insights` dispatch on the first arg, then load `references/<op>.md` for detail (progressive disclosure — keeps SKILL.md lean).
+
+## Not Included (Personal)
+
+`commit` and `spec` previously lived here but reflect personal preferences (commitlint shape, prettier hook, ticket extraction; spec template + sectioning). They ship as user dotfiles instead. To author your own:
 
 ```
-dev-flow/
-├── skills/
-│   ├── triage/           # Generic - requirement analysis methodology
-│   ├── spec/             # Generic - implementation spec from triage
-│   ├── insights/         # Hybrid - activity summary generation
-│   │   ├── templates/    # Report templates (daily, weekly)
-│   │   ├── collectors/   # Runtime scripts for data collection
-│   │   │   ├── azure-prs.js      # Azure-specific
-│   │   │   ├── azure-workitems.js # Azure-specific
-│   │   │   ├── git-commits.js    # Generic (local git)
-│   │   │   ├── filter-by-date.js # Generic utility
-│   │   │   └── format-summary.js # Generic utility
-│   │   └── dashboard/    # Interactive visualization
-│   │       ├── generate.ts       # Deno dashboard generator
-│   │       └── template.html     # Dashboard HTML template
-│   ├── azdo-pr-comments/ # Azure-specific - PR thread management
-│   ├── code-review/      # Generic - code review methodology
-│   └── az-cli/           # Azure-specific - CLI command reference
-│       └── references/
-│
-└── commands/df/          # /df:* namespace
-    ├── triage.md         # Generic - manual input triage
-    ├── insights/         # Generic - activity reports
-    │   ├── daily.md
-    │   └── weekly.md
-    └── azdo/             # Azure-specific
-        ├── pr/
-        │   ├── create.md # Commit + push + PR workflow
-        │   └── complete.md # Complete (merge) PR
-        ├── triage.md     # Azure ticket triage
-        └── ticket/
-            ├── start.md  # Set work item to Active
-            └── cr.md     # Set work item to Code Review
+~/.claude/skills/commit/SKILL.md
+~/.claude/skills/spec/SKILL.md
 ```
 
-## Generic vs Specific
-
-| Component                                   | Scope          | Data Sources                        |
-| ------------------------------------------- | -------------- | ----------------------------------- |
-| `skills/triage/`                            | Generic        | Local codebase only                 |
-| `skills/spec/`                              | Generic        | Triage output + codebase            |
-| `skills/insights/`                          | Hybrid         | Azure + Git + Confluence (optional) |
-| `skills/azdo-pr-comments/`                  | Azure-specific | Azure DevOps PR threads API         |
-| `skills/code-review/`                       | Generic        | Local codebase                      |
-| `skills/az-cli/`                            | Azure-specific | Azure DevOps CLI                    |
-| `skills/insights/collectors/git-commits.js` | Generic        | Local git                           |
-| `skills/insights/collectors/azure-*.js`     | Azure-specific | Azure DevOps API                    |
-| `/df:triage`                                | Generic        | Local codebase                      |
-| `/df:insights:*`                            | Hybrid         | Azure + Git + Confluence (optional) |
-| `/df:azdo:*`                                | Azure-specific | Azure DevOps + Confluence           |
-
-## Commands
-
-### Generic
-
-| Command                             | Description                                          |
-| ----------------------------------- | ---------------------------------------------------- |
-| `/df:commit [message] [push] [all]` | Commit with commitlint format (`type(ticket#): msg`) |
-| `/df:review [base-branch]`          | Code review current branch (v2, data-source agents)  |
-| `/df:spec [triage-file]`            | Generate implementation spec from triage output      |
-| `/df:triage [title]`                | Triage pasted requirements against local codebase    |
-| `/df:insights:daily [date]`         | Daily activity summary                               |
-| `/df:insights:weekly [date]`        | Weekly activity summary                              |
-| `/df:insights:view [--serve]`       | Interactive dashboard (static HTML or dev server)    |
-| `/df:insights:catchup`              | Download raw insights data since last collection     |
-
-### Azure DevOps
-
-| Command                                          | Description                                 |
-| ------------------------------------------------ | ------------------------------------------- |
-| `/df:azdo:pr:create [message]`                   | Commit, push, create Azure DevOps PR        |
-| `/df:azdo:pr:complete [--transition-work-items]` | Complete (merge) PR for current branch      |
-| `/df:azdo:pr:list [all]`                         | List active PRs (mine by default, or all)   |
-| `/df:azdo:pr:checkout <pr-id>`                   | Checkout PR branch locally                  |
-| `/df:azdo:branch [id] [desc]`                    | Create feature branch from ticket           |
-| `/df:azdo:review <pr-id>`                        | Code review Azure DevOps PR                 |
-| `/df:azdo:triage <ticket-id>`                    | Triage Azure ticket with Confluence context |
-| `/df:azdo:ticket:start <id>`                     | Set work item to Active                     |
-| `/df:azdo:ticket:cr <id>`                        | Set work item to Code Review                |
+When team conventions stabilize, add a project-local skill to override.
 
 ## Data Sources
 
-- **Local Git** - Commits from current repository
-- **Azure DevOps** - PRs, work items, pipelines (via `az` CLI)
-- **Confluence** - Documentation search (via Atlassian MCP, optional)
+- **Local Git** — commits from current repo
+- **Azure DevOps** — PRs, work items, threads (via `az` CLI)
+- **Confluence** — documentation search (via Atlassian MCP, optional)
 
 ## Dependencies
 
-- Azure CLI with `azure-devops` extension (for Azure commands)
-- Atlassian MCP server (for Confluence integration, optional)
-- Deno runtime (for `/df:insights:view` dashboard)
+- Azure CLI with `azure-devops` extension (for AZDO skills)
+- Atlassian MCP server (for Confluence — optional)
+- Deno runtime (for `insights view` dashboard)
 
 ## .aiwork/ Output
 
-Dev-flow saves artifacts to per-task folders in `.aiwork/`:
+Skills save artifacts to per-task folders:
 
 ```
 .aiwork/
   2026-01-15_auth-refactor/
     triage.md
-    spec.md
     review.md
 ```
 
-Each task gets a folder named `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (spec after triage, review) are placed in the same task folder when one exists.
+Folder format: `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (review after triage) land in the same folder when one exists. If your project defines an `.aiwork/` protocol (naming, frontmatter), dev-flow follows it.
 
-**Works without configuration** - directories created automatically. If the project defines an `.aiwork/` folder protocol (naming, frontmatter, structure), dev-flow follows it.
+## Composition
+
+- `branch` does NOT auto-transition the ticket — call `ticket` separately (clean separation).
+- `pr create` errors if on `main` — tells you to run `branch` first.
+- `pr create` errors if no commits ahead — tells you to commit first (commit logic intentionally not bundled).
+- `code-review` is a reusable pipeline — other skills can pass a diff path to it.
+
+## Layout
+
+```
+dev-flow/
+├── .claude-plugin/plugin.json
+└── skills/
+    ├── triage/SKILL.md
+    ├── code-review/
+    │   ├── SKILL.md
+    │   └── references/pipeline.md
+    ├── branch/SKILL.md
+    ├── pr/
+    │   ├── SKILL.md
+    │   └── references/{create,checkout,list,complete}.md
+    ├── pr-comments/SKILL.md
+    ├── ticket/SKILL.md
+    ├── insights/
+    │   ├── SKILL.md
+    │   ├── references/{daily,weekly,catchup,view}.md
+    │   ├── collectors/   # data fetch scripts
+    │   ├── templates/    # report templates
+    │   └── dashboard/    # Deno HTML generator
+    └── az-cli/
+        ├── SKILL.md
+        └── references/
+```

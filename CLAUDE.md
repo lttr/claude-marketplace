@@ -122,12 +122,12 @@ Commands use subdirectory-based namespacing by default:
 
 ```yaml
 ---
-name: df:commit
+name: my:commit
 description: Create a git commit
 ---
 ```
 
-This allows `/df:commit` even if file is at `commands/df/commit.md` in a `dev-flow` plugin (otherwise would be `/dev-flow:df:commit`).
+This allows `/my:commit` even if the file lives at `commands/my/commit.md` in a `some-plugin` plugin (otherwise it would be `/some-plugin:my:commit`).
 
 ## Installation & Testing
 

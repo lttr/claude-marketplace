@@ -36,20 +36,18 @@ See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
 
 Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
 
-**Features:**
+**Skills (all `/dev-flow:<name>`):**
 
-- `/df:commit` - Git commit with commitlint format (`type(ticket#): msg`)
-- `/df:review` - Code review current branch
-- `/df:triage` - Analyze requirements against local codebase
-- `/df:spec` - Generate implementation spec from triage output
-- `/df:insights:daily`, `/df:insights:weekly` - Activity summaries from Git + Azure DevOps
-- `/df:insights:view` - Interactive dashboard
-- `/df:insights:catchup` - Download raw insights data
-- `/df:azdo:pr` - Commit, push, create Azure DevOps PR in one step
-- `/df:azdo:branch` - Create feature branch from ticket
-- `/df:azdo:review` - Code review Azure DevOps PR
-- `/df:azdo:triage <ticket-id>` - Triage Azure ticket with Confluence context
-- `/df:azdo:ticket:start`, `/df:azdo:ticket:cr` - Work item state changes
+- `triage` - Assess requirement completeness (ticket id/URL, pasted text, .md path, or empty)
+- `code-review` - Read-only review of branch / AZDO PR / git ref / diff file
+- `branch` - Create `feature/<id>-<slug>` from AZDO ticket title
+- `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
+- `pr-comments` - Read, assess, post AZDO PR thread comments
+- `ticket <id> <state>` - Transition AZDO work item (active/cr/ready/closed)
+- `insights <op>` - `daily` / `weekly` / `catchup` / `view` activity reports
+- `az-cli` - NL-driven Azure DevOps CLI reference (model-invoked)
+
+`commit` and `spec` are excluded by design — they reflect personal preferences and ship as user dotfiles.
 
 **Installation:**
 
