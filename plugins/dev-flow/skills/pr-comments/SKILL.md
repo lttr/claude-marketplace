@@ -1,6 +1,6 @@
 ---
 name: pr-comments
-description: Manage Azure DevOps PR comments — post new code comments, read and assess existing threads. Trigger when user says "/dev-flow:pr-comments", asks to add/post a comment on a PR, review PR feedback, or check PR comment status. Input is PR id/URL, or empty to use current branch's PR.
+description: Manage Azure DevOps PR comments — post new code comments, read and assess existing threads. Trigger when user says "/df:pr-comments", asks to add/post a comment on a PR, review PR feedback, or check PR comment status. Input is PR id/URL, or empty to use current branch's PR.
 ---
 
 # PR Comments (Azure DevOps)

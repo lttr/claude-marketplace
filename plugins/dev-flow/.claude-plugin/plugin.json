@@ -1,12 +1,13 @@
 {
-  "name": "dev-flow",
-  "version": "3.0.0",
-  "description": "Developer workflow automation as 8 NL-driven skills: triage, code-review, branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
+  "name": "df",
+  "version": "4.0.0",
+  "description": "Dev Flow — developer workflow automation as 8 NL-driven skills: triage, code-review, branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
   "author": {
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"
   },
   "keywords": [
+    "dev-flow",
     "triage",
     "code-review",
     "insights",

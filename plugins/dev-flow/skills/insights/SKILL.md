@@ -1,6 +1,6 @@
 ---
 name: insights
-description: Generate codebase activity summaries (daily/weekly/catchup/view) from Azure DevOps PRs, work items, local git, and optionally Confluence. Trigger when user says "/dev-flow:insights", asks "what happened", "codebase activity", "team summary", or wants a PR/commit roll-up.
+description: Generate codebase activity summaries (daily/weekly/catchup/view) from Azure DevOps PRs, work items, local git, and optionally Confluence. Trigger when user says "/df:insights", asks "what happened", "codebase activity", "team summary", or wants a PR/commit roll-up.
 ---
 
 # Insights

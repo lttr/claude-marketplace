@@ -1,6 +1,6 @@
 ---
 name: branch
-description: Create a feature branch from an Azure DevOps ticket. Fetches ticket title, slugifies, creates `feature/<id>-<slug>`, and optionally transitions ticket to Active. Trigger when user says "branch", "create branch", "/dev-flow:branch", or provides a ticket id/URL to start work on.
+description: Create a feature branch from an Azure DevOps ticket. Fetches ticket title, slugifies, creates `feature/<id>-<slug>`, and optionally transitions ticket to Active. Trigger when user says "branch", "create branch", "/df:branch", or provides a ticket id/URL to start work on.
 ---
 
 # Branch
@@ -75,4 +75,4 @@ Print created branch name + ticket transition status.
 ## Notes
 
 - Branch and ticket transition are intentionally separate — `branch` only prompts; clean separation.
-- For follow-up state changes use `ticket` skill (`/dev-flow:ticket <id> cr`, etc.).
+- For follow-up state changes use `ticket` skill (`/df:ticket <id> cr`, etc.).

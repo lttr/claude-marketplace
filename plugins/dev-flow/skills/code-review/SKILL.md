@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review code changes from current branch, an Azure DevOps PR, a git ref, or a diff/patch file. Trigger when user says "review this", "code review", "/dev-flow:code-review", or provides a PR id/URL, ticket URL, git ref, or diff path. Read-only — never posts comments.
+description: Review code changes from current branch, an Azure DevOps PR, a git ref, or a diff/patch file. Trigger when user says "review this", "code review", "/df:code-review", or provides a PR id/URL, ticket URL, git ref, or diff path. Read-only — never posts comments.
 ---
 
 # Code Review

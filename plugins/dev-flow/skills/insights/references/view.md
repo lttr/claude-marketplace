@@ -13,7 +13,7 @@ Generate interactive HTML dashboard from `.insights/` data.
 
 ## Pre-req
 
-`.insights/` must exist. If missing → tell user to run `/dev-flow:insights daily` or `/dev-flow:insights catchup` first.
+`.insights/` must exist. If missing → tell user to run `/df:insights daily` or `/df:insights catchup` first.
 
 ## Static
 

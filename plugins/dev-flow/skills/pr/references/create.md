@@ -6,7 +6,7 @@ Push current branch and open an Azure DevOps PR.
 
 ```bash
 cur=$(git branch --show-current)
-[ "$cur" = "main" ] || [ "$cur" = "master" ] && abort "On base branch. Run /dev-flow:branch <ticket> first."
+[ "$cur" = "main" ] || [ "$cur" = "master" ] && abort "On base branch. Run /df:branch <ticket> first."
 
 base=$(git rev-parse --verify master 2>/dev/null && echo master || echo main)
 ahead=$(git rev-list --count "$base"..HEAD)

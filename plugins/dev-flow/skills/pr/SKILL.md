@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Manage Azure DevOps pull requests — create, checkout, list, complete. Trigger when user says "/dev-flow:pr <op>", "create PR", "checkout PR 123", "list PRs", "complete PR", or otherwise asks to operate on an AZDO pull request.
+description: Manage Azure DevOps pull requests — create, checkout, list, complete. Trigger when user says "/df:pr <op>", "create PR", "checkout PR 123", "list PRs", "complete PR", or otherwise asks to operate on an AZDO pull request.
 ---
 
 # PR (Azure DevOps)

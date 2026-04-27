@@ -1,6 +1,6 @@
 ---
 name: ticket
-description: Transition Azure DevOps work item state. Trigger when user says "ticket <id> active", "set ticket cr", "/dev-flow:ticket", or wants to move a work item between states (active, code-review, ready, closed).
+description: Transition Azure DevOps work item state. Trigger when user says "ticket <id> active", "set ticket cr", "/df:ticket", or wants to move a work item between states (active, code-review, ready, closed).
 ---
 
 # Ticket

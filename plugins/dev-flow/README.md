@@ -1,19 +1,19 @@
 # dev-flow
 
-Developer workflow automation. Single primitive: skills. Each is invokable as `/dev-flow:<skill>` with natural-language args — no rigid flags.
+Developer workflow automation. Single primitive: skills. Each is invokable as `/df:<skill>` with natural-language args — no rigid flags.
 
 ## Skills
 
-| Skill         | Invoke                                   | Purpose                                                                |
-| ------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
-| `triage`      | `/dev-flow:triage [id\|url\|.md\|text]`  | Assess requirement completeness, ask clarifying questions              |
-| `code-review` | `/dev-flow:code-review [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
-| `branch`      | `/dev-flow:branch <ticket>`              | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
-| `pr`          | `/dev-flow:pr <op>`                      | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
-| `pr-comments` | `/dev-flow:pr-comments [id]`             | Read, assess, post AZDO PR thread comments                             |
-| `ticket`      | `/dev-flow:ticket <id> <state>`          | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
-| `insights`    | `/dev-flow:insights <op>`                | `daily` / `weekly` / `catchup` / `view` activity reports               |
-| `az-cli`      | (model-invoked)                          | NL-driven Azure DevOps CLI reference                                   |
+| Skill         | Invoke                             | Purpose                                                                |
+| ------------- | ---------------------------------- | ---------------------------------------------------------------------- |
+| `triage`      | `/df:triage [id\|url\|.md\|text]`  | Assess requirement completeness, ask clarifying questions              |
+| `code-review` | `/df:code-review [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
+| `branch`      | `/df:branch <ticket>`              | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
+| `pr`          | `/df:pr <op>`                      | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
+| `pr-comments` | `/df:pr-comments [id]`             | Read, assess, post AZDO PR thread comments                             |
+| `ticket`      | `/df:ticket <id> <state>`          | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
+| `insights`    | `/df:insights <op>`                | `daily` / `weekly` / `catchup` / `view` activity reports               |
+| `az-cli`      | (model-invoked)                    | NL-driven Azure DevOps CLI reference                                   |
 
 ## Multi-op Skills
 
