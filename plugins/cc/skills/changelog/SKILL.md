@@ -29,9 +29,16 @@ Use `--lookback-days` when the user asks for changes from a specific time period
 
 ### Format rules
 
-- **Group by theme, not by version.** Cluster related changes into categories (e.g. "Startup & Performance", "Plugins & Skills", "Agent Teams", "Bash & Permissions").
+- **Rank all items, then keep top 50%.** Score each candidate bullet by combined weight (high → low):
+  1. Personal relevance — matches user's installed skills, commands, plugins, hooks, usage patterns
+  2. User-facing surface changes — visible message/UI text, prompts, output format, defaults the user reads or types
+  3. Parameter / flag / config / API / schema changes — anything the user invokes or configures (CLI flags, settings keys, hook events, tool schemas, command args)
+  4. New features / capabilities — net-new things user can do
+  5. Behavioral changes — different output for same input, removed/changed defaults, breaking changes
+  6. Internal / perf / refactor — deprioritize unless user-observable. A perf win that doesn't change behavior or UX ranks low.
+     Sort all candidates by this combined score, drop bottom half. Round up on odd counts. Mention dropped count at bottom.
+- **Group surviving items by theme, not by version.** Cluster into categories (e.g. "Startup & Performance", "Plugins & Skills", "Agent Teams", "Bash & Permissions").
 - **Each item = 1 short line.** Rewrite verbose changelog entries into punchy summaries (5-15 words). Append version+date tag: `(2.1.47, Feb 18)`
-- **Only show high + medium relevance items.** Skip low relevance entirely (just mention total count at bottom).
 - **Lead with a 1-2 sentence TL;DR** of the most impactful changes for this user.
 - **Explain WHY it's relevant** by referencing what the user uses. Don't just say "matches: Bash" - say things like "you use hooks" or "affects your StatusLine setup".
 
@@ -50,7 +57,7 @@ Use `--lookback-days` when the user asks for changes from a specific time period
 ### System prompt
 {Summarize the diff concisely - see rules below}
 
-{N} other minor fixes skipped. [Full changelog]({url})
+{N} lower-ranked items skipped. [Full changelog]({url})
 ```
 
 3. If the `versions` array is empty, say: "You're up to date! No new changes since {currentVersion}." Do NOT advance the watermark.
