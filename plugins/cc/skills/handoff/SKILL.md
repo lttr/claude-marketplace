@@ -28,9 +28,14 @@ Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) s
 - <thing done>
 - <thing done>
 
+# RECENT CONCLUSIONS
+
+- <decision, agreement, or insight from last few turns — what shifted the plan>
+- <open question raised at end, still unanswered>
+
 # NEXT
 
-<one thing to do next>
+<concrete next action — derived from RECENT CONCLUSIONS, not stale earlier intent>
 
 # WATCH OUT
 
@@ -39,8 +44,11 @@ Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) s
 
 ## Rules
 
-- Terse, scannable, under 200 words total.
+- Terse, scannable, under 250 words total.
 - `# ORIGINAL PROMPT` anchors intent across sessions — do not drop it even if the work has drifted.
+- **Weight the final turns heaviest.** Conclusions, decisions, course corrections, and open questions from the last few messages drive `NEXT`. Early-conversation context is backdrop, not the lead.
+- `# RECENT CONCLUSIONS` captures what was just decided or learned — not a re-summary of DONE. If the last turns only restated earlier work, leave it empty rather than padding.
+- If user and assistant disagreed or pivoted near the end, record the resolution (or that it's unresolved).
 - Use file paths, not descriptions (e.g. `src/auth.ts:42`, not "the auth file").
 - No prose narration ("we decided to...").
 - Omit `# WATCH OUT` when there are no gotchas.

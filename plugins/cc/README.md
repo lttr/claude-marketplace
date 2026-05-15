@@ -26,7 +26,7 @@ All functionality ships as skills. Skills marked **auto** may trigger from user 
 
 ### Session handoff
 
-Claude Code has no native, lightweight way to start a follow-up session. The existing options are both costly: describing a bespoke markdown artifact is slow to write and slow to re-read, and running `/compact` is token-heavy and often loses the original intent. `/cc:handoff` fills that gap with a fixed-shape, ~200-word note at a stable path, loaded in one line at the start of the next session.
+Claude Code has no native, lightweight way to start a follow-up session. The existing options are both costly: describing a bespoke markdown artifact is slow to write and slow to re-read, and running `/compact` is token-heavy and often loses the original intent. `/cc:handoff` fills that gap with a fixed-shape, ~250-word note at a stable path, weighted toward recent conclusions and open questions from the final turns, loaded in one line at the start of the next session.
 
 - **cc:handoff** (explicit) - Write `~/.claude/custom-handoff.md` so a fresh Claude session can resume current work. Load it in a new session with a small loader script that `exec`s `claude` with the file contents as the first prompt.
 

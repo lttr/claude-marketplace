@@ -19,7 +19,7 @@ Claude Code authoring tools: scaffold plugins, skills, and commands, introspect 
 - `/cc:command:create <name> <scope> <description> [allowed-tools]` - Scaffold a new custom command with correct frontmatter and path conventions.
 - `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions.
 - `/cc:list:hooks` - Show the hooks configured across user, project, and local settings files, so you can audit what's running on each event.
-- `/cc:handoff` - Write `~/.claude/custom-handoff.md` (original prompt, goal, done, next, watch-out) so a fresh Claude session can resume where this one stopped. Load in a new session with `claude "@$HOME/.claude/custom-handoff.md"`.
+- `/cc:handoff` - Write `~/.claude/custom-handoff.md` (original prompt, goal, done, recent conclusions, next, watch-out) so a fresh Claude session can resume where this one stopped. Load in a new session with `claude "@$HOME/.claude/custom-handoff.md"`.
 
 **When to install:** you're building or tuning plugins/skills yourself, want a compact view of the features and hooks loaded into your session, or run long tasks across multiple Claude sessions.
 
