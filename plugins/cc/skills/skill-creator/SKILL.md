@@ -109,7 +109,7 @@ All fields are optional. Only `description` is recommended so Claude knows when 
 | `agent`                    | No          | Which subagent type to use when `context: fork` is set.                                                                                                                                                                                                                                                             |
 | `hooks`                    | No          | Hooks scoped to this skill's lifecycle. See Hooks in skills and agents for configuration format.                                                                                                                                                                                                                    |
 | `paths`                    | No          | Glob patterns that limit when this skill is activated. Accepts a comma-separated string or a YAML list. When set, Claude loads the skill automatically only when working with files matching the patterns. Uses the same format as path-specific rules.                                                             |
-| `shell`                    | No          | Shell to use for `` !`command` `` and ` ```! ` blocks in this skill. Accepts `bash` (default) or `powershell`. Setting `powershell` runs inline shell commands via PowerShell on Windows. Requires `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`.                                                                             |
+| `shell`                    | No          | Shell to use for `` !​`command` `` and ` ```! ` blocks in this skill. Accepts `bash` (default) or `powershell`. Setting `powershell` runs inline shell commands via PowerShell on Windows. Requires `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`.                                                                            |
 
 ### Available string substitutions
 
@@ -123,7 +123,7 @@ Skills support string substitution for dynamic values in the skill content:
 | `${CLAUDE_SESSION_ID}` | The current session ID. Useful for logging, creating session-specific files, or correlating skill output with sessions.                                                                                                                                                                  |
 | `${CLAUDE_SKILL_DIR}`  | The directory containing the skill's `SKILL.md` file. For plugin skills, this is the skill's subdirectory within the plugin, not the plugin root. Use this in bash injection commands to reference scripts or files bundled with the skill, regardless of the current working directory. |
 
-Additionally, `` !`<command>` `` (inline) and ` ```! ` fenced blocks preprocess shell command output into the prompt before Claude sees it.
+Additionally, `` !​`<command>` `` (inline) and ` ```! ` fenced blocks preprocess shell command output into the prompt before Claude sees it.
 
 ## Writing Guidelines
 
