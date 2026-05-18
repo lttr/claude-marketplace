@@ -4,16 +4,16 @@ Developer workflow automation. Single primitive: skills. Each is invokable as `/
 
 ## Skills
 
-| Skill         | Invoke                             | Purpose                                                                |
-| ------------- | ---------------------------------- | ---------------------------------------------------------------------- |
-| `triage`      | `/df:triage [id\|url\|.md\|text]`  | Assess requirement completeness, ask clarifying questions              |
-| `code-review` | `/df:code-review [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
-| `branch`      | `/df:branch <ticket>`              | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
-| `pr`          | `/df:pr <op>`                      | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
-| `pr-comments` | `/df:pr-comments [id]`             | Read, assess, post AZDO PR thread comments                             |
-| `ticket`      | `/df:ticket <id> <state>`          | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
-| `insights`    | `/df:insights <op>`                | `daily` / `weekly` / `catchup` / `view` activity reports               |
-| `az-cli`      | (model-invoked)                    | NL-driven Azure DevOps CLI reference                                   |
+| Skill            | Invoke                             | Purpose                                                                |
+| ---------------- | ---------------------------------- | ---------------------------------------------------------------------- |
+| `triage`         | `/df:triage [id\|url\|.md\|text]`  | Assess requirement completeness, ask clarifying questions              |
+| `code-review`    | `/df:code-review [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
+| `feature-branch` | `/df:feature-branch <ticket>`      | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
+| `pr`             | `/df:pr <op>`                      | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
+| `pr-comments`    | `/df:pr-comments [id]`             | Read, assess, post AZDO PR thread comments                             |
+| `ticket`         | `/df:ticket <id> <state>`          | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
+| `insights`       | `/df:insights <op>`                | `daily` / `weekly` / `catchup` / `view` activity reports               |
+| `az-cli`         | (model-invoked)                    | NL-driven Azure DevOps CLI reference                                   |
 
 ## Multi-op Skills
 
@@ -57,8 +57,8 @@ Folder format: `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (review after triage) 
 
 ## Composition
 
-- `branch` does NOT auto-transition the ticket — call `ticket` separately (clean separation).
-- `pr create` errors if on `main` — tells you to run `branch` first.
+- `feature-branch` does NOT auto-transition the ticket — call `ticket` separately (clean separation).
+- `pr create` errors if on `main` — tells you to run `feature-branch` first.
 - `pr create` errors if no commits ahead — tells you to commit first (commit logic intentionally not bundled).
 - `code-review` is a reusable pipeline — other skills can pass a diff path to it.
 
@@ -72,7 +72,7 @@ dev-flow/
     ├── code-review/
     │   ├── SKILL.md
     │   └── references/pipeline.md
-    ├── branch/SKILL.md
+    ├── feature-branch/SKILL.md
     ├── pr/
     │   ├── SKILL.md
     │   └── references/{create,checkout,list,complete}.md

@@ -39,4 +39,4 @@ Print: work item id, title, new state.
 ## Notes
 
 - States above match the most common Azure DevOps process templates. If your project uses different state names (e.g. `Doing`, `In Review`), pass the exact label.
-- Branch creation lives in the `branch` skill — keeps state changes orthogonal.
+- Branch creation lives in the `feature-branch` skill — keeps state changes orthogonal.
