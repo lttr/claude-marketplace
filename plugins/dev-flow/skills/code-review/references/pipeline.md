@@ -6,8 +6,8 @@ Analyzes diffs by data source. Each agent has unique investigation scope, no ove
 
 - `DIFF_FILE` — path to diff
 - `CHANGED_FILES` — list of changed file paths
-- `TITLE` — branch / PR title
-- `META` (optional) — PR description, author, targetRefName
+- `TITLE` — branch / diff title
+- `RULES_FILE` (optional) — path to a project rules markdown file. When set, Agent 1 reads it in addition to repo-discovered rules. Caller resolves precedence (user-passed `--rules` over wrapper-pinned default) before invoking.
 
 ---
 
@@ -20,7 +20,7 @@ fd CLAUDE.md --type f
 fd . .claude/rules --type f 2>/dev/null
 ```
 
-If neither CLAUDE.md nor .claude/rules/ exist, abort: "No rule files found. Create CLAUDE.md or .claude/rules/ to enable code review."
+If `RULES_FILE` is set, that counts as a rule file (verify it exists; abort if path is invalid). Otherwise, if neither CLAUDE.md nor .claude/rules/ exist, abort: "No rule files found. Create CLAUDE.md, .claude/rules/, or pass `--rules <path>` to enable code review."
 
 ### Step 1.1: Collect Rule Paths
 
@@ -32,6 +32,8 @@ Search for:
 - CLAUDE.md in any subdirectory
 - All files in .claude/rules/
 - Any linter/formatter config files in the repo root
+
+If RULES_FILE was provided by the caller, include it in the array (absolute path).
 
 Do not read file contents. Only return paths.
 
@@ -70,7 +72,7 @@ Output: { "summary": "...", "changedFiles": {...}, "importChanges": [...] }
 
 ## Phase 2: Parallel Review Agents (Sonnet)
 
-Launch all 5 agents in parallel.
+Launch all 6 agents in parallel.
 
 **Common input:**
 
@@ -206,7 +208,61 @@ Output per issue:
 }
 ```
 
-### Agent 5: Code Comments Compliance
+### Agent 5: Architectural Soundness
+
+Data: diff + surrounding code (read changed files in full when needed).
+
+```
+Look at the SHAPE of the change, not the mechanics. For each meaningfully
+changed surface (function signature, component props, module boundary,
+shared utility), ask the core question:
+
+  If I were designing this from scratch TODAY, knowing what this PR adds,
+  would I put it here, in this shape, with this surface?
+
+Checklist of smells to flag:
+- Interface widening to satisfy a single caller (new optional param /
+  prop / overload used by exactly one site)
+- Mode-flag parameters (boolean / enum that toggles behavior — usually
+  means two functions trying to be one)
+- Argument-count creep past ~3-4 on shared APIs
+- Prop sprawl on shared components
+- Premature generalization (abstraction with one concrete user, or
+  parameters no caller passes)
+- Premature de-generalization (inlining a working abstraction because
+  one caller wanted a tweak)
+- Cross-module coupling (feature module reaching into another feature
+  module instead of going through shared/common)
+- Lift-and-forget state (state hoisted to a parent without obvious
+  reason — usually wrapper components that add nothing)
+- Wrapper components / composables that add no behavior over what they
+  wrap
+- Config-option fix where a default change would have served (new flag
+  added so the one caller can opt in, instead of fixing the default)
+- File placement (new code dropped in `_common` / `_shared` /
+  `resources/` when it's actually module-specific, or vice versa)
+
+Do NOT:
+- Flag stylistic preferences
+- Flag patterns the existing codebase clearly already uses without complaint
+- Suggest refactors unrelated to what this PR touches
+
+Severity rule (fold into existing buckets — no new bucket):
+- Strong smell with clear payoff to fix → "important" (becomes Concern)
+- Mild smell or judgment-call → "nit" (becomes Nit)
+
+Output per issue:
+{
+  "file": "...",
+  "line": 42,
+  "issue": "<which smell, one sentence>",
+  "why": "<why it's wrong here, citing the surface that changed>",
+  "betterShape": "<one-line sketch of what the design would look like instead>",
+  "severity": "important" | "nit"
+}
+```
+
+### Agent 6: Code Comments Compliance
 
 Data: full file content.
 
@@ -237,7 +293,7 @@ Output per issue:
 
 ## Phase 3: Issue Scoring (Parallel Haiku)
 
-For EACH issue from Phase 2 — separate Haiku agent. Limit: max 15 issues (sort by apparent severity if more).
+For EACH issue from Phase 2 — separate Haiku agent. Limit: max 20 issues (sort by apparent severity if more).
 
 ```
 You are verifying a potential code review issue.
@@ -246,7 +302,7 @@ Issue: {issue.issue}
 File: {issue.file}
 Line: {issue.line}
 Found by: {agent}
-Reason: {issue.why or issue.ruleText}
+Reason: {issue.why or issue.ruleText or issue.betterShape}
 
 Rule files: {paths from Step 1.1}
 Relevant diff section: {context}
@@ -255,14 +311,16 @@ Score 0-100:
 
 0:   False positive. Pre-existing. Not actually a bug.
 25:  Might be real but unverified. Stylistic, not in rules.
-50:  Real but minor. Nitpick. Low impact.
-75:  Verified real. Will impact functionality. OR explicitly in rule files.
+50:  Real but minor. Nitpick. Mild design smell. Low impact.
+75:  Verified real. Will impact functionality. OR explicitly in rule files. OR strong design smell.
 100: Definitely real. Confirmed w/ evidence. Frequent. High impact.
 
 VERIFICATION:
 - Rule-based: re-read rule, confirm wording.
 - Bug: trace code path, confirm it can occur.
 - Dependency: check surrounding code handles case.
+- Architectural: confirm the smell describes a real coupling / surface
+  problem, not just an unfamiliar pattern.
 
 Output: { "score": 75, "reasoning": "..." }
 ```
@@ -273,36 +331,37 @@ Output: { "score": 75, "reasoning": "..." }
 
 ### Filter
 
-- Keep score ≥ 75
+- Keep score ≥ 50
 - Zero remaining → output "No issues found"
 
 ### Group
 
-- Critical: ≥ 90
-- Important: 75-89
+- Critical: ≥ 90 (must-fix; breaks correctness, security, or an explicit rule)
+- Concerns: 75-89 (real issues, including strong architectural smells)
+- Nits: 50-74 (low impact, mild smells, judgment calls)
 
 ### Format
 
 ```markdown
 ## Code Review: {TITLE}
 
-**Files changed:** X | **Issues found:** X critical, X important
+**Files changed:** X | **Issues:** X critical, X concerns, X nits
 
-### Critical Issues (score ≥90)
+### Critical (score ≥90)
 
 - **[file:line]** Issue
-  - **Evidence:** {rule text / commit ref / comment}
+  - **Evidence:** {rule text / commit ref / comment / design smell}
   - **Fix:** ...
 
-### Important Issues (score 75-89)
+### Concerns (score 75-89)
 
 - **[file:line]** Issue
   - **Evidence:** ...
   - **Fix:** ...
 
-### Minor Notes
+### Nits (score 50-74)
 
-{Below threshold but worth mentioning}
+- **[file:line]** Issue — one-line fix
 
 ### Summary
 

@@ -1,27 +1,37 @@
 ---
 name: code-review
-description: Review code changes from current branch, an Azure DevOps PR, a git ref, or a diff/patch file. Trigger when user says "review this", "code review", "/df:code-review", or provides a PR id/URL, ticket URL, git ref, or diff path. Read-only — never posts comments.
+description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "code review", "/df:code-review", or provides a git ref or diff path. Read-only — never posts comments.
 ---
 
 # Code Review
 
-Single entry point. Detect input source, produce a diff file, then run the review pipeline.
+Pure git-native review pipeline. Resolves a diff from git-native inputs, runs the review pipeline, and produces a markdown report.
+
+**Does NOT** check out branches, talk to Azure DevOps / GitHub, or post comments. PR resolution is the caller's job (see Usage).
+
+## Arguments
+
+`$ARGUMENTS` is a space-separated string. Parse out optional flags first, then treat the remainder as the diff source.
+
+| Flag             | Meaning                                                                                             |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| `--rules <path>` | Path to a project rules markdown file. User-passed value WINS over any wrapper-pinned `rules_file`. |
+| `--print`        | Non-interactive mode: print review to stdout, do not prompt for save destination.                   |
+
+A wrapper skill may pre-set `rules_file` (a single path) before invoking this skill — treat it as the default when `--rules` is absent.
 
 ## Input Detection
 
-Argument is `$ARGUMENTS` (may be empty).
+After flags are stripped, the remainder selects the diff source:
 
-| Form                                                            | Source                                 |
-| --------------------------------------------------------------- | -------------------------------------- |
-| empty                                                           | current branch vs base (master/main)   |
-| `staged`                                                        | `git diff --staged`                    |
-| numeric (`12345`)                                               | Azure DevOps PR id                     |
-| URL containing `_git/.../pullrequest/<id>`                      | Azure DevOps PR URL                    |
-| URL containing `_workitems/edit/<id>` or ticket id mapped to PR | resolve work item → PR via `az boards` |
-| path ending `.diff` or `.patch`                                 | local diff file                        |
-| anything else                                                   | treat as git ref (branch / sha / tag)  |
+| Form                            | Source                                |
+| ------------------------------- | ------------------------------------- |
+| empty                           | current branch vs base (master/main)  |
+| `staged`                        | `git diff --staged`                   |
+| path ending `.diff` or `.patch` | local diff file                       |
+| anything else                   | treat as git ref (branch / sha / tag) |
 
-Ambiguous → ask user. Do NOT guess.
+Ambiguous → ask user. Do NOT guess. **Never** treat a numeric value as a PR id — this skill has no platform awareness.
 
 ## Workflow
 
@@ -36,6 +46,7 @@ cur=$(git branch --show-current)
 git diff "$base"...HEAD > "/tmp/review-diff-$(date +%s).diff"
 files=$(git diff --name-only "$base"...HEAD)
 title="$cur"
+slug="$cur"
 ```
 
 #### `staged`
@@ -44,30 +55,13 @@ title="$cur"
 git diff --staged > "/tmp/review-diff-staged-$(date +%s).diff"
 files=$(git diff --staged --name-only)
 title="staged changes"
+slug="staged"
 ```
-
-#### PR id / PR URL
-
-Extract numeric id from URL if needed. Then:
-
-```bash
-az repos pr show --id <id> --output json
-az repos pr diff --id <id> > "/tmp/review-diff-pr-<id>.diff"
-```
-
-Title/description/author/targetRefName from `pr show` output. Skip if status `completed`/`abandoned`, title has `[WIP]`/`[Draft]`, author is bot, or only auto-generated files changed.
-
-#### Work item / ticket URL
-
-```bash
-az boards work-item show --id <ticket-id> --expand relations -o json
-```
-
-Find related PR via relations of type `ArtifactLink` containing `pullrequest`. If multiple → ask user which. Then proceed as PR id.
 
 #### `.diff` / `.patch` path
 
 Use file as-is. Parse changed files from diff headers (`+++ b/...`).
+`slug="$(date +%s)"`.
 
 #### git ref
 
@@ -75,6 +69,7 @@ Use file as-is. Parse changed files from diff headers (`+++ b/...`).
 git diff "<ref>"...HEAD > "/tmp/review-diff-ref-$(date +%s).diff"
 files=$(git diff --name-only "<ref>"...HEAD)
 title="HEAD vs <ref>"
+slug="$(git branch --show-current)"
 ```
 
 ### 2. Diff size guard
@@ -91,21 +86,47 @@ Read `references/pipeline.md` and execute Phases 1–4 with:
 
 - `DIFF_FILE` = path from step 1
 - `CHANGED_FILES` = list from step 1
-- `TITLE` / `META` = title + (PR description, author, targetRefName) when available
+- `TITLE` = title from step 1
+- `RULES_FILE` = resolved rules path (`--rules` over wrapper-pinned; may be unset)
 
-### 4. Save output
+### 4. Output
 
-If `.aiwork/` protocol present, follow it. Otherwise:
+Hold the rendered markdown review in memory. Then choose destination:
+
+- If `--print` is set: print the markdown to stdout. Done.
+- Otherwise, ask the user:
+  1. Print only (no save) — default
+  2. Save to `/tmp/review-<slug>.md`
+  3. Other path
+
+Skill produces markdown and stops. Sending it to a PR, a chat, or anywhere else is a follow-up the user runs themselves — this skill never invokes other skills or posts to forges.
+
+## Usage
+
+### Recommended: shell wrapper + worktree (non-destructive)
+
+Run from terminal. Resolve PR id → source branch via platform CLI, then launch Claude in a worktree pinned to that branch. Keeps the user's main working tree untouched.
 
 ```bash
-slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | cut -c1-40)
-mkdir -p ".aiwork/$(date +%F)_${slug}"
+#!/usr/bin/env bash
+# bin/cr-pr <pr-id>
+PR_ID=$1
+BRANCH=$(az repos pr show --id "$PR_ID" --query sourceRefName -o tsv | sed 's|refs/heads/||')
+claude --worktree "$BRANCH" "/df:code-review --rules .claude/code-review-rules.md"
 ```
 
-Save review markdown to `.aiwork/{date}_{slug}/review.md`. If a folder for this branch/ticket already exists, place it there.
+Replace `az repos pr show` with `gh pr view --json headRefName` for GitHub.
+
+### In-session: check out first
+
+Land on the PR's source branch first (e.g. `/df:pr checkout <id>` for Azure DevOps), then invoke `/df:code-review`. The skill reviews the current branch vs base.
+
+### Warning
+
+This skill never checks anything out. Whatever is in cwd is what gets reviewed. If you want PR context but are on the wrong branch, the diff will reflect the wrong starting point.
 
 ## Notes
 
 - Read-only. Never posts PR comments. For comments use `pr-comments` skill.
 - Pipeline detail lives in `references/pipeline.md` — load only when running review.
-- `az repos pr` requires the `azure-devops` az extension.
+- No `az`, no `gh`, no PR-id resolution. PR resolution lives in `df:pr`, `df:az-cli`, or shell wrappers.
