@@ -82,7 +82,9 @@ If `n > 50` → warn user, ask: proceed full / filter to paths / abort.
 
 ### 3. Run pipeline
 
-Read `references/pipeline.md` and execute Phases 1–4 with:
+Read `references/pipeline.md` and **execute every phase**. The phase sequence, the lens set chosen by Step 1.4 (kind routing), the scoring pass, and the final Critical/Concerns/Nits format are mandatory — no shortcut to a freeform review, regardless of how small the diff looks. Inline vs. Task-tool fan-out is a perf choice (threshold + kind routing defined in `pipeline.md`); the contract is the steps and the output.
+
+Inputs to pass through:
 
 - `DIFF_FILE` = path from step 1
 - `CHANGED_FILES` = list from step 1

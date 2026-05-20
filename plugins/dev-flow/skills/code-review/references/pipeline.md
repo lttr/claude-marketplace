@@ -1,13 +1,34 @@
 # Code Review Pipeline
 
-Analyzes diffs by data source. Each agent has unique investigation scope, no overlap.
+Analyzes diffs by data source. Each lens has unique investigation scope, no overlap.
 
 **Inputs from caller:**
 
 - `DIFF_FILE` — path to diff
 - `CHANGED_FILES` — list of changed file paths
 - `TITLE` — branch / diff title
-- `RULES_FILE` (optional) — path to a project rules markdown file. When set, Agent 1 reads it in addition to repo-discovered rules. Caller resolves precedence (user-passed `--rules` over wrapper-pinned default) before invoking.
+- `RULES_FILE` (optional) — path to a project rules markdown file. When set, Lens 1 reads it in addition to repo-discovered rules. Caller resolves precedence (user-passed `--rules` over wrapper-pinned default) before invoking.
+
+---
+
+## Execution Contract (read first)
+
+**Mandatory:** every phase below runs. The lens set that applies (see Step 1.4 kind routing) produces structured issue objects. Every produced issue is scored in Phase 3. Output is the Critical/Concerns/Nits format from Phase 4. No freeform reviews.
+
+**Inline vs. fan-out is a perf choice:**
+
+- **Inline allowed** when ALL hold: ≤100 total diff lines AND no single file has >50 changed lines.
+- **Otherwise:** fan out the applicable lenses (Phase 2) and per-issue scoring (Phase 3) via the Task tool, parallel.
+
+**Lens routing by diff kind (Step 1.4):**
+
+- `data` (i18n / fixtures / snapshots — see Step 1.4 for exact paths) → lenses 1 (Rules) + 2 (Bug-scan) only.
+- `docs` (`*.md`, `*.mdx`, `*.rst`, `*.txt`) → lenses 1 (Rules) + 6 (Inline Guidance) only.
+- `code` (anything else, or mixed) → all 6 lenses.
+
+When in doubt between `data`/`docs` and `code`, pick `code`. Mixed diffs are always `code`.
+
+**Forbidden:** skipping the applicable lenses because the diff "looks small" or you "have enough context." "I'll produce the review directly" is not a valid shortcut — within a kind, the chosen lenses exist because each catches a class the others miss.
 
 ---
 
@@ -16,8 +37,9 @@ Analyzes diffs by data source. Each agent has unique investigation scope, no ove
 ### Step 1.0: Verify Rule Files Exist
 
 ```bash
-fd CLAUDE.md --type f
-fd . .claude/rules --type f 2>/dev/null
+# fd preferred; fall back to find if unavailable
+fd CLAUDE.md --type f 2>/dev/null || find . -name CLAUDE.md -type f -not -path '*/node_modules/*'
+fd . .claude/rules --type f 2>/dev/null || find .claude/rules -type f 2>/dev/null
 ```
 
 If `RULES_FILE` is set, that counts as a rule file (verify it exists; abort if path is invalid). Otherwise, if neither CLAUDE.md nor .claude/rules/ exist, abort: "No rule files found. Create CLAUDE.md, .claude/rules/, or pass `--rules <path>` to enable code review."
@@ -31,7 +53,8 @@ Search for:
 - Root CLAUDE.md
 - CLAUDE.md in any subdirectory
 - All files in .claude/rules/
-- Any linter/formatter config files in the repo root
+
+(Linter/formatter configs are NOT rule files for Lens 1 — Lens 1 must quote rule prose verbatim, and rule numbers/JSON keys don't fit. Lens 2 reads linter configs on its own to derive "bug" patterns.)
 
 If RULES_FILE was provided by the caller, include it in the array (absolute path).
 
@@ -68,11 +91,39 @@ Do not analyze for issues yet.
 Output: { "summary": "...", "changedFiles": {...}, "importChanges": [...] }
 ```
 
+### Step 1.4: Classify Diff Kind
+
+Determine `DIFF_KIND` from the changed files. Drives Phase 2 lens selection (see Execution Contract).
+
+Classification is **path-based only** (works from `CHANGED_FILES` + the Step 1.3 summary — no diff-hunk parsing).
+
+Rules:
+
+- **`data`** — every changed file matches one of these path patterns:
+  - i18n / locale files: `locales/**`, `i18n/**`, `translations/**`, `*.po`, `*.ftl`
+  - fixtures / mocks: `fixtures/**`, `__fixtures__/**`, `mocks/**`, `__mocks__/**`
+  - snapshots: `__snapshots__/**`, `*.snap`
+
+  Generic `*.json` / `*.yaml` / `*.toml` files do NOT qualify — a `tsconfig.json` or `package.json` edit is build-config and routes to `code` so Lens 3/4/5 apply.
+
+- **`docs`** — every changed file is `*.md`, `*.mdx`, `*.rst`, or `*.txt`.
+- **`code`** — anything else, OR any mix of categories.
+
+A single non-data/non-docs file → `code`. When in doubt → `code`.
+
+Output: `{ "kind": "data" | "docs" | "code", "reason": "<one line>" }`
+
 ---
 
-## Phase 2: Parallel Review Agents (Sonnet)
+## Phase 2: Review Lenses (Sonnet)
 
-Launch all 6 agents in parallel.
+Run the lens set for `DIFF_KIND` (see Execution Contract):
+
+- `data` → Lens 1 + Lens 2.
+- `docs` → Lens 1 + Lens 6.
+- `code` → all 6 lenses.
+
+Each lens produces structured issue objects (schemas per lens). Above the inline threshold, launch the selected lenses as parallel Task-tool subagents; at or below, you may inline — but **every lens in the selected set must run**.
 
 **Common input:**
 
@@ -80,8 +131,9 @@ Launch all 6 agents in parallel.
 - Rule file paths (Step 1.1)
 - Project context (Step 1.2)
 - Changed files list (Step 1.3)
+- `DIFF_KIND` (Step 1.4)
 
-**False positive list (verbatim to ALL agents):**
+**False positive list (verbatim to ALL lenses):**
 
 ```
 SKIP THESE - false positives:
@@ -99,7 +151,7 @@ SKIP THESE - false positives:
 
 ---
 
-### Agent 1: Rules Compliance
+### Lens 1: Rules Compliance
 
 Data: rule files + diff.
 
@@ -125,7 +177,7 @@ Output per issue:
 }
 ```
 
-### Agent 2: Shallow Bug Scan
+### Lens 2: Shallow Bug Scan
 
 Data: diff only.
 
@@ -155,7 +207,7 @@ Output per issue:
 }
 ```
 
-### Agent 3: Dependency & Type Verification
+### Lens 3: Dependency & Type Verification
 
 Data: diff + imported files + type defs.
 
@@ -182,7 +234,7 @@ Output per issue:
 }
 ```
 
-### Agent 4: Historical Context
+### Lens 4: Historical Context
 
 Data: git blame + git log for modified files.
 
@@ -208,7 +260,7 @@ Output per issue:
 }
 ```
 
-### Agent 5: Architectural Soundness
+### Lens 5: Architectural Soundness
 
 Data: diff + surrounding code (read changed files in full when needed).
 
@@ -262,38 +314,51 @@ Output per issue:
 }
 ```
 
-### Agent 6: Code Comments Compliance
+### Lens 6: Inline Guidance Compliance
 
 Data: full file content.
+
+Scans authorial guidance left in files — code comments in code files, admonitions / callouts / HTML comments (`<!-- NOTE: ... -->`) in docs files.
 
 ```
 For each modified file, read FULL content.
 
-Find all comments. Pay attention to:
-- TODO, FIXME, HACK, NOTE, WARNING markers
-- Comments explaining WHY
+Find inline guidance. Depending on file type:
+- Code files (.ts/.js/.py/.vue/etc): code comments — TODO, FIXME, HACK,
+  NOTE, WARNING markers; comments explaining WHY.
+- Docs files (.md/.mdx/.rst): HTML comments, callout blocks
+  (`> [!NOTE]`, `> [!WARNING]`, `:::note`, `:::warning`), and inline
+  TODO/FIXME markers.
 
 Check if changes:
-1. Violate guidance in nearby comments
+1. Violate guidance in nearby comments / admonitions
 2. Remove TODOs without resolving
 3. Ignore warnings
-4. Break invariants described in comments
+4. Break invariants described in guidance
 
 Output per issue:
 {
   "file": "...",
   "line": 42,
   "issue": "...",
-  "commentText": "// WARNING: ...",
+  "commentText": "// WARNING: ..." or "<!-- NOTE: ... -->",
   "severity": "important"
 }
 ```
 
 ---
 
-## Phase 3: Issue Scoring (Parallel Haiku)
+## Phase 3: Issue Scoring (Haiku)
 
-For EACH issue from Phase 2 — separate Haiku agent. Limit: max 20 issues (sort by apparent severity if more).
+Score EVERY issue from Phase 2. Cap at 20.
+
+**Cap sort order (when >20 issues):**
+
+1. `severity = "important"` before `severity = "nit"`.
+2. Tie-break by lens order: 1 (Rules) → 2 (Bug-scan) → 3 (Deps/Types) → 4 (History) → 5 (Architecture) → 6 (Inline Guidance).
+3. Final tie-break: file path, then line number.
+
+Above the inline threshold, fan out as parallel Haiku subagents; at or below, inline scoring is fine — but scoring is not optional and the rubric below is mandatory.
 
 ```
 You are verifying a potential code review issue.
@@ -301,7 +366,7 @@ You are verifying a potential code review issue.
 Issue: {issue.issue}
 File: {issue.file}
 Line: {issue.line}
-Found by: {agent}
+Found by: {lens}
 Reason: {issue.why or issue.ruleText or issue.betterShape}
 
 Rule files: {paths from Step 1.1}
@@ -373,12 +438,12 @@ Output: { "score": 75, "reasoning": "..." }
 
 ## Error Handling
 
-- **Failed agents:** skip, continue, log warning. Partial review > none.
+- **Failed lenses:** skip, continue, log warning. Partial review > none.
 - **Large diffs (>50 files):** caller already warned in detection step.
 - **Missing rules:** abort (Step 1.0).
 - **Unparseable files:** auto-skip binary/minified/generated.
 
 ## Notes
 
-- Agents defined by data source — no overlap.
-- Rules passed as paths; agents read directly. No paraphrasing.
+- Lenses defined by data source — no overlap.
+- Rules passed as paths; lenses read directly. No paraphrasing.
