@@ -36,11 +36,11 @@ See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
 
 Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
 
-**Skills (all `/dev-flow:<name>`):**
+**Skills (all `/df:<name>`):**
 
 - `triage` - Assess requirement completeness (ticket id/URL, pasted text, .md path, or empty)
-- `code-review` - Read-only review of branch / AZDO PR / git ref / diff file
-- `branch` - Create `feature/<id>-<slug>` from AZDO ticket title
+- `code-review` - Read-only, pure git-native review of branch / staged / git ref / diff file
+- `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
 - `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
 - `pr-comments` - Read, assess, post AZDO PR thread comments
 - `ticket <id> <state>` - Transition AZDO work item (active/cr/ready/closed)
@@ -53,7 +53,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 
 ```shell
 /plugin marketplace add lukastrumm/claude-marketplace
-/plugin install dev-flow@lttr-claude-marketplace
+/plugin install df@lttr-claude-marketplace
 ```
 
 See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
@@ -125,7 +125,7 @@ Select "Browse Plugins" to see available options, or install directly:
 
 ```shell
 /plugin install cc@lttr-claude-marketplace
-/plugin install dev-flow@lttr-claude-marketplace
+/plugin install df@lttr-claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
 /plugin install aiwork-folder-protocol@lttr-claude-marketplace
