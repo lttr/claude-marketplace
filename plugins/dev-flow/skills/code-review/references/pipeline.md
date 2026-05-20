@@ -6,8 +6,9 @@ Analyzes diffs by data source. Each lens has unique investigation scope, no over
 
 - `DIFF_FILE` — path to diff
 - `CHANGED_FILES` — list of changed file paths
-- `TITLE` — branch / diff title
-- `RULES_FILE` (optional) — path to a project rules markdown file. When set, Lens 1 reads it in addition to repo-discovered rules. Caller resolves precedence (user-passed `--rules` over wrapper-pinned default) before invoking.
+- `TITLE` — display title (caller-resolved)
+- `BRANCH`, `PR`, `TICKET` (optional) — header labels, omitted from output when empty. Do not influence lens selection or scoring.
+- `RULES_FILE` (optional) — project rules markdown. When set, Lens 1 reads it alongside repo-discovered rules.
 
 ---
 
@@ -124,6 +125,8 @@ Run the lens set for `DIFF_KIND` (see Execution Contract):
 - `code` → all 6 lenses.
 
 Each lens produces structured issue objects (schemas per lens). Above the inline threshold, launch the selected lenses as parallel Task-tool subagents; at or below, you may inline — but **every lens in the selected set must run**.
+
+**Every issue object must include** `"lens": "Rules" | "Bug-scan" | "Deps & Types" | "History" | "Architecture" | "Inline Guidance"` — Phase 4 tags each finding with it. Implicit on every per-lens schema below.
 
 **Common input:**
 
@@ -408,31 +411,40 @@ Output: { "score": 75, "reasoning": "..." }
 ### Format
 
 ```markdown
-## Code Review: {TITLE}
+# {TITLE}
+
+<!-- Metadata block: emit only the lines whose values are non-empty.
+     If all four are empty, omit the entire block (and its trailing blank line). -->
+
+- PR: #{PR}
+- Ticket: {TICKET}
+- Branch: {BRANCH}
 
 **Files changed:** X | **Issues:** X critical, X concerns, X nits
 
-### Critical (score ≥90)
+## Critical (score ≥90)
 
-- **[file:line]** Issue
+- **[file:line]** Issue _({lens})_
   - **Evidence:** {rule text / commit ref / comment / design smell}
   - **Fix:** ...
 
-### Concerns (score 75-89)
+## Concerns (score 75-89)
 
-- **[file:line]** Issue
+- **[file:line]** Issue _({lens})_
   - **Evidence:** ...
   - **Fix:** ...
 
-### Nits (score 50-74)
+## Nits (score 50-74)
 
-- **[file:line]** Issue — one-line fix
+- **[file:line]** Issue — one-line fix _({lens})_
 
-### Summary
+## Summary
 
 - **Recommendation:** approve | request-changes | needs-discussion
 - **Risk areas:** ...
 ```
+
+`{lens}` is the issue's `lens` field, verbatim. Skip metadata lines whose value is empty; if all three are empty, drop the block.
 
 ---
 

@@ -13,12 +13,15 @@ Pure git-native review pipeline. Resolves a diff from git-native inputs, runs th
 
 `$ARGUMENTS` is a space-separated string. Parse out optional flags first, then treat the remainder as the diff source.
 
-| Flag             | Meaning                                                                                             |
-| ---------------- | --------------------------------------------------------------------------------------------------- |
-| `--rules <path>` | Path to a project rules markdown file. User-passed value WINS over any wrapper-pinned `rules_file`. |
-| `--print`        | Non-interactive mode: print review to stdout, do not prompt for save destination.                   |
+| Flag             | Meaning                                      |
+| ---------------- | -------------------------------------------- |
+| `--rules <path>` | Project rules markdown file.                 |
+| `--pr <number>`  | PR / MR id (label only — no platform fetch). |
+| `--ticket <id>`  | Ticket / work-item id (label only).          |
+| `--name <title>` | Override inferred report title.              |
+| `--print`        | Print review to stdout; skip save prompt.    |
 
-A wrapper skill may pre-set `rules_file` (a single path) before invoking this skill — treat it as the default when `--rules` is absent.
+Wrappers may pre-pin any of `rules_file`, `pr`, `ticket`, `name` — user-passed flags WIN.
 
 ## Input Detection
 
@@ -31,7 +34,7 @@ After flags are stripped, the remainder selects the diff source:
 | path ending `.diff` or `.patch` | local diff file                       |
 | anything else                   | treat as git ref (branch / sha / tag) |
 
-Ambiguous → ask user. Do NOT guess. **Never** treat a numeric value as a PR id — this skill has no platform awareness.
+Ambiguous → ask user. Do NOT guess. **Never** treat a bare numeric as a PR id — PR identity is set only via `--pr`.
 
 ## Workflow
 
@@ -72,6 +75,10 @@ title="HEAD vs <ref>"
 slug="$(git branch --show-current)"
 ```
 
+### 1.5. Resolve report metadata
+
+`name` = `--name` ?? `title`. `branch` = `git branch --show-current` (empty for diff-file / detached HEAD). `pr` / `ticket` = flags, empty if unset. Phase 4 omits empty fields.
+
 ### 2. Diff size guard
 
 ```bash
@@ -86,10 +93,10 @@ Read `references/pipeline.md` and **execute every phase**. The phase sequence, t
 
 Inputs to pass through:
 
-- `DIFF_FILE` = path from step 1
-- `CHANGED_FILES` = list from step 1
-- `TITLE` = title from step 1
-- `RULES_FILE` = resolved rules path (`--rules` over wrapper-pinned; may be unset)
+- `DIFF_FILE`, `CHANGED_FILES` — from step 1
+- `TITLE` — `name` from step 1.5
+- `BRANCH`, `PR`, `TICKET` — from step 1.5 (may be empty)
+- `RULES_FILE` — resolved rules path (may be unset)
 
 ### 4. Output
 
