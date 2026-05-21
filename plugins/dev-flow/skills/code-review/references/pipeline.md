@@ -33,7 +33,7 @@ When in doubt between `data`/`docs` and `code`, pick `code`. Mixed diffs are alw
 
 ---
 
-## Phase 1: Context Gathering (Sequential, Haiku)
+## Phase 1: Context Gathering (Sequential, Sonnet)
 
 ### Step 1.0: Verify Rule Files Exist
 
@@ -116,7 +116,7 @@ Output: `{ "kind": "data" | "docs" | "code", "reason": "<one line>" }`
 
 ---
 
-## Phase 2: Review Lenses (Sonnet)
+## Phase 2: Review Lenses
 
 Run the lens set for `DIFF_KIND` (see Execution Contract):
 
@@ -124,7 +124,13 @@ Run the lens set for `DIFF_KIND` (see Execution Contract):
 - `docs` → Lens 1 + Lens 6.
 - `code` → all 6 lenses.
 
-Each lens produces structured issue objects (schemas per lens). Above the inline threshold, launch the selected lenses as parallel Task-tool subagents; at or below, you may inline — but **every lens in the selected set must run**.
+**Model per lens** (reasoning-heavy lenses get Opus; mechanical ones Sonnet):
+
+- Lens 1 (Rules) → **Opus** — must walk every rule exhaustively.
+- Lens 5 (Architecture) → **Opus** — design-smell judgment.
+- Lenses 2, 3, 4, 6 → **Sonnet**.
+
+Each lens produces structured issue objects (schemas per lens). Above the inline threshold, launch the selected lenses as parallel Task-tool subagents (with the model above); at or below, you may inline — but **every lens in the selected set must run**.
 
 **Every issue object must include** `"lens": "Rules" | "Bug-scan" | "Deps & Types" | "History" | "Architecture" | "Inline Guidance"` — Phase 4 tags each finding with it. Implicit on every per-lens schema below.
 
@@ -156,29 +162,42 @@ SKIP THESE - false positives:
 
 ### Lens 1: Rules Compliance
 
-Data: rule files + diff.
+Data: rule files + diff. **Model: Opus.** This is an exhaustive, line-item walk — not a sampling pass.
 
 ```
-Read EVERY rule file from provided paths.
+Read EVERY rule file from provided paths, in full.
+
+Enumerate EVERY rule / numbered requirement across all files. Walk them
+one by one — do not sample, do not stop early, do not skip a rule because
+the diff "probably" complies. For each rule, decide one of: violated /
+complied / not-applicable.
 
 For each rule:
 1. Extract each requirement
-2. Check if diff violates it
+2. Check if diff violates it (only NEW or CHANGED (+) lines)
 3. Quote rule text VERBATIM
 
 - Do NOT interpret or paraphrase
-- If rule ambiguous, skip
+- If a rule is genuinely ambiguous, mark it not-applicable (do not invent a violation)
 
-Output per issue:
+Output:
 {
-  "file": "...",
-  "line": 42,
-  "issue": "...",
-  "ruleFile": "...",
-  "ruleText": "exact quote",
-  "severity": "important"
+  "rulesWalked": <total rules enumerated>,
+  "coverage": "<one line: e.g. 'walked 8 rule files, 47 numbered rules'>",
+  "issues": [
+    {
+      "file": "...",
+      "line": 42,
+      "issue": "...",
+      "ruleFile": "...",
+      "ruleText": "exact quote",
+      "severity": "important"
+    }
+  ]
 }
 ```
+
+The `rulesWalked` / `coverage` fields are mandatory — they force completeness and surface a skipped walk. They are diagnostic only (not scored issues); the consolidator may note coverage in the Summary but it does not appear as a finding.
 
 ### Lens 2: Shallow Bug Scan
 
@@ -265,7 +284,7 @@ Output per issue:
 
 ### Lens 5: Architectural Soundness
 
-Data: diff + surrounding code (read changed files in full when needed).
+Data: diff + surrounding code (read changed files in full when needed). **Model: Opus.**
 
 ```
 Look at the SHAPE of the change, not the mechanics. For each meaningfully
@@ -351,7 +370,7 @@ Output per issue:
 
 ---
 
-## Phase 3: Issue Scoring (Haiku)
+## Phase 3: Issue Scoring (Sonnet)
 
 Score EVERY issue from Phase 2. Cap at 20.
 
@@ -361,7 +380,7 @@ Score EVERY issue from Phase 2. Cap at 20.
 2. Tie-break by lens order: 1 (Rules) → 2 (Bug-scan) → 3 (Deps/Types) → 4 (History) → 5 (Architecture) → 6 (Inline Guidance).
 3. Final tie-break: file path, then line number.
 
-Above the inline threshold, fan out as parallel Haiku subagents; at or below, inline scoring is fine — but scoring is not optional and the rubric below is mandatory.
+Above the inline threshold, fan out as parallel Sonnet subagents; at or below, inline scoring is fine — but scoring is not optional and the rubric below is mandatory.
 
 ```
 You are verifying a potential code review issue.
@@ -395,12 +414,17 @@ Output: { "score": 75, "reasoning": "..." }
 
 ---
 
-## Phase 4: Filter & Format
+## Phase 4: Filter, Format & Synthesize
 
 ### Filter
 
 - Keep score ≥ 50
-- Zero remaining → output "No issues found"
+- Zero remaining → output "No issues found" (still emit Strengths + Summary)
+
+### Synthesize (no extra subagent — done by the consolidator from material already gathered)
+
+- **Strengths:** from the Phase 1.3 change summary and the Architecture lens, list up to 5 things the PR does well (clean abstractions, good reuse, correct lifecycle handling, well-scoped change). Concrete and tied to the diff — no generic praise, no filler. Omit the section only if nothing genuine stands out.
+- **Fix order:** order the kept Critical + Concern findings into a numbered must-fix list (Criticals first, then Concerns by score). Group trivially-related fixes onto one line. Nits are excluded.
 
 ### Group
 
@@ -438,9 +462,18 @@ Output: { "score": 75, "reasoning": "..." }
 
 - **[file:line]** Issue — one-line fix _({lens})_
 
+## Strengths
+
+<!-- Up to 5 concrete things the PR does well. Omit the whole section if none stand out. -->
+
+- ...
+
 ## Summary
 
 - **Recommendation:** approve | request-changes | needs-discussion
+- **Suggested fix order:**
+  1. ...
+  2. ...
 - **Risk areas:** ...
 ```
 
