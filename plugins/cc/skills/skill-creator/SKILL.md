@@ -146,6 +146,8 @@ Additionally, `` !​`<command>` `` (inline) and ` ```! ` fenced blocks preproce
 
 **Keep SKILL.md lean.** Aim for under 200 lines, hard max 500. Move detailed material to supporting files.
 
+**List prerequisites.** If the skill relies on external programs/CLIs (jq, ffmpeg, a vendored binary, etc.), add a short **Prerequisites** section near the top listing them — with install hints when non-obvious. An unstated dependency makes the skill silently fail on a machine that lacks it. List only what could plausibly be missing; skip ubiquitous tools (curl, date, grep) and skip the section entirely for purely instructional skills.
+
 ## When to Add Scripts
 
 Add `scripts/` when:
@@ -176,6 +178,7 @@ For large files (>10k words), include grep patterns in SKILL.md so Claude can se
 After drafting, verify:
 
 - [ ] Description includes triggers ("Use when...")
+- [ ] Prerequisites section lists required programs (if any external tooling is used)
 - [ ] SKILL.md is lean (under ~200 lines)
 - [ ] No time-sensitive information
 - [ ] Concrete examples included where helpful
