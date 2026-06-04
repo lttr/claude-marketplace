@@ -15,8 +15,8 @@ All functionality ships as skills. Skills marked **auto** may trigger from user 
 
 ### Authoring
 
-- **plugin-creator** (auto) - Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration
-- **skill-creator** (auto) - Guide for creating skills (the unified primitive for both commands and auto-invoked capabilities), with the full frontmatter reference
+- **cc:plugin-creator** (explicit) - Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration
+- **cc:skill-creator** (explicit) - Guide for creating skills (the unified primitive for both commands and auto-invoked capabilities), with the full frontmatter reference
 
 ### Introspection
 

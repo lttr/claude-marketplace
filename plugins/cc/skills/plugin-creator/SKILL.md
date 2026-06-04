@@ -1,6 +1,7 @@
 ---
 name: plugin-creator
 description: This skill should be used when creating, modifying, or managing Claude Code plugins and plugin marketplaces. Trigger when working with plugin manifests (plugin.json, marketplace.json), creating plugin directory structures, adding plugin components (commands, skills, agents, hooks), version bumping, or when discussing plugin development workflows.
+disable-model-invocation: true
 ---
 
 # Plugin Creator

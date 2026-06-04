@@ -1,6 +1,7 @@
 ---
 name: skill-creator
 description: Guide for creating and editing Claude Code skills. Use when user wants to create a new skill, create a new slash command (skills are the unified primitive - commands live in skills/ now), update an existing skill, or needs help structuring a SKILL.md file.
+disable-model-invocation: true
 ---
 
 # Skill Creator
