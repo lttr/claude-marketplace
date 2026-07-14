@@ -2,10 +2,16 @@
 name: cc:handoff
 description: Write ~/.claude/custom-handoff.md to hand off current work to the next session
 disable-model-invocation: true
+argument-hint:
+  [focus, e.g. "the auth refactor" or "only what's left on the migration"]
 allowed-tools: Write, Bash(trash-put:*), Bash(git status:*), Bash(git log:*), Bash(git diff:*)
 ---
 
 Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) summarizing current work so the next Claude session can pick up where this one left off.
+
+## Focus argument
+
+`$ARGUMENTS`, when present, is the user's steer for what the handoff should emphasize. Let it bias every section — `GOAL`, `RECENT CONCLUSIONS`, and `NEXT` especially — toward that thread of the work. Trim or drop details unrelated to the focus, and let `NEXT` lead with the focused action. Still keep `# ORIGINAL PROMPT` verbatim; the focus reshapes emphasis, not the recorded intent. When `$ARGUMENTS` is empty, weight sections as the rules below describe.
 
 ## Steps
 
