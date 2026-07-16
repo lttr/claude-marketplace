@@ -1,6 +1,6 @@
 ---
-name: code-review
-description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "code review", "/df:code-review", or provides a git ref or diff path. Read-only — never posts comments.
+name: code-review-diff
+description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "review diff", "/df:code-review-diff", or provides a git ref or diff path. Read-only — never posts comments.
 ---
 
 # Code Review
@@ -46,7 +46,7 @@ Ambiguous → ask user. Do NOT guess. **Never** treat a bare numeric as a PR id 
 base=$(git rev-parse --verify master 2>/dev/null && echo master || echo main)
 cur=$(git branch --show-current)
 [ "$cur" = "$base" ] && abort "On base branch ($base). Switch to a feature branch."
-git diff "$base"...HEAD > "/tmp/review-diff-$(date +%s).diff"
+git diff "$base"...HEAD > "/tmp/code-review-diff-$(date +%s).diff"
 files=$(git diff --name-only "$base"...HEAD)
 title="$cur"
 slug="$cur"
@@ -55,7 +55,7 @@ slug="$cur"
 #### `staged`
 
 ```bash
-git diff --staged > "/tmp/review-diff-staged-$(date +%s).diff"
+git diff --staged > "/tmp/code-review-diff-staged-$(date +%s).diff"
 files=$(git diff --staged --name-only)
 title="staged changes"
 slug="staged"
@@ -69,7 +69,7 @@ Use file as-is. Parse changed files from diff headers (`+++ b/...`).
 #### git ref
 
 ```bash
-git diff "<ref>"...HEAD > "/tmp/review-diff-ref-$(date +%s).diff"
+git diff "<ref>"...HEAD > "/tmp/code-review-diff-ref-$(date +%s).diff"
 files=$(git diff --name-only "<ref>"...HEAD)
 title="HEAD vs <ref>"
 slug="$(git branch --show-current)"
@@ -121,14 +121,14 @@ Run from terminal. Resolve PR id → source branch via platform CLI, then launch
 # bin/cr-pr <pr-id>
 PR_ID=$1
 BRANCH=$(az repos pr show --id "$PR_ID" --query sourceRefName -o tsv | sed 's|refs/heads/||')
-claude --worktree "$BRANCH" "/df:code-review --rules .claude/code-review-rules.md"
+claude --worktree "$BRANCH" "/df:code-review-diff --rules .claude/code-review-rules.md"
 ```
 
 Replace `az repos pr show` with `gh pr view --json headRefName` for GitHub.
 
 ### In-session: check out first
 
-Land on the PR's source branch first (e.g. `/df:pr checkout <id>` for Azure DevOps), then invoke `/df:code-review`. The skill reviews the current branch vs base.
+Land on the PR's source branch first (e.g. `/df:pr checkout <id>` for Azure DevOps), then invoke `/df:code-review-diff`. The skill reviews the current branch vs base.
 
 ### Warning
 

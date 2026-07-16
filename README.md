@@ -39,7 +39,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 **Skills (all `/df:<name>`):**
 
 - `triage` - Assess requirement completeness (ticket id/URL, pasted text, .md path, or empty)
-- `code-review` - Read-only, pure git-native review of branch / staged / git ref / diff file
+- `code-review-diff` - Read-only, pure git-native review of branch / staged / git ref / diff file
 - `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
 - `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
 - `pr-comments` - Read, assess, post AZDO PR thread comments

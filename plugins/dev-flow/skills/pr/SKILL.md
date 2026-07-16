@@ -30,4 +30,4 @@ Unknown op → ask user.
 - `create` errors if on `main`/`master` — tells user to run `feature-branch` first.
 - `create` errors if no commits ahead of base — tells user to commit first (commit logic is intentionally not bundled).
 - For PR comment threads, use `pr-comments` skill.
-- For reviewing diff, use `code-review` skill.
+- For reviewing diff, use `code-review-diff` skill.
