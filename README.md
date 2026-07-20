@@ -137,10 +137,7 @@ Select "Browse Plugins" to see available options, or install directly:
 
 The `browser-tools` plugin has been deprecated and is no longer published through this marketplace. The source remains in [`_archived/browser-tools/`](./_archived/browser-tools) for reference.
 
-Use one of these alternatives instead:
-
-- [`playwright-cli`](https://playwright.dev/docs/test-cli) skill - full-featured browser automation via Playwright
-- An `agent-browser` style MCP/skill solution
+Use `agent-browser` instead - CLI-driven browser automation with snapshot/click/fill by ref.
 
 **Migration checklist** (if you were using `browser-tools`):
 
