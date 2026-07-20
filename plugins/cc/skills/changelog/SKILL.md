@@ -37,6 +37,8 @@ Use `--lookback-days` when the user asks for changes from a specific time period
   5. Behavioral changes — different output for same input, removed/changed defaults, breaking changes
   6. Internal / perf / refactor — deprioritize unless user-observable. A perf win that doesn't change behavior or UX ranks low.
      Sort all candidates by this combined score, drop bottom half. Round up on odd counts. Mention dropped count at bottom.
+- **Drop cosmetic items and routine bug fixes entirely** (before the 50% cut). Skip typo/wording tweaks, UI polish, and fixes for bugs the user never hit. Include a bug fix only with strong evidence it affects the user — e.g. their CLAUDE.md/settings/hooks mention a workaround for it, or it breaks a feature they demonstrably use.
+- **No duplicates.** Each item appears exactly once in the whole report — never in two themes. Before finishing, reread the output and remove any repeated bullets or repeated sections.
 - **Group surviving items by theme, not by version.** Cluster into categories (e.g. "Startup & Performance", "Plugins & Skills", "Agent Teams", "Bash & Permissions").
 - **Each item = 1 short line.** Rewrite verbose changelog entries into punchy summaries (5-15 words). Append version+date tag: `(2.1.47, Feb 18)`
 - **Lead with a 1-2 sentence TL;DR** of the most impactful changes for this user.
