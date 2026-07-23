@@ -1,5 +1,5 @@
 ---
-name: cc:handoff
+name: handoff
 description: Write ~/.claude/custom-handoff.md to hand off current work to the next session
 disable-model-invocation: true
 argument-hint:

@@ -1,5 +1,5 @@
 ---
-name: cc:changelog
+name: changelog
 description: Show recent Claude Code changes personalized to user's setup. Trigger when user asks about changelog, "what's new", "cc changelog", "claude code updates", "recent changes", or wants to know what changed in Claude Code.
 disable-model-invocation: true
 allowed-tools: Bash(deno:*), Bash(chmod:*)

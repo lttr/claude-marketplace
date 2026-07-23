@@ -1,5 +1,5 @@
 ---
-name: cc:list:hooks
+name: list:hooks
 description: List all configured hooks
 disable-model-invocation: true
 allowed-tools: Bash

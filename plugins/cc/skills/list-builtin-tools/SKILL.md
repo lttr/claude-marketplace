@@ -1,5 +1,5 @@
 ---
-name: cc:list:builtin-tools
+name: list:builtin-tools
 description: List all built-in Claude Code tools
 disable-model-invocation: true
 ---
