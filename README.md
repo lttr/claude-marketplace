@@ -58,19 +58,19 @@ Developer workflow automation: triage requirements, generate activity insights, 
 
 See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
 
-### AI Work Folder Protocol
+### AI Work (aiwork)
 
-Repository-local `.aiwork/` folder convention for AI-assisted workflows. Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs. Version control is optional.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow (`to-spec`, `to-tickets`, `implement`, `grill-with-docs`). Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs.
 
 **Used by:** dev-flow plugin (optional but recommended)
 
 **Installation:**
 
 ```shell
-/plugin install aiwork-folder-protocol@lttr-claude-marketplace
+/plugin install aiwork@lttr-claude-marketplace
 ```
 
-See [plugins/aiwork-folder-protocol/README.md](./plugins/aiwork-folder-protocol/README.md) for detailed documentation.
+See [plugins/aiwork/README.md](./plugins/aiwork/README.md) for detailed documentation.
 
 ### Nuxt Plugin
 
@@ -128,7 +128,7 @@ Select "Browse Plugins" to see available options, or install directly:
 /plugin install df@lttr-claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 /plugin install video-to-article@lttr-claude-marketplace
-/plugin install aiwork-folder-protocol@lttr-claude-marketplace
+/plugin install aiwork@lttr-claude-marketplace
 ```
 
 ## Deprecated Plugins

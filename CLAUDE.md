@@ -12,6 +12,7 @@ This is a **Claude Code plugin marketplace** that hosts multiple plugins for dis
 - **video-to-article** - Convert lecture videos to transcripts and articles
 - **dev-flow** - Developer workflow automation (triage, insights, Azure DevOps, git)
 - **cc** - Claude Code authoring tools (plugins, skills, introspection)
+- **aiwork** - .aiwork/ folder protocol plus spec → tickets → implement workflow skills
 
 Deprecated plugins live under `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked.
 
@@ -25,7 +26,8 @@ claude-marketplace/
 │   ├── nuxt/                # Nuxt.js development guidance
 │   ├── video-to-article/    # Video transcription workflow
 │   ├── dev-flow/            # Developer workflow automation
-│   └── cc/                  # Claude Code authoring tools
+│   ├── cc/                  # Claude Code authoring tools
+│   └── aiwork/              # .aiwork/ protocol + workflow skills
 ├── _archived/               # Deprecated plugins, not published
 └── README.md                # Marketplace-level README
 ```
