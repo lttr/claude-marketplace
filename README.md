@@ -26,7 +26,7 @@ Claude Code authoring tools: scaffold plugins, skills, and commands, introspect 
 **Installation:**
 
 ```shell
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install cc@lttr-claude-marketplace
 ```
 
@@ -52,7 +52,7 @@ Developer workflow automation: triage requirements, generate activity insights, 
 **Installation:**
 
 ```shell
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install df@lttr-claude-marketplace
 ```
 
@@ -89,7 +89,7 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 **Installation:**
 
 ```shell
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 ```
 
@@ -106,7 +106,7 @@ See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) f
 ### Add this marketplace
 
 ```shell
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 ```
 
 Or for local development:

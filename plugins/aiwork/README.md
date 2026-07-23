@@ -12,13 +12,13 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
 - **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
-The to-spec, to-tickets, implement, and grill-with-docs skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
+The to-spec, to-tickets, implement, grill-with-docs, and tdd skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
 ## Installation
 
 ```shell
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install aiwork@lttr-claude-marketplace
 ```

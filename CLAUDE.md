@@ -143,7 +143,7 @@ This allows `/my:commit` even if the file lives at `commands/my/commit.md` in a 
 ### After Publishing to GitHub
 
 ```bash
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 ```
 

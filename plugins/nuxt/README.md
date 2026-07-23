@@ -21,7 +21,7 @@ This plugin includes a comprehensive **Nuxt skill** that automatically activates
 ### From GitHub
 
 ```bash
-/plugin marketplace add lukastrumm/claude-marketplace
+/plugin marketplace add lttr/claude-marketplace
 /plugin install nuxt@lttr-claude-marketplace
 ```
 
