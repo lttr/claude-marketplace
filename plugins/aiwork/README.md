@@ -4,6 +4,7 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 
 ## Skills
 
+- **aiwork-protocol** - The `.aiwork/` folder convention itself: task folders, artifact types, naming, frontmatter
 - **to-spec** - Turn the current conversation into a spec, saved per the aiwork protocol
 - **to-tickets** - Break a plan, spec, or conversation into vertical-slice tickets with blocking edges
 - **implement** - Implement work from a ticket, spec, or inline description; auto-detects the next item from the task folders
@@ -13,9 +14,7 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 
 The to-spec, to-tickets, implement, and grill-with-docs skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
-## Protocol
-
-The `.aiwork/` folder convention itself is described in [`aiwork-protocol.md`](./aiwork-protocol.md). The skills above reference it as the `aiwork-protocol` skill.
+The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
 ## Installation
 
