@@ -60,7 +60,7 @@ See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed docu
 
 ### AI Work (aiwork)
 
-Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow (`to-spec`, `to-tickets`, `implement`, `grill-with-docs`). Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow (`to-spec`, `to-tickets`, `implement`, `grill-with-docs`, `tdd`, `agent-browser`). Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs.
 
 **Used by:** dev-flow plugin (optional but recommended)
 

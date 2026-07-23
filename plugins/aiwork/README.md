@@ -8,8 +8,10 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **to-tickets** - Break a plan, spec, or conversation into vertical-slice tickets with blocking edges
 - **implement** - Implement work from a ticket, spec, or inline description; auto-detects the next item from the task folders
 - **grill-with-docs** - Grilling session that challenges a plan against the domain model (glossary, ADRs) and updates the docs
+- **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
+- **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
-The workflow skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
+The to-spec, to-tickets, implement, and grill-with-docs skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 ## Protocol
 
