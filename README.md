@@ -60,13 +60,24 @@ See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed docu
 
 ### AI Work (aiwork)
 
-Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow (`to-spec`, `to-tickets`, `implement`, `grill-with-docs`, `tdd`, `agent-browser`). Defines naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow.
+
+**Skills:**
+
+- `aiwork-protocol` - Naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs in `.aiwork/`
+- `to-spec` - Turn a rough idea into a written spec
+- `to-tickets` - Break a spec into implementable tickets
+- `implement` - Work a ticket to completion
+- `grill-with-docs` - Interrogate a design against docs, ADRs, and glossary
+- `tdd` - Test-driven development: build features and fix bugs test-first
+- `agent-browser` - Automate a real browser: open pages, snapshot elements, click/fill, extract content
 
 **Used by:** dev-flow plugin (optional but recommended)
 
 **Installation:**
 
 ```shell
+/plugin marketplace add lttr/claude-marketplace
 /plugin install aiwork@lttr-claude-marketplace
 ```
 
