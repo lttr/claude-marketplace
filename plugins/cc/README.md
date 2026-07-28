@@ -30,13 +30,7 @@ Auto-memory (`<config-dir>/projects/<encoded-cwd>/memory/`) is per-conversation 
 
 - **cc:memory-promote** (explicit) - Audit the current repo's memories and propose a target layer for each: user-level `CLAUDE.md`, repo `CLAUDE.md`, an existing or new skill, a `settings.json` hook, or a checked-in reference doc. Genuinely ephemeral memories (sprints, incidents, in-flight tickets) are left where they are. Nothing is edited or deleted without per-item confirmation.
 
-  ```
-  /cc:memory-promote              # current repo, classify + promote
-  /cc:memory-promote list         # surface only, no suggestions
-  /cc:memory-promote all          # every project
-  /cc:memory-promote global       # cross-cutting candidates only
-  /cc:memory-promote --project /path/to/repo
-  ```
+  No flags — run `/cc:memory-promote` and say in plain words if you want something else ("just list them", "check every project", "only the cross-cutting ones", "look at ~/work/api instead").
 
 ### Session handoff
 

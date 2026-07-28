@@ -1,9 +1,8 @@
 ---
 name: memory-promote
 disable-model-invocation: true
-description: Audit auto-memory files for the current repo (or all projects) and suggest promoting each one to a more persistent layer — global/project CLAUDE.md, an existing or new skill, a settings.json hook, or a checked-in reference doc. Use when the user says "audit memory", "promote memory", "clean up memories", "memory-promote", or wants to move ephemeral memory into durable config.
+description: Audit this repo's auto-memory files and suggest promoting each one to a more persistent layer — user or repo CLAUDE.md, an existing or new skill, a settings.json hook, or a checked-in reference doc. Use when the user says "audit memory", "promote memory", "clean up memories", "memory-promote", or wants to move ephemeral memory into durable config.
 allowed-tools: Bash(ls:*), Bash(find:*), Bash(grep:*), Bash(cat:*), Bash(realpath:*), Bash(pwd:*), Read, Edit, Write
-argument-hint: [--all|global] [--list] [--project <path>] [--apply]
 ---
 
 # Memory Promote
@@ -12,34 +11,19 @@ Auto-memory under `<config-dir>/projects/<encoded-cwd>/memory/` is per-conversat
 
 `<config-dir>` is `$CLAUDE_CONFIG_DIR` when set, otherwise `~/.claude`. Resolve it once at the start and use it everywhere below.
 
-## Scope (default: current repo)
+## Scope
 
-Project memory dirs use the absolute cwd with `/` replaced by `-`:
+The current repo. Memory dirs encode the absolute cwd with `/` replaced by `-`:
 
 - `/home/alex/work/api` → `<config-dir>/projects/-home-alex-work-api/memory/`
 
-**Default scope = current repo, always.** Flags only widen scope or change mode.
+Compute `MEM_DIR="$CONFIG_DIR/projects/$(pwd | tr / -)/memory"`. If it doesn't exist, report "no memories for this repo" and stop.
 
-1. No flag → current repo, full classify+promote. Compute `MEM_DIR="$CONFIG_DIR/projects/$(pwd | tr / -)/memory"`. If missing, report "no memories for this repo" and stop.
-2. `--project <path>` → use that path's encoded dir instead of cwd.
-3. `--all` → widen scope to every `<config-dir>/projects/*/memory/` dir, grouped by project.
-4. `--list` (alias: bare word `list`) → surface-only mode (no suggestions, no edits). Still scopes to current repo by default. Combine with `--all` for a cross-project flat overview, or `--project <path>` for a specific repo.
-
-**Argument parsing is forgiving.** Treat these bare words as flag aliases:
-
-- `list` → `--list`
-- `all` → `--all` (every project, no filter)
-- `global` → `--all --filter=cross-cutting` (every project, but only show memories whose promotion target is **not** a repo `CLAUDE.md` — i.e. the user-level `CLAUDE.md`, a user/plugin skill, or a hook). "Global" means not-repo-specific, not "all repos".
-- `apply` → `--apply`
-- A path-like token → `--project <token>`
-
-Examples: `list global` = list cross-cutting candidates only; `list all` = list everything across projects.
-
-The cross-cutting filter classifies each memory the same way as the promotion table, then keeps only those whose target is global (user-level `CLAUDE.md`, an existing/new skill, or a settings.json hook). Drops anything whose target is a repo `CLAUDE.md`.
+If the user asks for something wider or narrower in their own words — another repo, every project, only the cross-cutting ones, just list them without suggestions — honor it using the same encoding. Don't invent flags for it; the report-then-confirm loop below already gives them control.
 
 ## Steps
 
-1. **List memories.** `find "$MEM_DIR" -type f -name '*.md' ! -name 'MEMORY.md'` (one or many dirs). For each file, read the frontmatter and body. Memory frontmatter looks like:
+1. **List memories.** `find "$MEM_DIR" -type f -name '*.md' ! -name 'MEMORY.md'`. For each file, read the frontmatter and body. Memory frontmatter looks like:
 
    ```yaml
    ---
@@ -56,7 +40,7 @@ The cross-cutting filter classifies each memory the same way as the promotion ta
 
 2. **Classify each memory** using the table below.
 3. **Render report** — one row per memory: file, type, current content (1-line summary), → suggested target, rationale, concrete action.
-4. **Wait for user confirmation** before changing anything. If `--apply` was passed, still confirm per-item — promotion is a judgment call.
+4. **Wait for user confirmation** before changing anything — promotion is a judgment call, so confirm per-item even when the user asked to just apply everything.
 5. **On confirm:** perform the action (edit CLAUDE.md, invoke `/cc:skill-creator`, add the hook to `settings.json`, write a reference doc), then **delete the memory file and its line in `MEMORY.md`**.
 
 ## Promotion targets
