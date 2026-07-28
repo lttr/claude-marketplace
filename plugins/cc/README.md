@@ -24,6 +24,20 @@ All functionality ships as skills. Skills marked **auto** may trigger from user 
 - **cc:list:hooks** (explicit) - List configured hooks
 - **cc:changelog** (explicit) - Show recent Claude Code changes, ranked by relevance to your installed skills, commands, and usage patterns; keeps top 50% of items
 
+### Memory hygiene
+
+Auto-memory (`<config-dir>/projects/<encoded-cwd>/memory/`) is per-conversation context, not durable config. Facts that keep being true — your stack, a repo's release flow, a "never run this" rule — are better off in a layer that survives memory pruning and is visible to teammates.
+
+- **cc:memory-promote** (explicit) - Audit the current repo's memories and propose a target layer for each: user-level `CLAUDE.md`, repo `CLAUDE.md`, an existing or new skill, a `settings.json` hook, or a checked-in reference doc. Genuinely ephemeral memories (sprints, incidents, in-flight tickets) are left where they are. Nothing is edited or deleted without per-item confirmation.
+
+  ```
+  /cc:memory-promote              # current repo, classify + promote
+  /cc:memory-promote list         # surface only, no suggestions
+  /cc:memory-promote all          # every project
+  /cc:memory-promote global       # cross-cutting candidates only
+  /cc:memory-promote --project /path/to/repo
+  ```
+
 ### Session handoff
 
 Claude Code has no native, lightweight way to start a follow-up session. The existing options are both costly: describing a bespoke markdown artifact is slow to write and slow to re-read, and running `/compact` is token-heavy and often loses the original intent. `/cc:handoff` fills that gap with a fixed-shape, ~250-word note at a stable path, weighted toward recent conclusions and open questions from the final turns, loaded in one line at the start of the next session.

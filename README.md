@@ -20,8 +20,9 @@ Claude Code authoring tools: scaffold plugins, skills, and commands, introspect 
 - `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions.
 - `/cc:list:hooks` - Show the hooks configured across user, project, and local settings files, so you can audit what's running on each event.
 - `/cc:handoff` - Write `~/.claude/custom-handoff.md` (original prompt, goal, done, recent conclusions, next, watch-out) so a fresh Claude session can resume where this one stopped. Pass an optional focus argument (e.g. `/cc:handoff only what's left on the migration`) to bias the summary toward that thread. Load in a new session with `claude "@$HOME/.claude/custom-handoff.md"`.
+- `/cc:memory-promote` - Audit this repo's auto-memory files and propose a durable home for each (user or repo `CLAUDE.md`, an existing/new skill, a `settings.json` hook), leaving genuinely ephemeral ones alone. Supports `list`, `all`, `global`, and `--project <path>`.
 
-**When to install:** you're building or tuning plugins/skills yourself, want a compact view of the features and hooks loaded into your session, or run long tasks across multiple Claude sessions.
+**When to install:** you're building or tuning plugins/skills yourself, want a compact view of the features and hooks loaded into your session, run long tasks across multiple Claude sessions, or want to keep auto-memory from silently becoming your config.
 
 **Installation:**
 
