@@ -1,46 +1,46 @@
 ---
 name: ticket-create
-description: Create an Azure DevOps work item (Technical task / User Story / Bug …) with a Markdown description, parent link, area/iteration, and tags — in a single `az rest` call. Trigger when the user says "create azdo ticket", "new work item", "create technical task", "child ticket under #N", or asks to spawn a follow-up ticket from code or plan context. Use INSTEAD OF `az boards work-item create` whenever the description should render as Markdown (that command cannot pass the format flag).
+description: Create an Azure DevOps work item (Technical task / User Story / Bug …) with a Markdown description, parent link, area/iteration, and tags, in a single `az rest` call. Trigger when the user says "create azdo ticket", "new work item", "create technical task", "child ticket under #N", or asks to spawn a follow-up ticket from code or plan context. Use INSTEAD OF `az boards work-item create` whenever the description should render as Markdown (that command cannot pass the format flag).
 allowed-tools: Bash(az *), Bash(cat *), Bash(trash-put *), Read, Write, Edit
 argument-hint: <title> [--type "Technical task"] [--parent <id>] [--tags a,b] [--description-file <path>]
 ---
 
 # Create AzDO Work Item (Markdown-aware)
 
-`az boards work-item create` stores `--description` as **HTML** with no flag to override. To get a Markdown-rendered description, create the item via `az rest` POST with a JSON-Patch body that includes `/multilineFieldsFormat/System.Description = "Markdown"` alongside the field op. The format cannot be flipped reliably after creation — to convert an existing HTML item, delete and recreate.
+`az boards work-item create` stores `--description` as **HTML** with no flag to override. To get a Markdown-rendered description, create the item via `az rest` POST with a JSON-Patch body that includes `/multilineFieldsFormat/System.Description = "Markdown"` alongside the field op. The format cannot be flipped reliably after creation. To convert an existing HTML item, delete and recreate.
 
-## Step 1 — Resolve org and project (always first)
+## Step 1: Resolve org and project (always first)
 
 Shell variables do **not** survive between Bash calls, so resolve these once, read the printed
 values, and paste the literals into every later command. Never carry `$BASE` across calls.
 
 ```bash
-# cut -f2- + sed, not `tr -d ' '` — AzDO project names may contain spaces.
+# cut -f2- + sed, not `tr -d ' '`. AzDO project names may contain spaces.
 TRIM="s/^ *//; s/ *$//"
 ORG_URL="${AZDO_ORG_URL:-$(az devops configure --list | grep '^organization' | cut -d= -f2- | sed "$TRIM")}"
 PROJECT="${AZDO_PROJECT:-$(az devops configure --list | grep '^project' | cut -d= -f2- | sed "$TRIM")}"
-: "${ORG_URL:?no organization — set AZDO_ORG_URL or run az devops configure --defaults}"
-: "${PROJECT:?no project — set AZDO_PROJECT or run az devops configure --defaults}"
+: "${ORG_URL:?no organization, set AZDO_ORG_URL or run az devops configure --defaults}"
+: "${PROJECT:?no project, set AZDO_PROJECT or run az devops configure --defaults}"
 echo "ORG_URL=$ORG_URL"
 echo "BASE=$ORG_URL/$PROJECT/_apis/wit"
 ```
 
 **If this command aborts with either `:?` message, stop and ask the user for their AzDO
-organization URL and project.** They are team-specific — never guess them, never fall back to
+organization URL and project.** They are team-specific. Never guess them, never fall back to
 an org name seen elsewhere in the repo or conversation. How the user persists the values (env
 var, `az devops configure --defaults`) is their call.
 
-The two constants below are fixed and can be typed literally — they need no resolution step:
+The two constants below are fixed and can be typed literally. They need no resolution step:
 
-| Constant    | Value                                  | Why                                                                                                         |
-| ----------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| resource id | `499b84ac-1321-427f-aa17-267ca6975798` | AzDO's fixed Azure AD app id, same for every org. Without `--resource`, `az` mints an ARM token → TF400813. |
-| api version | `7.1`                                  |                                                                                                             |
+| Constant    | Value                                  | Why                                                                                                                               |
+| ----------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| resource id | `499b84ac-1321-427f-aa17-267ca6975798` | AzDO's fixed Azure AD app id, same for every org. Without `--resource`, `az` mints an ARM token and the call fails with TF400813. |
+| api version | `7.1`                                  |                                                                                                                                   |
 
-## Step 2 — Work item types
+## Step 2: Work item types
 
 Types come from the project's process template. List them before creating if unsure. Substitute
-the real `BASE` printed by step 1 — the placeholder is not a shell variable.
+the real `BASE` printed by step 1. The placeholder is not a shell variable.
 
 ```bash
 az rest --resource 499b84ac-1321-427f-aa17-267ca6975798 \
@@ -50,9 +50,45 @@ az rest --resource 499b84ac-1321-427f-aa17-267ca6975798 \
 
 Casing matters and is often surprising (e.g. `Technical task` with a lowercase `t`). URL-encode spaces as `%20` after the leading `$`: `…/workitems/$Technical%20task`.
 
-## Step 3 — Create call (template)
+## Step 3: Show the draft and get approval (never skip)
 
-Substitute the real `BASE` and `ORG_URL` printed by step 1 — the placeholders are not shell
+Creating a work item is outward-facing: it lands on a shared board, notifies watchers, and
+appears in queries and reports. Soft-delete recovers the item but does not un-send any of that.
+The description is also **your** prose, not the user's. They have not seen the words yet.
+
+Print the full draft and wait for an explicit go-ahead before the POST in step 4:
+
+```
+Type:        Technical task
+Title:       <TITLE>
+Parent:      #<PARENT_ID>, <parent title, fetched so a wrong id is visible>
+Area:        <AREA>
+Iteration:   <ITERATION>
+Tags:        <TAGS>
+
+Description:
+<THE FULL MARKDOWN BODY, verbatim, not a summary of it>
+```
+
+Fetch the parent's title rather than echoing the id back. A transposed id is invisible as a
+number and obvious as a title. This costs one call:
+
+```bash
+az boards work-item show --id <PARENT_ID> --query "fields.\"System.Title\"" -o tsv
+```
+
+Rules:
+
+- Print the description in full. Summarizing it defeats the point of the review.
+- "Create a ticket for X" is a request to draft one, not standing approval to file it. Ask anyway.
+- Approval covers the draft as shown. If the user amends anything, show the corrected draft again.
+- Approval for one ticket is not approval for the next. Filing several means confirming each,
+  or showing the whole set and getting one go-ahead that explicitly covers all of them.
+- Skip this step only if the user has said, in this session, to file without review.
+
+## Step 4: Create call (template)
+
+Substitute the real `BASE` and `ORG_URL` printed by step 1. The placeholders are not shell
 variables. Note the `\$` before the type name: that dollar sign is part of the AzDO URL syntax
 and must survive shell quoting.
 
@@ -63,7 +99,7 @@ cat > /tmp/wi-create.json <<'EOF'
   {"op":"add","path":"/fields/System.AreaPath","value":"<AREA>"},
   {"op":"add","path":"/fields/System.IterationPath","value":"<ITERATION>"},
   {"op":"add","path":"/fields/System.Tags","value":"<TAGS>"},
-  {"op":"add","path":"/fields/System.Description","value":"<MARKDOWN BODY — \\n for newlines, real backticks/asterisks OK>"},
+  {"op":"add","path":"/fields/System.Description","value":"<MARKDOWN BODY. Use \\n for newlines. Real backticks/asterisks OK>"},
   {"op":"add","path":"/multilineFieldsFormat/System.Description","value":"Markdown"},
   {"op":"add","path":"/relations/-","value":{"rel":"System.LinkTypes.Hierarchy-Reverse","url":"<ORG_URL>/_apis/wit/workItems/<PARENT_ID>"}}
 ]
@@ -78,11 +114,18 @@ az rest --method POST --resource 499b84ac-1321-427f-aa17-267ca6975798 \
 trash-put /tmp/wi-create.json
 ```
 
-Drop the ops you don't need — area/iteration default to the project root, tags and the parent relation are optional.
+Drop the ops you don't need. Area and iteration default to the project root. Tags and the parent relation are optional.
 
-Verify the response shows `"descFormat": {"System.Description": "markdown"}` (lowercase). If it shows `"html"`, the format op was missed — see below.
+Verify the response shows `"descFormat": {"System.Description": "markdown"}` (lowercase). If it shows `"html"`, the format op was missed. See below.
 
 ## Update an existing item's description (Markdown-preserving)
+
+This **overwrites** the existing description. There is no merge and no undo. Read the current
+value first, show the user what is being replaced and what replaces it, and get approval:
+
+```bash
+az boards work-item show --id <ID> --query "fields.\"System.Description\"" -o tsv
+```
 
 ```bash
 cat > /tmp/wi-patch.json <<'EOF'
@@ -113,36 +156,55 @@ az boards work-item relation add \
 
 ## Soft-delete (recoverable from recycle bin)
 
+Confirm the id and title with the user first. `--yes` suppresses the CLI's own prompt, so this
+runs unattended. Deleting the wrong item is silent until someone misses it.
+
 ```bash
 az boards work-item delete --id <ID> --yes
 ```
 
-`--destroy` removes permanently — do not pass it without explicit user confirmation.
+`--destroy` removes permanently, bypassing the recycle bin. Never pass it unless the user asked
+for permanent destruction in those terms.
 
-## Description-writing rules
+## Writing the title and description
 
-Defaults, applied unless the user or the project says otherwise:
+Title names a verifiable thing, not a region: `Checkout stalls on a zero-price item`, not
+`Checkout`. No `[Bug]` prefix or id echo.
 
-- **Do not** repeat the parent ticket id inside the description body. The parent relation link is enough.
-- **Avoid** scaffolding phrases like "Why deferred:", "Why it works:", "Background:", "Context:". State the facts directly instead.
-- Keep it descriptive, not directive — let the future implementer choose the shape. Don't enumerate "Changes:" / "Steps:" bullet lists unless the user explicitly asks.
-- Aim short — half the length of an LLM's first instinct is usually right.
+Two rules for the body. They are where drafts go wrong.
+
+**No em-dashes.** Split the sentence in two. Same for semicolons and colons that join clauses.
+Also no `≥`, `→` or other symbols. Write "at most 100 records".
+
+**Every sentence earns its place.** Cut the ones the reader could skip without acting
+differently: scaffolding labels ("Background:", "Why it works:"), the parent id, a restated
+title, hedging, step lists nobody asked for. Open with what is wrong or what changes, then stop.
+
+There is no target length. One line is right when one line is the whole fact, and a gnarly race
+condition may need three paragraphs of repro detail. Length has to come from facts the reader
+acts on. Long drafts are usually long from throat-clearing, not from content, so check which one
+you have before cutting.
+
+Name the actor while you are at it. "The handler retries twice", not "requests are retried".
+
+> Nightly imports silently drop every order past the first 100. The vendor paginated `/orders`
+> in March. The importer still reads a single unpaginated response.
 
 ## Troubleshooting
 
 | Symptom                                     | Cause                                                                | Fix                                                                   |
 | ------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | URL contains `//_apis` or an empty segment  | `$BASE` carried over from an earlier Bash call and expanded to empty | Re-run step 1, paste the literal value                                |
-| `TF400813: not authorized`, empty user GUID | token had no AzDO scope                                              | pass `--resource 499b84ac-…`; if it persists, `az logout && az login` |
-| `descFormat` comes back `html`              | the `/multilineFieldsFormat/System.Description` op was missing       | delete and recreate — see the caveat above                            |
+| `TF400813: not authorized`, empty user GUID | token had no AzDO scope                                              | pass `--resource 499b84ac-…`. If it persists, `az logout && az login` |
+| `descFormat` comes back `html`              | the `/multilineFieldsFormat/System.Description` op was missing       | delete and recreate, see the caveat above                             |
 | type not found                              | wrong casing or unencoded space                                      | re-list types (step 2), encode spaces as `%20`                        |
 
 ## Related skills
 
-- `dev-azdo:ticket` — transition a work item between states (active / cr / ready / closed). Use after creating.
-- `dev-azdo:ticket-comments` — post a Markdown comment on the discussion thread.
-- `dev-azdo:feature-branch` — start a feature branch from an existing ticket id.
-- `dev-azdo:pr` — create / checkout / list / complete pull requests linked to a ticket.
+- `dev-azdo:ticket`: transition a work item between states (active / cr / ready / closed). Use after creating.
+- `dev-azdo:ticket-comments`: post a Markdown comment on the discussion thread.
+- `dev-azdo:feature-branch`: start a feature branch from an existing ticket id.
+- `dev-azdo:pr`: create / checkout / list / complete pull requests linked to a ticket.
 
 ## Self-test after creating
 

@@ -36,6 +36,7 @@ Azure DevOps workflow automation. Single primitive: skills. Each is invokable as
 
 - `feature-branch` invokes `ticket` to set the work item Active (same plugin, always available).
 - `ticket-create` and `ticket-comments` go through `az rest` rather than `az boards`, because the CLI cannot pass the Markdown format flag. Both need `AZDO_ORG_URL` / `AZDO_PROJECT` or `az devops configure --defaults`.
+- Both show the drafted text and wait for approval before writing anything to Azure DevOps. Work items and comments are visible to the team and notify watchers, and comment deletion has no recycle bin.
 - `pr create` errors if on `main` — tells you to run `feature-branch` first.
 - `pr create` errors if no commits ahead — tells you to commit first (commit logic intentionally not bundled).
 
