@@ -35,23 +35,22 @@
       "category": "productivity"
     },
     {
-      "name": "df",
-      "source": "./plugins/dev-flow",
-      "description": "Dev Flow — developer workflow automation as 8 NL-driven skills: triage, code-review-diff, feature-branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
-      "version": "6.1.0",
+      "name": "dev-azdo",
+      "source": "./plugins/dev-azdo",
+      "description": "Azure DevOps workflow automation as 6 NL-driven skills: feature-branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
+      "version": "1.0.0",
       "author": {
         "name": "Lukas Trumm"
       },
       "keywords": [
-        "dev-flow",
-        "triage",
-        "code-review",
-        "insights",
         "azure-devops",
+        "azdo",
         "confluence",
         "git",
         "workflow",
-        "pull-request"
+        "pull-request",
+        "work-item",
+        "insights"
       ],
       "category": "productivity"
     },
@@ -77,8 +76,8 @@
     {
       "name": "aiwork",
       "source": "./plugins/aiwork",
-      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the spec → tickets → implement workflow (to-spec, to-tickets, implement, grill-with-docs, tdd, agent-browser)",
-      "version": "3.2.1",
+      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: triage → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, code-review-diff, grill-with-docs, tdd, agent-browser)",
+      "version": "3.3.0",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -87,7 +86,10 @@
         "protocol",
         "artifacts",
         "convention",
-        "organization"
+        "organization",
+        "triage",
+        "code-review",
+        "review"
       ],
       "category": "productivity"
     }
