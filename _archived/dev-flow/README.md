@@ -1,4 +1,6 @@
-# dev-flow
+# dev-flow (archived)
+
+> **Retired.** Split into two plugins along its `az` dependency: the six Azure DevOps skills went to [`dev-azdo`](../../plugins/dev-azdo), and the two platform-neutral artifact skills (`triage`, `code-review-diff`) went to [`aiwork`](../../plugins/aiwork). No longer listed in `marketplace.json`; the skill directories moved out rather than being copied. See the root README's Deprecated Plugins section for the invocation mapping. Everything below describes the plugin as it last shipped.
 
 Developer workflow automation. Single primitive: skills. Each is invokable as `/df:<skill>` with natural-language args — no rigid flags.
 
