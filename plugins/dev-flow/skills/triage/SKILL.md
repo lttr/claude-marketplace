@@ -1,23 +1,38 @@
 ---
 name: triage
-description: Triage requirements, specs, or tickets. Detect input (Azure DevOps ticket id/URL, pasted text, markdown path, or empty prompt). Explore codebase + docs, score completeness, ask clarifying questions, save markdown report. Trigger when user says "triage", "review this spec", "is this requirement complete", or provides a ticket/spec to assess.
+description: Triage requirements, specs, or tickets. Detect input (pasted text, markdown path, tracker ticket id/URL, or empty prompt). Explore codebase + docs, score completeness, ask clarifying questions, write a markdown report. Trigger when user says "triage", "review this spec", "is this requirement complete", or provides a ticket/spec to assess.
 ---
 
 # Triage
 
-Analyze requirements for completeness. Explore code + docs, surface gaps, ask clarifying questions, save report.
+Analyze requirements for completeness. Explore code + docs, surface gaps, ask clarifying questions, write a report.
+
+Tracker-agnostic and storage-agnostic: fetching a ticket and choosing where the report lands are both pluggable (see `references/sources.md`).
+
+## Arguments
+
+`$ARGUMENTS` is a space-separated string. Parse optional flags first, then treat the remainder as the input.
+
+| Flag             | Meaning                                          |
+| ---------------- | ------------------------------------------------ |
+| `--ticket <id>`  | Ticket / work-item id (label + fetch hint).      |
+| `--name <title>` | Override inferred report title.                  |
+| `--out <path>`   | Write report to this path; skip the save prompt. |
+| `--print`        | Print report to stdout; skip the save prompt.    |
+
+Wrappers may pre-pin any of these — user-passed flags WIN.
 
 ## Input Detection
 
-Argument is `$ARGUMENTS`.
+After flags are stripped, the remainder selects the requirement source:
 
-| Form                                  | Source                          |
-| ------------------------------------- | ------------------------------- |
-| empty                                 | prompt user to paste / describe |
-| numeric (`12345`)                     | Azure DevOps work item id       |
-| URL containing `_workitems/edit/<id>` | Azure DevOps URL → extract id   |
-| path ending `.md`                     | local markdown spec file        |
-| anything else                         | treat as pasted text            |
+| Form                          | Source                          |
+| ----------------------------- | ------------------------------- |
+| empty                         | prompt user to paste / describe |
+| path ending `.md`             | local markdown spec file        |
+| bare id (`12345`, `PROJ-42`)  | tracker ticket → see below      |
+| URL pointing at an issue/item | tracker ticket → see below      |
+| anything else                 | treat as pasted text            |
 
 Ambiguous → ask. Do NOT guess.
 
@@ -29,32 +44,19 @@ Ambiguous → ask. Do NOT guess.
 
 Prompt: "Paste requirements / spec text, or give a ticket id, URL, or .md path."
 
-#### Azure DevOps id / URL
-
-Invoke `az-cli` skill for reference, then:
-
-```bash
-az boards work-item show --id <id> --expand all -o json
-```
-
-Extract title, description, acceptance criteria, state, type, assignedTo, areaPath, iterationPath, relations. HTML descriptions → readable text.
-
-**Always search Confluence** (Atlassian MCP tools) for related docs:
-
-- by ticket title keywords
-- by area path / feature name
-- by domain terms from description
-- additional terms from `$ARGUMENTS` if provided
-
-Look for: technical specs, ADRs, related-feature docs, business rules, prior decisions.
-
 #### `.md` path
 
-Read file. Use file content as input. Title from H1 or filename.
+Read file. Use content as input. Title from H1 or filename.
 
 #### pasted text
 
 Use as-is. Derive title from first line / sentence.
+
+#### tracker ticket
+
+Read `references/sources.md` and use the first available fetch path. Never invent a CLI or an API call — if nothing is available, ask the user to paste the ticket text.
+
+Normalize whatever comes back to: title, description, acceptance criteria, state, type, assignee, area/labels, linked items. HTML descriptions → readable text.
 
 ### 2. Explore codebase + docs
 
@@ -69,6 +71,12 @@ Use as-is. Derive title from first line / sentence.
 #### Local docs
 
 `docs/`, `documentation/`, `wiki/`, `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, OpenAPI specs, ADRs, inline code comments.
+
+#### External docs (optional)
+
+If a docs search tool is connected (see `references/sources.md`), search it for related material: by title keywords, by feature / area name, by domain terms from the description, plus any terms in `$ARGUMENTS`. Look for technical specs, ADRs, related-feature docs, business rules, prior decisions.
+
+No such tool → skip silently, note it in the report only if a gap seems doc-shaped.
 
 ### 3. Assess completeness
 
@@ -102,24 +110,24 @@ Use `AskUserQuestion`. 1–4 questions per call, 2–4 options each. Record answ
 
 ### 6. Write output
 
-If `.aiwork/` protocol present, follow it. Otherwise:
-
-```bash
-mkdir -p ./.aiwork/{date}_{slug}
-```
-
-Save to `./.aiwork/{date}_{slug}/triage.md`.
-
 `{date}` = `YYYY-MM-DD`. `{slug}` = with ticket: `<ticket-id>-<slugified-title>`, else `<slugified-title>`. Slugify: lowercase, spaces→hyphens, strip special chars, max 40 chars.
 
-If folder already exists for this ticket/slug, place file there.
+Destination, in order:
+
+1. `--print` set → print markdown to stdout. Done.
+2. `--out <path>` set → write there.
+3. Project has an artifact convention (a protocol skill covers it, or an existing folder of reports makes it obvious) → follow it. See `references/sources.md`.
+4. Otherwise ask the user:
+   1. Print only (no save) — default
+   2. Save to `/tmp/triage-{slug}.md`
+   3. Other path
 
 ## Output Format
 
 ```markdown
 # Triage: [Short title]
 
-**Source**: [Ticket ID/URL or "Manual input"]
+**Source**: [Ticket id/URL, file path, or "Manual input"]
 **Date**: [YYYY-MM-DD]
 **Completeness**: [Ready | Mostly Ready | Needs Clarification | Underspecified]
 
@@ -137,7 +145,7 @@ If folder already exists for this ticket/slug, place file there.
 
 ### Implicit Requirements (from docs)
 
-- [Reqs found in docs that ticket assumes but doesn't state]
+- [Reqs found in docs that the requirement assumes but doesn't state]
 
 ### Gaps Identified
 
@@ -166,7 +174,7 @@ Only unanswered questions go in output.
 
 ### 7. Summary to user
 
-- File path saved
+- Destination (path, or "printed")
 - Completeness rating
 - Blocker count
 
@@ -177,3 +185,8 @@ Only unanswered questions go in output.
 - 3 critical questions > 10 nice-to-haves
 - Frame to unblock decisions, not gather trivia
 - Docs contradict ticket → blocker question
+
+## Notes
+
+- Read-only against the tracker. Never updates ticket state — that's `df:ticket` or the platform CLI.
+- Tracker and docs recipes live in `references/sources.md` — load only when the input is a ticket or a docs search is wanted.

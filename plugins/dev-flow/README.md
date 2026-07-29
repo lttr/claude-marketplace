@@ -4,16 +4,16 @@ Developer workflow automation. Single primitive: skills. Each is invokable as `/
 
 ## Skills
 
-| Skill              | Invoke                                  | Purpose                                                                |
-| ------------------ | --------------------------------------- | ---------------------------------------------------------------------- |
-| `triage`           | `/df:triage [id\|url\|.md\|text]`       | Assess requirement completeness, ask clarifying questions              |
-| `code-review-diff` | `/df:code-review-diff [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file             |
-| `feature-branch`   | `/df:feature-branch <ticket>`           | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
-| `pr`               | `/df:pr <op>`                           | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
-| `pr-comments`      | `/df:pr-comments [id]`                  | Read, assess, post AZDO PR thread comments                             |
-| `ticket`           | `/df:ticket <id> <state>`               | Transition AZDO work item (state synonyms: active/cr/ready/closed)     |
-| `insights`         | `/df:insights <op>`                     | `daily` / `weekly` / `catchup` / `view` activity reports               |
-| `az-cli`           | (model-invoked)                         | NL-driven Azure DevOps CLI reference                                   |
+| Skill              | Invoke                                  | Purpose                                                                      |
+| ------------------ | --------------------------------------- | ---------------------------------------------------------------------------- |
+| `triage`           | `/df:triage [id\|url\|.md\|text]`       | Assess requirement completeness, ask clarifying questions (tracker-agnostic) |
+| `code-review-diff` | `/df:code-review-diff [id\|ref\|.diff]` | Read-only review of branch / AZDO PR / git ref / diff file                   |
+| `feature-branch`   | `/df:feature-branch <ticket>`           | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle       |
+| `pr`               | `/df:pr <op>`                           | `create` / `checkout <id>` / `list [mine\|all]` / `complete`                 |
+| `pr-comments`      | `/df:pr-comments [id]`                  | Read, assess, post AZDO PR thread comments                                   |
+| `ticket`           | `/df:ticket <id> <state>`               | Transition AZDO work item (state synonyms: active/cr/ready/closed)           |
+| `insights`         | `/df:insights <op>`                     | `daily` / `weekly` / `catchup` / `view` activity reports                     |
+| `az-cli`           | (model-invoked)                         | NL-driven Azure DevOps CLI reference                                         |
 
 ## Multi-op Skills
 
@@ -41,19 +41,13 @@ When team conventions stabilize, add a project-local skill to override.
 - Azure CLI with `azure-devops` extension (for AZDO skills)
 - Atlassian MCP server (for Confluence — optional)
 - Deno runtime (for `insights view` dashboard)
+- `triage` needs none of these — it uses whichever tracker CLI / docs MCP happens to be present, and asks you to paste otherwise
 
-## .aiwork/ Output
+## Artifact Output
 
-Skills save artifacts to per-task folders:
+`triage` and `code-review-diff` produce markdown and then ask where it goes — print, `/tmp`, or a path you name. Neither creates a folder unprompted, and neither hardcodes a layout.
 
-```
-.aiwork/
-  2026-01-15_auth-refactor/
-    triage.md
-    review.md
-```
-
-Folder format: `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (review after triage) land in the same folder when one exists. If your project defines an `.aiwork/` protocol (naming, frontmatter), dev-flow follows it.
+If your project has an artifact convention — an installed protocol skill, or an existing directory of specs/reports — the skill detects it and follows it instead of asking. Pin a destination explicitly with `--out <path>`, or skip saving with `--print`.
 
 ## Composition
 
@@ -68,7 +62,9 @@ Folder format: `{YYYY-MM-DD}_{slug}`. Follow-up artifacts (review after triage) 
 dev-flow/
 ├── .claude-plugin/plugin.json
 └── skills/
-    ├── triage/SKILL.md
+    ├── triage/
+    │   ├── SKILL.md
+    │   └── references/sources.md
     ├── code-review-diff/
     │   ├── SKILL.md
     │   └── references/pipeline.md
