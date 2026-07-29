@@ -45,4 +45,4 @@ Atlassian MCP → search `modified:>$LAST_DATE`, save to `.insights/raw/confluen
 - Items per source
 - Path to raw data files
 
-Use `/df:insights daily` or `/df:insights weekly` to generate reports from collected data.
+Use `/dev-azdo:insights daily` or `/dev-azdo:insights weekly` to generate reports from collected data.

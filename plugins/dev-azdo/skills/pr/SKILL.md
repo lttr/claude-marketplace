@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Manage Azure DevOps pull requests — create, checkout, list, complete. Trigger when user says "/df:pr <op>", "create PR", "checkout PR 123", "list PRs", "complete PR", or otherwise asks to operate on an AZDO pull request.
+description: Manage Azure DevOps pull requests — create, checkout, list, complete. Trigger when user says "/dev-azdo:pr <op>", "create PR", "checkout PR 123", "list PRs", "complete PR", or otherwise asks to operate on an AZDO pull request.
 ---
 
 # PR (Azure DevOps)
@@ -30,4 +30,4 @@ Unknown op → ask user.
 - `create` errors if on `main`/`master` — tells user to run `feature-branch` first.
 - `create` errors if no commits ahead of base — tells user to commit first (commit logic is intentionally not bundled).
 - For PR comment threads, use `pr-comments` skill.
-- For reviewing diff, use `code-review-diff` skill.
+- For reviewing the diff, `aiwork:code-review-diff` does it if the `aiwork` plugin is installed. Not required — this skill never invokes it; without it, review the diff however you normally would.

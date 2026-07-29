@@ -179,7 +179,7 @@ Options:
   if (!(await exists(insightsDir))) {
     console.error(`Error: Insights directory not found: ${insightsDir}`)
     console.error(
-      "Run /df:insights daily or /df:insights catchup first to generate data.",
+      "Run /dev-azdo:insights daily or /dev-azdo:insights catchup first to generate data.",
     )
     Deno.exit(1)
   }
