@@ -1,6 +1,6 @@
 ---
 name: code-review-diff
-description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "review diff", "/df:code-review-diff", or provides a git ref or diff path. Read-only — never posts comments.
+description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "review diff", "/aiwork:code-review-diff", or provides a git ref or diff path. Read-only — never posts comments.
 ---
 
 # Code Review
@@ -121,14 +121,14 @@ Run from terminal. Resolve PR id → source branch via platform CLI, then launch
 # bin/cr-pr <pr-id>
 PR_ID=$1
 BRANCH=$(az repos pr show --id "$PR_ID" --query sourceRefName -o tsv | sed 's|refs/heads/||')
-claude --worktree "$BRANCH" "/df:code-review-diff --rules .claude/code-review-rules.md"
+claude --worktree "$BRANCH" "/aiwork:code-review-diff --rules .claude/code-review-rules.md"
 ```
 
 Replace `az repos pr show` with `gh pr view --json headRefName` for GitHub.
 
 ### In-session: check out first
 
-Land on the PR's source branch first (e.g. `/df:pr checkout <id>` for Azure DevOps), then invoke `/df:code-review-diff`. The skill reviews the current branch vs base.
+Land on the PR's source branch first, then invoke `/aiwork:code-review-diff`. The skill reviews the current branch vs base. For Azure DevOps, `/dev-azdo:pr checkout <id>` does the checkout if that plugin is installed — otherwise check out the source branch with plain `git` first.
 
 ### Warning
 
@@ -136,6 +136,6 @@ This skill never checks anything out. Whatever is in cwd is what gets reviewed. 
 
 ## Notes
 
-- Read-only. Never posts PR comments. For comments use `pr-comments` skill.
+- Read-only. Never posts PR comments. Posting is a separate concern — `dev-azdo:pr-comments` covers Azure DevOps if that plugin is installed.
 - Pipeline detail lives in `references/pipeline.md` — load only when running review.
-- No `az`, no `gh`, no PR-id resolution. PR resolution lives in `df:pr`, `df:az-cli`, or shell wrappers.
+- No `az`, no `gh`, no PR-id resolution. PR resolution lives outside this skill — in `dev-azdo:pr` / `dev-azdo:az-cli` when installed, or in a shell wrapper. Absent both, the user checks out the branch themselves; this skill still works.

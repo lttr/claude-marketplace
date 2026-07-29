@@ -188,5 +188,6 @@ Only unanswered questions go in output.
 
 ## Notes
 
-- Read-only against the tracker. Never updates ticket state — that's `df:ticket` or the platform CLI.
+- Read-only against the tracker. Never updates ticket state — that's `dev-azdo:ticket` (if the `dev-azdo` plugin is installed) or the platform CLI.
 - Tracker and docs recipes live in `references/sources.md` — load only when the input is a ticket or a docs search is wanted.
+- Division of labor with `aiwork-protocol`: **`aiwork-protocol` decides where the artifact lands; `triage` decides what goes in it.** Both trigger on "triage" — if the user wants a report written, that's this skill.

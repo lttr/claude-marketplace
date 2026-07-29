@@ -50,6 +50,8 @@ On drift, propose consolidation: move artifacts into the canonical folder with a
 
 Custom types (`cascade-map.md`, `checklist.md`) are fine when they fit better.
 
+**Division of labor with `triage`:** both skills trigger on the word "triage". **`aiwork-protocol` decides where the artifact lands; `triage` decides what goes in it.** Producing the report content is `triage`'s job — this skill only names and places the file.
+
 ## When to create a new plan
 
 New plan file when the approach changes or new constraints emerge between iterations. Otherwise continue the previous plan — don't start one just because the session is new.
