@@ -92,7 +92,8 @@ All outputs will be generated in the specified language.
 ## Installation
 
 ```bash
-/plugin install video-to-article@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install video-to-article@lttr-claude-marketplace --scope local
 ```
 
 ## License

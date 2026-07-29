@@ -5,13 +5,13 @@ Tools for creating and managing Claude Code plugins, skills, and commands, plus 
 ## Installation
 
 ```bash
-/plugin marketplace add <marketplace-source>
-/plugin install cc@<marketplace-name>
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install cc@lttr-claude-marketplace --scope local
 ```
 
 ## Features
 
-All functionality ships as skills. Skills marked **auto** may trigger from user intent; skills marked **explicit** only run when invoked directly (e.g. `/cc:changelog`).
+All functionality ships as skills, and every one is explicit — they never auto-trigger from context, only when invoked directly (e.g. `/cc:changelog`).
 
 ### Authoring
 

@@ -2,6 +2,8 @@
 
 A Claude Code plugin that provides specialized guidance for Nuxt development, including Vue best practices, auto-import awareness, and library-specific patterns.
 
+> **Note:** this plugin is old and not actively maintained. Its reference docs have not been refreshed since early 2026, so parts may lag behind current Nuxt and module releases.
+
 ## What This Plugin Provides
 
 This plugin includes a comprehensive **Nuxt skill** that automatically activates when working on Nuxt projects. The skill provides:
@@ -18,18 +20,18 @@ This plugin includes a comprehensive **Nuxt skill** that automatically activates
 
 ## Installation
 
+### From a local checkout
+
+```bash
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install nuxt@lttr-claude-marketplace --scope local
+```
+
 ### From GitHub
 
 ```bash
-/plugin marketplace add lttr/claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
-```
-
-### Local Testing
-
-```bash
-/plugin marketplace add /path/to/claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
+claude plugin marketplace add lttr/claude-marketplace --scope local
+claude plugin install nuxt@lttr-claude-marketplace --scope local
 ```
 
 ## Usage

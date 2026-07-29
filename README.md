@@ -8,17 +8,21 @@ I have extracted a couple of extensions for my Claude Code experience.
 
 Claude Code authoring tools: scaffold plugins, skills, and commands, introspect Claude Code internals, and bridge work between sessions.
 
-**Authoring skills** (auto-trigger from context):
+Everything ships as skills, all explicitly invoked (`/cc:<name>`) — none of them auto-trigger.
 
-- `plugin-creator` - Guides Claude through plugin structure, `plugin.json`/`marketplace.json` manifests, version bumping, and marketplace publishing. Triggers when editing a plugin manifest or creating a new plugin directory.
-- `skill-creator` - Guides SKILL.md authoring: frontmatter, trigger descriptions, progressive-disclosure references. Triggers when creating or editing a skill.
-- `changelog` - Summarizes recent Claude Code releases, scored by relevance to _your_ installed plugins, skills, and hook setup. Runs on demand.
+**Authoring:**
 
-**Slash commands:**
+- `/cc:plugin-creator` - Plugin structure, `plugin.json`/`marketplace.json` manifests, version bumping, and marketplace publishing.
+- `/cc:skill-creator` - SKILL.md authoring: frontmatter, trigger descriptions, progressive-disclosure references. Skills are the unified primitive — slash commands live as skills too.
 
-- `/cc:command:create <name> <scope> <description> [allowed-tools]` - Scaffold a new custom command with correct frontmatter and path conventions.
-- `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions.
+**Introspection:**
+
+- `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions, including ones hidden by `permissions.deny`.
 - `/cc:list:hooks` - Show the hooks configured across user, project, and local settings files, so you can audit what's running on each event.
+- `/cc:changelog` - Summarize recent Claude Code releases, scored by relevance to _your_ installed plugins, skills, and hook setup.
+
+**Session handoff and memory hygiene:**
+
 - `/cc:handoff` - Write `~/.claude/custom-handoff.md` (original prompt, goal, done, recent conclusions, next, watch-out) so a fresh Claude session can resume where this one stopped. Pass an optional focus argument (e.g. `/cc:handoff only what's left on the migration`) to bias the summary toward that thread. Load in a new session with `claude "@$HOME/.claude/custom-handoff.md"`.
 - `/cc:memory-promote` - Audit this repo's auto-memory files and propose a durable home for each (user or repo `CLAUDE.md`, an existing/new skill, a `settings.json` hook), leaving genuinely ephemeral ones alone. Nothing moves without per-item confirmation.
 
@@ -27,8 +31,8 @@ Claude Code authoring tools: scaffold plugins, skills, and commands, introspect 
 **Installation:**
 
 ```shell
-/plugin marketplace add lttr/claude-marketplace
-/plugin install cc@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install cc@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
@@ -53,8 +57,8 @@ Developer workflow automation: triage requirements, generate activity insights, 
 **Installation:**
 
 ```shell
-/plugin marketplace add lttr/claude-marketplace
-/plugin install df@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install df@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
@@ -78,8 +82,8 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus sk
 **Installation:**
 
 ```shell
-/plugin marketplace add lttr/claude-marketplace
-/plugin install aiwork@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/aiwork/README.md](./plugins/aiwork/README.md) for detailed documentation.
@@ -87,6 +91,8 @@ See [plugins/aiwork/README.md](./plugins/aiwork/README.md) for detailed document
 ### Nuxt Plugin
 
 Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
+
+> **Note:** this plugin is old and not actively maintained. Its reference docs have not been refreshed since early 2026, so parts may lag behind current Nuxt and module releases.
 
 **Features:**
 
@@ -98,11 +104,18 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 - Nuxt UI, Nuxt Content, Nuxt Image, and Nuxt i18n guidance
 - Tailwind CSS conventions
 
+**Slash commands:**
+
+- `/nuxt:prime:framework` - Load Nuxt framework patterns and conventions into context
+- `/nuxt:prime:components` - Load Vue component patterns and best practices into context
+- `/nuxt:upgrade:minor` - Upgrade Nuxt within the current major, fix issues, report what changed
+- `/nuxt:upgrade:tsconfig` - Migrate tsconfig to Nuxt v4 project references structure
+
 **Installation:**
 
 ```shell
-/plugin marketplace add lttr/claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install nuxt@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/nuxt/README.md](./plugins/nuxt/README.md) for detailed documentation.
@@ -111,36 +124,42 @@ See [plugins/nuxt/README.md](./plugins/nuxt/README.md) for detailed documentatio
 
 Automated workflow for converting lecture videos into transcripts, outlines, and article drafts using ffmpeg and ElevenLabs API.
 
+**Slash command:**
+
+- `/video-to-article:process-video [youtube-url-or-folder-path]` - Run the full extract → transcribe → outline → draft pipeline
+
 See [plugins/video-to-article/README.md](./plugins/video-to-article/README.md) for detailed documentation.
 
 ## Installation
 
 ### Add this marketplace
 
+Clone this repo, then add it from the local checkout:
+
 ```shell
-/plugin marketplace add lttr/claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
 ```
 
-Or for local development:
+Or straight from GitHub:
 
 ```shell
-/plugin marketplace add /path/to/claude-marketplace
+claude plugin marketplace add lttr/claude-marketplace --scope local
 ```
 
 ### Browse and install plugins
 
 ```shell
-/plugin
+claude plugin list
 ```
 
-Select "Browse Plugins" to see available options, or install directly:
+Or install directly:
 
 ```shell
-/plugin install cc@lttr-claude-marketplace
-/plugin install df@lttr-claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
-/plugin install video-to-article@lttr-claude-marketplace
-/plugin install aiwork@lttr-claude-marketplace
+claude plugin install cc@lttr-claude-marketplace --scope local
+claude plugin install df@lttr-claude-marketplace --scope local
+claude plugin install nuxt@lttr-claude-marketplace --scope local
+claude plugin install video-to-article@lttr-claude-marketplace --scope local
+claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
 
 ## Deprecated Plugins
@@ -153,7 +172,7 @@ Use `agent-browser` instead - CLI-driven browser automation with snapshot/click/
 
 **Migration checklist** (if you were using `browser-tools`):
 
-- Uninstall the plugin: `/plugin uninstall browser-tools@lttr-claude-marketplace`
+- Uninstall the plugin: `claude plugin uninstall browser-tools@lttr-claude-marketplace`
 - Remove any `browser-tools` references from your global `~/.claude/CLAUDE.md` (or project `CLAUDE.md`) and point them at your replacement skill. Common places to check:
   - "Browser Usage" guidance that tells Claude to load `browser-tools` for UI testing, debugging, screenshots, or render verification
   - "Element picking" instructions that reference the `browser-pick` tool (e.g. "when I say 'let me pick an element'…")

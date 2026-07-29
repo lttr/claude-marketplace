@@ -19,6 +19,6 @@ The workflow skills reference the `aiwork-protocol` skill for folder and artifac
 ## Installation
 
 ```shell
-/plugin marketplace add lttr/claude-marketplace
-/plugin install aiwork@lttr-claude-marketplace
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
