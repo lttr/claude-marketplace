@@ -10,11 +10,11 @@ This is a **Claude Code plugin marketplace** that hosts multiple plugins for dis
 
 - **nuxt** - Nuxt.js development guidance with Vue best practices
 - **video-to-article** - Convert lecture videos to transcripts and articles
-- **dev-flow** - Developer workflow automation (triage, insights, Azure DevOps, git)
+- **dev-azdo** - Azure DevOps workflow automation (branches, PRs, work items, insights)
 - **cc** - Claude Code authoring tools (plugins, skills, introspection)
-- **aiwork** - .aiwork/ folder protocol plus spec → tickets → implement workflow skills
+- **aiwork** - .aiwork/ folder protocol plus the triage → spec → tickets → implement → review workflow skills
 
-Deprecated plugins live under `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked.
+Deprecated plugins live under `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked. `_archived/dev-flow/` (manifest name `df`) was split into `dev-azdo` (az-dependent skills) and `aiwork` (`triage`, `code-review-diff`) — its skills are gone from the archive, only the manifest and README remain as a record.
 
 ## Repository Structure
 
@@ -25,7 +25,7 @@ claude-marketplace/
 ├── plugins/
 │   ├── nuxt/                # Nuxt.js development guidance
 │   ├── video-to-article/    # Video transcription workflow
-│   ├── dev-flow/            # Developer workflow automation
+│   ├── dev-azdo/            # Azure DevOps workflow automation
 │   ├── cc/                  # Claude Code authoring tools
 │   └── aiwork/              # .aiwork/ protocol + workflow skills
 ├── _archived/               # Deprecated plugins, not published

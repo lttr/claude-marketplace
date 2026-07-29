@@ -37,14 +37,12 @@ claude plugin install cc@lttr-claude-marketplace --scope local
 
 See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
 
-### Dev Flow Plugin
+### Dev Azure DevOps Plugin
 
-Developer workflow automation: triage requirements, generate activity insights, and manage git workflows with Azure DevOps and Confluence integration.
+Azure DevOps workflow automation: branch off a work item, drive pull requests and their comment threads, transition tickets, and generate activity insights. Confluence integration via the bundled Atlassian MCP server.
 
-**Skills (all `/df:<name>`):**
+**Skills (all `/dev-azdo:<name>`):**
 
-- `triage` - Assess requirement completeness (ticket id/URL, pasted text, .md path, or empty); tracker- and storage-agnostic
-- `code-review-diff` - Read-only, pure git-native review of branch / staged / git ref / diff file
 - `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
 - `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
 - `pr-comments` - Read, assess, post AZDO PR thread comments
@@ -52,32 +50,36 @@ Developer workflow automation: triage requirements, generate activity insights, 
 - `insights <op>` - `daily` / `weekly` / `catchup` / `view` activity reports
 - `az-cli` - NL-driven Azure DevOps CLI reference (model-invoked)
 
-`commit` and `spec` are excluded by design — they reflect personal preferences and ship as user dotfiles.
+Every skill here needs the Azure CLI with the `azure-devops` extension. The platform-neutral artifact skills that used to sit alongside them — `triage` and `code-review-diff` — now live in `aiwork`.
 
 **Installation:**
 
 ```shell
 claude plugin marketplace add ~/code/claude-marketplace --scope local
-claude plugin install df@lttr-claude-marketplace --scope local
+claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 ```
 
-See [plugins/dev-flow/README.md](./plugins/dev-flow/README.md) for detailed documentation.
+See [plugins/dev-azdo/README.md](./plugins/dev-azdo/README.md) for detailed documentation.
 
 ### AI Work (aiwork)
 
-Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus skills for the spec → tickets → implement workflow.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus the skills for the full loop: triage → spec → tickets → implement → review.
 
 **Skills:**
 
 - `aiwork-protocol` - Naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs in `.aiwork/`
+- `triage` - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty); tracker- and storage-agnostic
 - `to-spec` - Turn a rough idea into a written spec
 - `to-tickets` - Break a spec into implementable tickets
 - `implement` - Work a ticket to completion
+- `code-review-diff` - Read-only, pure git-native review of branch / staged / git ref / diff file
 - `grill-with-docs` - Interrogate a design against docs, ADRs, and glossary
 - `tdd` - Test-driven development: build features and fix bugs test-first
 - `agent-browser` - Automate a real browser: open pages, snapshot elements, click/fill, extract content
 
-**Used by:** dev-flow plugin (optional but recommended)
+`commit` and `spec` are excluded by design — they reflect personal preferences and ship as user dotfiles.
+
+**Pairs with:** `dev-azdo` (optional) — gives `triage` an Azure DevOps fetch path and `code-review-diff` a PR checkout. Both degrade cleanly without it.
 
 **Installation:**
 
@@ -156,13 +158,35 @@ Or install directly:
 
 ```shell
 claude plugin install cc@lttr-claude-marketplace --scope local
-claude plugin install df@lttr-claude-marketplace --scope local
+claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 claude plugin install nuxt@lttr-claude-marketplace --scope local
 claude plugin install video-to-article@lttr-claude-marketplace --scope local
 claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
 
 ## Deprecated Plugins
+
+### Dev Flow / `df` (archived)
+
+The `df` plugin has been split along the line that actually divided it — dependency on the `az` CLI — and is no longer published. The source remains in [`_archived/dev-flow/`](./_archived/dev-flow) for reference.
+
+**Migration checklist:**
+
+- Uninstall it: `claude plugin uninstall df@lttr-claude-marketplace`
+- Install the replacements you actually need: `dev-azdo` for the Azure DevOps skills, `aiwork` for `triage` and `code-review-diff`
+- Retarget invocations in your `CLAUDE.md`, scripts, and shell wrappers:
+
+| Was                    | Now                        |
+| ---------------------- | -------------------------- |
+| `/df:feature-branch`   | `/dev-azdo:feature-branch` |
+| `/df:pr`               | `/dev-azdo:pr`             |
+| `/df:pr-comments`      | `/dev-azdo:pr-comments`    |
+| `/df:ticket`           | `/dev-azdo:ticket`         |
+| `/df:insights`         | `/dev-azdo:insights`       |
+| `/df:triage`           | `/aiwork:triage`           |
+| `/df:code-review-diff` | `/aiwork:code-review-diff` |
+
+The Atlassian MCP server moved with `insights` and now ships with `dev-azdo`. Installing `aiwork` alone leaves `triage` searching local docs only.
 
 ### Browser Tools (archived)
 
