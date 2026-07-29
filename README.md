@@ -39,7 +39,7 @@ See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
 
 ### Dev Azure DevOps Plugin
 
-Azure DevOps workflow automation: branch off a work item, drive pull requests and their comment threads, transition tickets, and generate activity insights. Confluence integration via the bundled Atlassian MCP server.
+Azure DevOps workflow automation: create and comment on work items, branch off one, drive pull requests and their comment threads, transition tickets, and generate activity insights. Confluence integration via the bundled Atlassian MCP server.
 
 **Skills (all `/dev-azdo:<name>`):**
 
@@ -47,6 +47,8 @@ Azure DevOps workflow automation: branch off a work item, drive pull requests an
 - `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
 - `pr-comments` - Read, assess, post AZDO PR thread comments
 - `ticket <id> <state>` - Transition AZDO work item (active/cr/ready/closed)
+- `ticket-create <title>` - Create a work item with a Markdown description, parent link, tags
+- `ticket-comments <id>` - Add / update / delete Markdown comments on a work item discussion
 - `insights <op>` - `daily` / `weekly` / `catchup` / `view` activity reports
 - `az-cli` - NL-driven Azure DevOps CLI reference (model-invoked)
 

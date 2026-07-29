@@ -1,7 +1,7 @@
 {
   "name": "dev-azdo",
-  "version": "1.0.0",
-  "description": "Azure DevOps workflow automation as 6 NL-driven skills: feature-branch, pr, pr-comments, ticket, insights, az-cli. Azure DevOps + Confluence integration.",
+  "version": "1.1.0",
+  "description": "Azure DevOps workflow automation as NL-driven skills: feature-branch, pr, pr-comments, ticket, ticket-create, ticket-comments, insights, az-cli. Azure DevOps + Confluence integration.",
   "author": {
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"
