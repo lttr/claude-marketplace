@@ -18,6 +18,10 @@ All functionality ships as skills, and every one is explicit — they never auto
 - **cc:plugin-creator** (explicit) - Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration
 - **cc:skill-creator** (explicit) - Guide for creating skills (the unified primitive for both commands and auto-invoked capabilities), with the full frontmatter reference
 
+### Auditing
+
+- **cc:docs-checker** (explicit) - Audit context files (CLAUDE.md, `.claude/` tree, READMEs, docs) for correctness. A bundled zero-dependency script deterministically checks markdown links, image assets, and backticked source paths against the working tree (resolving tsconfig/package.json aliases, cross-repo via `--repo=NAME:DIR`); a bounded semantic pass then flags verifiably stale content — quoted commands that no longer exist, prose contradicting the code it points at, contradictions between context files — with every finding citing its evidence. Reports only; fixes nothing unless asked.
+
 ### Introspection
 
 - **cc:list:builtin-tools** (explicit) - List all built-in Claude Code tools

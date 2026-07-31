@@ -15,6 +15,10 @@ Everything ships as skills, all explicitly invoked (`/cc:<name>`) — none of th
 - `/cc:plugin-creator` - Plugin structure, `plugin.json`/`marketplace.json` manifests, version bumping, and marketplace publishing.
 - `/cc:skill-creator` - SKILL.md authoring: frontmatter, trigger descriptions, progressive-disclosure references. Skills are the unified primitive — slash commands live as skills too.
 
+**Auditing:**
+
+- `/cc:docs-checker` - Audit context files (CLAUDE.md, `.claude/` tree, READMEs, docs): a bundled deterministic script checks links, assets, and backticked source paths against the working tree, then a bounded semantic pass flags verifiably stale content with evidence. Reports findings; fixes only on request.
+
 **Introspection:**
 
 - `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions, including ones hidden by `permissions.deny`.
