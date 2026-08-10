@@ -46,6 +46,10 @@ Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) s
 # WATCH OUT
 
 <gotchas; omit section if none>
+
+# SUGGESTED SKILLS
+
+- `/plugin:skill` — <why the next session should invoke it>
 ```
 
 ## Rules
@@ -57,4 +61,7 @@ Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) s
 - If user and assistant disagreed or pivoted near the end, record the resolution (or that it's unresolved).
 - Use file paths, not descriptions (e.g. `src/auth.ts:42`, not "the auth file").
 - No prose narration ("we decided to...").
+- **Redact secrets.** API keys, tokens, passwords, connection strings, and personal data never land in the file. Name where a value lives (`.env:DATABASE_URL`) instead of the value itself.
+- **Point, don't copy.** Anything already captured in a spec, ticket, ADR, commit, or diff gets referenced by path or id — never re-summarized here.
+- `# SUGGESTED SKILLS` names the skills the next session should invoke for this work, with a few words on why each. Omit the section when nothing specific applies.
 - Omit `# WATCH OUT` when there are no gotchas.

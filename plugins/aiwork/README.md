@@ -12,15 +12,16 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **code-review-diff** - Read-only, pure git-native review of the current branch / staged changes / a git ref / a diff file
 - **grill-with-docs** - Grilling session that challenges a plan against the domain model (glossary, ADRs) and updates the docs
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
+- **wait-what** - One-word corrective when an explanation didn't land: re-pitch it in plain language using the project's glossary terms
 - **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
-The to-spec, to-tickets, implement, grill-with-docs, and tdd skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
+The to-spec, to-tickets, implement, grill-with-docs, tdd, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
 ## Model Invocation
 
-`to-spec`, `to-tickets`, `implement`, and `grill-with-docs` carry `disable-model-invocation: true` — they are mid-workflow steps that shouldn't auto-fire.
+`to-spec`, `to-tickets`, `implement`, `grill-with-docs`, and `wait-what` carry `disable-model-invocation: true` — they are mid-workflow steps that shouldn't auto-fire.
 
 `triage` and `code-review-diff` deliberately do **not**. They are entry points to the loop, and their descriptions are written to be matched by the model. This divergence is intentional, not an oversight.
 
