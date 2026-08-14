@@ -1,7 +1,7 @@
 ---
 name: video-to-article
 description: Use this skill when the user wants to convert a lecture, presentation, or talk video into text formats (transcript, outline, or article). Trigger when user mentions processing video recordings, creating transcripts from lectures, or generating articles from recorded presentations.
-allowed-tools: Bash, Read, Write, AskUserQuestion, Glob
+allowed-tools: Bash, Read, Write, Glob
 ---
 
 # Video to Article Conversion Workflow
@@ -38,7 +38,7 @@ Look for `README.md` in the current directory with these frontmatter fields:
 
 ### If README.md is Missing or Incomplete
 
-Use the AskUserQuestion tool to collect missing information:
+Ask the user for the missing information:
 
 ```
 - What is the lecture title?
@@ -62,7 +62,7 @@ Look for video file in current directory:
 
 ### If No Local Video Found
 
-Ask user if they have a YouTube URL using AskUserQuestion tool:
+Ask the user if they have a YouTube URL:
 
 - "Do you have a YouTube URL for this talk?"
 - If yes, collect the YouTube URL

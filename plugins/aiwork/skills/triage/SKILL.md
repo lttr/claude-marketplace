@@ -106,7 +106,7 @@ Categories:
 
 ### 5. Ask interactively
 
-Use `AskUserQuestion`. 1–4 questions per call, 2–4 options each. Record answers. Unanswered → output file.
+Ask the user interactively. 1–4 questions per batch, 2–4 suggested options each. Record answers. Unanswered → output file.
 
 ### 6. Write output
 
