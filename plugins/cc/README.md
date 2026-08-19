@@ -26,7 +26,7 @@ All functionality ships as skills, and every one is explicit — they never auto
 
 - **cc:list:builtin-tools** (explicit) - List all built-in Claude Code tools
 - **cc:list:hooks** (explicit) - List configured hooks
-- **cc:changelog** (explicit) - Show recent Claude Code changes, ranked by relevance to your installed skills, commands, and usage patterns; keeps top 50% of items
+- **cc:changelog** (explicit) - Show recent Claude Code changes, ranked by relevance to your installed skills, commands, and usage patterns; capped at 10 bullets, second tier on request
 
 ### Memory hygiene
 

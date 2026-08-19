@@ -29,37 +29,36 @@ Use `--lookback-days` when the user asks for changes from a specific time period
 
 ### Format rules
 
-- **Rank all items, then keep top 50%.** Score each candidate bullet by combined weight (high → low):
+- **Hard cap: 10 bullets.** The whole report is a flat, ranked list of at most 10 items — no matter how many candidates the script returns. A window with 200 entries still gets 10 bullets. Never scale the count to the input size; "there was a lot this week" is not a reason to print more. Score each candidate by combined weight (high → low):
   1. Personal relevance — matches user's installed skills, commands, plugins, hooks, usage patterns
   2. User-facing surface changes — visible message/UI text, prompts, output format, defaults the user reads or types
   3. Parameter / flag / config / API / schema changes — anything the user invokes or configures (CLI flags, settings keys, hook events, tool schemas, command args)
   4. New features / capabilities — net-new things user can do
   5. Behavioral changes — different output for same input, removed/changed defaults, breaking changes
   6. Internal / perf / refactor — deprioritize unless user-observable. A perf win that doesn't change behavior or UX ranks low.
-     Sort all candidates by this combined score, drop bottom half. Round up on odd counts. Mention dropped count at bottom.
-- **Drop cosmetic items and routine bug fixes entirely** (before the 50% cut). Skip typo/wording tweaks, UI polish, and fixes for bugs the user never hit. Include a bug fix only with strong evidence it affects the user — e.g. their CLAUDE.md/settings/hooks mention a workaround for it, or it breaks a feature they demonstrably use.
-- **No duplicates.** Each item appears exactly once in the whole report — never in two themes. Before finishing, reread the output and remove any repeated bullets or repeated sections.
-- **Group surviving items by theme, not by version.** Cluster into categories (e.g. "Startup & Performance", "Plugins & Skills", "Agent Teams", "Bash & Permissions").
+     Sort by this combined score and keep only the top 10.
+- **Drop cosmetic items and routine bug fixes entirely** (before ranking). Skip typo/wording tweaks, UI polish, and fixes for bugs the user never hit. Include a bug fix only with strong evidence it affects the user — e.g. their CLAUDE.md/settings/hooks mention a workaround for it, or it breaks a feature they demonstrably use.
+- **Drop what the user's settings rule out.** Check `userContext.settings` first: a disabled feature (e.g. `disableRemoteControl`) means every item about it scores zero. Same for other platforms — Windows, VS Code, self-hosted runner, unused git hosts.
+- **Merge near-duplicates into one bullet.** Several fixes to the same surface (permission dialogs, MCP connections, TUI redraw) are one line, not one line each. Lead with the strongest and fold the rest in, or drop them.
+- **No duplicates.** Each item appears exactly once. Before finishing, reread the output and remove any repeated bullet.
+- **Flat list, no theme headings.** At 10 bullets, grouping is overhead — rank hardest-hitting first and let the list run.
 - **Each item = 1 short line.** Rewrite verbose changelog entries into punchy summaries (5-15 words). Append version+date tag: `(2.1.47, Feb 18)`
 - **Lead with a 1-2 sentence TL;DR** of the most impactful changes for this user.
 - **Explain WHY it's relevant** by referencing what the user uses. Don't just say "matches: Bash" - say things like "you use hooks" or "affects your StatusLine setup".
+- **Offer the rest, don't print it.** Close with one line giving the skipped count and noting you can show the second tier on request. Produce that second tier only if the user actually asks — and cap it at 15 bullets too.
 
 ```
 ## Claude Code changelog - {version range} ({date range})
 
 {1-2 sentence TL;DR of biggest changes relevant to user}
 
-### {Theme name}
 - {Punchy summary} (2.1.47, Feb 18) — {why it matters to you}
 - ...
+- {at most 10 bullets total}
 
-### {Theme name}
-- ...
+**System prompt:** {1-3 sentences — see rules below}
 
-### System prompt
-{Summarize the diff concisely - see rules below}
-
-{N} lower-ranked items skipped. [Full changelog]({url})
+{N} lower-ranked items skipped — ask if you want the second tier. [Full changelog]({url})
 ```
 
 3. If the `versions` array is empty, say: "You're up to date! No new changes since {currentVersion}." Do NOT advance the watermark.
@@ -74,7 +73,7 @@ Only run this AFTER the changelog summary is fully rendered. Never run it if the
 
 ### System prompt diff rules
 
-When `systemPromptDiff.prompt` or `systemPromptDiff.flags` is non-null, summarize the unified diff into actionable bullet points. Categorize changes:
+When `systemPromptDiff.prompt` or `systemPromptDiff.flags` is non-null, summarize the unified diff in **at most 3 bullets** (or a single sentence when nothing meaningful changed — say so plainly and move on; a diff of duplicated boilerplate stanzas is not a change). Categorize changes:
 
 **Prompt changes** - summarize each meaningful hunk as one bullet:
 
