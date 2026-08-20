@@ -78,6 +78,16 @@ When the user uses a term that conflicts with the existing language in `GLOSSARY
 
 When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account' — do you mean the Customer or the User? Those are different things."
 
+### Probe the technical shape
+
+The design tree is not only domain language — technical decisions are branches too, and they belong on the frontier as soon as their prerequisites settle. Make sure the tree covers:
+
+- **Libraries and dependencies** — most features need no new dependency; check first whether the project's existing dependencies or the framework's built-ins already cover it, and if so just confirm that. But when the plan touches a problem the ecosystem has solved (auth, validation, jobs, uploads, …) and nothing in the project covers it, identify the idiomatic candidates for the stack and put the choice to the user with a recommendation. Never let the session end with "we'll use some library" implied but unnamed.
+- **Structure and placement** — where the new code lives, which existing modules it touches, whether it follows an existing pattern in the repo or introduces a new one.
+- **Data and contracts** — schema changes, API shapes, and integration points the plan implies.
+
+As with facts, the research is yours: dispatch a subagent to survey the project's dependencies and the candidate libraries, then bring back a concrete choice for the user to make.
+
 ### Discuss concrete scenarios
 
 When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that probe edge cases and force the user to be precise about the boundaries between concepts.

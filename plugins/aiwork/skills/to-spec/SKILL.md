@@ -14,7 +14,9 @@ This skill takes the current conversation context and codebase understanding and
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template below, then save it per the `aiwork-protocol` skill.
+3. Audit the technical decisions the feature depends on: what handles each solved problem (auth, validation, jobs, …), where the code lives, what schema/API contracts change. Decisions already settled in the conversation go into the spec as-is. For any that were never settled, check the project's existing dependencies and stack conventions — usually those already cover it and no new dependency is needed; record what will be used. Only when nothing in the project covers a genuinely solved problem, pick the idiomatic candidate for the stack and confirm it with the user alongside the seams. Either way, don't leave the choice implicit in the spec.
+
+4. Write the spec using the template below, then save it per the `aiwork-protocol` skill.
 
 <spec-template>
 
@@ -44,6 +46,7 @@ A list of implementation decisions that were made. This can include:
 
 - The modules that will be built/modified
 - The interfaces of those modules that will be modified
+- Libraries and dependencies chosen (and why, when an alternative was considered)
 - Technical clarifications from the developer
 - Architectural decisions
 - Schema changes
