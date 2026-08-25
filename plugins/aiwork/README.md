@@ -8,20 +8,21 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **triage** - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty), explore code + docs, ask clarifying questions, write a report; tracker- and storage-agnostic
 - **to-spec** - Turn the current conversation into a spec, saved per the aiwork protocol
 - **to-tickets** - Break a plan, spec, or conversation into vertical-slice tickets with blocking edges
-- **implement** - Implement work from a ticket, spec, or inline description; auto-detects the next item from the task folders
+- **implement** - Implement a single ticket or a small inline change in one pass
+- **implement-spec** - Implement a whole spec by orchestrating subagents over its ticket graph; auto-detects the most recent task folder
 - **code-review-diff** - Read-only, pure git-native review of the current branch / staged changes / a git ref / a diff file
 - **grill-with-docs** - Grilling session that challenges a plan against the domain model (glossary, ADRs) and updates the docs
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
 - **wait-what** - One-word corrective when an explanation didn't land: re-pitch it in plain language using the project's glossary terms
 - **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
-The to-spec, to-tickets, implement, grill-with-docs, tdd, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
+The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
 ## Model Invocation
 
-`to-spec`, `to-tickets`, `implement`, `grill-with-docs`, and `wait-what` carry `disable-model-invocation: true` — they are mid-workflow steps that shouldn't auto-fire.
+`to-spec`, `to-tickets`, `implement`, `implement-spec`, `grill-with-docs`, and `wait-what` carry `disable-model-invocation: true` — they are mid-workflow steps that shouldn't auto-fire.
 
 `triage` and `code-review-diff` deliberately do **not**. They are entry points to the loop, and their descriptions are written to be matched by the model. This divergence is intentional, not an oversight.
 

@@ -77,7 +77,8 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 - `triage` - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty); tracker- and storage-agnostic
 - `to-spec` - Turn a rough idea into a written spec
 - `to-tickets` - Break a spec into implementable tickets
-- `implement` - Work a ticket to completion
+- `implement` - Work a single ticket or small inline change to completion in one pass
+- `implement-spec` - Implement a whole spec by orchestrating subagents over its ticket graph
 - `code-review-diff` - Read-only, pure git-native review of branch / staged / git ref / diff file
 - `grill-with-docs` - Interrogate a design against docs, ADRs, and glossary
 - `tdd` - Test-driven development: build features and fix bugs test-first
