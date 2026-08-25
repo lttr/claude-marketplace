@@ -1,200 +1,26 @@
-# CLAUDE.md
+This repository is a Claude Code plugin marketplace. The catalog is `.claude-plugin/marketplace.json`. Each plugin lives in `plugins/<name>/` with its own `.claude-plugin/plugin.json` and optional `skills/`, `commands/`, and `README.md`.
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Plugins: **nuxt**, **video-to-article**, **dev-azdo** (Azure DevOps), **cc** (Claude Code authoring), **aiwork** (.aiwork/ protocol and the triage, spec, tickets, implement, review skills).
 
-## Project Overview
+Deprecated plugins live in `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked. `_archived/dev-flow/` (manifest name `df`) was split into `dev-azdo` and `aiwork`. Only its manifest and README remain.
 
-This is a **Claude Code plugin marketplace** that hosts multiple plugins for distribution.
+## Rules
 
-**Available plugins:**
+- **Version bumping**: any plugin change updates the version in both `plugins/<name>/.claude-plugin/plugin.json` and the matching entry in `.claude-plugin/marketplace.json`. Semver: major for breaking changes, minor for new features, commands, or refactoring, patch for fixes and docs.
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, with `!` for breaking changes.
+- **Always update README.md** when adding plugins or making significant changes.
+- Never state exact counts of steps or items in docs. They drift as things change.
+- Never give a custom command and a skill the same name. It confuses Claude Code.
+- When working on plugins or skills here, proactively load the `plugin-creator` and `skill-creator` skills.
 
-- **nuxt** - Nuxt.js development guidance with Vue best practices
-- **video-to-article** - Convert lecture videos to transcripts and articles
-- **dev-azdo** - Azure DevOps workflow automation (branches, PRs, work items, insights)
-- **cc** - Claude Code authoring tools (plugins, skills, introspection)
-- **aiwork** - .aiwork/ folder protocol plus the triage → spec → tickets → implement → review workflow skills
+## Paths in skills and commands
 
-Deprecated plugins live under `_archived/` and are not listed in `marketplace.json`. Do not re-add them unless explicitly asked. `_archived/dev-flow/` (manifest name `df`) was split into `dev-azdo` (az-dependent skills) and `aiwork` (`triage`, `code-review-diff`) — its skills are gone from the archive, only the manifest and README remain as a record.
+Use `${CLAUDE_SKILL_DIR}` for files in the skill's own directory and `${CLAUDE_PLUGIN_ROOT}` for other plugin files. Never use relative paths, they don't resolve.
 
-## Repository Structure
+## Command naming
 
-```
-claude-marketplace/
-├── .claude-plugin/
-│   └── marketplace.json     # Marketplace catalog listing all plugins
-├── plugins/
-│   ├── nuxt/                # Nuxt.js development guidance
-│   ├── video-to-article/    # Video transcription workflow
-│   ├── dev-azdo/            # Azure DevOps workflow automation
-│   ├── cc/                  # Claude Code authoring tools
-│   └── aiwork/              # .aiwork/ protocol + workflow skills
-├── _archived/               # Deprecated plugins, not published
-└── README.md                # Marketplace-level README
-```
+The file `commands/foo/bar.md` becomes `/plugin-name:foo:bar`. A `name:` field in the frontmatter overrides path-based naming, so `name: my:commit` becomes `/my:commit`.
 
-Each plugin contains `.claude-plugin/plugin.json`, optional `skills/`, `commands/`, and `README.md`.
+## Docs
 
-## Marketplace vs Plugin Files
-
-- **Marketplace manifest**: `.claude-plugin/marketplace.json` - Lists all available plugins with sources
-- **Plugin manifest**: `plugins/*/​.claude-plugin/plugin.json` - Individual plugin metadata
-- **Plugin components**: Each plugin has its own directory with skills/, commands/, agents/, etc.
-
-## Skills to Load
-
-When working with plugins or skills in this repository, proactively load:
-
-- `plugin-creator` - For plugin structure, manifests, and marketplace changes
-- `skill-creator` - For creating or modifying SKILL.md files
-
-## Working with Plugins
-
-### Adding a New Plugin
-
-1. Create plugin directory: `plugins/your-plugin-name/`
-2. Add plugin structure:
-   ```
-   plugins/your-plugin-name/
-   ├── .claude-plugin/
-   │   └── plugin.json       # Required: plugin metadata
-   ├── skills/               # Optional: Agent Skills
-   ├── commands/             # Optional: Slash commands
-   ├── agents/               # Optional: Custom agents
-   └── README.md             # Optional: Plugin docs
-   ```
-3. Update `.claude-plugin/marketplace.json` to include the new plugin entry
-4. Ensure `source` field points to correct path: `"./plugins/your-plugin-name"`
-
-### Editing Existing Plugins
-
-#### Nuxt Plugin Structure
-
-- **Main skill**: `plugins/nuxt/skills/nuxt/SKILL.md` - Quick reference with auto-import lists
-- **Reference docs**: `plugins/nuxt/skills/nuxt/references/*.md` - Detailed library-specific patterns
-- **Progressive disclosure**: References loaded on-demand to keep context efficient
-
-#### Plugin Design Principles
-
-1. **Dependency-Aware**: Check project files before suggesting library features
-2. **Convention-Based**: Leverage framework conventions and directory structures
-3. **Official Docs Integration**: Fetch from official sources when uncertain
-4. **Minimal Context**: Keep skills focused to reduce token usage
-
-## Git Workflow
-
-Use conventional commits for all commit messages:
-
-- `feat:` - New features
-- `fix:` - Bug fixes
-- `docs:` - Documentation changes
-- `refactor:` - Code refactoring
-- `chore:` - Maintenance tasks
-- Use `!` for breaking changes (e.g., `feat!:`, `fix!:`)
-
-**Version bumping**: When making changes to a plugin, always update version in both:
-
-1. `plugins/<plugin-name>/.claude-plugin/plugin.json`
-2. `.claude-plugin/marketplace.json` (matching entry)
-
-Use semantic versioning:
-
-- Major (x.0.0): Breaking changes
-- Minor (0.x.0): New features, command additions, refactoring
-- Patch (0.0.x): Bug fixes, documentation only
-
-## Claude Code Documentation References
-
-### Plugin Development
-
-- **[Plugins Guide](https://code.claude.com/docs/en/plugins.md)** - Plugin structure, development, testing
-- **[Plugin Reference](https://code.claude.com/docs/en/plugins-reference.md)** - Manifest schema, directory structure
-- **[Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces.md)** - Creating and distributing marketplaces
-- **[Skills](https://code.claude.com/docs/en/skills.md)** - Building Agent Skills for plugins
-- **[Slash Commands](https://code.claude.com/docs/en/slash-commands.md#plugin-commands)** - Command structure and naming
-
-### Command Naming Convention
-
-Commands use subdirectory-based namespacing by default:
-
-- File: `commands/namespace/command.md` → Invoked as `/namespace:command`
-- The `:` in invocation represents directory separator `/`
-- Example: `commands/prime/vue.md` becomes `/prime:vue`
-
-**Explicit naming**: Add `name:` in frontmatter to override path-based naming:
-
-```yaml
----
-name: my:commit
-description: Create a git commit
----
-```
-
-This allows `/my:commit` even if the file lives at `commands/my/commit.md` in a `some-plugin` plugin (otherwise it would be `/some-plugin:my:commit`).
-
-## Installation & Testing
-
-### Local Testing
-
-```bash
-/plugin marketplace add /path/to/claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
-```
-
-### After Publishing to GitHub
-
-```bash
-/plugin marketplace add lttr/claude-marketplace
-/plugin install nuxt@lttr-claude-marketplace
-```
-
-### Testing Plugin Changes
-
-After modifying a plugin:
-
-1. Uninstall: `/plugin uninstall plugin-name@marketplace-name`
-2. Reinstall: `/plugin install plugin-name@marketplace-name`
-3. Restart Claude Code to load changes
-
-## Marketplace Schema
-
-### Required Fields
-
-- `name`: Marketplace identifier (kebab-case)
-- `owner`: Maintainer information (name, email)
-- `plugins`: Array of plugin entries
-
-### Plugin Entry Fields
-
-- `name`: Plugin identifier (must match plugin.json)
-- `source`: Relative path from marketplace root (e.g., "./plugins/nuxt")
-- `description`: Brief plugin description
-- `version`: Plugin version
-- `keywords`: Array of tags for discovery
-- `category`: Plugin category (e.g., "framework", "productivity")
-
-## Referencing Scripts in Skills/Commands
-
-When skills or commands need to reference scripts, templates, or other files within the plugin:
-
-- **Prefer `${CLAUDE_SKILL_DIR}`** for files within the skill's own directory (scripts, references, assets, templates)
-- **Use `${CLAUDE_PLUGIN_ROOT}`** only for files outside the skill's directory (other skills, shared plugin resources)
-- **Never use relative paths** - Paths like `./scripts/` or `collectors/` won't resolve correctly
-
-Example:
-
-```bash
-# Best - skill referencing its own files
-node ${CLAUDE_SKILL_DIR}/collectors/azure-prs.js --days 7
-
-# OK - referencing another skill's files
-node ${CLAUDE_PLUGIN_ROOT}/skills/other-skill/scripts/helper.js
-
-# Wrong - relative path won't work
-node collectors/azure-prs.js --days 7
-```
-
-# Notes
-
-- DO NOT use exact number of steps or similar references. The number might change and would be misleading in the future.
-- DO NOT name a custom command and a skill with the same name, it might confuse Claude Code.
-- **ALWAYS update README.md** when adding new plugins or making significant changes to reflect current state.
+Under https://code.claude.com/docs/en/ see `plugins.md`, `plugins-reference.md`, `plugin-marketplaces.md`, `skills.md`, and `slash-commands.md`.
