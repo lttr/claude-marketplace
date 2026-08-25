@@ -20,7 +20,7 @@
       "name": "video-to-article",
       "source": "./plugins/video-to-article",
       "description": "Convert lecture videos to transcripts, outlines, and article drafts using automated workflow with ffmpeg and ElevenLabs API",
-      "version": "1.6.6",
+      "version": "1.6.7",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -77,7 +77,7 @@
       "name": "aiwork",
       "source": "./plugins/aiwork",
       "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: triage → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, code-review-diff, grill-with-docs, tdd, wait-what, agent-browser)",
-      "version": "3.5.0",
+      "version": "3.6.0",
       "author": {
         "name": "Lukas Trumm"
       },
