@@ -1,5 +1,4 @@
 ---
-name: process-video
 description: Convert lecture videos to transcripts and articles
 argument-hint: [youtube-url-or-folder-path]
 ---
