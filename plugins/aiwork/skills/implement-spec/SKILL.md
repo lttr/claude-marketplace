@@ -32,10 +32,10 @@ This gate is the **last stop**. Past it, run unattended to the end.
 
 ## 3. Execution
 
-This session acts as **orchestrator** and spawns one subagent per ticket. The `blocked_by` graph defines a **frontier** of ready tickets (`status: ready`, all blockers `done`), often several at once.
+This session acts as **orchestrator** and spawns one subagent per ticket, always, even for a lone ticket. Subagents keep the orchestrator's context clean. Parallelism is a bonus when the frontier allows it. Invoking this skill is itself the user's explicit request to spawn subagents. The `blocked_by` graph defines a **frontier** of ready tickets (`status: ready`, all blockers `done`), often several at once.
 
 1. _(optional)_ If tickets call for codebase or documentation exploration, spawn one **exploration subagent** up front. It saves markdown notes into the task folder. Implementer subagents get a pointer to them so they can focus on implementing.
-2. Spawn an **implementer subagent** for every frontier ticket, in parallel, each with its ticket path and the `<ticket-loop>` below as its instructions. When the frontier holds more than one ticket, give each subagent an isolated worktree so they don't collide. A lone ticket runs on the branch directly.
+2. Spawn an **implementer subagent** for every frontier ticket, in parallel, each with its ticket path and the `<ticket-loop>` below as its instructions. When the frontier holds more than one ticket, give each subagent an isolated worktree so they don't collide. Tickets that touch dependencies or the lockfile never run in parallel with other tickets: hold them until they can run alone.
 3. When a subagent returns, confirm the ticket file says `status: done` and a commit landed. Merge its worktree branch into the task branch (resolving conflicts against the spec), append its returned notes to `implementation-notes.md`, and clean up the worktree.
 4. Recompute the frontier (merged work may have unblocked tickets) and spawn implementers for the newly ready ones. Repeat until no ticket remains.
 5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done.
@@ -50,7 +50,9 @@ This session acts as **orchestrator** and spawns one subagent per ticket. The `b
 
 Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a log for the maintainer. Record deliberate decisions and important notes as they happen, not at the end: design decisions where the spec was ambiguous, intentional deviations from the spec and why, tradeoffs considered, open questions, a stopped chain and why.
 
-When running as a subagent in an isolated worktree, don't edit `implementation-notes.md` directly (parallel edits collide). Return the entries to the orchestrator, which appends them on merge.
+Never edit `implementation-notes.md` directly: the orchestrator owns it and appends the entries you return in your final report.
+
+If a blocker forces work beyond the ticket's stated scope, make the smallest deviation that unblocks it and flag it in your returned notes. If the deviation would touch another ticket's territory, stop and return the decision to the orchestrator instead.
 
 </ticket-loop>
 
