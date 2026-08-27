@@ -11,7 +11,7 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode: the spec and tickets
 
 ## 1. Resolve input
 
-`$ARGUMENTS` is a spec/PRD or task folder path. With no args, find the most recently modified task folder (per `aiwork-protocol` conventions). Locate the `tickets/` subfolder:
+`$ARGUMENTS` is a spec/PRD or task folder path. With no args, find the most recently modified task folder (per `aiwork-protocol` conventions). Resolve it to an **absolute path** and use that everywhere, including in subagent prompts. Locate the `tickets/` subfolder:
 
 - **No tickets** → suggest `/to-tickets`, or `/implement <spec>` if the spec is small enough for one pass. Stop.
 - **All tickets `done` but no `review.md`** → go straight to Wrap-up (§4).
@@ -60,7 +60,7 @@ If a blocker forces work beyond the ticket's stated scope, make the smallest dev
 
 Runs **once**, after the last ticket, never per ticket. Skip if `review.md` exists in the task folder and no tickets finished since. Otherwise save the new review as the next number (`review_2.md`).
 
-1. Run the full test suite plus other project checks (lint, build).
+1. Run the project's full verification gate (tests, lint, build, whatever the project defines). Whatever checks ran during the tickets saw only a single ticket's branch state, and merges ran nothing. This is the first check of the merged branch as a whole, and the first run of any check the per-ticket process doesn't cover.
 2. Review the branch (the whole diff across all ticket sessions) with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context: never review the diff by hand instead. When the findings come back, fix any it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
 3. Save the review outcome as `review.md` per `aiwork-protocol`. Its presence marks wrap-up complete.
 4. Commit remaining changes. Then report: tickets completed, commits made, review outcome, anything left open.
