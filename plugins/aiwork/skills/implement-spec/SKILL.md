@@ -61,6 +61,6 @@ If a blocker forces work beyond the ticket's stated scope, make the smallest dev
 Runs **once**, after the last ticket, never per ticket. Skip if `review.md` exists in the task folder and no tickets finished since. Otherwise save the new review as the next number (`review_2.md`).
 
 1. Run the full test suite plus other project checks (lint, build).
-2. Review the branch (the whole diff across all ticket sessions) with `/code-review xhigh --fix`. Fix every finding. Re-run the affected tests after fixing. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
+2. Review the branch (the whole diff across all ticket sessions) with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context: never review the diff by hand instead. When the findings come back, fix any it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
 3. Save the review outcome as `review.md` per `aiwork-protocol`. Its presence marks wrap-up complete.
 4. Commit remaining changes. Then report: tickets completed, commits made, review outcome, anything left open.
