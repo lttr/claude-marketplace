@@ -73,6 +73,30 @@ superseded_by: plan_2.md
 
 Common fields: `ticket`, `references`, `superseded_by`. Avoid fields that need manual upkeep across sessions.
 
+### `status` on spec and plan artifacts
+
+The one field worth the upkeep: without it a folder with no `tickets/` is
+indistinguishable from a finished one. Set it on `spec.md` (or the current
+`plan*.md` when there is no spec) and update it as the work moves.
+
+| `status`      | Meaning                                                 |
+| ------------- | ------------------------------------------------------- |
+| `not-started` | Written down, no code yet (the default when absent)     |
+| `in-progress` | Implementation under way                                |
+| `blocked`     | Waiting on something — add `blocked_by:` with the cause |
+| `done`        | Implemented and verified                                |
+| `abandoned`   | Dropped or superseded — pair with `superseded_by:`      |
+
+Folders that use `tickets/` don't need it: ticket statuses already say where the
+work stands.
+
+```yaml
+---
+status: blocked
+blocked_by: waiting on the payment-gateway contract
+---
+```
+
 ## Version control
 
 Whether to commit `.aiwork/` is up to the project — either traceability or ephemeral working artifacts is fine.
