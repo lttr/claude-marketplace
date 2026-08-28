@@ -5,7 +5,20 @@ disable-model-invocation: true
 argument-hint: [spec-or-task-folder-path]
 ---
 
-# Implement Spec
+## Flow at a glance
+
+1. **Resolve input**: find the task folder and its tickets. Nothing there → stop
+2. **[GATE]** spec concrete enough? Last chance to ask the user. Past this, unattended
+3. **Task worktree**: own branch, the whole run happens there. User's checkout stays untouched
+4. **[LOOP]** repeat until every ticket is done:
+   - pick the ready tickets: those whose blockers are all done
+   - run one implementer subagent per ready ticket, in parallel, each in its own worktree
+     - inside each: implement with tests → simplify → verify criteria → done → commit
+   - as each returns, land its work onto the task branch one at a time (linear history), keep its notes, drop its worktree
+   - landed work may unblock more tickets → next round. A ticket that cannot be finished stops the whole run
+5. **Wrap-up** (once): full project verification on the merged branch
+6. **Fresh-context review** of the whole diff, fixes applied, outcome saved as the review record
+7. **Clean up and report**: remove leftover worktrees and branches, tell the user what's done and where the branch is
 
 Follows the `aiwork-protocol` skill. Don't enter plan mode: the spec and tickets are the plan.
 
