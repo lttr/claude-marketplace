@@ -56,7 +56,8 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 
    The orchestrator owns every worktree's lifecycle, so subagents never create or remove one. Pass each subagent its worktree's absolute path as its working root and tell it to stay inside it, using absolute paths or `git -C` rather than assuming a working directory.
 
-3. When a subagent returns, confirm the ticket file says `status: done` and a commit landed. Then, from the task worktree, merge its ticket branch into the task branch (resolving conflicts against the spec), append its returned notes to `implementation-notes.md`, and remove the ticket worktree and branch. Merge one returned ticket at a time so a conflict is attributable. A ticket that worked directly in the task worktree has nothing to merge or clean up.
+3. When a subagent returns, confirm the ticket says `status: done` and a commit landed. Then, in the task worktree, merge its branch into the task branch, resolving conflicts against the spec. Append the returned notes that clear the bar below and drop the rest. Then delete the ticket worktree and branch. Merge one ticket at a time so a conflict is attributable. A lone ticket that worked directly in the task worktree has no branch to merge and no worktree to remove, so only its notes apply.
+
 4. Recompute the frontier (merged work may have unblocked tickets) and spawn implementers for the newly ready ones. Repeat until no ticket remains.
 5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done.
 
@@ -68,7 +69,18 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 4. Run `/verify`. Then confirm each acceptance criterion against actual behavior. Check off `- [ ]` → `- [x]` and set ticket `status: done`.
 5. Commit. Do not ask.
 
-Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a log for the maintainer. Record deliberate decisions and important notes as they happen, not at the end: design decisions where the spec was ambiguous, intentional deviations from the spec and why, tradeoffs considered, open questions, a stopped chain and why.
+Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a short log for the maintainer. One test decides what goes in: the reader has to act on it, or would be misled without it. Write each entry when it happens.
+
+- Work only a human can finish: a service that is down, a credential the user must set, a console change agents cannot reach. Say what to do and where.
+- Anything left unverified, and what would close it.
+- A decision you took where the spec was silent, and why.
+- A deliberate deviation from the spec or ticket.
+- A fact that contradicts the spec, a ticket, or an earlier note.
+- An accepted limit, open question, or a stopped chain.
+
+Leave out what you built, files touched, tests run, and checks that passed. Cite a file, commit, or test name instead of pasting output. Notes for later tickets belong in those tickets.
+
+A few bullets per ticket is the budget. A ticket that went to plan and left nothing to do reports nothing at all.
 
 Never edit `implementation-notes.md` directly: the orchestrator owns it and appends the entries you return in your final report. Likewise, never create, merge, or remove a worktree or branch. Work only in the root you were given, commit there, and let the orchestrator merge.
 

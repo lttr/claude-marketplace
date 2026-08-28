@@ -75,7 +75,7 @@ Write each area's spec lazily, when its turn comes. Don't spec wave 4 during wav
 - **plan** — actionable implementation steps
 - **review** — code review report
 - **notes** — findings, decisions from implementation
-- **implementation-notes** — chronological log kept by `/implement`: workflow events (ticket started/done, chain stopped) plus decisions, deviations, open questions
+- **implementation-notes** — short log kept by `/implement`, for what the reader must act on. Work only a human can finish, anything left unverified, decisions taken where the spec was silent, deviations, contradicted assumptions, a stopped chain. Never what was built or tested. Many tickets warrant no entry.
 - **tickets/** — subfolder of vertical-slice tickets, one file per ticket (`NN_slug.md`, numbered in dependency order), `status` + `blocked_by` in frontmatter; created by `/to-tickets`, worked by `/implement-spec` (or `/implement` for a single ticket)
 - **docs/** — subfolder for downloaded external docs
 

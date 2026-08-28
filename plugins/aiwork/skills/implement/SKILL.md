@@ -26,4 +26,4 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode — the ticket is the
 5. Run `/code-review low --fix`.
 6. Commit. Do not ask. Report what was done and anything left open.
 
-If a deliberate decision or important note for the maintainer comes up (spec ambiguity resolved, intentional deviation, tradeoff, open question), record it in the task folder's `implementation-notes.md` per `aiwork-protocol`.
+Record a note in the task folder's `implementation-notes.md` per `aiwork-protocol` when the reader must act on it: work only a human can finish, anything left unverified, a spec ambiguity you resolved, a deliberate deviation. A few sentences, never a log of what you built. Nothing to note is the normal case.
