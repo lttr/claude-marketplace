@@ -37,7 +37,8 @@ Run the whole task in its own worktree so the user's checkout stays free. Skip t
 1. Commit the task folder, or at least the spec and tickets. A worktree only sees committed work.
 2. Run `git worktree add ../<repo>-<task-slug> -b <task-branch> HEAD`. Branch from `HEAD`, not `origin/main`, so the task folder's commit is in it. Name the branch after the task slug, and keep the worktree a sibling of the repo unless the project has its own convention.
 3. Enter it with the `EnterWorktree` tool, passing `path` (not `name`, which creates its own worktree off `origin/<default>`). This skill is the instruction that authorizes the tool.
-4. Re-resolve the task folder to its absolute path **inside the worktree** and use that path everywhere from here on, including in subagent prompts.
+4. Bootstrap the worktree. A manually created worktree gets none of Claude Code's built-in setup. If the repo has a `.worktreeinclude`, copy each listed gitignored file from the main checkout into the same relative path (`cp --parents`). Then run the project's session-bootstrap script (e.g. `.claude/hooks/session-bootstrap.sh`) if one exists: `SessionStart` hooks don't fire for a worktree entered mid-session, so invoke it directly.
+5. Re-resolve the task folder to its absolute path **inside the worktree** and use that path everywhere from here on, including in subagent prompts.
 
 This worktree is the base for the whole run. Per-ticket worktrees in §4 branch off it and merge back, and `implementation-notes.md` is written only here.
 
@@ -54,9 +55,11 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
    git worktree add ../<repo>-<task-slug>-<NN-ticket-slug> -b <task-slug>-<NN-ticket-slug> <task-branch>
    ```
 
-   The orchestrator owns every worktree's lifecycle, so subagents never create or remove one. Pass each subagent its worktree's absolute path as its working root and tell it to stay inside it, using absolute paths or `git -C` rather than assuming a working directory.
+   Bootstrap each ticket worktree the same way as the task worktree (§3.4): copy `.worktreeinclude` files from the task worktree, then run the project's session-bootstrap script if one exists.
 
-3. When a subagent returns, confirm the ticket says `status: done` and a commit landed. Then, in the task worktree, merge its branch into the task branch, resolving conflicts against the spec. Append the returned notes that clear the bar below and drop the rest. Then delete the ticket worktree and branch. Merge one ticket at a time so a conflict is attributable. A lone ticket that worked directly in the task worktree has no branch to merge and no worktree to remove, so only its notes apply.
+   Never spawn an implementer with the Agent tool's `isolation: worktree`: it creates its own `.claude/worktrees/agent-*` worktree and branch outside this lifecycle, and they leak. Create the worktree yourself as above and pass its path. The orchestrator owns every worktree's lifecycle, so subagents never create or remove one. Pass each subagent its worktree's absolute path as its working root and tell it to stay inside it, using absolute paths or `git -C` rather than assuming a working directory.
+
+3. When a subagent returns, confirm the ticket says `status: done` and a commit landed. Then integrate it **linearly**, without merge commits: rebase the ticket branch onto the task branch's tip (`git -C <ticket-worktree> rebase <task-branch>`), resolving conflicts against the spec. Then fast-forward the task branch onto it (`git merge --ff-only <ticket-branch>` in the task worktree). Append the returned notes that clear the bar below and drop the rest. Then delete the ticket worktree and branch. Integrate one ticket at a time so a conflict is attributable. A lone ticket that worked directly in the task worktree has no branch to merge and no worktree to remove, so only its notes apply.
 
 4. Recompute the frontier (merged work may have unblocked tickets) and spawn implementers for the newly ready ones. Repeat until no ticket remains.
 5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done.
@@ -95,5 +98,5 @@ Runs **once**, after the last ticket, never per ticket. Skip it if `review.md` e
 1. Run the project's full verification gate (tests, lint, build, whatever the project defines). This is the first check of the merged branch as a whole, because per-ticket checks saw only one ticket's branch and merges ran nothing.
 2. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead. Fix any findings it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
 3. Save the review outcome as `review.md` per `aiwork-protocol`. Its presence marks wrap-up complete.
-4. Remove any leftover ticket worktrees (`git worktree list`) and commit remaining changes. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
+4. Remove any leftover ticket worktrees (`git worktree list`) **and their branches** (`git branch --merged` catches them), then commit remaining changes. Also sweep any stray `.claude/worktrees/agent-*` worktrees and `worktree-agent-*` branches whose commits are merged. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
 5. Report tickets completed, commits made, review outcome, and anything left open, plus the worktree path and branch name so the user can review, merge, or open a PR.
