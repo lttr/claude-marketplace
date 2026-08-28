@@ -1,6 +1,6 @@
 ---
 name: aiwork-protocol
-description: Structure AI work artifacts under .aiwork/{YYYY-MM-DD}_{slug}/ folders using the project's protocol (triage, research, spec, prd, plan, review, notes, docs/). Use when the user asks to plan, make a spec, triage, research a task, write a report, code review, summarize findings, save the work, document decisions, record this, write that down, persist findings, or references any path under .aiwork/. Also use when starting a non-trivial task that needs a plan or spec before implementation, or when finishing one and capturing notes.
+description: Structure AI work artifacts under .aiwork/{YYYY-MM-DD}_{slug}/ folders using the project's protocol (triage, research, spec, prd, areas, plan, review, notes, docs/). Use when the user asks to plan, make a spec, triage, research a task, write a report, code review, summarize findings, save the work, document decisions, record this, write that down, persist findings, or references any path under .aiwork/. Also use when starting a non-trivial task that needs a plan or spec before implementation, or when finishing one and capturing notes.
 ---
 
 # .aiwork Folder Protocol
@@ -35,12 +35,43 @@ One task = one folder. Drift signals:
 
 On drift, propose consolidation: move artifacts into the canonical folder with a `superseded_by:` pointer, or merge under one date. Ask before moving files.
 
+A pointer to an epic's `areas.md` is **not** drift — it's a legitimate parent link (see below). Drift is two folders for the _same_ task.
+
+## Epics
+
+A folder is dated when its work starts and holds a few hours' to a few days' work. A big idea doesn't fit: months can pass between framing it and finishing the last piece.
+
+So split it. The **epic folder** is an index, not a task: `spec.md` (or nothing, when the framing is short) plus `areas.md`. Each area later becomes a normal task folder, dated when it actually starts.
+
+```
+.aiwork/
+  2026-06-09_kurzy-platforma/     # epic, framed in June
+    spec.md
+    areas.md
+  2026-08-28_auth-layer/          # area 02, started in August
+    spec.md
+    tickets/
+```
+
+The presence of `areas.md` is what marks a folder as an epic. Its area entries carry the roll-up:
+
+```markdown
+## 02 — Auth layer
+
+**Status:** in-progress → `../2026-08-28_auth-layer/`
+```
+
+One line edited when an area starts, one when it's done. The area's own spec points back with the existing `references:` field (`"Epic: ../2026-06-09_kurzy-platforma/areas.md"`) — no dedicated field for it.
+
+Write each area's spec lazily, when its turn comes. Don't spec wave 4 during wave 1.
+
 ## Artifact types (all optional)
 
 - **triage** — problem framing, what's known
 - **research** — codebase exploration, doc reading
 - **prd** — product requirements, success criteria
 - **spec** — technical/architecture decisions
+- **areas** — decomposition of an oversized spec into areas, each becoming its own task folder later: dependency graph, wave order, and per area its deliverables, what it depends on, how it's verified, and a status line (see Epics)
 - **plan** — actionable implementation steps
 - **review** — code review report
 - **notes** — findings, decisions from implementation
