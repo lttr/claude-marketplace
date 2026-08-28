@@ -81,11 +81,15 @@ indistinguishable from a finished one. Set it on `spec.md` (or the current
 
 | `status`      | Meaning                                                 |
 | ------------- | ------------------------------------------------------- |
-| `not-started` | Written down, no code yet (the default when absent)     |
+| `not-started` | Written down, no code yet                               |
 | `in-progress` | Implementation under way                                |
 | `blocked`     | Waiting on something — add `blocked_by:` with the cause |
 | `done`        | Implemented and verified                                |
 | `abandoned`   | Dropped or superseded — pair with `superseded_by:`      |
+
+An absent `status` means unknown, not not-started — a task is split into
+`tickets/` only when that is worth doing, so neither the missing field nor the
+missing tickets say anything about whether the work happened.
 
 Folders that use `tickets/` don't need it: ticket statuses already say where the
 work stands.
