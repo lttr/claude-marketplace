@@ -73,7 +73,7 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 
 **Skills:**
 
-- `aiwork-protocol` - Naming, frontmatter, and cross-reference standards for plans, specs, triage, reviews, and logs in `.aiwork/`
+- `aiwork-protocol` - Naming, frontmatter, epic/area structure, and cross-reference standards for plans, specs, triage, reviews, and logs in `.aiwork/`
 - `triage` - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty); tracker- and storage-agnostic
 - `to-spec` - Turn a rough idea into a written spec
 - `to-tickets` - Break a spec into implementable tickets

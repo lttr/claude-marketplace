@@ -4,7 +4,7 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 
 ## Skills
 
-- **aiwork-protocol** - The `.aiwork/` folder convention itself: task folders, artifact types, naming, frontmatter
+- **aiwork-protocol** - The `.aiwork/` folder convention itself: task folders, epic folders that index areas, artifact types, naming, frontmatter
 - **triage** - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty), explore code + docs, ask clarifying questions, write a report; tracker- and storage-agnostic
 - **to-spec** - Turn the current conversation into a spec, saved per the aiwork protocol
 - **to-tickets** - Break a plan, spec, or conversation into vertical-slice tickets with blocking edges
