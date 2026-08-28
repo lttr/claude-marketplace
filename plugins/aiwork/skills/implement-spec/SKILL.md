@@ -14,7 +14,7 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode: the spec and tickets
 `$ARGUMENTS` is a spec/PRD or task folder path. With no args, find the most recently modified task folder (per `aiwork-protocol` conventions). Resolve it to an **absolute path** and use that everywhere, including in subagent prompts. Locate the `tickets/` subfolder:
 
 - **No tickets** → suggest `/to-tickets`, or `/implement <spec>` if the spec is small enough for one pass. Stop.
-- **All tickets `done` but no `review.md`** → go straight to Wrap-up (§4).
+- **All tickets `done` but no `review.md`** → go straight to Wrap-up (§5).
 - Nothing found → tell the user and stop.
 
 ## 2. Clarity gate
@@ -30,13 +30,33 @@ The gate runs **once**, against the spec, not per ticket. A badly specified tick
 
 This gate is the **last stop**. Past it, run unattended to the end.
 
-## 3. Execution
+## 3. Task worktree
+
+Run the whole task in its own worktree so the user's checkout stays free. Skip this only when the session is already in a worktree or the user asked to stay in the checkout. If the task already has a worktree (`git worktree list`), enter that one instead of creating a second.
+
+1. Commit the task folder, or at least the spec and tickets. A worktree only sees committed work.
+2. Run `git worktree add ../<repo>-<task-slug> -b <task-branch> HEAD`. Branch from `HEAD`, not `origin/main`, so the task folder's commit is in it. Name the branch after the task slug, and keep the worktree a sibling of the repo unless the project has its own convention.
+3. Enter it with the `EnterWorktree` tool, passing `path` (not `name`, which creates its own worktree off `origin/<default>`). This skill is the instruction that authorizes the tool.
+4. Re-resolve the task folder to its absolute path **inside the worktree** and use that path everywhere from here on, including in subagent prompts.
+
+This worktree is the base for the whole run. Per-ticket worktrees in §4 branch off it and merge back, and `implementation-notes.md` is written only here.
+
+## 4. Execution
 
 This session acts as **orchestrator** and spawns one subagent per ticket, always, even for a lone ticket. Subagents keep the orchestrator's context clean. Parallelism is a bonus when the frontier allows it. Invoking this skill is itself the user's explicit request to spawn subagents. The `blocked_by` graph defines a **frontier** of ready tickets (`status: ready`, all blockers `done`), often several at once.
 
 1. _(optional)_ If tickets call for codebase or documentation exploration, spawn one **exploration subagent** up front. It saves markdown notes into the task folder. Implementer subagents get a pointer to them so they can focus on implementing.
-2. Spawn an **implementer subagent** for every frontier ticket, in parallel, each with its ticket path and the `<ticket-loop>` below as its instructions. When the frontier holds more than one ticket, give each subagent an isolated worktree so they don't collide. Tickets that touch dependencies or the lockfile never run in parallel with other tickets: hold them until they can run alone.
-3. When a subagent returns, confirm the ticket file says `status: done` and a commit landed. Merge its worktree branch into the task branch (resolving conflicts against the spec), append its returned notes to `implementation-notes.md`, and clean up the worktree.
+2. Spawn an **implementer subagent** for every frontier ticket, in parallel, each with its ticket path and the `<ticket-loop>` below as its instructions. Tickets that touch dependencies or the lockfile never run in parallel with other tickets: hold them until they can run alone.
+
+   A **lone frontier ticket works directly in the task worktree**. Only when the frontier holds more than one ticket does each subagent get its own worktree. Branch it off the **task branch's current tip** (not `origin/main`, not another ticket's branch) so it starts from everything merged so far:
+
+   ```bash
+   git worktree add ../<repo>-<task-slug>-<NN-ticket-slug> -b <task-slug>-<NN-ticket-slug> <task-branch>
+   ```
+
+   The orchestrator owns every worktree's lifecycle, so subagents never create or remove one. Pass each subagent its worktree's absolute path as its working root and tell it to stay inside it, using absolute paths or `git -C` rather than assuming a working directory.
+
+3. When a subagent returns, confirm the ticket file says `status: done` and a commit landed. Then, from the task worktree, merge its ticket branch into the task branch (resolving conflicts against the spec), append its returned notes to `implementation-notes.md`, and remove the ticket worktree and branch. Merge one returned ticket at a time so a conflict is attributable. A ticket that worked directly in the task worktree has nothing to merge or clean up.
 4. Recompute the frontier (merged work may have unblocked tickets) and spawn implementers for the newly ready ones. Repeat until no ticket remains.
 5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done.
 
@@ -50,17 +70,18 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 
 Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a log for the maintainer. Record deliberate decisions and important notes as they happen, not at the end: design decisions where the spec was ambiguous, intentional deviations from the spec and why, tradeoffs considered, open questions, a stopped chain and why.
 
-Never edit `implementation-notes.md` directly: the orchestrator owns it and appends the entries you return in your final report.
+Never edit `implementation-notes.md` directly: the orchestrator owns it and appends the entries you return in your final report. Likewise, never create, merge, or remove a worktree or branch. Work only in the root you were given, commit there, and let the orchestrator merge.
 
 If a blocker forces work beyond the ticket's stated scope, make the smallest deviation that unblocks it and flag it in your returned notes. If the deviation would touch another ticket's territory, stop and return the decision to the orchestrator instead.
 
 </ticket-loop>
 
-## 4. Wrap-up
+## 5. Wrap-up
 
-Runs **once**, after the last ticket, never per ticket. Skip if `review.md` exists in the task folder and no tickets finished since. Otherwise save the new review as the next number (`review_2.md`).
+Runs **once**, after the last ticket, never per ticket. Skip it if `review.md` exists in the task folder and no ticket finished since. If tickets did finish after a review, run wrap-up again and save the new review as the next number (`review_2.md`).
 
-1. Run the project's full verification gate (tests, lint, build, whatever the project defines). Whatever checks ran during the tickets saw only a single ticket's branch state, and merges ran nothing. This is the first check of the merged branch as a whole, and the first run of any check the per-ticket process doesn't cover.
-2. Review the branch (the whole diff across all ticket sessions) with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context: never review the diff by hand instead. When the findings come back, fix any it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
+1. Run the project's full verification gate (tests, lint, build, whatever the project defines). This is the first check of the merged branch as a whole, because per-ticket checks saw only one ticket's branch and merges ran nothing.
+2. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead. Fix any findings it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
 3. Save the review outcome as `review.md` per `aiwork-protocol`. Its presence marks wrap-up complete.
-4. Commit remaining changes. Then report: tickets completed, commits made, review outcome, anything left open.
+4. Remove any leftover ticket worktrees (`git worktree list`) and commit remaining changes. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
+5. Report tickets completed, commits made, review outcome, and anything left open, plus the worktree path and branch name so the user can review, merge, or open a PR.
