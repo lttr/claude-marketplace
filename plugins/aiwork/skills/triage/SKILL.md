@@ -1,6 +1,7 @@
 ---
 name: triage
 description: Triage requirements, specs, or tickets. Detect input (pasted text, markdown path, tracker ticket id/URL, or empty prompt). Explore codebase + docs, score completeness, ask clarifying questions, write a markdown report. Trigger when user says "triage", "review this spec", "is this requirement complete", or provides a ticket/spec to assess.
+disable-model-invocation: true
 ---
 
 # Triage

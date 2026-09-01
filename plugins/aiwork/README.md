@@ -22,9 +22,9 @@ The workflow skills reference the `aiwork-protocol` skill for folder and artifac
 
 ## Model Invocation
 
-`to-spec`, `to-tickets`, `implement`, `implement-spec`, `grill-with-docs`, and `wait-what` carry `disable-model-invocation: true` — they are mid-workflow steps that shouldn't auto-fire.
+Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `code-review-diff`, `grill-with-docs`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.
 
-`triage` and `code-review-diff` deliberately do **not**. They are entry points to the loop, and their descriptions are written to be matched by the model. This divergence is intentional, not an oversight.
+`aiwork-protocol` and `tdd` stay model-invocable: they are reference skills the model should pull in on its own when the situation calls for them.
 
 `aiwork-protocol` and `triage` both trigger on the word "triage". The split: **`aiwork-protocol` decides where the artifact lands; `triage` decides what goes in it.**
 

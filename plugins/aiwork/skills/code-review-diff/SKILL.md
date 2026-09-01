@@ -1,6 +1,7 @@
 ---
 name: code-review-diff
 description: Review code changes from the current branch, staged changes, a git ref, or a diff/patch file. Pure git-native — no platform/PR awareness. Trigger when user says "review this", "review diff", "/aiwork:code-review-diff", or provides a git ref or diff path. Read-only — never posts comments.
+disable-model-invocation: true
 ---
 
 # Code Review
