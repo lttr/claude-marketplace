@@ -38,6 +38,9 @@ Before touching code, check the spec is concrete enough for an unattended run. *
 - Key technical choices (data model, API shape, file targets) unspecified
 - Success criteria too vague to tell when "done"
 - Content is contradictory, out of order, or otherwise corrupted
+- An external service or credential the tickets depend on is unreachable or unset
+
+Measure that last one, do not read it off the spec: ping each service the spec names and assert the config keys the tickets need. A prerequisite that only fails mid-chain costs the whole run.
 
 The gate runs **once**, against the spec, not per ticket. A badly specified ticket discovered mid-chain doesn't stop for confirmation: resolve it with best judgment and record the gap and resolution in `implementation-notes.md`.
 
@@ -75,15 +78,17 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 3. When a subagent returns, confirm the ticket says `status: done` and a commit landed. Then integrate it **linearly**, without merge commits: rebase the ticket branch onto the task branch's tip (`git -C <ticket-worktree> rebase <task-branch>`), resolving conflicts against the spec. Then fast-forward the task branch onto it (`git merge --ff-only <ticket-branch>` in the task worktree). Append the returned notes that clear the bar below and drop the rest. Then delete the ticket worktree and branch. Integrate one ticket at a time so a conflict is attributable. A lone ticket that worked directly in the task worktree has no branch to merge and no worktree to remove, so only its notes apply.
 
 4. Recompute the frontier (merged work may have unblocked tickets) and spawn implementers for the newly ready ones. Repeat until no ticket remains.
-5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done.
+5. If a ticket cannot be completed (tests won't pass, blocker discovered), let in-flight subagents finish, then stop the chain and report the state. Never mark it done. Stop every background task the run started (`TaskStop`) before reporting: pollers left running keep waking the orchestrator with news it already has.
 
 <ticket-loop>
 
 1. Set ticket `status: in-progress`.
 2. Implement. Use `/tdd` where possible, at the seams recorded in the spec's Testing Decisions section.
-3. Run `/simplify`. Skip only when the change was a small mechanical edit.
+3. Run `/simplify`. Skip only when the change was a small mechanical edit. Its reviewers only read a diff, so spawn them as fresh subagents: a fork inherits your full context and costs about three times as much for the same findings.
 4. Run `/verify`. Then confirm each acceptance criterion against actual behavior. Check off `- [ ]` → `- [x]` and set ticket `status: done`.
 5. Commit. Do not ask.
+
+When a check fails because an external service is unreachable, do not poll for it. Retry once, wait at most 60 seconds, then commit what works, leave the ticket `in-progress` with the unverified criteria listed, and return. Whether to wait for infrastructure is the orchestrator's call, not yours.
 
 Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a short log for the maintainer. One test decides what goes in: the reader has to act on it, or would be misled without it. Write each entry when it happens.
 
