@@ -20,6 +20,20 @@ The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, and wa
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
+## The verified-gate hook
+
+`/implement` and `/implement-spec` end each ticket with passes only an agent can run: drive the app against the acceptance criteria, judge the UX, review the code. Tests and lint are deterministic and belong to the project's own pre-commit hook. This hook covers the rest: not whether the pass was done well, but whether it was done at all.
+
+`hooks/hooks.json` registers `hooks/verified-gate.mjs` on `Stop` and `SubagentStop`. It scans tickets and review reports touched recently (uncommitted, or changed in `HEAD`) across every worktree of the repo, since implementer subagents work in their own. It holds the turn open (exit 2) when:
+
+- a ticket is `status: done` and `verified:` has no on-app pass: `behaviour`, `ux` or `human`
+- a ticket is `status: done` with acceptance criteria still unticked
+- a `review*.md` has no `reviewed_sha:`, or names a commit unreachable from `HEAD`
+
+It closes "claimed but never did it" and leaves the quality of the judgement to the pass itself. Because it lives in the plugin rather than a skill, a hand-edited ticket meets the same bar, and it reaches implementer subagents, which cannot carry hooks of their own. It honours `stop_hook_active`, so it never blocks twice on a condition the agent cannot resolve.
+
+It needs only Node >= 24 and git. It fails open on anything it cannot determine: not a git repo, no `.aiwork/` folder.
+
 ## Model Invocation
 
 Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `code-review-diff`, `grill-with-docs`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.

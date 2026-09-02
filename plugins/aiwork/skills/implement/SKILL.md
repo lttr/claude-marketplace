@@ -27,4 +27,6 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode — the ticket is the
 6. Run `/code-review low --fix`. Re-run the checks if it changed code.
 7. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `review`), then commit. Do not ask. Report what was done and anything left open.
 
+Stopping is hooked: the plugin's `verified-gate` holds the turn when a ticket claims `done` without an on-app pass (`behaviour`, `ux` or `human` in `verified:`) or with unticked acceptance criteria. Set the frontmatter because the passes ran, never to get past the hook. If a pass genuinely cannot run, leave the ticket `in-progress` and say why in `implementation-notes.md`. See `/aiwork:implement-spec` for details.
+
 Record a note in the task folder's `implementation-notes.md` per `aiwork-protocol` when the reader must act on it: work only a human can finish, anything left unverified, a spec ambiguity you resolved, a deliberate deviation. A few sentences, never a log of what you built. Nothing to note is the normal case.

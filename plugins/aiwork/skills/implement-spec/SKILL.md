@@ -89,6 +89,8 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 5. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed.
 6. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `review`), re-running the checks first if `/simplify` changed code. Commit. Do not ask.
 
+Returning is hooked: `verified-gate` holds the turn when a ticket goes to `done` without that evidence (see below). Set the frontmatter because the passes ran, never to get past the hook.
+
 When a check fails because an external service is unreachable, do not poll for it. Retry once, wait at most 60 seconds, then commit what works, leave the ticket `in-progress` with the unverified criteria listed, and return. Whether to wait for infrastructure is the orchestrator's call, not yours.
 
 Throughout: keep `implementation-notes.md` in the task folder (an `aiwork-protocol` artifact) as a short log for the maintainer. One test decides what goes in: the reader has to act on it, or would be misled without it. Write each entry when it happens.
@@ -116,6 +118,18 @@ Runs **once**, after the last ticket, never per ticket. Skip it if `review.md` e
 
 1. Run the project's full verification gate (tests, lint, build, whatever the project defines). This is the first check of the merged branch as a whole, because per-ticket checks saw only one ticket's branch and merges ran nothing.
 2. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead. Fix any findings it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
-3. Save the review outcome as `review.md` per `aiwork-protocol`. Its presence marks wrap-up complete.
+3. Save the review outcome as `review.md` per `aiwork-protocol`, with `reviewed_sha:` set to the commit the review read. Its presence marks wrap-up complete.
 4. Remove any leftover ticket worktrees (`git worktree list`) **and their branches** (`git branch --merged` catches them), then commit remaining changes. Also sweep any stray `.claude/worktrees/agent-*` worktrees and `worktree-agent-*` branches whose commits are merged. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
 5. Report tickets completed, commits made, review outcome, and anything left open, plus the worktree path and branch name so the user can review, merge, or open a PR.
+
+## The verified-gate hook
+
+Driving the app and judging the code are agent work; code cannot enforce that they happened well, but it can enforce that the **evidence** exists. The plugin's `hooks/verified-gate.mjs` runs on `Stop` and `SubagentStop`, over tickets and review reports touched recently in any worktree. It holds the turn open when:
+
+- a ticket is `status: done` and `verified:` has no on-app pass (`behaviour`, `ux` or `human`)
+- a ticket is `status: done` with acceptance criteria still `- [ ]`
+- a `review*.md` has no `reviewed_sha:`, or names a commit unreachable from `HEAD`
+
+It is active whether or not this skill ran and reaches the implementer subagents. It fails open and has no bypass.
+
+When the hook holds you, run the missing pass. Do not edit frontmatter or tick criteria to satisfy it. If a pass genuinely cannot run, the ticket is not done: set it back to `in-progress`, record why in `implementation-notes.md`, and commit that.

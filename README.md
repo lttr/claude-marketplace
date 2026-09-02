@@ -85,6 +85,10 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 - `wait-what` - Re-pitch an explanation that didn't land, in plain language and glossary terms
 - `agent-browser` - Automate a real browser: open pages, snapshot elements, click/fill, extract content
 
+**Hooks:**
+
+- `verified-gate` - Holds a stop when an `.aiwork/` ticket claims `done` without evidence of an on-app pass (`behaviour`, `ux` or `human` in `verified:`, ticked acceptance criteria) or a review lacks `reviewed_sha:`. Fails open
+
 `commit` and `spec` are excluded by design — they reflect personal preferences and ship as user dotfiles.
 
 **Pairs with:** `dev-azdo` (optional) — gives `triage` an Azure DevOps fetch path and `code-review-diff` a PR checkout. Both degrade cleanly without it.

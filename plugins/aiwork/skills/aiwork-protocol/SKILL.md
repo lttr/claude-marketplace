@@ -73,7 +73,7 @@ Write each area's spec lazily, when its turn comes. Don't spec wave 4 during wav
 - **spec** — technical/architecture decisions
 - **areas** — decomposition of an oversized spec into areas, each becoming its own task folder later: dependency graph, wave order, and per area its deliverables, what it depends on, how it's verified, and a status line (see Epics)
 - **plan** — actionable implementation steps
-- **review** — code review report
+- **review** — code review report. Carries `reviewed_sha:` in frontmatter, the commit the review actually read
 - **notes** — findings, decisions from implementation
 - **implementation-notes** — short log kept by `/implement`, for what the reader must act on. Work only a human can finish, anything left unverified, decisions taken where the spec was silent, deviations, contradicted assumptions, a stopped chain. Never what was built or tested. Many tickets warrant no entry.
 - **tickets/** — subfolder of vertical-slice tickets, one file per ticket (`NN_slug.md`, numbered in dependency order), `status` + `blocked_by` in frontmatter; created by `/to-tickets`, worked by `/implement-spec` (or `/implement` for a single ticket)
@@ -153,6 +153,22 @@ verified: [checks, behaviour, review]
 Whoever runs a pass appends its name. Passes that judge the whole result
 rather than one ticket, a UX walkthrough of a flow or a human acceptance, are
 usually their own ticket, so they land there.
+
+These fields are evidence: the plugin's `verified-gate` hook holds the end of
+a turn when a ticket claims `done` without an on-app pass (`behaviour`, `ux`
+or `human`). Set them because the pass ran.
+
+### `reviewed_sha` on review artifacts
+
+The commit the review was written against, full or abbreviated:
+
+```yaml
+reviewed_sha: 4f2c1ab
+```
+
+The same hook holds a turn on a review with no sha, or one naming a commit
+unreachable from `HEAD`. Fixes after the review are expected; the sha is a
+starting point, not a claim that nothing moved since.
 
 ## Version control
 

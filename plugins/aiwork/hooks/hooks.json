@@ -1,0 +1,29 @@
+{
+  "description": "aiwork verified-gate: holds a stop when a ticket claims done without evidence of the on-app verification passes",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/verified-gate.mjs",
+            "timeout": 30,
+            "statusMessage": "Checking verification evidence"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/verified-gate.mjs",
+            "timeout": 30,
+            "statusMessage": "Checking verification evidence"
+          }
+        ]
+      }
+    ]
+  }
+}
