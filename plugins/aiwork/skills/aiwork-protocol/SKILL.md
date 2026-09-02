@@ -132,6 +132,28 @@ blocked_by: waiting on the payment-gateway contract
 ---
 ```
 
+### `verified` on tickets and specs
+
+Records which passes ran on the code as it stood when the artifact reached
+`done`. A list of pass names; absent means nothing recorded. On a ticket, or
+on `spec.md` when there are no tickets.
+
+```yaml
+verified: [checks, behaviour, review]
+```
+
+| Value       | Meaning                                                 |
+| ----------- | ------------------------------------------------------- |
+| `checks`    | The project's check command passed (tests, lint, build) |
+| `behaviour` | Acceptance criteria verified on the running app         |
+| `review`    | Code reviewed for quality                               |
+| `ux`        | User-facing result judged by driving the app            |
+| `human`     | A person accepted it                                    |
+
+Whoever runs a pass appends its name. Passes that judge the whole result
+rather than one ticket, a UX walkthrough of a flow or a human acceptance, are
+usually their own ticket, so they land there.
+
 ## Version control
 
 Whether to commit `.aiwork/` is up to the project — either traceability or ephemeral working artifacts is fine.

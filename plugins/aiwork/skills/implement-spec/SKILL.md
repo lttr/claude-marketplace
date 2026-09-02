@@ -13,7 +13,7 @@ argument-hint: [spec-or-task-folder-path]
 4. **[LOOP]** repeat until every ticket is done:
    - pick the ready tickets: those whose blockers are all done
    - run one implementer subagent per ready ticket, in parallel, each in its own worktree
-     - inside each: implement with tests → simplify → verify criteria → done → commit
+     - inside each: implement with tests → run the checks → simplify → verify criteria → done → commit
    - as each returns, land its work onto the task branch one at a time (linear history), keep its notes, drop its worktree
    - landed work may unblock more tickets → next round. A ticket that cannot be finished stops the whole run
 5. **Wrap-up** (once): full project verification on the merged branch
@@ -84,9 +84,10 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 
 1. Set ticket `status: in-progress`.
 2. Implement. Use `/tdd` where possible, at the seams recorded in the spec's Testing Decisions section.
-3. Run `/simplify`. Skip only when the change was a small mechanical edit. Its reviewers only read a diff, so spawn them as fresh subagents: a fork inherits your full context and costs about three times as much for the same findings.
-4. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed and set ticket `status: done`.
-5. Commit. Do not ask.
+3. Run the project's check command (see its scripts). Green before anything below.
+4. Run `/simplify`. Skip only when the change was a small mechanical edit. Its reviewers only read a diff, so spawn them as fresh subagents: a fork inherits your full context and costs about three times as much for the same findings.
+5. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed.
+6. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `review`), re-running the checks first if `/simplify` changed code. Commit. Do not ask.
 
 When a check fails because an external service is unreachable, do not poll for it. Retry once, wait at most 60 seconds, then commit what works, leave the ticket `in-progress` with the unverified criteria listed, and return. Whether to wait for infrastructure is the orchestrator's call, not yours.
 
