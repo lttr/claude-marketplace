@@ -22,7 +22,7 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode — the ticket is the
 1. Set ticket `status: in-progress` (if working from a ticket).
 2. Implement. Use `/tdd` where possible, at the seams recorded in the spec's Testing Decisions section.
 3. Run `/simplify` — skip only when the change was a small mechanical edit.
-4. Run `/verify`. Then confirm each acceptance criterion against actual behavior. Check off `- [ ]` → `- [x]`; set ticket `status: done`.
+4. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed and set ticket `status: done`.
 5. Run `/code-review low --fix`.
 6. Commit. Do not ask. Report what was done and anything left open.
 

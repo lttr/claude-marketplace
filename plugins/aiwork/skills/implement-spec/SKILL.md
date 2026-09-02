@@ -85,7 +85,7 @@ This session acts as **orchestrator** and spawns one subagent per ticket, always
 1. Set ticket `status: in-progress`.
 2. Implement. Use `/tdd` where possible, at the seams recorded in the spec's Testing Decisions section.
 3. Run `/simplify`. Skip only when the change was a small mechanical edit. Its reviewers only read a diff, so spawn them as fresh subagents: a fork inherits your full context and costs about three times as much for the same findings.
-4. Run `/verify`. Then confirm each acceptance criterion against actual behavior. Check off `- [ ]` → `- [x]` and set ticket `status: done`.
+4. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed and set ticket `status: done`.
 5. Commit. Do not ask.
 
 When a check fails because an external service is unreachable, do not poll for it. Retry once, wait at most 60 seconds, then commit what works, leave the ticket `in-progress` with the unverified criteria listed, and return. Whether to wait for infrastructure is the orchestrator's call, not yours.
