@@ -76,7 +76,7 @@
     {
       "name": "aiwork",
       "source": "./plugins/aiwork",
-      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: triage → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, code-review-diff, grill-with-docs, tdd, wait-what, agent-browser)",
+      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: triage → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, code-review-diff, grill-with-docs, tdd, prototype, wait-what, agent-browser)",
       "version": "3.9.0",
       "author": {
         "name": "Lukas Trumm"

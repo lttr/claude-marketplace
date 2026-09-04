@@ -82,6 +82,7 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 - `code-review-diff` - Read-only, pure git-native review of branch / staged / git ref / diff file
 - `grill-with-docs` - Interrogate a design against docs, ADRs, and glossary
 - `tdd` - Test-driven development: build features and fix bugs test-first
+- `prototype` - Throwaway prototype answering one design question, plain HTML in the task's `.aiwork/` folder by default, in-app UI variants on a prototype branch when needed
 - `wait-what` - Re-pitch an explanation that didn't land, in plain language and glossary terms
 - `agent-browser` - Automate a real browser: open pages, snapshot elements, click/fill, extract content
 

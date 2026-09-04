@@ -13,10 +13,11 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **code-review-diff** - Read-only, pure git-native review of the current branch / staged changes / a git ref / a diff file
 - **grill-with-docs** - Grilling session that challenges a plan against the domain model (glossary, ADRs) and updates the docs
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
+- **prototype** - Throwaway prototype answering one design question, plain HTML/CSS/JS in the task's `.aiwork/` folder by default, in-framework UI variants behind a `?variant=` switcher on a prototype branch when it must sit in the real app
 - **wait-what** - One-word corrective when an explanation didn't land: re-pitch it in plain language using the project's glossary terms
 - **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
-The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
+The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, prototype, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
 
@@ -36,7 +37,7 @@ It needs only Node >= 24 and git. It fails open on anything it cannot determine:
 
 ## Model Invocation
 
-Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `code-review-diff`, `grill-with-docs`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.
+Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `code-review-diff`, `grill-with-docs`, `prototype`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.
 
 `aiwork-protocol` and `tdd` stay model-invocable: they are reference skills the model should pull in on its own when the situation calls for them.
 
