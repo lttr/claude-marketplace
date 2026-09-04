@@ -1,7 +1,7 @@
 {
   "name": "aiwork",
   "version": "3.9.0",
-  "description": ".aiwork/ folder protocol for AI work artifacts, plus skills for the full loop: triage → spec → tickets → implement → review",
+  "description": ".aiwork/ folder protocol for AI work artifacts, plus skills for the full loop: intent → spec → tickets → implement → review",
   "author": {
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"
@@ -11,6 +11,7 @@
     "protocol",
     "artifacts",
     "plans",
+    "intent",
     "specs",
     "tickets",
     "implement",

@@ -39,6 +39,8 @@ Before touching code, check the spec is concrete enough for an unattended run. *
 - Success criteria too vague to tell when "done"
 - Content is contradictory, out of order, or otherwise corrupted
 - An external service or credential the tickets depend on is unreachable or unset
+- The spec has an Open Concerns section with anything in it
+- The task folder has an `intent.md` whose `status` is not `accepted`
 
 Measure that last one, do not read it off the spec: ping each service the spec names and assert the config keys the tickets need. A prerequisite that only fails mid-chain costs the whole run.
 

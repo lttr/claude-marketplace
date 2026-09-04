@@ -1,6 +1,6 @@
 ---
 name: aiwork-protocol
-description: Structure AI work artifacts under .aiwork/{YYYY-MM-DD}_{slug}/ folders using the project's protocol (triage, research, spec, prd, areas, plan, review, notes, docs/). Use when the user asks to plan, make a spec, triage, research a task, write a report, code review, summarize findings, save the work, document decisions, record this, write that down, persist findings, or references any path under .aiwork/. Also use when starting a non-trivial task that needs a plan or spec before implementation, or when finishing one and capturing notes.
+description: Structure AI work artifacts under .aiwork/{YYYY-MM-DD}_{slug}/ folders using the project's protocol (intent, triage, research, spec, prd, areas, plan, review, notes, docs/). Use when the user asks to plan, capture an intent, make a spec, triage, research a task, write a report, code review, summarize findings, save the work, document decisions, record this, write that down, persist findings, or references any path under .aiwork/. Also use when starting a non-trivial task that needs a plan or spec before implementation, or when finishing one and capturing notes.
 ---
 
 # .aiwork Folder Protocol
@@ -12,6 +12,7 @@ Repository-local folder for AI work artifacts, organized by feature or task. Art
 ```
 .aiwork/
   2026-01-27_auth-refactor/
+    intent.md
     triage.md
     spec.md
 ```
@@ -67,6 +68,7 @@ Write each area's spec lazily, when its turn comes. Don't spec wave 4 during wav
 
 ## Artifact types (all optional)
 
+- **intent** — what the originator wants, in their own words, before anyone decides how. A sentence is enough. Record what was said, without interviewing or exploring the codebase for it. Carries `status` (see below). `/to-spec` answers it
 - **triage** — problem framing, what's known
 - **research** — codebase exploration, doc reading
 - **prd** — product requirements, success criteria
@@ -103,6 +105,10 @@ superseded_by: plan_2.md
 ```
 
 Common fields: `ticket`, `references`, `superseded_by`. Avoid fields that need manual upkeep across sessions.
+
+### `status` on intent artifacts
+
+`proposed` (an idea parked, not yet decided), `accepted` (going ahead), or `declined` (keep the file, the reasoning stays on record). `/implement-spec` stops on an intent that isn't accepted.
 
 ### `status` on spec and plan artifacts
 

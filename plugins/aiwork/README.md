@@ -1,6 +1,6 @@
 # aiwork
 
-Convention for organizing AI work artifacts in a repository-local `.aiwork/` folder, with dated task folders and typed markdown files (triage, research, spec, plan, review, etc.), plus the skills for the full loop built on top of it: **triage → spec → tickets → implement → review**.
+Convention for organizing AI work artifacts in a repository-local `.aiwork/` folder, with dated task folders and typed markdown files (triage, research, spec, plan, review, etc.), plus the skills for the full loop built on top of it: **intent → spec → tickets → implement → review**.
 
 ## Skills
 
@@ -20,6 +20,12 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, prototype, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 
 The workflow skills reference the `aiwork-protocol` skill for folder and artifact conventions.
+
+## The intent artifact
+
+Work starts with an `intent.md`: what someone wants, in their own words, before anyone decides how. A sentence is enough. Its `status` tells a parked idea from an accepted one.
+
+There is no skill for it. "Save my intent" and the `aiwork-protocol` skill do the rest. `/to-spec` answers it, and `/implement-spec` won't run until it is accepted.
 
 ## The verified-gate hook
 

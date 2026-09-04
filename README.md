@@ -69,11 +69,11 @@ See [plugins/dev-azdo/README.md](./plugins/dev-azdo/README.md) for detailed docu
 
 ### AI Work (aiwork)
 
-Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus the skills for the full loop: triage → spec → tickets → implement → review.
+Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus the skills for the full loop: intent → spec → tickets → implement → review.
 
 **Skills:**
 
-- `aiwork-protocol` - Naming, frontmatter, epic/area structure, and cross-reference standards for plans, specs, triage, reviews, and logs in `.aiwork/`
+- `aiwork-protocol` - Naming, frontmatter, epic/area structure, and cross-reference standards for intents, plans, specs, triage, reviews, and logs in `.aiwork/`
 - `triage` - Assess requirement completeness (ticket id/URL, pasted text, `.md` path, or empty); tracker- and storage-agnostic
 - `to-spec` - Turn a rough idea into a written spec
 - `to-tickets` - Break a spec into implementable tickets
