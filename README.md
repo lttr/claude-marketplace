@@ -84,7 +84,6 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 - `tdd` - Test-driven development: build features and fix bugs test-first
 - `prototype` - Throwaway prototype answering one design question, plain HTML in the task's `.aiwork/` folder by default, in-app UI variants on a prototype branch when needed
 - `wait-what` - Re-pitch an explanation that didn't land, in plain language and glossary terms
-- `agent-browser` - Automate a real browser: open pages, snapshot elements, click/fill, extract content
 
 **Hooks:**
 
@@ -102,6 +101,28 @@ claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/aiwork/README.md](./plugins/aiwork/README.md) for detailed documentation.
+
+### Browser Plugin
+
+Browser automation for agents, built on the `agent-browser` CLI. Everything that depends on the browser-driving CLI lives here, so a future CLI swap touches one plugin.
+
+**Skills:**
+
+- `agent-browser` - Drive a real browser: open pages, snapshot elements, click/fill by ref, extract content, screenshot (model-invoked)
+- `/browser:showme` - Drive a headed browser to a described app state, verify it, then leave the window open for the user with a note on what to try
+- `page-bridge` - Inject a floating "agent" toolbar into a running dev page; the user picks elements, comments on them, or sends notes that arrive as live agent notifications
+- `/browser:pick [prompt]` - One-shot element picker over CDP: returns the CSS selector, tag, classes, and text of what the user clicks; starts the dev server if needed
+
+Needs `agent-browser` on PATH (installed by your global binary manager, not by the plugin) and Node >= 24 for `page-bridge`. There is no setup step.
+
+**Installation:**
+
+```shell
+claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin install browser@lttr-claude-marketplace --scope local
+```
+
+See [plugins/browser/README.md](./plugins/browser/README.md) for detailed documentation.
 
 ### Nuxt Plugin
 
@@ -175,6 +196,7 @@ claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 claude plugin install nuxt@lttr-claude-marketplace --scope local
 claude plugin install video-to-article@lttr-claude-marketplace --scope local
 claude plugin install aiwork@lttr-claude-marketplace --scope local
+claude plugin install browser@lttr-claude-marketplace --scope local
 ```
 
 ## Deprecated Plugins
@@ -205,12 +227,12 @@ The Atlassian MCP server moved with `insights` and now ships with `dev-azdo`. In
 
 The `browser-tools` plugin has been deprecated and is no longer published through this marketplace. The source remains in [`_archived/browser-tools/`](./_archived/browser-tools) for reference.
 
-Use `agent-browser` instead - CLI-driven browser automation with snapshot/click/fill by ref.
+Use the `browser` plugin instead - CLI-driven browser automation on top of `agent-browser`, with snapshot/click/fill by ref, a headed hand-off skill, a page feedback toolbar, and an element picker (`/browser:pick` replaces `browser-pick`).
 
 **Migration checklist** (if you were using `browser-tools`):
 
 - Uninstall the plugin: `claude plugin uninstall browser-tools@lttr-claude-marketplace`
-- Remove any `browser-tools` references from your global `~/.claude/CLAUDE.md` (or project `CLAUDE.md`) and point them at your replacement skill. Common places to check:
+- Remove any `browser-tools` references from your global `~/.claude/CLAUDE.md` (or project `CLAUDE.md`) and point them at the `browser` plugin's skills. Common places to check:
   - "Browser Usage" guidance that tells Claude to load `browser-tools` for UI testing, debugging, screenshots, or render verification
   - "Element picking" instructions that reference the `browser-pick` tool (e.g. "when I say 'let me pick an element'…")
 - If `/tmp/chrome-profile-browser-tools` exists (created when running with `--profile`), remove it: `trash-put /tmp/chrome-profile-browser-tools`

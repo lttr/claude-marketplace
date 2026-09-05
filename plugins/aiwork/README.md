@@ -15,7 +15,6 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
 - **prototype** - Throwaway prototype answering one design question, plain HTML/CSS/JS in the task's `.aiwork/` folder by default, in-framework UI variants behind a `?variant=` switcher on a prototype branch when it must sit in the real app
 - **wait-what** - One-word corrective when an explanation didn't land: re-pitch it in plain language using the project's glossary terms
-- **agent-browser** - Automate a real browser with the agent-browser CLI: open pages, snapshot elements, click/fill, extract content
 
 The to-spec, to-tickets, implement, implement-spec, grill-with-docs, tdd, prototype, and wait-what skills are adaptations of skills from Matt Pocock's [skills](https://github.com/mattpocock/skills) collection.
 

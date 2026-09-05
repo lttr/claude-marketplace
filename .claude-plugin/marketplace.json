@@ -76,7 +76,7 @@
     {
       "name": "aiwork",
       "source": "./plugins/aiwork",
-      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: intent → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, code-review-diff, grill-with-docs, tdd, prototype, wait-what, agent-browser)",
+      "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: intent → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, code-review-diff, grill-with-docs, tdd, prototype, wait-what)",
       "version": "3.9.0",
       "author": {
         "name": "Lukas Trumm"
@@ -92,6 +92,25 @@
         "review"
       ],
       "category": "productivity"
+    },
+    {
+      "name": "browser",
+      "source": "./plugins/browser",
+      "description": "Browser automation for agents on top of the agent-browser CLI: agent-browser (drive pages), showme (hand the user a headed window in a given state), page-bridge (feedback toolbar on a dev page), pick (one-shot element picker)",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": [
+        "browser",
+        "agent-browser",
+        "automation",
+        "cdp",
+        "element-picker",
+        "page-bridge",
+        "showme"
+      ],
+      "category": "development"
     }
   ]
 }
