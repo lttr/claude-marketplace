@@ -30,8 +30,30 @@ CONFIG_STATUS=$(node -e '
   const dir = path.join(os.homedir(), ".playwright");
   const config = path.join(dir, "cli.config.json");
   const outputDir = path.join(dir, "output");
+  const RETENTION_DAYS = 30;
+  // playwright-cli writes a snapshot, console log or screenshot per command
+  // into this one flat directory and never prunes it, so it grows without
+  // bound across sessions. Drop what is older than the retention window.
+  // Age-based on purpose: concurrent sessions share the directory, and nothing
+  // a live one wrote is 30 days old, so this cannot race them -- a count-based
+  // cap could delete another session artifacts while it is still running.
+  // Swallows every error: a read-only directory, or a file removed by another
+  // session mid-loop, must never stop a browser from launching.
+  const prune = (target) => {
+    const cutoff = Date.now() - RETENTION_DAYS * 86400000;
+    try {
+      for (const name of fs.readdirSync(target)) {
+        const file = path.join(target, name);
+        try {
+          const stat = fs.statSync(file);
+          if (stat.isFile() && stat.mtimeMs < cutoff) fs.unlinkSync(file);
+        } catch {}
+      }
+    } catch {}
+  };
   if (!fs.existsSync(config)) {
     fs.mkdirSync(outputDir, { recursive: true });
+    prune(outputDir);
     fs.writeFileSync(config, JSON.stringify({ outputDir }, null, 2) + "\n");
     process.stdout.write("wrote " + config + " (outputDir: " + outputDir + ")");
     process.exit(0);
@@ -48,6 +70,7 @@ CONFIG_STATUS=$(node -e '
     process.stdout.write("WARN:" + config + " outputDir \"" + set + "\" is relative, so it resolves against the cwd; use an absolute path");
   } else {
     fs.mkdirSync(set, { recursive: true });
+    prune(set);
     process.stdout.write("global config: " + config + " (outputDir: " + set + ")");
   }
 ' 2>&1) || CONFIG_STATUS="WARN:could not read or write ~/.playwright/cli.config.json"

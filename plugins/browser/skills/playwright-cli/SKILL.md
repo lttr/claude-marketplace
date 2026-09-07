@@ -208,11 +208,13 @@ playwright-cli --raw localstorage-get theme
 ```
 
 For structured output wrapping every reply as JSON, pass --json
+
 ```bash
 playwright-cli list --json
 ```
 
 ## Open parameters
+
 ```bash
 # Use specific browser when creating session
 playwright-cli open --browser=chrome
@@ -414,15 +416,15 @@ playwright-cli show --annotate
 
 ## Specific tasks
 
-* **Running and Debugging Playwright tests** [references/playwright-tests.md](references/playwright-tests.md)
-* **Request mocking** [references/request-mocking.md](references/request-mocking.md)
-* **Running Playwright code** [references/running-code.md](references/running-code.md)
-* **Browser session management** [references/session-management.md](references/session-management.md)
-* **Storage state (cookies, localStorage)** [references/storage-state.md](references/storage-state.md)
-* **Test generation (plan / generate / heal)** [references/test-generation.md](references/test-generation.md)
-* **Tracing** [references/tracing.md](references/tracing.md)
-* **Video recording** [references/video-recording.md](references/video-recording.md)
-* **Inspecting element attributes** [references/element-attributes.md](references/element-attributes.md)
+- **Running and Debugging Playwright tests** [references/playwright-tests.md](references/playwright-tests.md)
+- **Request mocking** [references/request-mocking.md](references/request-mocking.md)
+- **Running Playwright code** [references/running-code.md](references/running-code.md)
+- **Browser session management** [references/session-management.md](references/session-management.md)
+- **Storage state (cookies, localStorage)** [references/storage-state.md](references/storage-state.md)
+- **Test generation (plan / generate / heal)** [references/test-generation.md](references/test-generation.md)
+- **Tracing** [references/tracing.md](references/tracing.md)
+- **Video recording** [references/video-recording.md](references/video-recording.md)
+- **Inspecting element attributes** [references/element-attributes.md](references/element-attributes.md)
 
 ## Plugin notes (browser plugin)
 
@@ -477,6 +479,12 @@ Artifact filenames are millisecond-timestamped, so one shared directory across
 projects and concurrent sessions does not collide. Every command prints the
 path of what it wrote -- read that, never guess or glob the directory. Pass
 absolute `--filename` paths when a file must land somewhere specific.
+
+The preflight prunes files in `outputDir` older than **30 days** on session
+start, so the directory keeps a rolling month instead of growing forever. It is
+age-based so it cannot touch what a concurrent session is still writing, and it
+never fails the preflight. A single very long session still grows unbounded
+until the next one starts.
 
 ### Package managers
 
