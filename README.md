@@ -35,7 +35,7 @@ Everything ships as skills, all explicitly invoked (`/cc:<name>`) — none of th
 **Installation:**
 
 ```shell
-claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin marketplace add lttr/claude-marketplace --scope local
 claude plugin install cc@lttr-claude-marketplace --scope local
 ```
 
@@ -61,7 +61,7 @@ Every skill here needs the Azure CLI with the `azure-devops` extension. The plat
 **Installation:**
 
 ```shell
-claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin marketplace add lttr/claude-marketplace --scope local
 claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 ```
 
@@ -96,7 +96,7 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 **Installation:**
 
 ```shell
-claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin marketplace add lttr/claude-marketplace --scope local
 claude plugin install aiwork@lttr-claude-marketplace --scope local
 ```
 
@@ -118,7 +118,7 @@ Needs `playwright-cli` on PATH (`npm i -g @playwright/cli`, not installed by the
 **Installation:**
 
 ```shell
-claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin marketplace add lttr/claude-marketplace --scope local
 claude plugin install browser@lttr-claude-marketplace --scope local
 ```
 
@@ -150,7 +150,7 @@ Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports
 **Installation:**
 
 ```shell
-claude plugin marketplace add ~/code/claude-marketplace --scope local
+claude plugin marketplace add lttr/claude-marketplace --scope local
 claude plugin install nuxt@lttr-claude-marketplace --scope local
 ```
 
