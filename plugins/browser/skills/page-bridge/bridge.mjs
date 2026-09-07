@@ -1,28 +1,29 @@
 #!/usr/bin/env node
-// Page bridge: sink server + agent-browser driver in one file. Node >= 24.
+// Page bridge: sink server + playwright-cli driver in one file. Node >= 24.
 //
 //   bridge.mjs serve            run the sink in the foreground; every event is
 //                               one stdout line (this is what a Monitor runs)
 //   bridge.mjs open <url>       open a headed browser whose every page carries
-//                               the widget — survives reloads and navigation
-//   bridge.mjs inject           inject into the page agent-browser is already
-//                               on (one-shot: a reload wipes it)
-//   bridge.mjs keep             re-inject whenever a reload wipes the widget
+//                               the widget; survives reloads and navigation
+//   bridge.mjs inject           install the widget into the page playwright-cli
+//                               is already on; persists across reloads too
 //   bridge.mjs status           is the sink up? is the widget installed?
 //   bridge.mjs hide | show      toggle the widget (hide before a screenshot)
 //   bridge.mjs log [n]          last n full event records from the JSONL
 //   bridge.mjs stop             stop the sink
 //
-// Env: BRIDGE_PORT (default 7788), BRIDGE_DIR (default $TMPDIR/page-bridge).
+// Env: BRIDGE_PORT (default 7788), BRIDGE_DIR (default <os temp dir>/page-bridge),
+//      BRIDGE_SESSION (playwright-cli session name; default: its default).
 import { createServer } from "node:http"
-import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { appendFileSync, mkdirSync, readFileSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import { setTimeout as sleep } from "node:timers/promises"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
 
 const PORT = Number(process.env.BRIDGE_PORT ?? 7788)
-const DIR =
-  process.env.BRIDGE_DIR ?? `${process.env.TMPDIR ?? "/tmp"}/page-bridge`
-const LOG = `${DIR}/events.jsonl`
+const DIR = process.env.BRIDGE_DIR ?? join(tmpdir(), "page-bridge")
+const LOG = join(DIR, "events.jsonl")
 const BASE = `http://localhost:${PORT}`
 const WIDGET = `${import.meta.dirname}/bridge.js`
 
@@ -43,23 +44,42 @@ const fail = (msg) => {
   process.exit(1)
 }
 
-const ab = (...args) => {
+// Every browser interaction goes through playwright-cli. A missing binary is
+// the one failure that must never be silent: say what is missing and how to
+// install it, then exit. Any other failure (no browser open, eval threw)
+// resolves to null and the caller decides.
+const SESSION = process.env.BRIDGE_SESSION
+const pw = (...args) => {
   try {
-    return execFileSync("agent-browser", args, {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim()
-  } catch {
+    return execFileSync(
+      "playwright-cli",
+      SESSION ? [`-s=${SESSION}`, ...args] : args,
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    ).trim()
+  } catch (err) {
+    if (err.code === "ENOENT")
+      fail(
+        "playwright-cli is not on PATH. Install it with 'npm install -g @playwright/cli' (or your package manager's global install)",
+      )
     return null
   }
 }
+// --raw prints the JSON-serialized value and nothing else.
 const evalJs = (js) => {
   try {
-    return JSON.parse(ab("eval", js))
+    return JSON.parse(pw("--raw", "eval", js))
   } catch {
     return null
   }
 }
+// Register the loader as an init script on the whole context: it runs on every
+// reload, navigation and new tab from now on. Runtime registration is why
+// `inject` is persistent and needs no reopen.
+const persist = () =>
+  pw(
+    "run-code",
+    `async page => { await page.context().addInitScript(${JSON.stringify(LOADER)}) }`,
+  ) !== null
 const installed = () => evalJs("Boolean(window.__bridge)") === true
 const href = () => evalJs("location.href") ?? "?"
 
@@ -68,7 +88,7 @@ const sinkUp = async () =>
 const requireSink = async () =>
   (await sinkUp()) ||
   fail(
-    `sink is not running on :${PORT} — start it with 'bridge.mjs serve' first`,
+    `sink is not running on :${PORT}. Start it with 'bridge.mjs serve' first`,
   )
 
 // Poll rather than assume: the script tag loads asynchronously.
@@ -92,11 +112,11 @@ function summarize({ action, payload: p = {} }) {
   const at = `[${action}]`
   switch (action) {
     case "pick":
-      return `${at} ${p.selector}${p.text ? ` — "${trunc(p.text, 60)}"` : ""}`
+      return `${at} ${p.selector}${p.text ? `: "${trunc(p.text, 60)}"` : ""}`
     case "pick-multi":
       return `${at} ${p.items?.length ?? 0} elements: ${(p.items ?? []).map((i) => i.selector).join(" | ")}`
     case "annotate":
-      return `${at} ${p.selector} — "${trunc(p.note, 120)}"`
+      return `${at} ${p.selector}: "${trunc(p.note, 120)}"`
     case "note":
       return `${at} ${trunc(p.note, 160)}`
     default:
@@ -150,7 +170,7 @@ function serve() {
     reply(404, "not found")
   })
   server.listen(PORT, "127.0.0.1", () =>
-    console.error(`page-bridge listening on ${BASE} — log: ${LOG}`),
+    console.error(`page-bridge listening on ${BASE}, log: ${LOG}`),
   )
 }
 
@@ -162,38 +182,29 @@ const commands = {
   async open(url) {
     await requireSink()
     if (!url) fail("usage: bridge.mjs open <url>")
-    mkdirSync(DIR, { recursive: true })
-    const loader = `${DIR}/loader.js`
-    writeFileSync(loader, LOADER)
-    ab("open", "--headed", "--init-script", loader, url)
-    if (!(await awaitWidget(40)))
+    if (pw("open", "--headed", url) === null)
       fail(
-        "browser opened but the widget did not install — check the page console",
+        "playwright-cli could not open a browser. Run the plugin's check.sh for the reason",
       )
-    console.log(`widget installed (persistent) on ${href()}`)
+    await commands.inject()
   },
 
   async inject() {
     await requireSink()
+    if (href() === "?")
+      fail(
+        "no page open in playwright-cli. Run 'bridge.mjs open <url>' or 'playwright-cli open --headed <url>' first",
+      )
+    if (!persist())
+      console.error(
+        "warning: init script not registered, the widget will not survive a reload",
+      )
     evalJs(LOADER)
     if (!(await awaitWidget()))
       fail(
-        "widget did not install — check the page console for CSP or network errors",
+        "widget did not install. Check the page console for CSP or network errors",
       )
-    console.log(`widget installed on ${href()}`)
-  },
-
-  async keep() {
-    await requireSink()
-    console.error(`watching for reloads on :${PORT} (ctrl-c to stop)`)
-    while (true) {
-      if (!installed()) {
-        evalJs(LOADER)
-        if (await awaitWidget(8))
-          console.log(`re-injected after reload: ${href()}`)
-      }
-      await sleep(2000)
-    }
+    console.log(`widget installed (persistent) on ${href()}`)
   },
 
   async status() {

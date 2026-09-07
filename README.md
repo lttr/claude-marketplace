@@ -104,16 +104,16 @@ See [plugins/aiwork/README.md](./plugins/aiwork/README.md) for detailed document
 
 ### Browser Plugin
 
-Browser automation for agents, built on the `agent-browser` CLI. Everything that depends on the browser-driving CLI lives here, so a future CLI swap touches one plugin.
+Browser automation for agents, built on the `playwright-cli` CLI ([`@playwright/cli`](https://www.npmjs.com/package/@playwright/cli)). Everything that depends on the browser-driving CLI lives here, so a future CLI swap touches one plugin.
 
 **Skills:**
 
-- `agent-browser` - Drive a real browser: open pages, snapshot elements, click/fill by ref, extract content, screenshot (model-invoked)
+- `playwright-cli` - Drive a real browser: open pages, snapshot elements, click/fill by ref, evaluate JS, screenshot. The official `@playwright/cli` skill, vendored (model-invoked)
 - `/browser:showme` - Drive a headed browser to a described app state, verify it, then leave the window open for the user with a note on what to try
 - `page-bridge` - Inject a floating "agent" toolbar into a running dev page; the user picks elements, comments on them, or sends notes that arrive as live agent notifications
 - `/browser:pick [prompt]` - One-shot element picker over CDP: returns the CSS selector, tag, classes, and text of what the user clicks; starts the dev server if needed
 
-Needs `agent-browser` on PATH (installed by your global binary manager, not by the plugin) and Node >= 24 for `page-bridge`. There is no setup step.
+Needs `playwright-cli` on PATH (`npm i -g @playwright/cli`, not installed by the plugin), a browser it can launch (system Chrome, or `playwright-cli install-browser --with-deps` once), and Node >= 24 for `page-bridge`. Every skill runs a preflight check first and tells you exactly what is missing.
 
 **Installation:**
 
@@ -227,7 +227,7 @@ The Atlassian MCP server moved with `insights` and now ships with `dev-azdo`. In
 
 The `browser-tools` plugin has been deprecated and is no longer published through this marketplace. The source remains in [`_archived/browser-tools/`](./_archived/browser-tools) for reference.
 
-Use the `browser` plugin instead - CLI-driven browser automation on top of `agent-browser`, with snapshot/click/fill by ref, a headed hand-off skill, a page feedback toolbar, and an element picker (`/browser:pick` replaces `browser-pick`).
+Use the `browser` plugin instead - CLI-driven browser automation on top of `playwright-cli`, with snapshot/click/fill by ref, a headed hand-off skill, a page feedback toolbar, and an element picker (`/browser:pick` replaces `browser-pick`).
 
 **Migration checklist** (if you were using `browser-tools`):
 
