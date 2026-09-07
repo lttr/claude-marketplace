@@ -113,7 +113,7 @@ Browser automation for agents, built on the `playwright-cli` CLI ([`@playwright/
 - `page-bridge` - Inject a floating "agent" toolbar into a running dev page; the user picks elements, comments on them, or sends notes that arrive as live agent notifications
 - `/browser:pick [prompt]` - One-shot element picker over CDP: returns the CSS selector, tag, classes, and text of what the user clicks; starts the dev server if needed
 
-Needs `playwright-cli` on PATH (`npm i -g @playwright/cli`, not installed by the plugin), a browser it can launch (system Chrome, or `playwright-cli install-browser --with-deps` once), and Node >= 24 for `page-bridge`. Every skill runs a preflight check first and tells you exactly what is missing.
+Needs `playwright-cli` on PATH (`npm i -g @playwright/cli`, not installed by the plugin), a browser it can launch (system Chrome, or `playwright-cli install-browser --with-deps` once), and Node >= 24 for `page-bridge`. Every skill runs a preflight check first and tells you exactly what is missing. The preflight also points `playwright-cli` at a global output directory, so snapshots and traces never land in the project you are working in.
 
 **Installation:**
 
