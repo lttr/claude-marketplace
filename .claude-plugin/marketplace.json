@@ -13,14 +13,7 @@
       "author": {
         "name": "Lukas Trumm"
       },
-      "keywords": [
-        "nuxt",
-        "vue",
-        "pinia",
-        "vueuse",
-        "drizzle",
-        "nuxt-ui"
-      ],
+      "keywords": ["nuxt", "vue", "pinia", "vueuse", "drizzle", "nuxt-ui"],
       "category": "framework"
     },
     {
@@ -104,7 +97,7 @@
       "name": "browser",
       "source": "./plugins/browser",
       "description": "Browser automation for agents on top of the playwright-cli CLI (@playwright/cli): playwright-cli (official skill, vendored), showme (hand the user a headed window in a given state), page-bridge (feedback toolbar on a dev page), pick (one-shot element picker)",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "Lukas Trumm"
       },

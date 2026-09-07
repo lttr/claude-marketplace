@@ -1,6 +1,6 @@
 {
   "name": "browser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Browser automation for agents on top of the playwright-cli CLI (@playwright/cli): drive pages, hand the user a headed window, put a feedback toolbar on a dev page, pick elements",
   "author": {
     "name": "Lukas Trumm",
