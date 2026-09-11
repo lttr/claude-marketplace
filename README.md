@@ -90,6 +90,10 @@ Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus th
 
 - `verified-gate` - Holds a stop when an `.aiwork/` ticket claims `done` without evidence of an on-app pass (`behaviour`, `ux` or `human` in `verified:`, ticked acceptance criteria) or a review lacks `reviewed_sha:`. Fails open
 
+**Scripts:**
+
+- `bootstrap-worktree.sh` - Copies the gitignored files `.worktreeinclude` matches and runs the project's session-bootstrap hook in a manually created worktree; `implement-spec` uses it for task and ticket worktrees
+
 `commit` and `spec` are excluded by design — they reflect personal preferences and ship as user dotfiles.
 
 **Pairs with:** `dev-azdo` (optional) — gives `triage` an Azure DevOps fetch path and `code-review-diff` a PR checkout. Both degrade cleanly without it.
