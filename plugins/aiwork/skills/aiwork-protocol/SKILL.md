@@ -116,13 +116,20 @@ The one field worth the upkeep: without it a folder with no `tickets/` is
 indistinguishable from a finished one. Set it on `spec.md` (or the current
 `plan*.md` when there is no spec) and update it as the work moves.
 
-| `status`      | Meaning                                                 |
-| ------------- | ------------------------------------------------------- |
-| `not-started` | Written down, no code yet                               |
-| `in-progress` | Implementation under way                                |
-| `blocked`     | Waiting on something — add `blocked_by:` with the cause |
-| `done`        | Implemented and verified                                |
-| `abandoned`   | Dropped or superseded — pair with `superseded_by:`      |
+| `status`      | Meaning                                                             |
+| ------------- | ------------------------------------------------------------------- |
+| `not-started` | Written down, no code yet                                           |
+| `in-progress` | Implementation under way                                            |
+| `blocked`     | Waiting on something — add `blocked_by:` with the cause             |
+| `agent-done`  | Agent finished and verified its passes, awaiting the human's check  |
+| `done`        | The human checked the feature, the UX and the code, and accepted it |
+| `abandoned`   | Dropped or superseded — pair with `superseded_by:`                  |
+
+`done` on a spec is the **human's** call, never an agent's. An implementing
+agent's last word is `agent-done`: tickets done, checks and review passed, work
+handed over. The human then exercises the feature and reads the code, and moves
+it to `done`. An `agent-done` spec is finished in the agent's judgment and not
+yet accepted.
 
 An absent `status` means unknown, not not-started — a task is split into
 `tickets/` only when that is worth doing, so neither the missing field nor the

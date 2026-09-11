@@ -70,6 +70,8 @@ This worktree is the base for the whole run. Per-ticket worktrees in §4 branch 
 
 This session acts as **orchestrator** and spawns one subagent per ticket, always, even for a lone ticket. Subagents keep the orchestrator's context clean. Parallelism is a bonus when the frontier allows it. Invoking this skill is itself the user's explicit request to spawn subagents. The `blocked_by` graph defines a **frontier** of ready tickets (`status: ready`, all blockers `done`), often several at once.
 
+If `spec.md` (or the current `plan*.md` when there is no spec) carries a `status` field, keep it current as the run moves: `in-progress` before the first implementer, `agent-done` in wrap-up, `blocked` with `blocked_by:` if the chain stops. Never set a spec to `done`: that is the human's sign-off after they check the feature, the UX and the code.
+
 1. _(optional)_ If tickets call for codebase or documentation exploration, spawn one **exploration subagent** up front. It saves markdown notes into the task folder. Implementer subagents get a pointer to them so they can focus on implementing.
 2. Spawn an **implementer subagent** for every frontier ticket, in parallel, each with its ticket path and the `<ticket-loop>` below as its instructions. Tickets that touch dependencies or the lockfile never run in parallel with other tickets: hold them until they can run alone.
 
@@ -129,8 +131,9 @@ Runs **once**, after the last ticket, never per ticket. Skip it if `review.md` e
 1. Run the project's full verification gate (tests, lint, build, whatever the project defines). This is the first check of the merged branch as a whole, because per-ticket checks saw only one ticket's branch and merges ran nothing.
 2. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead. Fix any findings it reported but left unapplied, then re-run the affected tests. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
 3. Save the review outcome as `review.md` per `aiwork-protocol`, with `reviewed_sha:` set to the commit the review read. Its presence marks wrap-up complete.
-4. Remove any leftover ticket worktrees (`git worktree list`) **and their branches** (`git branch --merged` catches them), then commit remaining changes. Sweep only what this run created, plus stray `.claude/worktrees/agent-*` worktrees and `worktree-agent-*` branches whose commits are merged; leave any other worktree alone. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
-5. Report tickets completed, commits made, review outcome, and anything left open. End with the **absolute path** of the task worktree and its branch name on their own line.
+4. If the spec (or plan) carries a `status` field, set it to `agent-done` and `verified:` to the passes that ran across the run. Never `done`: the human accepts.
+5. Remove any leftover ticket worktrees (`git worktree list`) **and their branches** (`git branch --merged` catches them), then commit remaining changes. Sweep only what this run created, plus stray `.claude/worktrees/agent-*` worktrees and `worktree-agent-*` branches whose commits are merged; leave any other worktree alone. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
+6. Report tickets completed, commits made, review outcome, and anything left open. Say the spec is `agent-done` and awaits their check of the feature, the UX and the code before it becomes `done`. End with the **absolute path** of the task worktree and its branch name on their own line.
 
 ## The verified-gate hook
 
