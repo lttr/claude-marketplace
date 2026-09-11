@@ -27,6 +27,10 @@ Work starts with an `intent.md`: what someone wants, in their own words, before 
 
 There is no skill for it. "Save my intent" and the `aiwork-protocol` skill do the rest. `/to-spec` answers it, and `/implement-spec` won't run until it is accepted.
 
+## Worktree bootstrap
+
+`scripts/bootstrap-worktree.sh <source-checkout> <worktree>` copies the gitignored files that `.worktreeinclude` matches (gitignore syntax, same as Claude Code's own worktrees) and runs the project's session-bootstrap hook in a manually created worktree. A failed copy or hook exits non-zero, so `/implement-spec` stops before an implementer runs without config.
+
 ## The verified-gate hook
 
 `/implement` and `/implement-spec` end each ticket with passes only an agent can run: drive the app against the acceptance criteria, judge the UX, review the code. Tests and lint are deterministic and belong to the project's own pre-commit hook. This hook covers the rest: not whether the pass was done well, but whether it was done at all.
