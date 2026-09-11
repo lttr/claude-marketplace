@@ -10,6 +10,7 @@ Convention for organizing AI work artifacts in a repository-local `.aiwork/` fol
 - **to-tickets** - Break a plan, spec, or conversation into vertical-slice tickets with blocking edges
 - **implement** - Implement a single ticket or a small inline change in one pass
 - **implement-spec** - Implement a whole spec by orchestrating subagents over its ticket graph; auto-detects the most recent task folder
+- **next-steps** - Read-only status overview of a task folder: ticket frontier, spec status, what awaits the human, and the one next slash command
 - **code-review-diff** - Read-only, pure git-native review of the current branch / staged changes / a git ref / a diff file
 - **grill-with-docs** - Grilling session that challenges a plan against the domain model (glossary, ADRs) and updates the docs
 - **tdd** - Test-driven development: build features and fix bugs test-first (red-green-refactor)
@@ -42,7 +43,7 @@ It needs only Node >= 24 and git. It fails open on anything it cannot determine:
 
 ## Model Invocation
 
-Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `code-review-diff`, `grill-with-docs`, `prototype`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.
+Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implement-spec`, `next-steps`, `code-review-diff`, `grill-with-docs`, `prototype`, `wait-what` — carries `disable-model-invocation: true`. They are deliberate steps you start yourself with `/aiwork:<name>`, not things that should auto-fire mid-conversation.
 
 `aiwork-protocol` and `tdd` stay model-invocable: they are reference skills the model should pull in on its own when the situation calls for them.
 
