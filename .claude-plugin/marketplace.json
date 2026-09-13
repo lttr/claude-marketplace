@@ -112,6 +112,26 @@
         "showme"
       ],
       "category": "development"
+    },
+    {
+      "name": "writing",
+      "source": "./plugins/writing",
+      "description": "Writing skills: wr (clear English prose rules plus a heuristic prose linter), fix-grammar (typos and syntax only), tldr (distill the last answer), czech-typography (Czech typography for the web)",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": [
+        "writing",
+        "prose",
+        "style",
+        "linter",
+        "grammar",
+        "typography",
+        "czech",
+        "docs"
+      ],
+      "category": "productivity"
     }
   ]
 }
