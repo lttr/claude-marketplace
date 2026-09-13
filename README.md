@@ -129,6 +129,32 @@ claude plugin install browser@lttr-claude-marketplace --scope local
 
 See [plugins/browser/README.md](./plugins/browser/README.md) for detailed documentation.
 
+### Writing Plugin
+
+Skills for producing text that is easy to read, plus a linter that checks drafts before they ship.
+
+**Skills:**
+
+- `wr` - Rules for clear English prose in docs, notes, summaries, README sections, and chat answers. Ships `check-prose.ts`, a heuristic linter the skill runs on every draft (model-invoked)
+- `czech-typography` - Czech typography for the web: punctuation, dash vs. hyphen, quotes, numbers, units, non-breaking spaces, HTML entities (model-invoked)
+- `/writing:fix-grammar <file>` - Fix typos and grammar in a file. Syntax errors only, no editorial or style changes
+- `/writing:tldr` - Rewrite the previous response as its leanest version, three sentences or bullets at most
+
+`fix-grammar` and `tldr` are manual by design: both act on a target you name, so automatic invocation would be wrong.
+
+The linter reports at three levels. ERROR covers blacklisted phrases, em-dash splices, emoji and exclamation marks, and always gets fixed. WARN covers long sentences, oversized paragraphs, flat rhythm, staged reveals and repeated sentence openers, to fix when the flagged text really is hard to read. INFO is statistics and passive-voice hints. It runs under Node with native TypeScript stripping, so it needs Node 22.6 or newer.
+
+`my-writing-style` is excluded by design: it encodes one person's voice and stays in user dotfiles.
+
+**Installation:**
+
+```shell
+claude plugin marketplace add lttr/claude-marketplace --scope local
+claude plugin install writing@lttr-claude-marketplace --scope local
+```
+
+See [plugins/writing/README.md](./plugins/writing/README.md) for detailed documentation.
+
 ### Nuxt Plugin
 
 Comprehensive Nuxt.js development guidance with Vue best practices, auto-imports awareness, and library-specific patterns.
@@ -202,6 +228,7 @@ claude plugin install nuxt@lttr-claude-marketplace --scope local
 claude plugin install video-to-article@lttr-claude-marketplace --scope local
 claude plugin install aiwork@lttr-claude-marketplace --scope local
 claude plugin install browser@lttr-claude-marketplace --scope local
+claude plugin install writing@lttr-claude-marketplace --scope local
 ```
 
 ## Deprecated Plugins
