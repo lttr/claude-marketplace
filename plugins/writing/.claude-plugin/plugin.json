@@ -1,7 +1,7 @@
 {
   "name": "writing",
   "description": "Writing skills: wr (clear English prose rules plus a heuristic prose linter), fix-grammar, tldr, czech-typography",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Lukas Trumm"
   }

@@ -18,8 +18,8 @@ Skills for producing text that is easy to read, plus a linter that checks drafts
 `skills/wr/check-prose.ts` reads a markdown file or stdin and reports at three levels:
 
 - **ERROR**: blacklisted phrases, em-dash splices, emoji, exclamation marks. Always fix.
-- **WARN**: long sentences, oversized paragraphs, semicolon splices, flat rhythm, negative parallelism, staged reveals, participle tails, repeated sentence openers. Fix when the flagged text really is hard to read.
-- **INFO**: statistics, passive-voice hints. For your judgment.
+- **WARN**: long sentences, oversized paragraphs, semicolon splices, flat rhythm, negative parallelism, negative echoes, staged reveals, participle tails, repeated sentence openers, a colon into three or four bare noun phrases. Fix when the flagged text really is hard to read.
+- **INFO**: statistics, passive-voice hints, longer or wordier colon lists. For your judgment.
 
 ```sh
 skills/wr/check-prose.ts draft.md

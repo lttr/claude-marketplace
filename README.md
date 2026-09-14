@@ -142,7 +142,7 @@ Skills for producing text that is easy to read, plus a linter that checks drafts
 
 `fix-grammar` and `tldr` are manual by design: both act on a target you name, so automatic invocation would be wrong.
 
-The linter reports at three levels. ERROR covers blacklisted phrases, em-dash splices, emoji and exclamation marks, and always gets fixed. WARN covers long sentences, oversized paragraphs, flat rhythm, staged reveals and repeated sentence openers, to fix when the flagged text really is hard to read. INFO is statistics and passive-voice hints. It runs under Node with native TypeScript stripping, so it needs Node 22.6 or newer.
+The linter reports at three levels. ERROR covers blacklisted phrases, em-dash splices, emoji and exclamation marks, and always gets fixed. WARN covers long sentences, oversized paragraphs, flat rhythm, staged reveals, repeated sentence openers and the negation and colon-list tells, to fix when the flagged text really is hard to read. INFO is statistics, passive-voice hints and ordinary colon lists. It runs under Node with native TypeScript stripping, so it needs Node 22.6 or newer.
 
 `my-writing-style` is excluded by design: it encodes one person's voice and stays in user dotfiles.
 
