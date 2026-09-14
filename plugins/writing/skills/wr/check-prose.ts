@@ -6,10 +6,11 @@
  *   ERROR — mechanical violations, always fix (blacklist phrases, em-dash
  *           splices, emoji, exclamation marks)
  *   WARN  — readability heuristics and LLM tells, judge each (long sentences,
- *           oversized paragraphs, semicolon splices, negative parallelism,
- *           participle tails, staged reveals, echo runs, anaphora)
+ *           oversized paragraphs, semicolon splices, negative parallelism
+ *           and negative echoes, participle tails, staged reveals, echo runs,
+ *           anaphora, colon into bare noun phrases)
  *   INFO  — stats and weak hints (sentence-length distribution, passive voice,
- *           colon lists)
+ *           ordinary colon lists)
  *
  * Usage: check-prose.ts <file.md> [--json]
  *        ... | check-prose.ts [-] [--json]     (read from stdin)
@@ -40,6 +41,18 @@ const CLICHE_RES: { rule: string; re: RegExp; message: string }[] = [
     rule: "negative-parallelism",
     re: /\bnot\s+(?:just|only|merely|simply)\s+[^.!?\n;]*?\bbut(?:\s+also)?\b|\b(?:it|this|that)(?:(?:['\u2019]s|\s+(?:is|was))\s+not|\s+(?:is|was)n['\u2019]t)\s+[^.!?\n,;\u2013\u2014]{1,60}[,;\u2013\u2014]\s*(?:it|this|that)(?:['\u2019]s|\s+(?:is|was))\b/gi,
     message: "negative parallelism: state what it is, without the foil",
+  },
+  {
+    // Same move as negative parallelism, different syntax: two clauses joined by
+    // a comma, the second existing only to negate the first with an elided verb
+    // ("..., the detection does not"). Anchored at the sentence end so ordinary
+    // negations ("..., the file does not exist") don't match, and the tail must
+    // open on a subject, so an elliptical contrast ("..., not what it isn't")
+    // stays out.
+    rule: "negative-echo",
+    re: /[,;]\s+(?:(?!(?:not|but|and|or|nor|what|who|which|that|if|whether|though|while|because|when)\b)\w[\w'\u2019-]*\s+){1,4}(?:(?:do|does|did|is|are|was|were|has|have|had|can|could|will|would|should|must|may)(?:\s+not|n['\u2019]t)|cannot|can['\u2019]t|won['\u2019]t)\s*(?=[.!?]|$)/gi,
+    message:
+      "negative echo: the second clause only negates the first, say what is true",
   },
   {
     rule: "participle-tail",
@@ -283,16 +296,29 @@ interface Paragraph {
 function structuralFindings(p: Paragraph, sentences: string[]): Finding[] {
   const out: Finding[] = []
 
-  // INFO, not WARN: in documentation most colon-lists are ordinary
-  // enumerations, so this one is a hint rather than something to act on.
+  // The count alone can't tell a real enumeration from the rhetorical version,
+  // so the item shape decides the level. Every item a bare noun phrase means the
+  // list is the sentence's whole point and carries no information: that is the
+  // tell, WARN. Items that say something are an ordinary enumeration, INFO.
+  // (The regex only matches lists that close the sentence, so the "ends the
+  // sentence" half of the test is already true here.)
   for (const m of p.text.matchAll(COLON_LIST_RE)) {
-    // ", and" is one separator, not two, so count it before the bare forms.
-    const items = m[0].split(/,\s*(?:and|or)\s+|,\s*|\s+(?:and|or)\s+/).length
+    // ", and" is one separator, not two, so split on it before the bare forms.
+    const items = m[0]
+      .replace(/^:\s*/, "")
+      .split(/,\s*(?:and|or)\s+|,\s*|\s+(?:and|or)\s+/)
+    // The rhetorical version runs three or four items. A longer list of bare
+    // noun phrases is a real inventory (every image provider, say), so it stays
+    // INFO however tidy it looks.
+    const bare =
+      items.length <= MAX_RHETORICAL_ITEMS && items.every(isBareNounPhrase)
     out.push({
-      level: "INFO",
+      level: bare ? "WARN" : "INFO",
       line: p.line,
       rule: "colon-triple",
-      message: `colon into a list of ${items}: "${snippet(m[0])}"`,
+      message: bare
+        ? `colon into ${items.length} bare noun phrases: "${snippet(m[0])}" (make the items carry something, or write them as a sentence)`
+        : `colon into a list of ${items.length}: "${snippet(m[0])}"`,
     })
   }
 
@@ -329,6 +355,26 @@ function structuralFindings(p: Paragraph, sentences: string[]): Finding[] {
   }
 
   return out
+}
+
+// A list item with nothing in it but a short noun phrase: no verb, at most
+// MAX_BARE_ITEM_WORDS long. Verbs are guessed from a small auxiliary set plus
+// -ed/-ing endings, which is enough to separate "README sections" from
+// "one idea per sentence".
+const VERBISH =
+  /^(?:is|are|was|were|be|been|being|has|have|had|do|does|did|can|could|will|would|should|must|may|might|lets?|keeps?|makes?|takes?|gives?|gets?|goes|comes?|says?|uses?|reads?|writes?|runs?|puts?|shows?|names?|leads?|stops?|starts?|adds?|drops?)$/i
+// An item opening on a pronoun is a clause ("it parses"), whatever its verb.
+const CLAUSE_HEAD = /^(?:i|it|we|you|they|he|she|there|this|that|these|those)$/i
+const MAX_BARE_ITEM_WORDS = 3
+const MAX_RHETORICAL_ITEMS = 4
+function isBareNounPhrase(item: string): boolean {
+  const words = item
+    .trim()
+    .split(/\s+/)
+    .filter((w) => /\w/.test(w))
+  if (words.length === 0 || words.length > MAX_BARE_ITEM_WORDS) return false
+  if (CLAUSE_HEAD.test(words[0])) return false
+  return !words.some((w) => VERBISH.test(w) || /\w(?:ed|ing)$/i.test(w))
 }
 
 // The longest shared n-gram of two sentences, or null when they share none.

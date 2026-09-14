@@ -27,11 +27,11 @@ Rules for text that is easy to read and comprehend.
 
 10. **Explain, don't just reference.** The text should make sense on its own, without opening links or files. Include exact commands or paths only when the reader will use them.
 
-11. **Say what a thing is, not what it isn't.** Skip the negative setup: "not just a cache, but a lifecycle manager", "this isn't a rewrite, it's a refactor". Describe the thing directly. A contrast is fine when the reader genuinely holds the wrong belief you are correcting.
+11. **Say what a thing is, not what it isn't.** Skip the negative setup: "not just a cache, but a lifecycle manager", "this isn't a rewrite, it's a refactor". The same move hides in a comma-joined pair whose second half only negates the first: "the judgement stays with the model, the detection does not". Describe the thing directly. A contrast is fine when the reader genuinely holds the wrong belief you are correcting.
 
 12. **Don't announce the point, make it.** No "Here's the catch", "Here's the thing", "Turns out", "The punchline is". Write the sentence that was going to follow.
 
-13. **Vary the shape of neighbouring sentences.** Consecutive sentences built on the same skeleton, or three in a row opening on the same word, read as generated. Also drop participle tails that add nothing: ", underscoring the value of the new cache".
+13. **Vary the shape of neighbouring sentences.** Consecutive sentences built on the same skeleton, or three in a row opening on the same word, read as generated. Also drop participle tails that add nothing: ", underscoring the value of the new cache". A colon opening onto three or four bare nouns is the same move: "Claude writes the text around a project now: commit messages, PR descriptions, README sections, notes". Name the ones that matter in a sentence instead.
 
 14. **Name the actor.** Prefer active voice: say which component or person does the thing. Passive is fine when the actor is unknown or irrelevant, or when the object is the real topic.
 
@@ -47,5 +47,5 @@ EOF
 ```
 
 - **ERROR** (blacklist, em-dash splices, emoji, exclamation marks): always fix.
-- **WARN** (long sentences, oversized paragraphs, semicolon splices, flat rhythm, plus the rule 11-13 tells: negative parallelism, staged reveals, participle tails, echo runs, repeated openers). Fix when the flagged text really is hard to read or the tell is real. Otherwise leave it and say why.
-- **INFO** (stats, passive-voice hints, colon-into-a-triple): for your judgment only.
+- **WARN** (long sentences, oversized paragraphs, semicolon splices, flat rhythm, plus the rule 11-13 tells: negative parallelism, negative echoes, staged reveals, participle tails, echo runs, repeated openers, a colon into three or four bare noun phrases). Fix when the flagged text really is hard to read or the tell is real. Otherwise leave it and say why.
+- **INFO** (stats, passive-voice hints, longer or wordier colon lists): for your judgment only.
