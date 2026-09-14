@@ -16,8 +16,8 @@ argument-hint: [spec-or-task-folder-path]
      - inside each: implement with tests → run the checks → verify the ticket's criteria → done → commit
    - as each returns, land its work onto the task branch one at a time (linear history), keep its notes, drop its worktree
    - landed work may unblock more tickets → next round. A ticket that cannot be finished stops the whole run
-5. **Wrap-up** (once): full project verification on the merged branch, then `/simplify` over the whole diff
-6. **Fresh-context review** of the whole diff, fixes applied, outcome saved as the review record
+5. **Wrap-up** (once): `/simplify` over the whole merged diff
+6. **Fresh-context review** of the whole diff, fixes applied, then full project verification on the merged branch and the review record saved
 7. **Clean up and report**: remove leftover worktrees and branches, tell the user what's done and where the branch is
 
 Follows the `aiwork-protocol` skill. Don't enter plan mode: the spec and tickets are the plan.
@@ -138,10 +138,10 @@ If a blocker forces work beyond the ticket's stated scope, make the smallest dev
 
 Runs **once**, after the last ticket, never per ticket. Skip it if `review.md` exists in the task folder and no ticket finished since. If tickets did finish after a review, run wrap-up again and save the new review as the next number (`review_2.md`).
 
-1. Run the project's full verification gate (tests, lint, build, whatever the project defines), then `/verify` over the whole branch. This is the first check of the merged branch as a whole: per-ticket passes saw one slice each and merges ran nothing.
-2. Run `/simplify` once over the merged diff, its reviewers as fresh subagents (a fork inherits the orchestrator's context and costs about three times as much). Re-run the checks if it changed code.
-3. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead, and keep `xhigh`: lower levels skip the removed-behaviour and cross-file angles. Fix any findings it left unapplied, re-run the checks, and re-verify on the app only the criteria whose code the fixes touched. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
-4. Save the review outcome as `review.md` per `aiwork-protocol`, with `reviewed_sha:` set to the commit the review read. Its presence marks wrap-up complete.
+1. Run `/simplify` once over the merged diff, its reviewers as fresh subagents (a fork inherits the orchestrator's context and costs about three times as much).
+2. Review the whole branch diff with `/code-review xhigh --fix`. It reviews and applies fixes in its own subagent, so the verdict comes from a fresh context. Never review the diff by hand instead, and keep `xhigh`: lower levels skip the removed-behaviour and cross-file angles. Fix any findings it left unapplied. A finding deliberately left unfixed goes into `implementation-notes.md` with the reason.
+3. Run the project's full verification gate (tests, lint, build, whatever the project defines), then `/verify` over the whole branch. It runs after the two passes above so it covers their fixes too, and it is the first check of the merged branch as a whole: per-ticket passes saw one slice each and merges ran nothing. Anything it turns up gets fixed and the gate re-run.
+4. Commit the remaining fixes, then save the review outcome as `review.md` per `aiwork-protocol`, with `reviewed_sha:` set to the branch tip the green gate covered. Its presence marks wrap-up complete.
 5. If the spec (or plan) carries a `status` field, set it to `agent-done` and `verified:` to the passes that ran across the run. Never `done`: the human accepts.
 6. Remove any leftover ticket worktrees (`git worktree list`) **and their branches** (`git branch --merged` catches them), then commit remaining changes. Sweep only what this run created, plus stray `.claude/worktrees/agent-*` worktrees and `worktree-agent-*` branches whose commits are merged; leave any other worktree alone. Leave the task worktree on disk. Don't merge it into the user's branch or delete it.
 7. Report tickets completed, commits made, review outcome, and anything left open. Say the spec is `agent-done` and awaits their check of the feature, the UX and the code before it becomes `done`. End with the **absolute path** of the task worktree and its branch name on their own line.
