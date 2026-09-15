@@ -25,7 +25,7 @@ Follows the `aiwork-protocol` skill. Don't enter plan mode — the ticket is the
 4. Run the project's check command (see its scripts). Green before anything below.
 5. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria, not just the diff. Check off `- [ ]` → `- [x]` for each criterion it passed.
 6. Run `/code-review low --fix`. Re-run the checks if it changed code.
-7. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `review`), then commit. Do not ask. Report what was done and anything left open.
+7. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `ux`, `review`), then commit. Do not ask. Report what was done and anything left open.
 
 When the work item is a whole spec rather than a ticket, the same upkeep applies to the spec's own `status` if it carries one: `in-progress` at the start, `agent-done` at the end. Never `done`: that is the human's sign-off once they have checked the feature, the UX and the code. Say so when you report. A single ticket finishing says nothing about its spec, so leave the spec's status alone in that case.
 

@@ -107,7 +107,7 @@ If `spec.md` (or the current `plan*.md` when there is no spec) carries a `status
 3. Tidy the diff yourself: naming, duplication, dead scaffolding. Not `/simplify`, it runs once in wrap-up.
 4. Run the project's check command (see its scripts). Green before anything below.
 5. Run `/verify <ticket-path>` so it verifies the ticket's acceptance criteria and the surfaces it changed, nothing wider. The full sweep runs once in wrap-up. Check off `- [ ]` → `- [x]` for each criterion it passed.
-6. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `review`). Commit. Do not ask.
+6. Set ticket `status: done` and `verified:` to the passes that ran (`checks`, `behaviour`, `ux`). Commit. Do not ask.
 
 Returning is hooked: `verified-gate` holds the turn when a ticket goes to `done` without that evidence (see below). Set the frontmatter because the passes ran, never to get past the hook.
 
