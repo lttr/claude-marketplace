@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Build a throwaway prototype that answers one design question. Plain HTML/CSS/JS in the task's .aiwork/ folder by default, or UI variants inside the app (Nuxt/Vue, ...) on a prototype branch when they must sit against real layout and data. Use for "does this state model feel right" or "what should this look like".
+description: Build a throwaway HTML or in-app prototype that answers one design question. Use when the user wants to try a state model or UI idea before committing, or says "mock it up", "prototype", "what should this look like".
 disable-model-invocation: true
 ---
 
