@@ -1,6 +1,6 @@
 # Browser Tools Plugin (DEPRECATED)
 
-> **Deprecated and archived.** This plugin is no longer listed in the `lttr-claude-marketplace` and is kept here for historical reference only. Use `agent-browser` instead.
+> **Deprecated and archived.** This plugin is no longer listed in the `lttr-claude-marketplace` and is kept here for historical reference only. Use the `browser` plugin instead.
 
 ## Why this existed
 
@@ -9,7 +9,7 @@ Built before Claude Code had CLI-based browser skills. The goal was low-token br
 ## Why it was deprecated
 
 - **Flaky installation.** The `/browser-tools:setup` step (npm dependencies + global symlinks) had to be re-run periodically — dependencies would go missing or the setup would drift, and the plugin would stop working until reinstalled.
-- **Better alternatives now exist.** `agent-browser` gives the same low-token, CLI-driven browser control with a much more robust stack underneath.
+- **Better alternatives now exist.** The `browser` plugin gives the same low-token, CLI-driven browser control with a much more robust stack underneath.
 
 Chrome DevTools Protocol automation for Claude Code. Enables agent-assisted web testing, verification, and interaction without heavyweight MCP servers.
 
