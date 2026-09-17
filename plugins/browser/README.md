@@ -9,7 +9,7 @@ Browser automation for agents, built on the [`playwright-cli`](https://www.npmjs
 - **page-bridge** - Inject a floating "agent" toolbar into a running dev page so the user can pick elements, comment on them, or send notes that arrive as live agent notifications. Project-agnostic, injected at runtime, no app code
 - **pick** - One-shot element picker: attach to a debuggable Chrome or Edge (or launch one), inject a click-to-select overlay, return the CSS selector, tag, classes, and text. Starts the dev server if needed. `/browser:pick [prompt]`
 
-`showme` and `pick` are manual only. `playwright-cli` and `page-bridge` load on their own when the conversation calls for them.
+`pick` is manual only. The other skills load on their own when the conversation calls for them.
 
 ## Prerequisites
 

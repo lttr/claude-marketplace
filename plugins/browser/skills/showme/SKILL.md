@@ -1,56 +1,45 @@
 ---
 name: showme
-description: Open a real (headed) browser, drive it to a specific state in a web app — a feature, a flow, a particular screen, or a bug — then leave the window open for the user to click around in, with a short note on what to try and what to watch for. Use when the user wants to "show me X", "take me to that state/screen", "let me click around in it", "open a browser I can play with", "set up the repro", "drive me to <feature/flow/situation>", or describes any app state they want to experience firsthand.
+description: Drive a headed browser to a specific state in a web app (a feature, flow, screen, or bug repro) and leave the window open for the user to explore. Use when the user says "show me X", "take me to that screen", "set up the repro", or wants to try an app state firsthand.
 allowed-tools: Bash(playwright-cli:*)
-disable-model-invocation: true
 ---
 
 # showme
 
-Drive a headed browser to a described state, then hand the user the live window.
-The state can be anything — a feature to try, a flow mid-way, a specific screen,
-an edge case, or a bug. Your job is the tedious setup; theirs is the experiencing.
+Drive a headed browser to the state the user described, then hand them the live window. You do the setup, they do the exploring.
 
-**Depends on the [`playwright-cli`](../playwright-cli/SKILL.md) skill and the
-`playwright-cli` CLI.** This skill only adds the **headed + leave-open + handoff**
-wrapper — for the actual driving (navigate, snapshot, click, fill, login), load
-`playwright-cli` and follow it; don't re-derive it here.
+This skill only adds the headed, leave-open, hand-over wrapper. For the actual driving (navigate, snapshot, click, fill, log in), load the `playwright-cli` skill and follow it.
 
 ## Steps
 
-0. **Preflight** — run `${CLAUDE_PLUGIN_ROOT}/skills/playwright-cli/check.sh`.
-   If it fails, stop and relay its message to the user; do not fall back to
-   another automation tool.
+1. **Preflight.** Run `${CLAUDE_PLUGIN_ROOT}/skills/playwright-cli/check.sh`. If it fails, relay its message to the user and stop. Do not fall back to another automation tool.
 
-1. **Target** — from context, work out the URL (prod/staging/`localhost:PORT`; start the dev server first if it's this repo's app and it isn't running), the preconditions that define the state, and the point of interest. Ask one tight question only if genuinely ambiguous.
+2. **Work out the target.** From context, find the URL (production, staging, or `localhost:PORT`), the preconditions that define the state, and the point of interest. If the app is this repo's and its dev server is not running, start it first. Ask one short question only when the target is genuinely ambiguous.
 
-2. **Open headed, named session** (every later command carries the same `-s=showme`):
+3. **Open a headed, named session.** Every later command carries the same `-s=showme`.
 
    ```bash
    playwright-cli -s=showme open --headed <url>
    ```
 
-   No window? A `showme` session was already up headless — `playwright-cli -s=showme close`, then reopen. `playwright-cli list` shows every session and whether it is headed.
+   If no window appears, a `showme` session is already running headless. Close it with `playwright-cli -s=showme close` and reopen. `playwright-cli list` shows every session and whether it is headed.
 
-3. **Drive to the state** via the `playwright-cli` snapshot-and-ref loop, up to the point of interest.
+4. **Drive to the state** with the snapshot-and-ref loop from `playwright-cli`, stopping just before the point of interest.
 
-4. **Verify it yourself first — then decide whether to hand over.** When the state is a _claim to confirm_ (a bug, regression, or "X happens when you do Y"), and the key action is non-destructive, **fire it yourself and check the outcome before involving the user.** Don't hand over a window that "should" show something you haven't confirmed it shows.
-   - **It reproduced** → reset to just-before the action (`reload` / undo) so the user can trigger it themselves, then hand over (step 5). Note that you confirmed it.
-   - **It did NOT reproduce (false positive)** → stop. Don't hand over. Tell the user the claim didn't hold, with the evidence (what you did, what actually happened vs. expected). This is the whole point of trying first: catch false positives without making the user click through a dead end.
-   - **Action is destructive, or the state is open-ended exploration** (not a specific claim) → don't fire it; leave it for the user and go to step 5.
+5. **Verify before handing over.** When the state is a claim to confirm (a bug, a regression, "X happens when you do Y"), trigger the key action yourself and check the outcome, as long as it is non-destructive. Never hand over a window that "should" show something you have not seen it show.
+   - It reproduced: reset to just before the action (reload or undo) so the user can trigger it themselves, then hand over and say you confirmed it.
+   - It did not reproduce: stop and tell the user the claim did not hold, with what you did and what happened instead of the expected result. Catching this here saves the user a dead-end click-through.
+   - The action is destructive, or the state is open-ended exploration: leave the action to the user and hand over.
 
-5. **Hand over — do NOT close.** Leave the window open (the session daemon keeps it alive) and tell the user, in a few lines:
-   - **It's open** — session `showme`, on which page.
-   - **You are here** — current state + what you set up (and that you confirmed the action works, if you did).
-   - **Try this** — the exact action (e.g. "click the blue _Save_ button").
-   - **You'll see** — what should happen, so they know what to look for.
+6. **Hand over. Do not close.** The session daemon keeps the window alive. Tell the user in a few lines:
+   - It is open: session `showme`, on which page.
+   - You are here: the current state, what you set up, and whether you confirmed the action works.
+   - Try this: the exact action, for example "click the blue Save button".
+   - You will see: what should happen, so they know what to look for.
 
-   Offer `playwright-cli -s=showme close` for when they're done.
+   Mention `playwright-cli -s=showme close` for when they are done.
 
 ## Notes
 
-- Reuse login state across runs with a persistent profile:
-  `playwright-cli -s=showme open --headed --persistent <url>` (profile managed by
-  playwright-cli), or `--profile=$HOME/.showme-profile` for a directory you choose.
-  The in-memory default forgets everything on close.
-- Never auto-close — the open window is the deliverable.
+- The open window is the deliverable. Never close it on your own.
+- To keep login state across runs, open with `--persistent` (profile managed by playwright-cli) or `--profile=$HOME/.showme-profile` for a directory you choose. The in-memory default forgets everything on close.
