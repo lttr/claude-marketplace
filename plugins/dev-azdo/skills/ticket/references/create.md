@@ -1,10 +1,3 @@
----
-name: ticket-create
-description: Create an Azure DevOps work item (Technical task / User Story / Bug …) with a Markdown description, parent link, area/iteration, and tags, in a single `az rest` call. Trigger when the user says "create azdo ticket", "new work item", "create technical task", "child ticket under #N", or asks to spawn a follow-up ticket from code or plan context. Use INSTEAD OF `az boards work-item create` whenever the description should render as Markdown (that command cannot pass the format flag).
-allowed-tools: Bash(az *), Bash(cat *), Bash(trash-put *), Read, Write, Edit
-argument-hint: <title> [--type "Technical task"] [--parent <id>] [--tags a,b] [--description-file <path>]
----
-
 # Create AzDO Work Item (Markdown-aware)
 
 `az boards work-item create` stores `--description` as **HTML** with no flag to override. To get a Markdown-rendered description, create the item via `az rest` POST with a JSON-Patch body that includes `/multilineFieldsFormat/System.Description = "Markdown"` alongside the field op. The format cannot be flipped reliably after creation. To convert an existing HTML item, delete and recreate.
@@ -199,10 +192,10 @@ Name the actor while you are at it. "The handler retries twice", not "requests a
 | `descFormat` comes back `html`              | the `/multilineFieldsFormat/System.Description` op was missing       | delete and recreate, see the caveat above                             |
 | type not found                              | wrong casing or unencoded space                                      | re-list types (step 2), encode spaces as `%20`                        |
 
-## Related skills
+## Related operations
 
-- `dev-azdo:ticket`: transition a work item between states (active / cr / ready / closed). Use after creating.
-- `dev-azdo:ticket-comments`: post a Markdown comment on the discussion thread.
+- `ticket state <id> <state>`: transition the new item (active / cr / ready / closed). Use after creating.
+- `ticket comment <id>`: post a Markdown comment on the discussion thread.
 - `dev-azdo:feature-branch`: start a feature branch from an existing ticket id.
 - `dev-azdo:pr`: create / checkout / list / complete pull requests linked to a ticket.
 

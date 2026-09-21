@@ -1,10 +1,3 @@
----
-name: ticket-comments
-description: Add, update, or delete a comment on an Azure DevOps work item (the Discussion thread) via the dedicated Comments REST API, with Markdown rendering. Trigger when the user says "comment on ticket #N", "add a comment to the work item", "update/edit the AzDO comment", "delete a work-item comment", or asks to post discussion notes on a ticket. Use INSTEAD OF patching `System.History` whenever the comment should render as Markdown or may need to be edited or deleted later.
-allowed-tools: Bash(az *), Bash(cat *), Bash(trash-put *), Read, Write, Edit
-argument-hint: <work-item-id> [--text "..."] [--text-file <path>] [--update <commentId>] [--delete <commentId>]
----
-
 # Comment on an AzDO Work Item (Markdown-aware)
 
 There are two ways to put text on a work item's discussion. Use the **Comments API**, not the `System.History` patch.
@@ -139,4 +132,4 @@ az rest --resource 499b84ac-1321-427f-aa17-267ca6975798 \
 
 ## Note on work-item _description_ fields
 
-`System.Description` and repro-steps are separate HTML fields with their own `multilineFieldsFormat` flag. They are NOT the Comments API. To create or edit a Markdown description, see `dev-azdo:ticket-create` (JSON-Patch with `/multilineFieldsFormat/System.Description`).
+`System.Description` and repro-steps are separate HTML fields with their own `multilineFieldsFormat` flag. They are NOT the Comments API. To create or edit a Markdown description, use `ticket create` (JSON-Patch with `/multilineFieldsFormat/System.Description`).

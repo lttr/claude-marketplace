@@ -43,18 +43,14 @@ See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
 
 ### Dev Azure DevOps Plugin
 
-Azure DevOps workflow automation: create and comment on work items, branch off one, drive pull requests and their comment threads, transition tickets, and generate activity insights. Confluence integration via the bundled Atlassian MCP server.
+Azure DevOps workflow automation: read, create and comment on work items and move them between states, branch off a ticket, drive pull requests and their comment threads. The Atlassian MCP server ships alongside for Confluence search.
 
 **Skills (all `/dev-azdo:<name>`):**
 
+- `ticket <op> <id>` - `show` / `create` / `comment` / `state` on a work item. Descriptions and comments render as Markdown
 - `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
-- `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`
+- `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete` (slash-only)
 - `pr-comments` - Read, assess, post AZDO PR thread comments
-- `ticket <id> <state>` - Transition AZDO work item (active/cr/ready/closed)
-- `ticket-create <title>` - Create a work item with a Markdown description, parent link, tags
-- `ticket-comments <id>` - Add / update / delete Markdown comments on a work item discussion
-- `insights <op>` - `daily` / `weekly` / `catchup` / `view` activity reports
-- `az-cli` - NL-driven Azure DevOps CLI reference (model-invoked)
 
 Every skill here needs the Azure CLI with the `azure-devops` extension. The platform-neutral artifact skills that used to sit alongside them — `triage` and `code-review-diff` — now live in `aiwork`.
 
@@ -248,12 +244,12 @@ The `df` plugin has been split along the line that actually divided it — depen
 | `/df:feature-branch`   | `/dev-azdo:feature-branch` |
 | `/df:pr`               | `/dev-azdo:pr`             |
 | `/df:pr-comments`      | `/dev-azdo:pr-comments`    |
-| `/df:ticket`           | `/dev-azdo:ticket`         |
-| `/df:insights`         | `/dev-azdo:insights`       |
+| `/df:ticket`           | `/dev-azdo:ticket state`   |
+| `/df:insights`         | removed in `dev-azdo` 2.0  |
 | `/df:triage`           | `/aiwork:triage`           |
 | `/df:code-review-diff` | `/aiwork:code-review-diff` |
 
-The Atlassian MCP server moved with `insights` and now ships with `dev-azdo`. Installing `aiwork` alone leaves `triage` searching local docs only.
+The Atlassian MCP server now ships with `dev-azdo`. Installing `aiwork` alone leaves `triage` searching local docs only.
 
 ### Browser Tools (archived)
 

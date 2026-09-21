@@ -1,6 +1,7 @@
 ---
 name: pr
 description: Manage Azure DevOps pull requests — create, checkout, list, complete. Trigger when user says "/dev-azdo:pr <op>", "create PR", "checkout PR 123", "list PRs", "complete PR", or otherwise asks to operate on an AZDO pull request.
+disable-model-invocation: true
 ---
 
 # PR (Azure DevOps)

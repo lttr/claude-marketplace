@@ -66,7 +66,7 @@ Prompt: "Transition ticket #<id> to Active? (y/N)"
 
 Default: **No**.
 
-If yes → invoke `ticket` skill with `<id> active`.
+If yes → invoke the `ticket` skill with `state <id> active`.
 
 ### 5. Confirm
 
@@ -75,4 +75,4 @@ Print created branch name + ticket transition status.
 ## Notes
 
 - Branch and ticket transition are intentionally separate — `feature-branch` only prompts; clean separation.
-- For follow-up state changes use `ticket` skill (`/dev-azdo:ticket <id> cr`, etc.).
+- For follow-up state changes use the `ticket` skill (`/dev-azdo:ticket state <id> cr`, etc.).

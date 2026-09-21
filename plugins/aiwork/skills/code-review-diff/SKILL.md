@@ -139,4 +139,4 @@ This skill never checks anything out. Whatever is in cwd is what gets reviewed. 
 
 - Read-only. Never posts PR comments. Posting is a separate concern — `dev-azdo:pr-comments` covers Azure DevOps if that plugin is installed.
 - Pipeline detail lives in `references/pipeline.md` — load only when running review.
-- No `az`, no `gh`, no PR-id resolution. PR resolution lives outside this skill — in `dev-azdo:pr` / `dev-azdo:az-cli` when installed, or in a shell wrapper. Absent both, the user checks out the branch themselves; this skill still works.
+- No `az`, no `gh`, no PR-id resolution. PR resolution lives outside this skill — in `dev-azdo:pr` when installed, or in a shell wrapper. Absent that, the user checks out the branch themselves; this skill still works.
