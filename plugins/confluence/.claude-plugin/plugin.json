@@ -1,7 +1,7 @@
 {
   "name": "confluence",
-  "description": "Atlassian MCP server for Confluence, plus a `map` skill holding a pre-built map of the connected site — live spaces, the subtrees that actually get edited, direct links — and the recipe to regenerate it.",
-  "version": "0.1.0",
+  "description": "Atlassian MCP server for Confluence, plus a `wiki-map` skill holding a pre-built map of the connected site — live spaces, the subtrees that actually get edited, direct links — and the recipe to regenerate it.",
+  "version": "0.2.0",
   "author": {
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"
