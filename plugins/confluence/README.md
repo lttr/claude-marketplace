@@ -21,7 +21,9 @@ First use opens an OAuth flow in the browser. Pick the Confluence site you want;
 
 ### `confluence:wiki-map`
 
-A site has thousands of pages and a handful that are alive. The skill is a cached answer to "where is anything": per site, which spaces still get edited, which subtree inside them carries the work, what people are writing about right now, and links to the main branches. Reading it costs one file read; a blind search costs Rovo credits and usually returns the 2021 archive.
+A site has thousands of pages and a handful that are alive. The skill is a cached answer to "where is anything": per site, which spaces still get edited, which subtree inside them carries the work, the team page ids under it, and links to the main branches. Reading it costs one file read; a blind search costs Rovo credits and usually returns the 2021 archive.
+
+A reference holds structure only — ids, keys, tree shape, naming conventions. What people are writing about _right now_ is not cached; the skill computes it from a scoped CQL query, which is free. The rule is that anything needing an update more than once a quarter stays out of the plugin.
 
 One reference file per site.
 
@@ -29,7 +31,7 @@ Beyond orientation the skill covers the small habits that keep a wiki tidy: it l
 
 `confluence:wiki-map refresh` rebuilds a map, or builds one for a site that has none. The recipe lives in `references/refresh.md`: rank spaces by last-modified via CQL, separate steady work from a one-off bulk edit, then walk down to the branch that carries the traffic. It is a prescription with jq snippets rather than a script — the data only comes through MCP tools, and large results land in a file the MCP layer writes for you.
 
-Maps go stale. Each carries a `Mapped on` date; past ~2 months, refresh.
+Structure drifts slowly. Each map carries a `Mapped on` date; past ~6 months, or as soon as a page it names is gone, refresh.
 
 ## Who uses it
 
