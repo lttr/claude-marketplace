@@ -1,6 +1,6 @@
 {
   "name": "confluence",
-  "description": "Atlassian MCP server for Confluence: search and read wiki pages from any project. Server only, no skills — other skills pick the tools up when they are connected.",
+  "description": "Atlassian MCP server for Confluence, plus a `map` skill holding a pre-built map of the connected site — live spaces, the subtrees that actually get edited, direct links — and the recipe to regenerate it.",
   "version": "0.1.0",
   "author": {
     "name": "Lukas Trumm",

@@ -1,6 +1,6 @@
 # confluence
 
-The Atlassian MCP server, packaged on its own. No skills, no commands — installing the plugin connects the server, and any skill that looks for connected doc sources finds it.
+The Atlassian MCP server plus one skill. Installing the plugin connects the server, and any skill that looks for connected doc sources finds it.
 
 ## What ships
 
@@ -18,6 +18,16 @@ The Atlassian MCP server, packaged on its own. No skills, no commands — instal
 ```
 
 First use opens an OAuth flow in the browser. Pick the Confluence site you want; the grant is per site, and a site admin may need to authorize the app once for the whole org.
+
+### `confluence:wiki-map`
+
+A site has thousands of pages and a handful that are alive. The skill is a cached answer to "where is anything": per site, which spaces still get edited, which subtree inside them carries the work, what people are writing about right now, and links to the main branches. Reading it costs one file read; a blind search costs Rovo credits and usually returns the 2021 archive.
+
+One reference file per site.
+
+`confluence:wiki-map refresh` rebuilds a map, or builds one for a site that has none. The recipe lives in `references/refresh.md`: rank spaces by last-modified via CQL, separate steady work from a one-off bulk edit, then walk down to the branch that carries the traffic. It is a prescription with jq snippets rather than a script — the data only comes through MCP tools, and large results land in a file the MCP layer writes for you.
+
+Maps go stale. Each carries a `Mapped on` date; past ~2 months, refresh.
 
 ## Who uses it
 
