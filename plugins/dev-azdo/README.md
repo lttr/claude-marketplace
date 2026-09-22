@@ -20,7 +20,8 @@ Azure DevOps workflow automation. Single primitive: skills. Each is invokable as
 ## Dependencies
 
 - Azure CLI with the `azure-devops` extension. Every skill here needs it.
-- Atlassian MCP server, bundled as `.mcp.json`. Optional. `aiwork:triage` uses it for Confluence search when both plugins are installed.
+
+The Atlassian MCP server used to ship here as `.mcp.json`. It moved to its own [`confluence`](../confluence) plugin — install that if you want Confluence search.
 
 ## Composition
 
@@ -39,7 +40,6 @@ Optional, and never required. `aiwork:code-review-diff` reviews the diff once `p
 ```
 dev-azdo/
 ├── .claude-plugin/plugin.json
-├── .mcp.json                     # Atlassian HTTP MCP server
 └── skills/
     ├── ticket/
     │   ├── SKILL.md              # dispatch + state synonyms

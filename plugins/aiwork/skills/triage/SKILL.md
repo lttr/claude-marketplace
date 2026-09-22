@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Analyze requirements for completeness. Explore code + docs, surface gaps, ask clarifying questions, write a report.
 
-Tracker-agnostic and storage-agnostic: fetching a ticket and choosing where the report lands are both pluggable (see `references/sources.md`).
+Tracker-agnostic and storage-agnostic: fetching a ticket, searching docs and choosing where the report lands are all pluggable (see `references/sources.md`). A tracker or a doc source can be a CLI, a connected server, or plain files in the repo.
 
 ## Arguments
 
@@ -55,7 +55,7 @@ Use as-is. Derive title from first line / sentence.
 
 #### tracker ticket
 
-Read `references/sources.md` and use the first available fetch path. Never invent a CLI or an API call — if nothing is available, ask the user to paste the ticket text.
+Read `references/sources.md` and use the first available fetch path. The tracker may be a CLI, a connected server, or files in this repo. Never invent a CLI invocation, a file layout, or an API call — if nothing is available, ask the user to paste the ticket text.
 
 Normalize whatever comes back to: title, description, acceptance criteria, state, type, assignee, area/labels, linked items. HTML descriptions → readable text.
 

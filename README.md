@@ -57,7 +57,7 @@ See [plugins/maintenance/README.md](./plugins/maintenance/README.md) for detaile
 
 ### Dev Azure DevOps Plugin
 
-Azure DevOps workflow automation: read, create and comment on work items and move them between states, branch off a ticket, drive pull requests and their comment threads. The Atlassian MCP server ships alongside for Confluence search.
+Azure DevOps workflow automation: read, create and comment on work items and move them between states, branch off a ticket, drive pull requests and their comment threads.
 
 **Skills (all `/dev-azdo:<name>`):**
 
@@ -76,6 +76,21 @@ claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/dev-azdo/README.md](./plugins/dev-azdo/README.md) for detailed documentation.
+
+### Confluence Plugin
+
+The Atlassian MCP server on its own — no skills, no commands. Installing it connects the hosted HTTP server (`https://mcp.atlassian.com/v1/mcp`, OAuth on first use), and any skill that looks for connected doc sources picks the tools up. `aiwork:triage` does, in its research step.
+
+It used to ship inside `dev-azdo`.
+
+**Installation:**
+
+```shell
+claude plugin marketplace add lttr/claude-marketplace --scope local
+claude plugin install confluence@lttr-claude-marketplace --scope local
+```
+
+See [plugins/confluence/README.md](./plugins/confluence/README.md) for detailed documentation.
 
 ### AI Work (aiwork)
 
@@ -263,7 +278,7 @@ The `df` plugin has been split along the line that actually divided it — depen
 | `/df:triage`           | `/aiwork:triage`           |
 | `/df:code-review-diff` | `/aiwork:code-review-diff` |
 
-The Atlassian MCP server now ships with `dev-azdo`. Installing `aiwork` alone leaves `triage` searching local docs only.
+The Atlassian MCP server, which `dev-flow` carried, now lives in the `confluence` plugin. Without it, `triage` searches local docs only.
 
 ### Browser Tools (archived)
 

@@ -45,12 +45,22 @@
       "keywords": [
         "azure-devops",
         "azdo",
-        "confluence",
         "git",
         "workflow",
         "pull-request",
         "work-item"
       ],
+      "category": "productivity"
+    },
+    {
+      "name": "confluence",
+      "source": "./plugins/confluence",
+      "description": "Atlassian MCP server for Confluence: search and read wiki pages from any project. Server only, no skills — other skills pick the tools up when they are connected.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lukas Trumm"
+      },
+      "keywords": ["confluence", "atlassian", "wiki", "docs", "mcp"],
       "category": "productivity"
     },
     {

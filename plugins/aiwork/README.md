@@ -61,8 +61,8 @@ Every workflow skill — `triage`, `to-spec`, `to-tickets`, `implement`, `implem
 
 Neither `triage` nor `code-review-diff` requires anything beyond git.
 
-- **Tracker fetch** (`triage`) — uses whichever tracker CLI or MCP server happens to be present (`az`, `gh`, Jira/Linear MCP). Nothing available → it asks you to paste the ticket text.
-- **Docs search** (`triage`) — uses a connected Confluence/Notion MCP if there is one. The Atlassian MCP server ships with the `dev-azdo` plugin or comes from your own `~/.claude` config; without it, `triage` searches local docs only.
+- **Tracker fetch** (`triage`) — uses whatever holds the tickets: a CLI (`az`, `gh`, …), a connected issue-tracker server, a project skill that already reads work items, or plain ticket files in the repo. Nothing available → it asks you to paste the ticket text.
+- **Docs search** (`triage`) — inventories whatever doc sources this session has: a connected wiki or knowledge-base MCP, other doc-reading servers, the web, and the repo itself. Wiki access comes from a plugin that ships a server (the `confluence` plugin does, for Atlassian) or from your own `~/.claude` config; without one, `triage` searches local docs only.
 - **PR resolution** (`code-review-diff`) — the skill never checks anything out. Land on the right branch first, with `/dev-azdo:pr checkout <id>` if that plugin is installed, or plain `git` otherwise.
 
 ## Not Included (Personal)
