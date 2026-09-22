@@ -25,6 +25,8 @@ A site has thousands of pages and a handful that are alive. The skill is a cache
 
 One reference file per site.
 
+Beyond orientation the skill covers the small habits that keep a wiki tidy: it locates the user's personal space for drafts, picks and names a parent before creating any page instead of dropping it at the space root, quotes last-modified dates and warns on old hits, reports stale subtrees for archive-or-merge decisions on request, and lists the user's own pages so forgotten drafts surface.
+
 `confluence:wiki-map refresh` rebuilds a map, or builds one for a site that has none. The recipe lives in `references/refresh.md`: rank spaces by last-modified via CQL, separate steady work from a one-off bulk edit, then walk down to the branch that carries the traffic. It is a prescription with jq snippets rather than a script — the data only comes through MCP tools, and large results land in a file the MCP layer writes for you.
 
 Maps go stale. Each carries a `Mapped on` date; past ~2 months, refresh.
