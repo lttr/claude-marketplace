@@ -38,7 +38,7 @@
       "name": "dev-azdo",
       "source": "./plugins/dev-azdo",
       "description": "Azure DevOps workflow automation as NL-driven skills: ticket (show, create, comment, state), pr, pr-comments, feature-branch. Work items and comments are created via az rest so descriptions render as Markdown.",
-      "version": "2.0.0",
+      "version": "3.0.0",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -86,7 +86,7 @@
       "name": "aiwork",
       "source": "./plugins/aiwork",
       "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: intent → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, next-steps, code-review-diff, grill-with-docs, tdd, prototype, wait-what)",
-      "version": "3.12.0",
+      "version": "3.13.0",
       "author": {
         "name": "Lukas Trumm"
       },
