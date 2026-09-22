@@ -15,10 +15,6 @@ Everything ships as skills, all explicitly invoked (`/cc:<name>`) — none of th
 - `/cc:plugin-creator` - Plugin structure, `plugin.json`/`marketplace.json` manifests, version bumping, and marketplace publishing.
 - `/cc:skill-creator` - SKILL.md authoring: frontmatter, trigger descriptions, progressive-disclosure references. Skills are the unified primitive — slash commands live as skills too.
 
-**Auditing:**
-
-- `/cc:docs-checker` - Audit context files (CLAUDE.md, `.claude/` tree, READMEs, docs): a bundled deterministic script checks links, assets, and backticked source paths against the working tree, then a bounded semantic pass flags verifiably stale content with evidence. Reports findings; fixes only on request.
-
 **Introspection:**
 
 - `/cc:list:builtin-tools` - Enumerate the built-in tools available in the current session (Read, Write, Bash, Grep, etc.) with descriptions, including ones hidden by `permissions.deny`.
@@ -40,6 +36,24 @@ claude plugin install cc@lttr-claude-marketplace --scope local
 ```
 
 See [plugins/cc/README.md](./plugins/cc/README.md) for detailed documentation.
+
+### Maintenance Plugin
+
+Repository upkeep: the chores that rot quietly if nobody runs them. Both skills report with evidence and never rewrite anything you did not ask them to.
+
+- `/maintenance:docs-checker` - Audit context files (CLAUDE.md, `.claude/` tree, READMEs, docs): a bundled deterministic script checks links, assets, and backticked source paths against the working tree, then a bounded semantic pass flags verifiably stale content with evidence. Reports findings; fixes only on request.
+- `/maintenance:dependency-update` - One dependency update run produces at most one reviewable PR. A deterministic scan script (pnpm or npm, workspace-aware) reports what is outdated and what is off-limits — exact pins, `catalog:` aliases, override workarounds are reported and never bumped — plus packages installed at two or more majors. The skill then reads release notes where they pay off, batches only majors whose breaking changes it can prove do not touch the codebase, verifies with the project's own gate, and ends every PR with a mandatory "Not verified" section. Pass `dry-run` for a read-only report. It carries no project specifics: a repo with real toolchain constraints writes a local skill that wraps it.
+
+**When to install:** you want docs that keep pointing at real files, and a dependency update you can actually review instead of rubber-stamping.
+
+**Installation:**
+
+```shell
+claude plugin marketplace add lttr/claude-marketplace --scope local
+claude plugin install maintenance@lttr-claude-marketplace --scope local
+```
+
+See [plugins/maintenance/README.md](./plugins/maintenance/README.md) for detailed documentation.
 
 ### Dev Azure DevOps Plugin
 

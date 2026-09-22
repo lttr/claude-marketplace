@@ -1,0 +1,17 @@
+{
+  "name": "maintenance",
+  "description": "Repository upkeep skills: docs-checker (audit context files for broken references and stale content) and dependency-update (one reviewable dependency PR per run, with a deterministic scan script)",
+  "version": "0.1.0",
+  "author": {
+    "name": "Lukas Trumm"
+  },
+  "keywords": [
+    "maintenance",
+    "dependencies",
+    "upgrade",
+    "docs",
+    "audit",
+    "pnpm",
+    "npm"
+  ]
+}
