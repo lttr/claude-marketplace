@@ -79,9 +79,9 @@ See [plugins/dev-azdo/README.md](./plugins/dev-azdo/README.md) for detailed docu
 
 ### Confluence Plugin
 
-The Atlassian MCP server plus the `wiki-map` skill. Installing it connects the hosted HTTP server (`https://mcp.atlassian.com/v1/mcp`, OAuth on first use), and any skill that looks for connected doc sources picks the tools up. `aiwork:triage` does, in its research step.
+The Atlassian MCP server plus the `confluence-map` skill. Installing it connects the hosted HTTP server (`https://mcp.atlassian.com/v1/mcp`, OAuth on first use), and any skill that looks for connected doc sources picks the tools up. `aiwork:triage` does, in its research step.
 
-`wiki-map` keeps a durable map of the connected site — the main spaces, the page under which current work lives, direct links — and finds the user's personal space, so Claude knows where something is documented and where a new page belongs before it starts searching. Anything that changes, like team lists or activity, it queries live. It also flags stale content.
+`confluence-map` keeps a durable map of the connected site — the main spaces, the page under which current work lives, direct links — and finds the user's personal space, so Claude knows where something is documented and where a new page belongs before it starts searching. Anything that changes, like team lists or activity, it queries live. It also flags stale content.
 
 It used to ship inside `dev-azdo`.
 

@@ -19,7 +19,7 @@ The Atlassian MCP server plus one skill. Installing the plugin connects the serv
 
 First use opens an OAuth flow in the browser. Pick the Confluence site you want; the grant is per site, and a site admin may need to authorize the app once for the whole org.
 
-### `confluence:wiki-map`
+### `confluence:confluence-map`
 
 A site has thousands of pages and a handful that are alive. The skill is a cached answer to "where is anything": per site, which space matters, which page the current work lives under, and links to the main branches. Reading it costs one file read; a blind search costs Rovo credits and usually returns the 2021 archive.
 
