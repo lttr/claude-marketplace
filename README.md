@@ -77,23 +77,6 @@ claude plugin install dev-azdo@lttr-claude-marketplace --scope local
 
 See [plugins/dev-azdo/README.md](./plugins/dev-azdo/README.md) for detailed documentation.
 
-### Confluence Plugin
-
-The Atlassian MCP server plus the `confluence-map` skill. Installing it connects the hosted HTTP server (`https://mcp.atlassian.com/v1/mcp`, OAuth on first use), and any skill that looks for connected doc sources picks the tools up. `aiwork:triage` does, in its research step.
-
-`confluence-map` keeps a durable map of the connected site — the main spaces, the page under which current work lives, direct links — and finds the user's personal space, so Claude knows where something is documented and where a new page belongs before it starts searching. Anything that changes, like team lists or activity, it queries live. It also flags stale content.
-
-It used to ship inside `dev-azdo`.
-
-**Installation:**
-
-```shell
-claude plugin marketplace add lttr/claude-marketplace --scope local
-claude plugin install confluence@lttr-claude-marketplace --scope local
-```
-
-See [plugins/confluence/README.md](./plugins/confluence/README.md) for detailed documentation.
-
 ### AI Work (aiwork)
 
 Repository-local `.aiwork/` folder convention for AI-assisted workflows, plus the skills for the full loop: intent → spec → tickets → implement → review.
@@ -280,7 +263,7 @@ The `df` plugin has been split along the line that actually divided it — depen
 | `/df:triage`           | `/aiwork:triage`           |
 | `/df:code-review-diff` | `/aiwork:code-review-diff` |
 
-The Atlassian MCP server, which `dev-flow` carried, now lives in the `confluence` plugin. Without it, `triage` searches local docs only.
+The Atlassian MCP server, which `dev-flow` carried, is no longer shipped here. Add it to your own MCP config if you want Confluence search; without it, `triage` searches local docs only.
 
 ### Browser Tools (archived)
 

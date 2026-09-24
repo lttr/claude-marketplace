@@ -41,7 +41,7 @@ Rules:
 - No external source connected → local docs only. That is the expected degradation, not a fault.
 - Read-only throughout. Triage never writes to a wiki.
 
-Wiki access is never bundled with `aiwork`. It comes from a plugin that ships an MCP server (the `confluence` plugin in this marketplace does, for Atlassian) or from the user's own MCP config.
+Wiki access is never bundled with `aiwork`. It comes from a plugin that ships an MCP server or from the user's own MCP config.
 
 ## Report destination
 

@@ -53,17 +53,6 @@
       "category": "productivity"
     },
     {
-      "name": "confluence",
-      "source": "./plugins/confluence",
-      "description": "Atlassian MCP server for Confluence, plus a `confluence-map` skill holding a durable map of the connected site — main spaces, where the work lives, direct links — and live CQL queries for everything that changes.",
-      "version": "0.3.0",
-      "author": {
-        "name": "Lukas Trumm"
-      },
-      "keywords": ["confluence", "atlassian", "wiki", "docs", "mcp"],
-      "category": "productivity"
-    },
-    {
       "name": "cc",
       "source": "./plugins/cc",
       "description": "Claude Code authoring tools: create plugins, skills, commands, and introspect Claude Code internals",

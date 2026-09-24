@@ -21,7 +21,7 @@ Azure DevOps workflow automation. Single primitive: skills. Each is invokable as
 
 - Azure CLI with the `azure-devops` extension. Every skill here needs it.
 
-The Atlassian MCP server used to ship here as `.mcp.json`. It moved to its own [`confluence`](../confluence) plugin — install that if you want Confluence search.
+The Atlassian MCP server used to ship here as `.mcp.json`. It is no longer shipped in this marketplace — add it to your own MCP config if you want Confluence search.
 
 ## Composition
 
