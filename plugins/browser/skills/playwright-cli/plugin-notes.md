@@ -51,6 +51,12 @@ projects and concurrent sessions does not collide. Every command prints the
 path of what it wrote -- read that, never guess or glob the directory. Pass
 absolute `--filename` paths when a file must land somewhere specific.
 
+The preflight prunes files in `outputDir` older than **30 days** on session
+start, so the directory keeps a rolling month instead of growing forever. It is
+age-based so it cannot touch what a concurrent session is still writing, and it
+never fails the preflight. A single very long session still grows unbounded
+until the next one starts.
+
 ### Package managers
 
 The vendored docs above write `npx playwright test` and `npm install -g`. Those

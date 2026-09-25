@@ -428,10 +428,9 @@ playwright-cli show --annotate
 
 ## Plugin notes (browser plugin)
 
-Everything above is the official skill shipped inside `@playwright/cli`.
-Vendored from @playwright/cli 0.1.19.
-Re-sync with `vendor.sh` after upgrading.
-The notes below are what this plugin adds on top.
+This section is what the browser plugin adds. Everything preceding it in
+SKILL.md is the official skill vendored verbatim from `@playwright/cli`; re-sync
+it with `vendor.sh` after upgrading, which also re-applies `fixups.sh`.
 
 ### Preflight
 
