@@ -7,9 +7,7 @@
 Title, state, description and acceptance criteria. This is the shape to start with for triage or before branching off a ticket.
 
 ```bash
-az boards work-item show --id <ID> \
-  --query '{title:fields."System.Title", state:fields."System.State", type:fields."System.WorkItemType", desc:fields."System.Description", ac:fields."Microsoft.VSTS.Common.AcceptanceCriteria"}' \
-  -o json
+az boards work-item show --id <ID> --query '{title:fields."System.Title", state:fields."System.State", type:fields."System.WorkItemType", desc:fields."System.Description", ac:fields."Microsoft.VSTS.Common.AcceptanceCriteria"}' -o json
 ```
 
 `desc` and `ac` come back as stored. An item created with the Markdown format op renders as Markdown. An item created through `az boards work-item create` comes back as HTML, so strip the tags before quoting it.
@@ -19,8 +17,7 @@ az boards work-item show --id <ID> \
 Relations are not part of the default response. Pass `--expand relations`:
 
 ```bash
-az boards work-item show --id <ID> --expand relations \
-  --query 'relations[].{rel:rel, url:url}' -o json
+az boards work-item show --id <ID> --expand relations --query 'relations[].{rel:rel, url:url}' -o json
 ```
 
 | `rel`                                | Meaning                                                                                                                                |

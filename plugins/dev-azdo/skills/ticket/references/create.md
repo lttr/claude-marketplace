@@ -102,7 +102,7 @@ The `$` before the type is part of the Azure DevOps URL. Single-quote the URL so
 expands it:
 
 ```bash
-az rest --method POST --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri '<BASE>/workitems/$<TYPE>?api-version=7.1' --headers "Content-Type=application/json-patch+json" --body @<PATH> --query "{id:id, type:fields.\"System.WorkItemType\", descFormat:multilineFieldsFormat, tags:fields.\"System.Tags\", parent:relations[?attributes.name=='Parent'].url|[0]}" -o json
+az rest --method POST --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri '<BASE>/workitems/$<TYPE>?api-version=7.1' --headers "Content-Type=application/json-patch+json" --body @<PATH> --query '{id:id, type:fields."System.WorkItemType", descFormat:multilineFieldsFormat, tags:fields."System.Tags", parent:relations[?attributes.name==`"Parent"`].url|[0]}' -o json
 ```
 
 Verify the response shows `"descFormat": {"System.Description": "markdown"}` (lowercase). If it shows `"html"`, the format op was missed. See below.
@@ -134,7 +134,7 @@ Body file:
 ```
 
 ```bash
-az rest --method PATCH --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<ORG_URL>/_apis/wit/workitems/<ID>?api-version=7.1" --headers "Content-Type=application/json-patch+json" --body @<PATH> --query "{descFormat:multilineFieldsFormat, desc:fields.\"System.Description\"}" -o json
+az rest --method PATCH --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<ORG_URL>/_apis/wit/workitems/<ID>?api-version=7.1" --headers "Content-Type=application/json-patch+json" --body @<PATH> --query '{descFormat:multilineFieldsFormat, desc:fields."System.Description"}' -o json
 ```
 
 Caveat: if the item was originally created as HTML, this PATCH may keep `descFormat: html` even though the Markdown characters survive in storage. The reliable fix is delete + recreate via the POST above.
