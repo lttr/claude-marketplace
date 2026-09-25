@@ -65,6 +65,8 @@ Azure DevOps workflow automation: read, create and comment on work items and mov
 - `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
 - `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`, plus reading, assessing and posting PR comment threads
 
+Every write to Azure DevOps (work items, comments, opening or completing a PR, PR threads) is shown in full first and waits for your go-ahead. State changes are offered, never automatic.
+
 Every skill here needs the Azure CLI with the `azure-devops` extension. The platform-neutral artifact skills that used to sit alongside them — `triage` and `code-review-diff` — now live in `aiwork`.
 
 **Installation:**

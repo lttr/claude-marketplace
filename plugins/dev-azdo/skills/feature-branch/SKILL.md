@@ -9,7 +9,7 @@ Create `feature/<ticket-id>-<slug>` from an Azure DevOps work item.
 
 ## Input Detection
 
-Argument is `$ARGUMENTS`.
+Take the ticket from the request.
 
 | Form                                  | Meaning                                     |
 | ------------------------------------- | ------------------------------------------- |
@@ -29,7 +29,7 @@ Scan recent conversation for work item id + title (e.g. prior triage output). El
 #### id / URL
 
 ```bash
-az boards work-item show --id <id> --query "{id:id,title:fields.\"System.Title\"}" -o json
+az boards work-item show --id <id> --query '{id:id, title:fields."System.Title"}' -o json
 ```
 
 Slugify title: lowercase, strip special chars, spaces→hyphens, 3–5 words max.
@@ -44,13 +44,17 @@ Use override directly. Slugify same rules.
 git status --short
 ```
 
-If dirty → warn, ask: stash / abort.
+If dirty, warn and ask: stash or abort.
 
 ```bash
 git branch --show-current
 ```
 
-Note current branch (return point).
+Resolve the default branch as described in `${CLAUDE_PLUGIN_ROOT}/references/conventions.md`.
+The new branch starts from the current HEAD. If the current branch is not the default branch,
+name it and ask whether stacking the new branch on it is intended. On no, stop and let the user
+switch first. Skip the question when `feature/<id>-<slug>` already exists, since step 3 only
+switches to it.
 
 ### 3. Create branch
 
@@ -74,5 +78,5 @@ Print created branch name + ticket transition status.
 
 ## Notes
 
-- Branch and ticket transition are intentionally separate — `feature-branch` only prompts; clean separation.
-- For follow-up state changes use the `ticket` skill (`/dev-azdo:ticket state <id> cr`, etc.).
+- Branch and ticket transition are intentionally separate. `feature-branch` only offers the transition.
+- Later state changes are offered by `dev-azdo:pr` (Code Review after `create`, the next state after `complete`) and go through the `ticket` skill.

@@ -11,25 +11,13 @@ The `format` flag lives in the **query string**, not the body. Omit it and the t
 
 This is work-item discussion only. For pull-request thread comments, use `dev-azdo:pr` (`comments` op).
 
+Shared rules live in `${CLAUDE_PLUGIN_ROOT}/references/conventions.md`.
+
 ## Step 1: Resolve org and project (always first)
 
-Shell variables do **not** survive between Bash calls, so resolve these once, read the printed
-values, and paste the literals into every later command. Never carry `$BASE` across calls.
-
-```bash
-# cut -f2- + sed, not `tr -d ' '`. AzDO project names may contain spaces.
-TRIM="s/^ *//; s/ *$//"
-ORG_URL="${AZDO_ORG_URL:-$(az devops configure --list | grep '^organization' | cut -d= -f2- | sed "$TRIM")}"
-PROJECT="${AZDO_PROJECT:-$(az devops configure --list | grep '^project' | cut -d= -f2- | sed "$TRIM")}"
-: "${ORG_URL:?no organization, set AZDO_ORG_URL or run az devops configure --defaults}"
-: "${PROJECT:?no project, set AZDO_PROJECT or run az devops configure --defaults}"
-echo "BASE=$ORG_URL/$PROJECT/_apis/wit/workItems"
-```
-
-**If this command aborts with either `:?` message, stop and ask the user for their AzDO
-organization URL and project.** They are team-specific. Never guess them, never fall back to
-an org name seen elsewhere in the repo or conversation. How the user persists the values (env
-var, `az devops configure --defaults`) is their call.
+Resolve them as the conventions describe, print them, and use the literal
+`<BASE>` = `<ORG_URL>/<PROJECT>/_apis/wit/workItems` in every later command. If no source yields
+a value, stop and ask. Never guess.
 
 The two constants below are fixed and can be typed literally. They need no resolution step:
 
@@ -40,49 +28,24 @@ The two constants below are fixed and can be typed literally. They need no resol
 
 ## Step 2: Show the text and get approval (never skip)
 
-A comment posts under the user's name and notifies the work item's followers. Editing or
-deleting it afterwards does not un-send the notification, and everyone watching has already read
-it. The text is also **your** prose. The user has not seen the words yet.
+A comment posts under the user's name and notifies the work item's followers. Every create,
+update and delete below goes through the approval gate in the conventions. Show:
 
-Before any POST or PATCH below, print the exact Markdown body verbatim, name the target
-(`work item #N`, plus the comment id and its current text when updating), and wait for an
-explicit go-ahead.
+- the target: `work item #N`, plus the comment id and its current text when updating or deleting
+- the exact Markdown body, verbatim
 
-Rules:
-
-- Print the body in full, not a summary of it. Summarizing defeats the review.
-- "Comment on #N saying X" is a request to draft it, not standing approval to post. Ask anyway.
-- Approval covers the text as shown. If the user amends it, show the corrected version again.
-- Approval for one comment is not approval for the next.
-- Skip only if the user has said, in this session, to post without review.
-
-The operations below all sit behind this gate.
-
-## Writing the comment
-
-**No em-dashes.** Split the sentence in two. Same for semicolons.
-
-**Every sentence earns its place.** Cut the ones the reader could skip without acting
-differently, starting with scaffolding labels ("Update:", "TL;DR:"). No target length. Comments
-arrive as notification emails with no thread context, so sentence one states the point and the
-rest supports it.
+The text follows the writing guideline in the conventions.
 
 ## Create a comment
 
-Substitute the real `BASE` printed by step 1. The placeholder below is not a shell variable.
+Body file (see "Request bodies" in the conventions):
+
+```json
+{ "text": "<MARKDOWN BODY. Real backticks/asterisks OK. Use \\n for newlines>" }
+```
 
 ```bash
-cat > /tmp/wi-comment.json <<'EOF'
-{"text":"<MARKDOWN BODY. Real backticks/asterisks OK. Use \\n for newlines>"}
-EOF
-
-az rest --method POST --resource 499b84ac-1321-427f-aa17-267ca6975798 \
-  --uri "<BASE>/<ID>/comments?format=markdown&api-version=7.1-preview.4" \
-  --headers "Content-Type=application/json" \
-  --body @/tmp/wi-comment.json \
-  --query "{id:id, format:renderedText && 'ok'}" -o json
-
-trash-put /tmp/wi-comment.json
+az rest --method POST --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<BASE>/<ID>/comments?format=markdown&api-version=7.1-preview.4" --headers "Content-Type=application/json" --body @<PATH> --query "{id:id, format:renderedText && 'ok'}" -o json
 ```
 
 ## Update an existing comment
@@ -90,17 +53,10 @@ trash-put /tmp/wi-comment.json
 This **replaces** the body outright. Fetch the current text (see the list call below) and show
 the user both versions before patching. Otherwise wording they wrote is silently discarded.
 
+Body file: `{"text": "<NEW MARKDOWN BODY>"}`
+
 ```bash
-cat > /tmp/wi-comment.json <<'EOF'
-{"text":"<NEW MARKDOWN BODY>"}
-EOF
-
-az rest --method PATCH --resource 499b84ac-1321-427f-aa17-267ca6975798 \
-  --uri "<BASE>/<ID>/comments/<COMMENT_ID>?format=markdown&api-version=7.1-preview.4" \
-  --headers "Content-Type=application/json" \
-  --body @/tmp/wi-comment.json -o json
-
-trash-put /tmp/wi-comment.json
+az rest --method PATCH --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<BASE>/<ID>/comments/<COMMENT_ID>?format=markdown&api-version=7.1-preview.4" --headers "Content-Type=application/json" --body @<PATH> -o json
 ```
 
 ## Delete a comment
@@ -110,25 +66,22 @@ show the user the author and full text of the comment about to go, and confirm. 
 comment written by someone else without the user saying so explicitly, having seen whose it is.
 
 ```bash
-az rest --method DELETE --resource 499b84ac-1321-427f-aa17-267ca6975798 \
-  --uri "<BASE>/<ID>/comments/<COMMENT_ID>?api-version=7.1-preview.4"
+az rest --method DELETE --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<BASE>/<ID>/comments/<COMMENT_ID>?api-version=7.1-preview.4"
 ```
 
 ## List comments (to find a COMMENT_ID)
 
 ```bash
-az rest --resource 499b84ac-1321-427f-aa17-267ca6975798 \
-  --uri "<BASE>/<ID>/comments?api-version=7.1-preview.4" \
-  --query "comments[].{id:id, by:createdBy.displayName, text:text}" -o json
+az rest --resource 499b84ac-1321-427f-aa17-267ca6975798 --uri "<BASE>/<ID>/comments?api-version=7.1-preview.4" --query "comments[].{id:id, by:createdBy.displayName, text:text}" -o json
 ```
 
 ## Troubleshooting
 
-| Symptom                                     | Cause                                                                | Fix                                                                   |
-| ------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| URL contains `//_apis` or an empty segment  | `$BASE` carried over from an earlier Bash call and expanded to empty | Re-run step 1, paste the literal value                                |
-| `TF400813: not authorized`, empty user GUID | token had no AzDO scope                                              | pass `--resource 499b84ac-…`. If it persists, `az logout && az login` |
-| Markdown renders literally                  | `format=markdown` missing from the **query string**                  | it does not work in the body                                          |
+| Symptom                                     | Cause                                                         | Fix                                                                   |
+| ------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------- |
+| URL contains `//_apis` or an empty segment  | a value was carried as a shell variable and expanded to empty | Re-run step 1, paste the literal value                                |
+| `TF400813: not authorized`, empty user GUID | token had no AzDO scope                                       | pass `--resource 499b84ac-…`. If it persists, `az logout && az login` |
+| Markdown renders literally                  | `format=markdown` missing from the **query string**           | it does not work in the body                                          |
 
 ## Note on work-item _description_ fields
 

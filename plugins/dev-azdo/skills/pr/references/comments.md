@@ -2,53 +2,41 @@
 
 Read, assess, and post code-level comments on Azure DevOps pull requests.
 
-## Determine PR ID
+## Determine the PR id
 
 Priority:
 
-1. Explicit argument
-2. Auto-detect from current branch:
+1. Explicit in the request
+2. The current branch's PR. `git branch --show-current` gives the branch, then:
    ```bash
-   az repos pr list --source-branch "$(git branch --show-current)" --status active --query '[0].pullRequestId' -o tsv
+   az repos pr list --source-branch <BRANCH> --status active --query "[0].pullRequestId" -o tsv
    ```
-3. Ask user
+3. Ask the user
 
-## API Reference
+## API reference
 
-The `az repos pr` CLI does not support PR threads. Use `az devops invoke` for all thread operations.
+`az repos pr` does not support PR threads. Use `az devops invoke` for all thread operations.
 
-Detect `project` and `repositoryId` from git remote or `az devops configure --list`.
+Resolve org, project and repo as described in the conventions (`${CLAUDE_PLUGIN_ROOT}/references/conventions.md`),
+print them, and paste the literals below. `invoke` needs `--org`, an explicit `project` route
+parameter and `--api-version 7.1`.
 
 ### Fetch all threads
 
 ```bash
-az devops invoke \
-  --area git \
-  --resource pullRequestThreads \
-  --route-parameters \
-    project=<project> \
-    repositoryId=<repo-name-or-id> \
-    pullRequestId=<pr-id> \
-  -o json
+az devops invoke --org <ORG_URL> --area git --resource pullRequestThreads --route-parameters project=<PROJECT> repositoryId=<REPO> pullRequestId=<PR_ID> --api-version 7.1 -o json
 ```
 
-### Create thread on file/line
+### Create a thread on a file/line
 
-```bash
-az devops invoke \
-  --area git \
-  --resource pullRequestThreads \
-  --route-parameters \
-    project=<project> \
-    repositoryId=<repo-name-or-id> \
-    pullRequestId=<pr-id> \
-  --http-method POST \
-  --in-file <(cat <<'EOF'
+Body file (see "Request bodies" in the conventions):
+
+```json
 {
   "comments": [
     {
       "parentCommentId": 0,
-      "content": "Comment text (markdown supported)",
+      "content": "Comment text (Markdown supported)",
       "commentType": 1
     }
   ],
@@ -59,88 +47,87 @@ az devops invoke \
   },
   "status": 1
 }
-EOF
-)
 ```
 
-**Thread status:** 0 = unknown, 1 = active, 2 = fixed, 3 = won't fix, 4 = closed, 5 = by design, 6 = pending
+```bash
+az devops invoke --org <ORG_URL> --area git --resource pullRequestThreads --route-parameters project=<PROJECT> repositoryId=<REPO> pullRequestId=<PR_ID> --http-method POST --in-file <PATH> --api-version 7.1 -o json
+```
+
+**Thread status.** POST takes a number, GET returns a string:
+
+| Write (number) | Read (string) |
+| -------------- | ------------- |
+| 0              | `unknown`     |
+| 1              | `active`      |
+| 2              | `fixed`       |
+| 3              | `wontFix`     |
+| 4              | `closed`      |
+| 5              | `byDesign`    |
+| 6              | `pending`     |
 
 **Line targeting:**
 
-- `rightFileStart`/`rightFileEnd` - new code (most common)
-- `leftFileStart`/`leftFileEnd` - deleted code
+- `rightFileStart`/`rightFileEnd`: new code (most common)
+- `leftFileStart`/`leftFileEnd`: deleted code
 - Single line: same start and end
+- `filePath` is repo-rooted with a leading `/`
 - Omit `threadContext` entirely for a general (non-file) comment
 
-### Reply to existing thread
+### Reply to an existing thread
+
+Body file: `{"content": "Reply text"}`
 
 ```bash
-az devops invoke \
-  --area git \
-  --resource pullRequestThreadComments \
-  --route-parameters \
-    project=<project> \
-    repositoryId=<repo-name-or-id> \
-    pullRequestId=<pr-id> \
-    threadId=<thread-id> \
-  --http-method POST \
-  --in-file <(cat <<'EOF'
-{"content": "Reply text"}
-EOF
-)
+az devops invoke --org <ORG_URL> --area git --resource pullRequestThreadComments --route-parameters project=<PROJECT> repositoryId=<REPO> pullRequestId=<PR_ID> threadId=<THREAD_ID> --http-method POST --in-file <PATH> --api-version 7.1 -o json
 ```
 
-**Verify success:** Response contains `"id":` field. Do NOT retry if first attempt returns valid JSON with an ID.
+**Verify success:** the response contains an `"id"` field. Do NOT retry if the first attempt
+returned valid JSON with an id.
 
-## Posting: Comment Text Style
+## Posting
 
-When posting review comments to PRs, be concise:
-
-- State the issue directly - no header, no title, no label prefix
-- File context is already visible in the PR UI, don't repeat it
-- No dramatic impact predictions ("will cause X", "breaks Y")
-- No bold wrapping of the whole message
-- One sentence is ideal, two max
+Every thread and reply goes through the approval gate in the conventions. For each one, show:
 
 ```
-# Good
-Orphaned `</a>` tags after refactoring.
-
-# Good
-`useI18n()` not called - `t` will be undefined.
-
-# Bad
-**C1. Broken HTML in PharmacistsCarousel**
-Orphaned `</a>` tags and bare HTML attributes not attached to any element.
-**Will cause template compilation error or mangled rendering.**
+<file path>, lines <start>-<end> (right side)   (or: general comment / reply to thread <id>)
+<THE FULL COMMENT BODY, verbatim>
 ```
 
-## Assessing: Reading Existing Comments
+Comment text follows the writing guideline in the conventions. The file and line are already
+visible in the PR UI, so the body doesn't repeat them.
+
+### Posting review findings
+
+Findings from a review (for example `aiwork:code-review-diff`) map to threads one to one:
+
+1. Each finding becomes one thread: `filePath` from the finding's file, `rightFileStart` /
+   `rightFileEnd` from its line range on the PR's source side, body from the finding. A finding
+   without a usable location becomes a general comment.
+2. Drop severity labels, ids and headers from the body. The body is the finding itself.
+3. Show the whole batch at once, numbered, in the format above.
+4. Post only after a go-ahead that explicitly covers the batch ("post all", "post 1, 3 and 4").
+   Anything else is not approval. If the user edits or drops items, show the new batch again.
+5. Report each posted thread's id, and any that failed.
+
+## Assessing existing comments
 
 ### Parse threads
 
-Extract code comments (threads with file context):
+From the fetched threads, keep code comments that are still open: `threadContext.filePath` is
+set and `status` is `active` or `pending`. System threads (merge attempts, votes, ref updates)
+have no `threadContext` and drop out. With jq, for example:
 
-```bash
-jq '[.value[] | select(.threadContext.filePath) | select(.status == "closed" | not) | {
-  id: .id,
-  file: .threadContext.filePath,
-  line: .threadContext.rightFileStart.line,
-  status: .status,
-  comment: .comments[0].content,
-  author: .comments[0].author.displayName
-}]'
+```
+[.value[] | select(.threadContext.filePath) | select(.status == "active" or .status == "pending") | {id, file: .threadContext.filePath, line: .threadContext.rightFileStart.line, status, comment: .comments[0].content, author: .comments[0].author.displayName}]
 ```
 
 ### Assess each comment
 
-For each active/pending comment:
-
 1. Read the file at the specified path
-2. Check the referenced line (account for line shifts from subsequent commits)
+2. Check the referenced line (account for line shifts from later commits)
 3. Determine status:
-   - Addressed - code changed to address the feedback
-   - Partially addressed - some changes, not fully resolved
-   - Not addressed - original code unchanged
-   - Unable to assess - file deleted, heavily refactored, or comment unclear
-4. Provide brief assessment (1-2 sentences)
+   - Addressed: code changed to address the feedback
+   - Partially addressed: some changes, not fully resolved
+   - Not addressed: original code unchanged
+   - Unable to assess: file deleted, heavily refactored, or comment unclear
+4. Give a brief assessment (1-2 sentences)

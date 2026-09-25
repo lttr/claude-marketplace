@@ -8,7 +8,7 @@ PR id (numeric) or PR URL from the request. Extract id from URL if needed.
 
 ## Workflow
 
-1. **Pre-flight:** if `git status --short` shows uncommitted changes, warn — ask stash/abort.
+1. **Pre-flight:** if `git status --short` shows uncommitted changes, warn and ask: stash or abort.
 2. **Get PR details:**
    ```bash
    az repos pr show --id <id> --query '{sourceBranch: sourceRefName, title: title}' -o json

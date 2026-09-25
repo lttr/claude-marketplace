@@ -1,5 +1,5 @@
 ---
-status: not-started
+status: done
 references:
   - "Follows: ../2026-09-21_dev-azdo-consolidation/spec.md (its open question on pr/pr-comments is resolved by 060d81d)"
   - "Merge commit: 060d81d refactor(dev-azdo)!: merge pr-comments into model-invoked pr skill"
