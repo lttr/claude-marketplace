@@ -1,11 +1,17 @@
----
-name: pr-comments
-description: Manage Azure DevOps PR comments — post new code comments, read and assess existing threads. Trigger when user says "/dev-azdo:pr-comments", asks to add/post a comment on a PR, review PR feedback, or check PR comment status. Input is PR id/URL, or empty to use current branch's PR.
----
-
-# PR Comments (Azure DevOps)
+# pr comments
 
 Read, assess, and post code-level comments on Azure DevOps pull requests.
+
+## Determine PR ID
+
+Priority:
+
+1. Explicit argument
+2. Auto-detect from current branch:
+   ```bash
+   az repos pr list --source-branch "$(git branch --show-current)" --status active --query '[0].pullRequestId' -o tsv
+   ```
+3. Ask user
 
 ## API Reference
 
@@ -138,14 +144,3 @@ For each active/pending comment:
    - Not addressed - original code unchanged
    - Unable to assess - file deleted, heavily refactored, or comment unclear
 4. Provide brief assessment (1-2 sentences)
-
-### Determine PR ID
-
-Priority:
-
-1. Explicit argument
-2. Auto-detect from current branch:
-   ```bash
-   az repos pr list --source-branch "$(git branch --show-current)" --status active --query '[0].pullRequestId' -o tsv
-   ```
-3. Ask user

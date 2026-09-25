@@ -4,7 +4,7 @@ List active Azure DevOps PRs.
 
 ## Input
 
-`$ARGUMENTS` after `list`:
+From the request:
 
 | Form           | Scope                                     |
 | -------------- | ----------------------------------------- |

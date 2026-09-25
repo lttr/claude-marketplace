@@ -4,7 +4,7 @@ Merge the AZDO PR for the current branch and delete source.
 
 ## Input
 
-`$ARGUMENTS` after `complete`:
+From the request:
 
 - empty → don't transition work items
 - `--transition-work-items` / `-t` → transition work items

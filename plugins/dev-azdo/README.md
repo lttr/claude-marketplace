@@ -4,18 +4,17 @@ Azure DevOps workflow automation. Single primitive: skills. Each is invokable as
 
 ## Skills
 
-| Skill            | Invoke                           | Purpose                                                                |
-| ---------------- | -------------------------------- | ---------------------------------------------------------------------- |
-| `ticket`         | `/dev-azdo:ticket <op> <id> …`   | `show` / `create` / `comment` / `state` on a work item, Markdown-aware |
-| `feature-branch` | `/dev-azdo:feature-branch <tkt>` | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle |
-| `pr`             | `/dev-azdo:pr <op>`              | `create` / `checkout <id>` / `list [mine\|all]` / `complete`           |
-| `pr-comments`    | `/dev-azdo:pr-comments [id]`     | Read, assess, post AZDO PR thread comments                             |
+| Skill            | Invoke                           | Purpose                                                                   |
+| ---------------- | -------------------------------- | ------------------------------------------------------------------------- |
+| `ticket`         | `/dev-azdo:ticket <op> <id> …`   | `show` / `create` / `comment` / `state` on a work item, Markdown-aware    |
+| `feature-branch` | `/dev-azdo:feature-branch <tkt>` | `feature/<id>-<slug>` from ticket title, optional ticket Active toggle    |
+| `pr`             | `/dev-azdo:pr <op>`              | `create` / `checkout <id>` / `list [mine\|all]` / `complete` / `comments` |
 
-`ticket`, `feature-branch` and `pr-comments` are also model-invoked: Claude loads them when the conversation calls for them. `pr` is slash-only. The model drives `az repos pr` on its own well enough, so the skill only keeps the defaults for `complete` (squash, delete source branch) and the create-time guardrails.
+All skills are also model-invoked: Claude loads them when the conversation calls for them. `pr` covers comment threads too, because `az repos pr` cannot read or post them and the model needs the `az devops invoke` recipes.
 
 ## Multi-op Skills
 
-`ticket` and `pr` dispatch on the first arg, then load `references/<op>.md` for detail (progressive disclosure keeps SKILL.md lean).
+`ticket` and `pr` dispatch on the first arg (or, for `pr`, the intent of the request), then load `references/<op>.md` for detail (progressive disclosure keeps SKILL.md lean).
 
 ## Dependencies
 
@@ -47,8 +46,7 @@ dev-azdo/
     ├── feature-branch/SKILL.md
     ├── pr/
     │   ├── SKILL.md
-    │   └── references/{create,checkout,list,complete}.md
-    └── pr-comments/SKILL.md
+    │   └── references/{create,checkout,list,complete,comments}.md
 ```
 
 ## Installation

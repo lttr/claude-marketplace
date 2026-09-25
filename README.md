@@ -63,8 +63,7 @@ Azure DevOps workflow automation: read, create and comment on work items and mov
 
 - `ticket <op> <id>` - `show` / `create` / `comment` / `state` on a work item. Descriptions and comments render as Markdown
 - `feature-branch` - Create `feature/<id>-<slug>` from AZDO ticket title
-- `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete` (slash-only)
-- `pr-comments` - Read, assess, post AZDO PR thread comments
+- `pr <op>` - `create` / `checkout <id>` / `list [mine|all]` / `complete`, plus reading, assessing and posting PR comment threads
 
 Every skill here needs the Azure CLI with the `azure-devops` extension. The platform-neutral artifact skills that used to sit alongside them — `triage` and `code-review-diff` — now live in `aiwork`.
 
@@ -257,7 +256,7 @@ The `df` plugin has been split along the line that actually divided it — depen
 | ---------------------- | -------------------------- |
 | `/df:feature-branch`   | `/dev-azdo:feature-branch` |
 | `/df:pr`               | `/dev-azdo:pr`             |
-| `/df:pr-comments`      | `/dev-azdo:pr-comments`    |
+| `/df:pr-comments`      | `/dev-azdo:pr comments`    |
 | `/df:ticket`           | `/dev-azdo:ticket state`   |
 | `/df:insights`         | removed in `dev-azdo` 2.0  |
 | `/df:triage`           | `/aiwork:triage`           |

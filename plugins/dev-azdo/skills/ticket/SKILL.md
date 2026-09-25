@@ -40,4 +40,4 @@ Unknown synonym: ask. These names match the common process templates. If the pro
 ## Notes
 
 - Branch creation lives in `dev-azdo:feature-branch`, which calls `ticket state <id> active` after branching if the user wants it.
-- Pull-request threads are a different API. Use `dev-azdo:pr-comments`.
+- Pull-request threads are a different API. Use `dev-azdo:pr` (`comments` op).

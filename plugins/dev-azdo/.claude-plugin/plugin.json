@@ -1,7 +1,7 @@
 {
   "name": "dev-azdo",
   "version": "3.0.0",
-  "description": "Azure DevOps workflow automation as NL-driven skills: ticket (show, create, comment, state), pr, pr-comments, feature-branch. Work items and comments are created via az rest so descriptions render as Markdown.",
+  "description": "Azure DevOps workflow automation as NL-driven skills: ticket (show, create, comment, state), pr (incl. comment threads), feature-branch. Work items and comments are created via az rest so descriptions render as Markdown.",
   "author": {
     "name": "Lukas Trumm",
     "email": "lukas.trumm@gmail.com"

@@ -22,7 +22,7 @@ No inline commit fallback — by design. The user controls commit shape.
    git push -u origin "$cur"
    ```
 2. **Derive title/description:**
-   - Title from latest commit subject, or from `$ARGUMENTS` after `create ` if user passed text
+   - Title from latest commit subject, or from the user's text if given
    - Description: 1-3 bullet summary of commits ahead of base (`git log --oneline "$base"..HEAD`)
 3. **Extract ticket id** from branch name `feature/<id>-...` if present
 4. **Create PR:**

@@ -9,7 +9,7 @@ There are two ways to put text on a work item's discussion. Use the **Comments A
 
 The `format` flag lives in the **query string**, not the body. Omit it and the text is stored as HTML, so Markdown shows up literally.
 
-This is work-item discussion only. For pull-request thread comments, use `dev-azdo:pr-comments`.
+This is work-item discussion only. For pull-request thread comments, use `dev-azdo:pr` (`comments` op).
 
 ## Step 1: Resolve org and project (always first)
 

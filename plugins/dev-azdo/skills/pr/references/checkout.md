@@ -4,7 +4,7 @@ Check out the source branch of an Azure DevOps PR.
 
 ## Input
 
-`$ARGUMENTS` after `checkout` = PR id (numeric) or PR URL. Extract id from URL if needed.
+PR id (numeric) or PR URL from the request. Extract id from URL if needed.
 
 ## Workflow
 
