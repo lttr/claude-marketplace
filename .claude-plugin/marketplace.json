@@ -38,7 +38,7 @@
       "name": "dev-azdo",
       "source": "./plugins/dev-azdo",
       "description": "Azure DevOps workflow automation as NL-driven skills: ticket (show, create, comment, state), pr (incl. comment threads), feature-branch. Work items and comments are created via az rest so descriptions render as Markdown.",
-      "version": "3.0.0",
+      "version": "4.0.0",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -75,7 +75,7 @@
       "name": "aiwork",
       "source": "./plugins/aiwork",
       "description": "Standardizes .aiwork/ artifact organization by task (aiwork-protocol skill), with skills for the full loop: intent → spec → tickets → implement → review (triage, to-spec, to-tickets, implement, implement-spec, next-steps, code-review-diff, grill-with-docs, tdd, prototype, wait-what)",
-      "version": "3.13.0",
+      "version": "3.14.0",
       "author": {
         "name": "Lukas Trumm"
       },
@@ -95,7 +95,7 @@
       "name": "browser",
       "source": "./plugins/browser",
       "description": "Browser automation for agents on top of the playwright-cli CLI (@playwright/cli): playwright-cli (official skill, vendored), showme (hand the user a headed window in a given state), page-bridge (feedback toolbar on a dev page), pick (one-shot element picker)",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "author": {
         "name": "Lukas Trumm"
       },
