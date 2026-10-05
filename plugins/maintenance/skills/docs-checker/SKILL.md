@@ -1,7 +1,6 @@
 ---
 name: docs-checker
-description: Audit context files (CLAUDE.md, .claude/ tree, READMEs, docs) for broken references and verifiably stale content. Runs a deterministic offline link/path checker first, then a bounded semantic review where every finding must cite evidence. Reports findings; fixes only on request.
-disable-model-invocation: true
+description: Audit context files (CLAUDE.md, .claude/ tree, READMEs, docs) for broken references and verifiably stale content. Runs a deterministic offline link/path checker first, then a bounded semantic review where every finding must cite evidence. Reports findings; fixes only on request. Use when the user says "docs check", "/docs-checker", "check the docs for stale content", "audit CLAUDE.md", or when a scheduled cloud routine fires.
 argument-hint: "[paths...] [--repo=NAME:DIR]"
 ---
 

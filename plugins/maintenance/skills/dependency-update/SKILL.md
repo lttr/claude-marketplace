@@ -1,7 +1,6 @@
 ---
 name: dependency-update
 description: Periodic dependency update run. Reads what the package manager says is outdated, upgrades what is safe, applies the code changes the new versions need, verifies, and opens one reviewable PR. Supports a read-only dry run that reports what it would do. Use when the user says "dependency update", "/dependency-update", "update deps", "dry run the dep update", or when a scheduled cloud routine fires.
-disable-model-invocation: true
 argument-hint: "[dry-run]"
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch
 ---
