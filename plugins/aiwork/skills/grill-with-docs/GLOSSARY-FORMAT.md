@@ -26,10 +26,10 @@ _Avoid_: Client, buyer, account
 
 **Single glossary (most repos):** One `GLOSSARY.md` at the repo root.
 
-**Multiple glossaries:** A `CONTEXT-MAP.md` at the repo root lists the glossaries and where they live:
+**Multiple glossaries:** A `GLOSSARY-MAP.md` at the repo root lists the glossaries and where they live:
 
 ```md
-# Context Map
+# Glossary Map
 
 ## Contexts
 
@@ -46,7 +46,7 @@ _Avoid_: Client, buyer, account
 
 The skill infers which structure applies:
 
-- If `CONTEXT-MAP.md` exists, read it to find glossaries
+- If `GLOSSARY-MAP.md` exists, read it to find glossaries
 - If only a root `GLOSSARY.md` exists, single glossary
 - If neither exists, create a root `GLOSSARY.md` lazily when the first term is resolved
 

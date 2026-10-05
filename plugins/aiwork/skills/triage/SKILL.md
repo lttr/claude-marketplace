@@ -71,7 +71,7 @@ Normalize whatever comes back to: title, description, acceptance criteria, state
 
 #### Local docs
 
-`docs/`, `documentation/`, `wiki/`, `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, OpenAPI specs, ADRs, inline code comments.
+`docs/`, `documentation/`, `wiki/`, `README.md`, `CONTRIBUTING.md`, `ARCHITECTURE.md`, OpenAPI specs, ADRs, `GLOSSARY.md` (or `GLOSSARY-MAP.md`), inline code comments.
 
 #### External docs (optional)
 

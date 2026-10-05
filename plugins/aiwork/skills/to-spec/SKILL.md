@@ -10,7 +10,7 @@ This skill takes the current conversation context and codebase understanding and
 
 0. If the task folder has an `intent.md`, read it first. The spec answers it in the originator's terms. Where the intent conflicts with an ADR, the glossary, or the codebase, raise it with the user and record what stays unresolved under Open Concerns. Don't edit the intent.
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching. If the spec has to contradict an ADR, say so explicitly rather than silently overriding it: _Contradicts ADR-0007 (event-sourced orders), but worth reopening because…_
 
 2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
 

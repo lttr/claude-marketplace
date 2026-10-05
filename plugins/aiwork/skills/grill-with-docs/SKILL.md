@@ -46,11 +46,11 @@ Most repos have a single glossary:
 └── src/
 ```
 
-If a `CONTEXT-MAP.md` exists at the root, the repo has multiple glossaries. The map points to where each one lives:
+If a `GLOSSARY-MAP.md` exists at the root, the repo has multiple glossaries. The map points to where each one lives:
 
 ```
 /
-├── CONTEXT-MAP.md
+├── GLOSSARY-MAP.md
 ├── docs/
 │   └── adr/                          ← system-wide decisions
 ├── src/
