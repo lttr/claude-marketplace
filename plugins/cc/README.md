@@ -24,6 +24,12 @@ All functionality ships as skills, and every one is explicit — they never auto
 - **cc:list:hooks** (explicit) - List configured hooks
 - **cc:changelog** (explicit) - Show recent Claude Code changes, ranked by relevance to your installed skills, commands, and usage patterns; capped at 10 bullets, second tier on request
 
+### Plugin maintenance
+
+`claude plugin update` only updates the install in the folder it runs from. With local-scoped installs spread over many repos, each one drifts to its own version.
+
+- **cc:update-plugins** (explicit) - Check every marketplace against its remote and every plugin install (user, project and local scope, in every project folder) against the marketplace's latest version. Reports what's worth updating and asks before changing anything: refresh marketplaces, update everything, or just one scope or plugin. Also lists stale records whose project folder no longer exists.
+
 ### Memory hygiene
 
 Auto-memory (`<config-dir>/projects/<encoded-cwd>/memory/`) is per-conversation context, not durable config. Facts that keep being true — your stack, a repo's release flow, a "never run this" rule — are better off in a layer that survives memory pruning and is visible to teammates.
