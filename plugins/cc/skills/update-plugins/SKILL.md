@@ -11,7 +11,7 @@ Every plugin install is recorded in `~/.claude/plugins/installed_plugins.json` w
 
 ## Prerequisites
 
-- `jq`, `git`
+- `bash` 3.2 or newer (macOS default is fine; on Windows, Git Bash), `jq`, `git`
 
 ## Workflow
 

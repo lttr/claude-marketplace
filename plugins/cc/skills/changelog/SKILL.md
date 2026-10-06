@@ -2,25 +2,30 @@
 name: changelog
 description: Show recent Claude Code changes personalized to user's setup. Trigger when user asks about changelog, "what's new", "cc changelog", "claude code updates", "recent changes", or wants to know what changed in Claude Code.
 disable-model-invocation: true
-allowed-tools: Bash(deno:*), Bash(chmod:*)
+allowed-tools: Bash(deno:*)
 ---
 
 # CC Changelog
 
 Show recent Claude Code changes, scored by relevance to the user's installed skills, commands, plugins, hooks, and usage patterns.
 
+## Prerequisites
+
+- `deno`
+- `gh`, authenticated (`gh auth login`)
+
 ## Workflow
 
 1. Run the data collection script:
 
 ```bash
-${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts 2>/dev/null
+deno run --allow-run --allow-env --allow-read --allow-net ${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts 2>/dev/null
 ```
 
 To force a date-based lookback (ignoring lastVersion state), pass `--lookback-days=N`:
 
 ```bash
-${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts --lookback-days=14 2>/dev/null
+deno run --allow-run --allow-env --allow-read --allow-net ${CLAUDE_SKILL_DIR}/scripts/cc-changelog.ts --lookback-days=14 2>/dev/null
 ```
 
 Use `--lookback-days` when the user asks for changes from a specific time period (e.g. "last 14 days", "last week" = 7 days).
@@ -66,7 +71,7 @@ Use `--lookback-days` when the user asks for changes from a specific time period
 4. **After presenting results to the user**, advance the watermark so the same changes aren't shown again:
 
 ```bash
-${CLAUDE_SKILL_DIR}/scripts/cc-changelog-advance.ts 2>/dev/null
+deno run --allow-run --allow-env --allow-read --allow-write ${CLAUDE_SKILL_DIR}/scripts/cc-changelog-advance.ts 2>/dev/null
 ```
 
 Only run this AFTER the changelog summary is fully rendered. Never run it if the versions array was empty.

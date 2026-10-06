@@ -4,7 +4,7 @@ description: Write ~/.claude/custom-handoff.md to hand off current work to the n
 disable-model-invocation: true
 argument-hint:
   [focus, e.g. "the auth refactor" or "only what's left on the migration"]
-allowed-tools: Write, Bash(trash-put:*), Bash(git status:*), Bash(git log:*), Bash(git diff:*)
+allowed-tools: Write, Bash(trash-put:*), Bash(mv:*), Bash(git status:*), Bash(git log:*), Bash(git diff:*)
 ---
 
 Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) summarizing current work so the next Claude session can pick up where this one left off.
@@ -15,7 +15,7 @@ Write `~/.claude/custom-handoff.md` (resolve `~` to the user's home directory) s
 
 ## Steps
 
-1. Run `trash-put ~/.claude/custom-handoff.md 2>/dev/null || true` to remove any prior handoff (ignore error if file absent).
+1. Move any prior handoff out of the way (ignore errors if the file is absent; `trash-put` isn't installed everywhere, hence the fallback): `trash-put ~/.claude/custom-handoff.md 2>/dev/null || mv ~/.claude/custom-handoff.md "${TMPDIR:-/tmp}/custom-handoff.md.old" 2>/dev/null || true`
 2. Write fresh content per template. No merge, no preserve.
 
 ## Template

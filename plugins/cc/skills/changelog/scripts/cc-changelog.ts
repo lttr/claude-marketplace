@@ -41,10 +41,13 @@ interface Output {
 
 // --- Config ---
 
-const STATE_PATH = `${Deno.env.get("HOME")}/.claude/custom-cache/cc-changelog-state.json`
-const SKILLS_DIR = `${Deno.env.get("HOME")}/.claude/skills`
-const COMMANDS_DIR = `${Deno.env.get("HOME")}/.claude/commands`
-const SETTINGS_PATH = `${Deno.env.get("HOME")}/.claude/settings.json`
+const CONFIG_DIR =
+  Deno.env.get("CLAUDE_CONFIG_DIR") ??
+  `${Deno.env.get("HOME") ?? Deno.env.get("USERPROFILE")}/.claude`
+const STATE_PATH = `${CONFIG_DIR}/custom-cache/cc-changelog-state.json`
+const SKILLS_DIR = `${CONFIG_DIR}/skills`
+const COMMANDS_DIR = `${CONFIG_DIR}/commands`
+const SETTINGS_PATH = `${CONFIG_DIR}/settings.json`
 
 const MEDIUM_KEYWORDS = [
   "agent",

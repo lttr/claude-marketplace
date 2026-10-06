@@ -12,6 +12,10 @@ Official docs: <https://code.claude.com/docs/en/plugins.md>, <https://code.claud
 
 Create and manage Claude Code plugins with proper structure, manifests, and marketplace integration. This skill provides workflows, automation scripts, and reference documentation for plugin development.
 
+## Prerequisites
+
+- `python3` for the bundled scripts
+
 ## When to Use This Skill
 
 Trigger this skill when:
@@ -30,7 +34,7 @@ Trigger this skill when:
 Use the `create_plugin.py` script to generate plugin structure:
 
 ```bash
-python scripts/create_plugin.py plugin-name \
+python3 ${CLAUDE_SKILL_DIR}/scripts/create_plugin.py plugin-name \
   --marketplace-root /path/to/marketplace \
   --author-name "Your Name" \
   --author-email "your.email@example.com" \
@@ -51,7 +55,7 @@ This automatically:
 Use `bump_version.py` to update versions in both manifests:
 
 ```bash
-python scripts/bump_version.py plugin-name major|minor|patch \
+python3 ${CLAUDE_SKILL_DIR}/scripts/bump_version.py plugin-name major|minor|patch \
   --marketplace-root /path/to/marketplace
 ```
 
