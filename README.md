@@ -21,12 +21,16 @@ Everything ships as skills, all explicitly invoked (`/cc:<name>`) — none of th
 - `/cc:list:hooks` - Show the hooks configured across user, project, and local settings files, so you can audit what's running on each event.
 - `/cc:changelog` - Summarize recent Claude Code releases, scored by relevance to _your_ installed plugins, skills, and hook setup.
 
+**Plugin maintenance:**
+
+- `/cc:update-plugins` - Find outdated marketplaces and plugin installs across user, project and local scope in every project folder, recommend what to update, and update only what you confirm. `claude plugin update` alone only touches the folder it runs in.
+
 **Session handoff and memory hygiene:**
 
 - `/cc:handoff` - Write `~/.claude/custom-handoff.md` (original prompt, goal, done, recent conclusions, next, watch-out) so a fresh Claude session can resume where this one stopped. Pass an optional focus argument (e.g. `/cc:handoff only what's left on the migration`) to bias the summary toward that thread. Load in a new session with `claude "@$HOME/.claude/custom-handoff.md"`.
 - `/cc:memory-promote` - Audit this repo's auto-memory files and propose a durable home for each (user or repo `CLAUDE.md`, an existing/new skill, a `settings.json` hook), leaving genuinely ephemeral ones alone. Nothing moves without per-item confirmation.
 
-**When to install:** you're building or tuning plugins/skills yourself, want a compact view of the features and hooks loaded into your session, run long tasks across multiple Claude sessions, or want to keep auto-memory from silently becoming your config.
+**When to install:** you're building or tuning plugins/skills yourself, want a compact view of the features and hooks loaded into your session, run long tasks across multiple Claude sessions, keep plugins current across many repos, or want to keep auto-memory from silently becoming your config.
 
 **Installation:**
 
