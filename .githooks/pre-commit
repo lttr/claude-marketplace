@@ -1,12 +1,4 @@
 #!/bin/sh
 # Format staged files with oxfmt before commit
-
-git diff --cached --name-only --diff-filter=ACM -z |
-  xargs -0 -r vpx oxfmt --list-different --no-error-on-unmatched-pattern |
-  # oxfmt omits the trailing newline, so also take an unterminated last line
-  while IFS= read -r file || [ -n "$file" ]; do
-    # Skip oxfmt's status lines ("No files found...", "Finished in...")
-    [ -f "$file" ] || continue
-    vpx oxfmt --write "$file" >/dev/null
-    git add "$file"
-  done
+git diff --cached --name-only --diff-filter=ACM -z | xargs -0 -r vpx oxfmt --no-error-on-unmatched-pattern
+git diff --cached --name-only --diff-filter=ACM -z | xargs -0 -r git add

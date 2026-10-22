@@ -54,7 +54,7 @@ elsewhere:
 - **Work repos** — org, project and repository are lifted from `git remote -v`.
   `drmax-eshop-admin-workspace` has zero AzDO content in its `CLAUDE.md`, yet produced
   `az repos pr list --org https://dev.azure.com/drmaxglobal --project platform-team
---repository drmax-eshop-admin-workspace` immediately after a `git remote -v` call.
+  --repository drmax-eshop-admin-workspace` immediately after a `git remote -v` call.
 - **`~/code/done`** — has no AzDO remote of its own, so its `CLAUDE.md:68-73` states
   the command and org directly. 62 of the ~100 calls came from there.
 - **The subcommands themselves** (`az boards work-item show`, `az repos pr list`) are

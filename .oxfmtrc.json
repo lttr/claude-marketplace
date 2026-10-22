@@ -1,10 +1,4 @@
 {
   "semi": false,
-  "printWidth": 80,
-  "sortPackageJson": false,
-  "ignorePatterns": [
-    "plugins/browser/skills/playwright-cli/references/test-generation.md",
-    "plugins/cc/skills/skill-creator/SKILL.md",
-    ".aiwork/2026-09-21_dev-azdo-consolidation/spec.md"
-  ]
+  "printWidth": 80
 }
