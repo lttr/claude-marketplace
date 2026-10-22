@@ -34,10 +34,10 @@ command, when `playwright-cli` is missing.
 
 Both live in this skill's directory — run them via `$CLAUDE_SKILL_DIR`.
 
-| File         | Role                                                                                                   |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `bridge.mjs` | Node sink + driver: `serve` / `open` / `inject` / `status` / `hide` / `show` / `log` / `stop`          |
-| `bridge.js`  | The in-page widget (shadow DOM, so it cannot collide with app styles)                                  |
+| File         | Role                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------- |
+| `bridge.mjs` | Node sink + driver: `serve` / `open` / `inject` / `status` / `hide` / `show` / `log` / `stop` |
+| `bridge.js`  | The in-page widget (shadow DOM, so it cannot collide with app styles)                         |
 
 The sink's **stdout is the event stream** — one compact line per event. Run it
 under a Monitor and every click in the page becomes a notification.
