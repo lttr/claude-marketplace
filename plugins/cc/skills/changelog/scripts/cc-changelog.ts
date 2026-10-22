@@ -281,11 +281,10 @@ async function collectSettings(): Promise<{
 // --- Changelog fetching ---
 
 async function fetchChangelog(): Promise<string> {
-  const content =
-    await $`gh api repos/anthropics/claude-code/contents/CHANGELOG.md --jq '.content'`.text()
-  // Decode base64
-  const decoded = atob(content.trim().replace(/\n/g, ""))
-  return decoded
+  // Raw media type: the JSON `content` field is empty for files over 1 MB
+  return await $`gh api -H ${"Accept: application/vnd.github.raw"} repos/anthropics/claude-code/contents/CHANGELOG.md`
+    .stdin("null")
+    .text()
 }
 
 // --- System prompt diff ---
